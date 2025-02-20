@@ -11,6 +11,7 @@ import Author from './pages/Author';
 import Language from './pages/Language';
 import User from './pages/User';
 import Genre from './pages/Genre';
+import Login from './pages/Login';
 const App = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
@@ -32,6 +33,7 @@ const App = () => {
             <Route path="/authors" element={< Author/>} />
             <Route path="/languages" element={< Language/>} />
             <Route path="/genres" element={< Genre/>} />
+            <Route path="/login" element={< Login/>} />
 
 
           </Routes>

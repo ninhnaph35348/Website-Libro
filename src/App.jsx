@@ -1,47 +1,32 @@
-import  { useState } from 'react';
-import Header from './components/Header';
-import Footer from './components/Footer';
-import Sidebar from './components/Sidebar';
-import { Routes, Route } from 'react-router-dom';
-import Home from './pages/Home';
-import Product from './pages/Product';
-import Order from './pages/Order';
-import Category from './pages/Category';
+import { Route, Routes } from 'react-router-dom';
 import Author from './pages/Author';
-import Language from './pages/Language';
-import User from './pages/User';
+import Category from './pages/Category';
 import Genre from './pages/Genre';
+import Home from './pages/Home';
+import Language from './pages/Language';
 import Login from './pages/Login';
+import Order from './pages/Order';
+import Product from './pages/Product';
+import User from './pages/User';
+import LayoutAdmin from './layouts/Admin';
+import Notfound from './pages/Notfound';
 const App = () => {
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   return (
-    <div className="flex h-screen overflow-hidden bg-gray-100">
-      <Sidebar collapsed={sidebarCollapsed} setCollapsed={setSidebarCollapsed} />
-      
-      <div className={`flex-1 ${sidebarCollapsed ? 'ml-16' : 'ml-64'} transition-all duration-300 flex flex-col`}>
-        <Header sidebarCollapsed={sidebarCollapsed} />
-        
-        {/* Main Content Area */}
-        <main className="flex-1 p-6 pt-24 pb-16 overflow-auto">
-        <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/categories" element={<Category />} />
-            <Route path="/products" element={<Product />} />
-            <Route path="/orders" element={<Order />} />
-            <Route path="/users" element={<User />} />
-            <Route path="/authors" element={< Author/>} />
-            <Route path="/languages" element={< Language/>} />
-            <Route path="/genres" element={< Genre/>} />
-            <Route path="/login" element={< Login/>} />
-
-
-          </Routes>
-        </main>
-
-        <Footer sidebarCollapsed={sidebarCollapsed} />
-      </div>
-    </div>
+    <Routes>
+      <Route path="/" element={<LayoutAdmin />}>
+        <Route index element={<Home />} />
+        <Route path="categories" element={<Category />} />
+        <Route path="products" element={<Product />} />
+        <Route path="orders" element={<Order />} />
+        <Route path="users" element={<User />} />
+        <Route path="authors" element={<Author />} />
+        <Route path="languages" element={<Language />} />
+        <Route path="genres" element={<Genre />} />
+      </Route>
+      <Route path="/login" element={< Login />} />
+      <Route path="*" element={< Notfound />} />
+    </Routes>
   );
 };
 

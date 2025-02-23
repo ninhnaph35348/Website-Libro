@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Menu, Home, Book, CircleUserRound, ListOrdered, ChevronDown, Users, Globe, Layers ,Library } from 'lucide-react';
+import { Menu, Home, Book, CircleUserRound, ListOrdered, ChevronDown, Users, Globe, Layers ,Library,AlignJustify } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const Sidebar = ({ collapsed, setCollapsed }) => {
@@ -68,7 +68,7 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
             <li className="px-4 py-2 hover:bg-gray-700 cursor-pointer" onClick={() => setDropdownOpen(!dropdownOpen)}>
             <div className="flex items-center justify-between">
               <div className="flex items-center">
-                <CircleUserRound className="w-5 h-5" />
+                <AlignJustify className="w-5 h-5" />
                 {!collapsed && <span className="ml-3">Chức Năng</span>}
               </div>
               {!collapsed && <ChevronDown className={`w-4 h-4 transition-transform ${dropdownOpen ? 'rotate-180' : ''}`} />}

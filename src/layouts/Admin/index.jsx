@@ -18,7 +18,7 @@ const LayoutAdmin = () => {
           
           {/* Main Content Area */}
           <main className="flex-1 p-6 pt-24 pb-16 overflow-auto">
-          <Outlet />
+       <Outlet />
           </main>
   
           <Footer sidebarCollapsed={sidebarCollapsed} />

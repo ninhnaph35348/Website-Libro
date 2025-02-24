@@ -13,25 +13,27 @@ import Genre from './pages/Genres/Genre';
 import AddGenre from './pages/Genres/AddGenre';
 import Login from './pages/Login';
 import Notfound from './pages/Notfound';
+import EditAuthor from './pages/Authors/EditAuthor';
 
 const App = () => {
   return (
     <Routes>
       {/* LayoutAdmin chỉ áp dụng cho các route con */}
-      <Route element={<LayoutAdmin />}>  
+      <Route element={<LayoutAdmin />}>
         <Route index element={<Home />} /> {/* 🟢 Chỉ định Home là mặc định */}
         <Route path="categories" element={<Category />} />
         <Route path="products" element={<Product />} />
         <Route path="orders" element={<Order />} />
         <Route path="users" element={<User />} />
         <Route path="authors" element={<Author />} />
-        <Route path="authors/add-authors" element={<AddAuthor />} />
+        <Route path="authors/add" element={<AddAuthor />} />
+        <Route path="authors/edit/:id" element={<EditAuthor />} />
         <Route path="languages" element={<Language />} />
         <Route path="languages/add-languages" element={<AddLanguage />} />
         <Route path="genres" element={<Genre />} />
         <Route path="genres/add-genres" element={<AddGenre />} />
       </Route>
-      
+
       {/* Trang đăng nhập không dùng LayoutAdmin */}
       <Route path="/login" element={<Login />} />
 

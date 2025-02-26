@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import LayoutAdmin from './layouts/Admin';
 import Home from './pages/Home';
-import Category from './pages/Category';
+import Category from './pages/Category/Category';
 import Product from './pages/Product';
 import Order from './pages/Order';
 import User from './pages/User';
@@ -14,6 +14,8 @@ import AddGenre from './pages/Genres/AddGenre';
 import Login from './pages/Login';
 import Notfound from './pages/Notfound';
 import EditAuthor from './pages/Authors/EditAuthor';
+import AddCategory from './pages/Category/AddCategory';
+import EditCategory from './pages/Category/EditCategory';
 
 const App = () => {
   return (
@@ -22,6 +24,8 @@ const App = () => {
       <Route element={<LayoutAdmin />}>
         <Route index element={<Home />} /> {/* 🟢 Chỉ định Home là mặc định */}
         <Route path="categories" element={<Category />} />
+        <Route path="categories/add" element={<AddCategory />} />
+        <Route path="categories/edit/:id" element={<EditCategory />} />
         <Route path="products" element={<Product />} />
         <Route path="orders" element={<Order />} />
         <Route path="users" element={<User />} />

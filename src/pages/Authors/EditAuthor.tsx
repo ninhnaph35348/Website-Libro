@@ -3,28 +3,25 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { AuthorContext } from '../../context/Author';
 import { useForm } from 'react-hook-form';
 import { getAuthorById } from '../../services/Author';
+import { IAuthor } from '../../interfaces/Authors';
 
 const EditAuthor = () => {
     const { onEdit } = useContext(AuthorContext);
-    const { register, handleSubmit, reset, watch, formState: { errors } } = useForm();
+    const { register, handleSubmit, reset, watch, formState: { errors } } = useForm<IAuthor>();
     const navigate = useNavigate();
     const param = useParams();
 
     useEffect(() => {
         (async () => {
-            const author = await getAuthorById(param.id);
+            const author = await getAuthorById(param.id as string | number);
             reset({
                 name: author.name,
-                images: author.images,
-                price: author.price,
-                description: author.description,
-                categoryId: author.categoryId
             });
         })();
     }, [param.id, reset]);
 
-    const onSubmit = async (author) => {
-        await onEdit(author, param.id);
+    const onSubmit = async (author: IAuthor) => {
+        await onEdit(author, param.id as string | number);
         navigate('/authors');
     };
 

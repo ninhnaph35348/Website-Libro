@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthorContext } from '../../context/Author';
+import { IAuthor } from '../../interfaces/Authors';
 
 const Author = () => {
   const { authors, onDelete } = useContext(AuthorContext)
@@ -24,7 +25,7 @@ const Author = () => {
           </tr>
         </thead>
         <tbody>
-          {authors.map(aut => (
+          {authors.map((aut: IAuthor) => (
             <tr key={aut.id} className="border">
               <td className="border p-2">{aut.id}</td>
               <td className="border p-2">{aut.name}</td>

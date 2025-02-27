@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const AddGenre = ({ onAdd }) => {
+const AddGenre = ({ onAdd }: any) => {
   const [newGenre, setNewGenre] = useState({ name: "",  });
   const navigate = useNavigate();
 

@@ -9,7 +9,7 @@ const Language = () => {
  
   const navigate = useNavigate();
 
-  const deleteLanguage = (id) => {
+  const deleteLanguage = (id: any) => {
     setLanguages(languages.filter(lang => lang.id !== id));
   };
 

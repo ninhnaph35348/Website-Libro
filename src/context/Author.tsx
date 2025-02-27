@@ -1,11 +1,15 @@
 import { createContext, useEffect, useState } from "react";
 import { createAuthor, deleteAuthor, getAllAuthors, updateAuthor } from "../services/Author";
+import { IAuthor } from "../interfaces/Authors";
 
-export const AuthorContext = createContext(null);
+type Props = {
+    children: React.ReactNode
+}
+export const AuthorContext = createContext({} as any);
 
 // eslint-disable-next-line react/prop-types
-const AuthorProvider = ({ children }) => {
-    const [authors, setAuthors] = useState([]);
+const AuthorProvider = ({ children }: Props) => {
+    const [authors, setAuthors] = useState<IAuthor[]>([]);
 
     useEffect(() => {
         (async () => {
@@ -14,7 +18,7 @@ const AuthorProvider = ({ children }) => {
         })();
     }, []);
 
-    const onAdd = async (dataAuthor) => {
+    const onAdd = async (dataAuthor:IAuthor) => {
         try {
             const data = await createAuthor(dataAuthor);
             setAuthors([...authors, data]);
@@ -24,7 +28,7 @@ const AuthorProvider = ({ children }) => {
         }
     };
 
-    const onDelete = async (id) => {
+    const onDelete = async (id: number | string) => {
         try {
             if (window.confirm("Bạn có muốn xóa không?")) {
                 await deleteAuthor(id);
@@ -36,7 +40,7 @@ const AuthorProvider = ({ children }) => {
         }
     };
 
-    const onEdit = async (formData, id) => {
+    const onEdit = async (formData:IAuthor, id: number | string) => {
         try {
             const data = await updateAuthor(formData, id);
             const newAuthors = authors.map((author) =>

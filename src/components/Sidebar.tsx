@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { Menu, Home, Book, CircleUserRound, ListOrdered, ChevronDown, Users, Globe, Layers ,Library,AlignJustify } from 'lucide-react';
+import { Menu, Home, Book, CircleUserRound, ListOrdered, ChevronDown, Users, Globe, Layers, Library, AlignJustify } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-const Sidebar = ({ collapsed, setCollapsed }) => {
+const Sidebar = ({ collapsed, setCollapsed }: any) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   return (
@@ -10,8 +10,8 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
       {/* Logo */}
       <div className="h-16 flex items-center px-4 bg-gray-900">
         <span className={`font-bold text-xl ${collapsed ? 'hidden' : 'block'}`}>Dashboard</span>
-        <Menu 
-          className="w-6 h-6 ml-auto cursor-pointer" 
+        <Menu
+          className="w-6 h-6 ml-auto cursor-pointer"
           onClick={() => setCollapsed(!collapsed)}
         />
       </div>
@@ -32,40 +32,40 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
       {/* Navigation */}
       <nav className="py-4">
         <ul>
-        <li className="px-4 py-2 hover:bg-gray-700 cursor-pointer">
+          <li className="px-4 py-2 hover:bg-gray-700 cursor-pointer">
             <Link to="/" className="flex items-center">
               <Home className="w-5 h-5" />
               {!collapsed && <span className="ml-3">Trang Chủ</span>}
             </Link>
           </li>
           <li className="px-4 py-2 hover:bg-gray-700 cursor-pointer">
-            <Link to="/categories" className="flex items-center">
-              <Library  className="w-5 h-5" />
+            <Link to="/categorie" className="flex items-center">
+              <Library className="w-5 h-5" />
               {!collapsed && <span className="ml-3">Danh Mục</span>}
             </Link>
           </li>
-          
+
           <li className="px-4 py-2 hover:bg-gray-700 cursor-pointer">
-            <Link to="/products" className="flex items-center">
+            <Link to="/product" className="flex items-center">
               <Book className="w-5 h-5" />
               {!collapsed && <span className="ml-3">Sản Phẩm</span>}
             </Link>
           </li>
           <li className="px-4 py-2 hover:bg-gray-700 cursor-pointer">
-            <Link to="/orders" className="flex items-center">
+            <Link to="/order" className="flex items-center">
               <ListOrdered className="w-5 h-5" />
               {!collapsed && <span className="ml-3">Đơn Hàng</span>}
             </Link>
           </li>
           <li className="px-4 py-2 hover:bg-gray-700 cursor-pointer">
-            <Link to="/users" className="flex items-center">
+            <Link to="/user" className="flex items-center">
               <CircleUserRound className="w-5 h-5" />
               {!collapsed && <span className="ml-3">Tài Khoản</span>}
             </Link>
           </li>
           {/* Dropdown Chức Năng */}
-        
-            <li className="px-4 py-2 hover:bg-gray-700 cursor-pointer" onClick={() => setDropdownOpen(!dropdownOpen)}>
+
+          <li className="px-4 py-2 hover:bg-gray-700 cursor-pointer" onClick={() => setDropdownOpen(!dropdownOpen)}>
             <div className="flex items-center justify-between">
               <div className="flex items-center">
                 <AlignJustify className="w-5 h-5" />
@@ -77,19 +77,19 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
           {dropdownOpen && !collapsed && (
             <ul className="pl-8">
               <li className="px-4 py-2 hover:bg-gray-700 cursor-pointer">
-                <Link to="/authors" className="flex items-center">
+                <Link to="/author" className="flex items-center">
                   <Users className="w-5 h-5" />
                   <span className="ml-3">Tác Giả</span>
                 </Link>
               </li>
               <li className="px-4 py-2 hover:bg-gray-700 cursor-pointer">
-                <Link to="/languages" className="flex items-center">
+                <Link to="/language" className="flex items-center">
                   <Globe className="w-5 h-5" />
                   <span className="ml-3">Ngôn Ngữ</span>
                 </Link>
               </li>
               <li className="px-4 py-2 hover:bg-gray-700 cursor-pointer">
-                <Link to="/genres" className="flex items-center">
+                <Link to="/genre" className="flex items-center">
                   <Layers className="w-5 h-5" />
                   <span className="ml-3">Thể Loại</span>
                 </Link>

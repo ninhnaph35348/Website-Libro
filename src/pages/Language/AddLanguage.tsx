@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const AddLanguage = ({ onAdd }) => {
+const AddLanguage = ({ onAdd }: any) => {
   const [newLanguage, setNewLanguage] = useState({ name: "" });
   const navigate = useNavigate();
 

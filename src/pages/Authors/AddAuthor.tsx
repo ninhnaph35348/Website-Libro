@@ -2,15 +2,16 @@ import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthorContext } from '../../context/Author';
 import { useForm } from 'react-hook-form';
+import { IAuthor } from '../../interfaces/Authors';
 
 const AddAuthor = () => {
   const { onAdd } = useContext(AuthorContext); // Đặt useContext trong function component
-  const { register, handleSubmit, reset, formState: { errors } } = useForm();
+  const { register, handleSubmit, reset, formState: { errors } } = useForm<IAuthor>();
   const navigate = useNavigate();
 
   const [newAuthor, setNewAuthor] = useState({ name: "" }); // Khai báo state cho input
 
-  const onSubmit = async (formData) => {
+  const onSubmit = async (formData: IAuthor) => {
     await onAdd(formData);
     navigate('/authors');
     reset();

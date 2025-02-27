@@ -1,6 +1,6 @@
 import { Search, Bell, MessageSquare, User, Settings } from 'lucide-react';
 
-const Header = ({ sidebarCollapsed }) => {
+const Header = ({ sidebarCollapsed }: any) => {
   return (
     <header 
       className="fixed top-0 right-0 bg-white h-16 flex items-center px-4 shadow-sm z-20"

@@ -1,5 +1,5 @@
 
-const Footer = ({ sidebarCollapsed }) => {
+const Footer = ({ sidebarCollapsed }: any) => {
   return (
     <footer 
       className="fixed bottom-0 right-0 bg-white h-12 flex items-center px-4 shadow-sm z-20 border-t"

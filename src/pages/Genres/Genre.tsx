@@ -9,7 +9,7 @@ const Genre = () => {
 
   const navigate = useNavigate();
 
-  const deleteGenre = (id) => {
+  const deleteGenre = (id: any) => {
     setGenres(genres.filter(gen => gen.id !== id));
   };
 

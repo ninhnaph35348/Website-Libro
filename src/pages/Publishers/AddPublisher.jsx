@@ -1,18 +1,18 @@
 import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AuthorContext } from '../../context/Author';
 import { useForm } from 'react-hook-form';
+import { PublisherContext } from '../../context/Publisher';
 
-const AddAuthor = () => {
-  const { onAdd } = useContext(AuthorContext); // Đặt useContext trong function component
+const AddPublisher = () => {
+  const { onAdd } = useContext(PublisherContext); // Đặt useContext trong function component
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
   const navigate = useNavigate();
 
-  const [newAuthor, setNewAuthor] = useState({ name: "" }); // Khai báo state cho input
+  const [newPublisher   , setnewPublisher  ] = useState({ name: "" }); // Khai báo state cho input
 
   const onSubmit = async (formData) => {
     await onAdd(formData);
-    navigate('/authors');
+    navigate('/publishers');
     reset();
   };
 
@@ -25,8 +25,8 @@ const AddAuthor = () => {
           type="text"
           placeholder="Tên nhà xuất bản"
           {...register("name", { required: "Tên không được để trống" })}
-          value={newAuthor.name}
-          onChange={(e) => setNewAuthor({ name: e.target.value })}
+          value={newPublisher.name}
+          onChange={(e) => setnewPublisher({ name: e.target.value })}
         />
         {errors.name && <p className="text-red-500">{errors.name.message}</p>}
 
@@ -41,4 +41,4 @@ const AddAuthor = () => {
   );
 };
 
-export default AddAuthor;
+export default AddPublisher;

@@ -1,32 +1,40 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useContext } from "react";
+import { LanguageContext } from "../../context/Language";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
-const AddLanguage = ({ onAdd }) => {
-  const [newLanguage, setNewLanguage] = useState({ name: "" });
-  const navigate = useNavigate();
+const AddLanguage = () => {
+    const { onAdd } = useContext(LanguageContext);
+    const { register, handleSubmit, formState: { errors } } = useForm();
+    const navigate = useNavigate();
 
-  const handleAddLanguage = () => {
-    if (!newLanguage.name.trim()) return;
-    onAdd({ id: Date.now(), name: newLanguage.name });
-    setNewLanguage({ name: "" });
-    navigate('/languages'); // Quay lại danh sách
-  };
+    const onSubmit = async (data) => {
+        await onAdd(data);
+        navigate("/languages");
+        reset();
+    };
 
-  return (
-    <div className="p-6 w-full bg-white shadow-md rounded-lg">
-      <h2 className="text-xl font-bold mb-4">Thêm Ngôn Ngữ</h2>
-      <input
-        className="w-full border p-2 mb-2"
-        type="text"
-        placeholder="Tên ngôn ngữ"
-        value={newLanguage.name}
-        onChange={e => setNewLanguage({ name: e.target.value })}
-      />
-      <button onClick={handleAddLanguage} className="bg-blue-500 text-white px-4 py-2 rounded">
-        Thêm
-      </button>
-    </div>
-  );
+    return (
+        <div className="p-6 w-full mx-auto bg-white shadow-md rounded-lg">
+            <h2 className="text-xl font-bold mb-4">Thêm Ngôn Ngữ</h2>
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <input
+                    className="w-full border p-2 mb-2"
+                    type="text"
+                    placeholder="Tên ngôn ngữ"
+                    {...register("name", { required: "Tên không được để trống" })}
+                />
+                {errors.name && <p className="text-red-500">{errors.name.message}</p>}
+
+                <button
+                    type="submit"
+                    className="bg-blue-500 text-white px-4 py-2 rounded mt-2"
+                >
+                    Thêm
+                </button>
+            </form>
+        </div>
+    );
 };
 
 export default AddLanguage;

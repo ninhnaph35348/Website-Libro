@@ -94,6 +94,12 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
                   <span className="ml-3">Thể Loại</span>
                 </Link>
               </li>
+              <li className="px-4 py-2 hover:bg-gray-700 cursor-pointer">
+                <Link to="/publishers" className="flex items-center">
+                  <Layers className="w-5 h-5" />
+                  <span className="ml-3">Nhà Xuất Bản</span>
+                </Link>
+              </li>
             </ul>
           )}
         </ul>

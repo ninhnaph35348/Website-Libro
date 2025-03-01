@@ -2,7 +2,6 @@ import { Routes, Route } from "react-router-dom";
 import LayoutAdmin from "./layouts/Admin";
 import Home from "./pages/Home";
 import Category from "./pages/Category";
-import Product from "./pages/Product";
 import Order from "./pages/Order";
 import User from "./pages/User";
 import Author from "./pages/Authors/Author";
@@ -15,6 +14,7 @@ import AddGenre from "./pages/Genres/AddGenre";
 import Login from "./pages/Login";
 import NotFound from "./pages/Notfound";
 import AddProduct from "./pages/Product/AddProduct";
+import ProductList from "./pages/Product/ProductList";
 
 const App = () => {
   return (
@@ -22,18 +22,18 @@ const App = () => {
       <Route path="/" element={<LayoutAdmin />}>
         <Route index element={<Home />} />
         <Route path="categorie" element={<Category />} />
-        
+
         <Route path="order" element={<Order />} />
         <Route path="user" element={<User />} />
 
         {/* Product */}
         <Route path="product">
-          <Route index element={<Product />} />
+          <Route index element={<ProductList />} />
           <Route path="add" element={<AddProduct />} />
           <Route path="edit/:id" element={<EditAuthor />} />
         </Route>
 
-        {/* Authors */}
+        {/* Author */}
         <Route path="author">
           <Route index element={<Author />} />
           <Route path="add" element={<AddAuthor />} />

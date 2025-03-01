@@ -1,17 +1,19 @@
-import { StrictMode } from 'react'
+import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
-import './index.css'
-import App from './App.jsx'
-import { BrowserRouter } from 'react-router-dom'
-import AuthorProvider from './context/Author.jsx'
+import "./index.css";
+import App from "./App.jsx";
+import { BrowserRouter } from "react-router-dom";
+import AuthorProvider from "./context/Author.jsx";
+import CategoryProvider from "./context/Category.js";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <BrowserRouter>
-    <AuthorProvider>
-      <StrictMode>
-        <App />
-      </StrictMode>
-    </AuthorProvider>
+    <CategoryProvider>
+      <AuthorProvider>
+        <StrictMode>
+          <App />
+        </StrictMode>
+      </AuthorProvider>
+    </CategoryProvider>
   </BrowserRouter>
-
-)
+);

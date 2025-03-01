@@ -1,15 +1,33 @@
-import { useState } from 'react';
-import { Menu, Home, Book, CircleUserRound, ListOrdered, ChevronDown, Users, Globe, Layers, Library, AlignJustify } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { useState } from "react";
+import {
+  Menu,
+  Home,
+  Book,
+  CircleUserRound,
+  ListOrdered,
+  ChevronDown,
+  Users,
+  Globe,
+  Layers,
+  Library,
+  AlignJustify,
+} from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Sidebar = ({ collapsed, setCollapsed }: any) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   return (
-    <aside className={`fixed left-0 h-full bg-gray-800 text-white ${collapsed ? 'w-16' : 'w-64'} transition-all duration-300 z-30`}>
+    <aside
+      className={`fixed left-0 h-full bg-gray-800 text-white ${
+        collapsed ? "w-16" : "w-64"
+      } transition-all duration-300 z-30`}
+    >
       {/* Logo */}
       <div className="h-16 flex items-center px-4 bg-gray-900">
-        <span className={`font-bold text-xl ${collapsed ? 'hidden' : 'block'}`}>Dashboard</span>
+        <span className={`font-bold text-xl ${collapsed ? "hidden" : "block"}`}>
+          Dashboard
+        </span>
         <Menu
           className="w-6 h-6 ml-auto cursor-pointer"
           onClick={() => setCollapsed(!collapsed)}
@@ -39,7 +57,7 @@ const Sidebar = ({ collapsed, setCollapsed }: any) => {
             </Link>
           </li>
           <li className="px-4 py-2 hover:bg-gray-700 cursor-pointer">
-            <Link to="/categorie" className="flex items-center">
+            <Link to="/categories" className="flex items-center">
               <Library className="w-5 h-5" />
               {!collapsed && <span className="ml-3">Danh Mục</span>}
             </Link>
@@ -65,19 +83,28 @@ const Sidebar = ({ collapsed, setCollapsed }: any) => {
           </li>
           {/* Dropdown Chức Năng */}
 
-          <li className="px-4 py-2 hover:bg-gray-700 cursor-pointer" onClick={() => setDropdownOpen(!dropdownOpen)}>
+          <li
+            className="px-4 py-2 hover:bg-gray-700 cursor-pointer"
+            onClick={() => setDropdownOpen(!dropdownOpen)}
+          >
             <div className="flex items-center justify-between">
               <div className="flex items-center">
                 <AlignJustify className="w-5 h-5" />
                 {!collapsed && <span className="ml-3">Chức Năng</span>}
               </div>
-              {!collapsed && <ChevronDown className={`w-4 h-4 transition-transform ${dropdownOpen ? 'rotate-180' : ''}`} />}
+              {!collapsed && (
+                <ChevronDown
+                  className={`w-4 h-4 transition-transform ${
+                    dropdownOpen ? "rotate-180" : ""
+                  }`}
+                />
+              )}
             </div>
           </li>
           {dropdownOpen && !collapsed && (
             <ul className="pl-8">
               <li className="px-4 py-2 hover:bg-gray-700 cursor-pointer">
-                <Link to="/author" className="flex items-center">
+                <Link to="/authors" className="flex items-center">
                   <Users className="w-5 h-5" />
                   <span className="ml-3">Tác Giả</span>
                 </Link>

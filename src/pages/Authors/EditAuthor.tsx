@@ -22,7 +22,7 @@ const EditAuthor = () => {
 
     const onSubmit = async (author: IAuthor) => {
         await onEdit(author, param.id as string | number);
-        navigate('/authors');
+        navigate('/author');
     };
 
     return (

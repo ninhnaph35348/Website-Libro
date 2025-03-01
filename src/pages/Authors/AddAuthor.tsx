@@ -13,7 +13,7 @@ const AddAuthor = () => {
 
   const onSubmit = async (formData: IAuthor) => {
     await onAdd(formData);
-    navigate('/authors');
+    navigate('/author');
     reset();
   };
 

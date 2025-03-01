@@ -1,11 +1,10 @@
 import { Routes, Route } from "react-router-dom";
 import LayoutAdmin from "./layouts/Admin";
 import Home from "./pages/Home";
-import Category from "./pages/Category";
 import Product from "./pages/Product";
 import Order from "./pages/Order";
 import User from "./pages/User";
-import Author from "./pages/Authors/Author";
+import Author from "./pages/Authors/Authors";
 import AddAuthor from "./pages/Authors/AddAuthor";
 import EditAuthor from "./pages/Authors/EditAuthor";
 import Language from "./pages/Language/Language";
@@ -15,14 +14,16 @@ import AddGenre from "./pages/Genres/AddGenre";
 import Login from "./pages/Login";
 import NotFound from "./pages/Notfound";
 import AddProduct from "./pages/Product/AddProduct";
+import Categories from "./pages/Categories/Categories";
+import AddCategories from "./pages/Categories/AddCategory";
+import EditCategories from "./pages/Categories/EditCategory";
 
 const App = () => {
   return (
     <Routes>
       <Route path="/" element={<LayoutAdmin />}>
         <Route index element={<Home />} />
-        <Route path="categorie" element={<Category />} />
-        
+
         <Route path="order" element={<Order />} />
         <Route path="user" element={<User />} />
 
@@ -32,9 +33,14 @@ const App = () => {
           <Route path="add" element={<AddProduct />} />
           <Route path="edit/:id" element={<EditAuthor />} />
         </Route>
-
+        {/* Category */}
+        <Route path="categories">
+          <Route index element={<Categories />} />
+          <Route path="add" element={<AddCategories />} />
+          <Route path="edit/:id" element={<EditCategories />} />
+        </Route>
         {/* Authors */}
-        <Route path="author">
+        <Route path="authors">
           <Route index element={<Author />} />
           <Route path="add" element={<AddAuthor />} />
           <Route path="edit/:id" element={<EditAuthor />} />

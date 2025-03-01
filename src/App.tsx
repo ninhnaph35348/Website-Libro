@@ -1,7 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import LayoutAdmin from "./layouts/Admin";
 import Home from "./pages/Home";
-import Category from "./pages/Category";
 import Order from "./pages/Order";
 import User from "./pages/User";
 import Author from "./pages/Authors/Author";
@@ -15,6 +14,10 @@ import Login from "./pages/Login";
 import NotFound from "./pages/Notfound";
 import AddProduct from "./pages/Product/AddProduct";
 import ProductList from "./pages/Product/ProductList";
+import Category from "./pages/Category/Category";
+import CategoryList from "./pages/Category/Category";
+import AddCategory from "./pages/Category/AddCategory";
+import EditCategory from "./pages/Category/EditCategory";
 
 const App = () => {
   return (
@@ -31,6 +34,13 @@ const App = () => {
           <Route index element={<ProductList />} />
           <Route path="add" element={<AddProduct />} />
           <Route path="edit/:id" element={<EditAuthor />} />
+        </Route>
+
+        {/* categorie */}
+        <Route path="category">
+          <Route index element={<CategoryList />} />
+          <Route path="add" element={<AddCategory />} />
+          <Route path="edit/:id" element={<EditCategory />} />
         </Route>
 
         {/* Author */}

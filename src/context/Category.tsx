@@ -13,48 +13,51 @@ type Props = {
 
 export const CategoryContext = createContext({} as any);
 
+// eslint-disable-next-line react/prop-types
 const CategoryProvider = ({ children }: Props) => {
   const [categories, setCategories] = useState<ICategories[]>([]);
-
+  const [reload, setReload] = useState(false); // 👈 Thêm state reload
   useEffect(() => {
     (async () => {
       const data = await getAllCategories();
       setCategories(data);
     })();
-  }, []);
+  }, [reload]); // 👈 Thêm reload vào dependency array
 
   const onAdd = async (dataCategory: ICategories) => {
     try {
-      await createCategory(dataCategory); // Gọi API thêm danh mục
-      const updatedCategories = await getAllCategories(); // Fetch danh sách mới
-      setCategories(updatedCategories); // Cập nhật lại danh mục
+      const data = await createCategory(dataCategory);
+      setCategories([...categories, data]);
       alert("Thêm danh mục thành công!");
+      setReload((prev) => !prev); // 👈 Set lại state reload
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
   };
 
-  const onDelete = async (id: number | string) => {
+  const onDelete = async (id: number) => {
     try {
       if (window.confirm("Bạn có muốn xóa không?")) {
         await deleteCategory(id);
-        const updatedCategories = await getAllCategories();
-        setCategories(updatedCategories);
         alert("Xóa danh mục thành công!");
+        setCategories(categories.filter((category) => category.id !== id));
       }
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
   };
 
   const onEdit = async (formData: ICategories, id: number | string) => {
     try {
-      await updateCategory(formData, id);
-      const updatedCategories = await getAllCategories();
-      setCategories(updatedCategories);
+      const data = await updateCategory(formData, id);
+      const newCategories = categories.map((category) =>
+        category.id === id ? data : category
+      );
+      setCategories(newCategories);
       alert("Sửa danh mục thành công!");
+      setReload((prev) => !prev); // 👈 Set lại state reload
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
   };
 

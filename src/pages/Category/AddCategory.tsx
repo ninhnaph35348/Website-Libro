@@ -1,24 +1,19 @@
-import { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
-import { CategoryContext } from "../../context/Category";
-import { useForm } from "react-hook-form";
-import { ICategories } from "../../interfaces/Categories";
+import { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { CategoryContext } from '../../context/Category';
+import { useForm } from 'react-hook-form';
+import { ICategories } from '../../interfaces/Categories';
 
-const AddCategories = () => {
+const AddCategory = () => {
   const { onAdd } = useContext(CategoryContext);
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<ICategories>();
+  const { register, handleSubmit, reset, formState: { errors } } = useForm<ICategories>();
   const navigate = useNavigate();
 
   const [newCategory, setNewCategory] = useState({ name: "", description: "" });
 
   const onSubmit = async (formData: ICategories) => {
     await onAdd(formData);
-    navigate("/categories");
+    navigate('/category');
     reset();
   };
 
@@ -32,26 +27,18 @@ const AddCategories = () => {
           placeholder="Tên danh mục"
           {...register("name", { required: "Tên không được để trống" })}
           value={newCategory.name}
-          onChange={(e) =>
-            setNewCategory({ ...newCategory, name: e.target.value })
-          }
+          onChange={(e) => setNewCategory({ ...newCategory, name: e.target.value })}
         />
         {errors.name && <p className="text-red-500">{errors.name.message}</p>}
 
         <textarea
           className="w-full border p-2 mb-2"
           placeholder="Mô tả danh mục"
-          {...register("description", {
-            required: "Mô tả không được để trống",
-          })}
+          {...register("description", { required: "Mô tả không được để trống" })}
           value={newCategory.description}
-          onChange={(e) =>
-            setNewCategory({ ...newCategory, description: e.target.value })
-          }
+          onChange={(e) => setNewCategory({ ...newCategory, description: e.target.value })}
         />
-        {errors.description && (
-          <p className="text-red-500">{errors.description.message}</p>
-        )}
+        {errors.description && <p className="text-red-500">{errors.description.message}</p>}
 
         <button
           type="submit"
@@ -64,4 +51,4 @@ const AddCategories = () => {
   );
 };
 
-export default AddCategories;
+export default AddCategory;

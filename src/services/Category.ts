@@ -1,6 +1,5 @@
-
-import instance from "../config/axios";
 import { ICategories } from "../interfaces/Categories";
+import instance from "../config/axios";
 
 export const getAllCategories = async () => {
   try {

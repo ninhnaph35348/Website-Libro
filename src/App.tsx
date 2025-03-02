@@ -1,7 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import LayoutAdmin from "./layouts/Admin";
 import Home from "./pages/Home";
-import Product from "./pages/Product";
 import Order from "./pages/Order";
 import User from "./pages/User";
 import Author from "./pages/Authors/Authors";
@@ -14,36 +13,51 @@ import AddGenre from "./pages/Genres/AddGenre";
 import Login from "./pages/Login";
 import NotFound from "./pages/Notfound";
 import AddProduct from "./pages/Product/AddProduct";
-import Categories from "./pages/Categories/Categories";
-import AddCategories from "./pages/Categories/AddCategory";
-import EditCategories from "./pages/Categories/EditCategory";
+import ProductList from "./pages/Product/ProductList";
+import Category from "./pages/Category/Category";
+import CategoryList from "./pages/Category/Category";
+import AddCategory from "./pages/Category/AddCategory";
+import EditCategory from "./pages/Category/EditCategory";
+import Publisher from "./pages/Publisher/Publisher";
+import AddPublisher from "./pages/Publisher/AddPublisher";
+import EditPublisher from "./pages/Publisher/EditPublisher";
 
 const App = () => {
   return (
     <Routes>
       <Route path="/" element={<LayoutAdmin />}>
         <Route index element={<Home />} />
+        {/* <Route path="categories" element={<Category />} /> */}
 
         <Route path="order" element={<Order />} />
         <Route path="user" element={<User />} />
 
         {/* Product */}
         <Route path="product">
-          <Route index element={<Product />} />
+          <Route index element={<ProductList />} />
           <Route path="add" element={<AddProduct />} />
           <Route path="edit/:id" element={<EditAuthor />} />
         </Route>
-        {/* Category */}
-        <Route path="categories">
-          <Route index element={<Categories />} />
-          <Route path="add" element={<AddCategories />} />
-          <Route path="edit/:id" element={<EditCategories />} />
+
+        {/* categorie */}
+        <Route path="category">
+          <Route index element={<CategoryList />} />
+          <Route path="add" element={<AddCategory />} />
+          <Route path="edit/:id" element={<EditCategory />} />
         </Route>
-        {/* Authors */}
-        <Route path="authors">
+
+        {/* Author */}
+        <Route path="author">
           <Route index element={<Author />} />
           <Route path="add" element={<AddAuthor />} />
           <Route path="edit/:id" element={<EditAuthor />} />
+        </Route>
+        {/* Publisher */}
+
+        <Route path="publisher">
+          <Route index element={<Publisher />} />
+          <Route path="add" element={<AddPublisher />} />
+          <Route path="edit/:id" element={<EditPublisher />} />
         </Route>
 
         {/* Languages */}

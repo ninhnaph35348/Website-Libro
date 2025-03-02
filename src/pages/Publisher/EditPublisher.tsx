@@ -1,28 +1,28 @@
 import { useContext, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { AuthorContext } from '../../context/Author';
+import { PublisherContext } from '../../context/Publisher';
 import { useForm } from 'react-hook-form';
-import { getAuthorById } from '../../services/Author';
-import { IAuthor } from '../../interfaces/Authors';
+import { getPublisherById } from '../../services/Publisher';
+import { IPublishers } from '../../interfaces/Publishers';
 
-const EditAuthor = () => {
-    const { onEdit } = useContext(AuthorContext);
-    const { register, handleSubmit, reset, watch, formState: { errors } } = useForm<IAuthor>();
+const EditPublisher = () => {
+    const { onEdit } = useContext(PublisherContext);
+    const { register, handleSubmit, reset, watch, formState: { errors } } = useForm<IPublishers>();
     const navigate = useNavigate();
     const param = useParams();
 
     useEffect(() => {
         (async () => {
-            const author = await getAuthorById(param.id as string | number);
+            const publisher = await getPublisherById(param.id as string | number);
             reset({
-                name: author.name,
+                name: publisher.name,
             });
         })();
     }, [param.id, reset]);
 
-    const onSubmit = async (author: IAuthor) => {
-        await onEdit(author, param.id as string | number);
-        navigate('/author');
+    const onSubmit = async (publisher: IPublishers) => {
+        await onEdit(publisher, param.id);
+        navigate('/publisher');
     };
 
     return (
@@ -30,7 +30,7 @@ const EditAuthor = () => {
             <h2 className="text-xl font-bold mb-4">Sửa Nhà Xuất Bản</h2>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <input
-                    className="w-full border p-2 mr-2 mb-2"
+                    className="w-full border p-2 mb-2"
                     type="text"
                     placeholder="Tên nhà xuất bản"
                     {...register("name", { required: "Tên không được để trống" })}
@@ -49,4 +49,4 @@ const EditAuthor = () => {
     );
 };
 
-export default EditAuthor;
+export default EditPublisher;

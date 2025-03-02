@@ -11,6 +11,7 @@ import {
   Layers,
   Library,
   AlignJustify,
+  Pencil,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -57,7 +58,7 @@ const Sidebar = ({ collapsed, setCollapsed }: any) => {
             </Link>
           </li>
           <li className="px-4 py-2 hover:bg-gray-700 cursor-pointer">
-            <Link to="/categories" className="flex items-center">
+            <Link to="/category" className="flex items-center">
               <Library className="w-5 h-5" />
               {!collapsed && <span className="ml-3">Danh Mục</span>}
             </Link>
@@ -104,9 +105,15 @@ const Sidebar = ({ collapsed, setCollapsed }: any) => {
           {dropdownOpen && !collapsed && (
             <ul className="pl-8">
               <li className="px-4 py-2 hover:bg-gray-700 cursor-pointer">
-                <Link to="/authors" className="flex items-center">
-                  <Users className="w-5 h-5" />
+                <Link to="/author" className="flex items-center">
+                  <Pencil className="w-5 h-5" />
                   <span className="ml-3">Tác Giả</span>
+                </Link>
+              </li>
+              <li className="px-4 py-2 hover:bg-gray-700 cursor-pointer">
+                <Link to="/publisher" className="flex items-center">
+                  <Users className="w-5 h-5" />
+                  <span className="ml-3">Nhà Xuất Bản</span>
                 </Link>
               </li>
               <li className="px-4 py-2 hover:bg-gray-700 cursor-pointer">

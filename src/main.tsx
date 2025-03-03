@@ -6,15 +6,18 @@ import { BrowserRouter } from "react-router-dom";
 import AuthorProvider from "./context/Author.tsx";
 import CategoryProvider from "./context/Category.tsx";
 import PublisherProvider from "./context/Publisher.tsx";
+import LanguageProvider from "./context/Language.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <BrowserRouter>
     <PublisherProvider>
       <CategoryProvider>
         <AuthorProvider>
+          <LanguageProvider>
           <StrictMode>
             <App />
           </StrictMode>
+          </LanguageProvider>
         </AuthorProvider>
       </CategoryProvider>
     </PublisherProvider>

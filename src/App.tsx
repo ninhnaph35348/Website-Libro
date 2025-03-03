@@ -14,13 +14,13 @@ import Login from "./pages/Login";
 import NotFound from "./pages/Notfound";
 import AddProduct from "./pages/Product/AddProduct";
 import ProductList from "./pages/Product/ProductList";
-import Category from "./pages/Category/Category";
 import CategoryList from "./pages/Category/Category";
 import AddCategory from "./pages/Category/AddCategory";
 import EditCategory from "./pages/Category/EditCategory";
 import Publisher from "./pages/Publisher/Publisher";
 import AddPublisher from "./pages/Publisher/AddPublisher";
 import EditPublisher from "./pages/Publisher/EditPublisher";
+import EditLanguage from "./pages/Language/EditLanguage";
 
 const App = () => {
   return (
@@ -61,9 +61,10 @@ const App = () => {
         </Route>
 
         {/* Languages */}
-        <Route path="language">
+        <Route path="languages">
           <Route index element={<Language />} />
-          <Route path="add-languages" element={<AddLanguage />} />
+          <Route path="add" element={<AddLanguage />} />
+          <Route path="edit/:id" element={<EditLanguage />} /> 
         </Route>
 
         {/* Genres */}

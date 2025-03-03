@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { LanguageContext } from "../../context/Language";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-
+// 
 const AddLanguage = () => {
     const { onAdd } = useContext(LanguageContext);
     const { register, handleSubmit, formState: { errors } } = useForm();

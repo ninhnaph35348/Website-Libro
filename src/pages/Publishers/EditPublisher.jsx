@@ -15,7 +15,7 @@ const EditPublisher = () => {
             const publisher = await getPublisherById(param.id);
             reset({
                 name: publisher.name,
-              
+            //   
             });
         })();
     }, [param.id, reset]);

@@ -9,7 +9,7 @@ const AddPublisher = () => {
   const navigate = useNavigate();
 
   const [newPublisher   , setnewPublisher  ] = useState({ name: "" }); // Khai báo state cho input
-
+// 
   const onSubmit = async (formData) => {
     await onAdd(formData);
     navigate('/publishers');

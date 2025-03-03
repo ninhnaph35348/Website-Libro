@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { LanguageContext } from "../../context/Language";
 import { Link } from "react-router-dom";
-
+// 
 const Languages = () => {
     const { languages, onDelete } = useContext(LanguageContext);
 

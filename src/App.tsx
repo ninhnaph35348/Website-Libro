@@ -22,11 +22,14 @@ import AddPublisher from "./pages/Publisher/AddPublisher";
 import EditPublisher from "./pages/Publisher/EditPublisher";
 import EditLanguage from "./pages/Language/EditLanguage";
 import EditGenre from "./pages/Genres/EditGenre";
+import Checkout from "./pages/Client/Checkout/Checkout";
+import LayoutClient from "./layouts/Client";
 
 const App = () => {
   return (
     <Routes>
-      <Route path="/" element={<LayoutAdmin />}>
+      {/* Admin */}
+      <Route path="/admin" element={<LayoutAdmin />}>
         <Route index element={<Home />} />
         {/* <Route path="categories" element={<Category />} /> */}
 
@@ -65,7 +68,7 @@ const App = () => {
         <Route path="languages">
           <Route index element={<Language />} />
           <Route path="add" element={<AddLanguage />} />
-          <Route path="edit/:id" element={<EditLanguage />} /> 
+          <Route path="edit/:id" element={<EditLanguage />} />
         </Route>
 
         {/* Genres */}
@@ -76,6 +79,10 @@ const App = () => {
         </Route>
       </Route>
 
+      {/* Client */}
+      <Route path="/" element={<LayoutClient />} >
+        <Route index element={<Checkout />} />
+      </Route>
       <Route path="/login" element={<Login />} />
 
       {/* Trang 404 */}

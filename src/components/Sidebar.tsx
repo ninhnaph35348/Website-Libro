@@ -101,6 +101,7 @@ const Sidebar = ({ collapsed, setCollapsed }: any) => {
                 />
               )}
             </div>
+
           </li>
           {dropdownOpen && !collapsed && (
             <ul className="pl-8">
@@ -117,13 +118,13 @@ const Sidebar = ({ collapsed, setCollapsed }: any) => {
                 </Link>
               </li>
               <li className="px-4 py-2 hover:bg-gray-700 cursor-pointer">
-                <Link to="/language" className="flex items-center">
+                <Link to="/languages" className="flex items-center">
                   <Globe className="w-5 h-5" />
                   <span className="ml-3">Ngôn Ngữ</span>
                 </Link>
               </li>
               <li className="px-4 py-2 hover:bg-gray-700 cursor-pointer">
-                <Link to="/genre" className="flex items-center">
+                <Link to="/genres" className="flex items-center">
                   <Layers className="w-5 h-5" />
                   <span className="ml-3">Thể Loại</span>
                 </Link>

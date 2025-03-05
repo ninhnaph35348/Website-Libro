@@ -21,6 +21,7 @@ import Publisher from "./pages/Publisher/Publisher";
 import AddPublisher from "./pages/Publisher/AddPublisher";
 import EditPublisher from "./pages/Publisher/EditPublisher";
 import EditLanguage from "./pages/Language/EditLanguage";
+import EditGenre from "./pages/Genres/EditGenre";
 
 const App = () => {
   return (
@@ -68,9 +69,10 @@ const App = () => {
         </Route>
 
         {/* Genres */}
-        <Route path="genre">
+        <Route path="genres">
           <Route index element={<Genre />} />
-          <Route path="add-genre" element={<AddGenre />} />
+          <Route path="add" element={<AddGenre />} />
+          <Route path="edit/:id" element={<EditGenre />} />
         </Route>
       </Route>
 

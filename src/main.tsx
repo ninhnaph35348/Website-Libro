@@ -7,6 +7,7 @@ import AuthorProvider from "./context/Author.tsx";
 import CategoryProvider from "./context/Category.tsx";
 import PublisherProvider from "./context/Publisher.tsx";
 import LanguageProvider from "./context/Language.tsx";
+import GenreProvider from "./context/Genre.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <BrowserRouter>
@@ -14,9 +15,11 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <CategoryProvider>
         <AuthorProvider>
           <LanguageProvider>
+            <GenreProvider>
           <StrictMode>
             <App />
           </StrictMode>
+          </GenreProvider>
           </LanguageProvider>
         </AuthorProvider>
       </CategoryProvider>

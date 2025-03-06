@@ -24,6 +24,10 @@ import EditLanguage from "./pages/Language/EditLanguage";
 import EditGenre from "./pages/Genres/EditGenre";
 import Checkout from "./pages/Client/Checkout/Checkout";
 import LayoutClient from "./layouts/Client";
+import Shopdetail from "./pages/Client/Shopdetail/Shopdetail";
+import Shopcart from "./pages/Client/Shopcart/Shopcart";
+import Shopdefaul from "./pages/Client/Shopdefaul/shopdefau";
+import Client from "./pages/Client";
 
 const App = () => {
   return (
@@ -80,10 +84,22 @@ const App = () => {
       </Route>
 
       {/* Client */}
-      <Route path="/" element={<LayoutClient />} >
+      <Route path="/client" element={<LayoutClient />} >
+        <Route index element={<Client />} />
+      </Route>
+      <Route path="/check-out" element={<LayoutClient />} >
         <Route index element={<Checkout />} />
       </Route>
       <Route path="/login" element={<Login />} />
+      <Route path="/shop-detail" element={<LayoutClient />} >
+        <Route index element={<Shopdetail />} />
+      </Route>
+      <Route path="/shop-cart" element={<LayoutClient />} >
+        <Route index element={<Shopcart />} />
+      </Route>
+      <Route path="/shop" element={<LayoutClient />} >
+        <Route index element={<Shopdefaul />} />
+      </Route>
 
       {/* Trang 404 */}
       <Route path="*" element={<NotFound />} />

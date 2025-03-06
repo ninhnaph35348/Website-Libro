@@ -26,7 +26,7 @@ import Checkout from "./pages/Client/Checkout/Checkout";
 import LayoutClient from "./layouts/Client";
 import Shopdetail from "./pages/Client/Shopdetail/Shopdetail";
 import Shopcart from "./pages/Client/Shopcart/Shopcart";
-import Shopdefaul from "./pages/Client/Shopdefaul/shopdefau";
+import Shopdefaul from "./pages/Client/Shopdefaul/Shopdefaul";
 import Client from "./pages/Client";
 
 const App = () => {

@@ -1,38 +1,45 @@
 import { createContext, useEffect, useState } from "react";
-import { createAuthor, deleteAuthor, getAllAuthors, updateAuthor } from "../services/Author";
+import {
+    createAuthor,
+    deleteAuthor,
+    getAllAuthors,
+    updateAuthor,
+} from "../services/Author";
 import { IAuthor } from "../interfaces/Authors";
 
 type Props = {
-    children: React.ReactNode
-}
+    children: React.ReactNode;
+};
+
 export const AuthorContext = createContext({} as any);
 
-// eslint-disable-next-line react/prop-types
 const AuthorProvider = ({ children }: Props) => {
     const [authors, setAuthors] = useState<IAuthor[]>([]);
+    const [reload, setReload] = useState(false);
 
     useEffect(() => {
         (async () => {
             const data = await getAllAuthors();
             setAuthors(data);
         })();
-    }, []);
+    }, [reload]);
 
-    const onAdd = async (dataAuthor:IAuthor) => {
+    const onAdd = async (dataAuthor: IAuthor) => {
         try {
             const data = await createAuthor(dataAuthor);
             setAuthors([...authors, data]);
             alert("Thêm tác giả thành công!");
+            setReload((prev) => !prev);
         } catch (error) {
             console.log(error);
         }
     };
 
-    const onDelete = async (id: number | string) => {
+    const onDelete = async (id: number) => {
         try {
             if (window.confirm("Bạn có muốn xóa không?")) {
                 await deleteAuthor(id);
-                alert("Xóa thành công!");
+                alert("Xóa tác giả thành công!");
                 setAuthors(authors.filter((author) => author.id !== id));
             }
         } catch (error) {
@@ -40,7 +47,7 @@ const AuthorProvider = ({ children }: Props) => {
         }
     };
 
-    const onEdit = async (formData:IAuthor, id: number | string) => {
+    const onEdit = async (formData: IAuthor, id: number | string) => {
         try {
             const data = await updateAuthor(formData, id);
             const newAuthors = authors.map((author) =>
@@ -48,6 +55,7 @@ const AuthorProvider = ({ children }: Props) => {
             );
             setAuthors(newAuthors);
             alert("Sửa tác giả thành công!");
+            setReload((prev) => !prev);
         } catch (error) {
             console.log(error);
         }

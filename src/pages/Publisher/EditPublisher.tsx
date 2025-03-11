@@ -22,7 +22,7 @@ const EditPublisher = () => {
 
     const onSubmit = async (publisher: IPublishers) => {
         await onEdit(publisher, param.id);
-        navigate('/publisher');
+        navigate('..');
     };
 
     return (

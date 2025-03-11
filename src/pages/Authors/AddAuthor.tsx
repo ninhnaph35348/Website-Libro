@@ -1,33 +1,30 @@
-import { useState, useContext } from 'react';
+import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthorContext } from '../../context/Author';
 import { useForm } from 'react-hook-form';
 import { IAuthor } from '../../interfaces/Authors';
 
 const AddAuthor = () => {
-  const { onAdd } = useContext(AuthorContext); // Đặt useContext trong function component
-  const { register, handleSubmit, reset, formState: { errors } } = useForm<IAuthor>();
+  const { onAdd } = useContext(AuthorContext);
+  const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm<IAuthor>();
   const navigate = useNavigate();
 
-  const [newAuthor, setNewAuthor] = useState({ name: "" }); // Khai báo state cho input
-
   const onSubmit = async (formData: IAuthor) => {
-    await onAdd(formData);
-    navigate('/author');
-    reset();
+    await onAdd(formData); // Gửi dữ liệu lên context
+    reset(); // Reset form về trạng thái ban đầu
+    navigate('..'); // Quay lại trang danh sách
   };
 
   return (
     <div className="p-6 w-full mx-auto bg-white shadow-md rounded-lg">
-      <h2 className="text-xl font-bold mb-4">Thêm Nhà Xuất Bản</h2>
+      <h2 className="text-xl font-bold mb-4">Thêm Tác giả</h2>
       <form onSubmit={handleSubmit(onSubmit)}>
         <input
-          className="w-full border p-2 mr-2 mb-2"
+          className="w-full border p-2 mb-2"
           type="text"
-          placeholder="Tên nhà xuất bản"
+          placeholder="Tên tác giả"
           {...register("name", { required: "Tên không được để trống" })}
-          value={newAuthor.name}
-          onChange={(e) => setNewAuthor({ name: e.target.value })}
+          onChange={(e) => setValue("name", e.target.value)} // Cập nhật giá trị của useForm
         />
         {errors.name && <p className="text-red-500">{errors.name.message}</p>}
 

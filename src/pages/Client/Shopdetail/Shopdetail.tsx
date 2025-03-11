@@ -19,16 +19,6 @@ import s01 from "../../../assets/img/book/01.png"
 import clinet1 from "../../../assets/img/testimonial/client-1.png"
 import popupBg from "../../../assets/img/popupBg.png"
 
-
-
-
-
-
-
-
-
-
-
 type Props = {}
 
 const Shopdetail = (props: Props) => {

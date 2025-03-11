@@ -51,29 +51,7 @@ import news10 from "../../assets/img/news/10.jpg"
 import news11 from "../../assets/img/news/11.jpg"
 import news12 from "../../assets/img/news/12.jpg"
 import heroGirl from "../../assets/img/hero/hero-girl.png"
-
-
-
-
-
-
-
-
-
 import circleShape from "../../assets/img/book-categori/circle-shape.png"
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 type Props = {}

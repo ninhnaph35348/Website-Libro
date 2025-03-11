@@ -1,6 +1,7 @@
 
 import whiteLogo from "../../assets/img/logo/white-logo.svg";
 import icon13 from "../../assets/img/icon/icon-13.svg";
+import { Link } from "react-router-dom";
 const Header = () => {
     return (
         <>
@@ -95,15 +96,10 @@ const Header = () => {
                                                             </ul>
                                                         </li>
                                                         <li>
-                                                            <a href="news.html">
+                                                            <Link to="/blog">
                                                                 Blog
-                                                                <i className="fas fa-angle-down" />
-                                                            </a>
-                                                            <ul className="submenu">
-                                                                <li><a href="news-grid.html">Blog Grid</a></li>
-                                                                <li><a href="news.html">Blog List</a></li>
-                                                                <li><a href="news-details.html">Blog Details</a></li>
-                                                            </ul>
+                                                            </Link>
+                                                           
                                                         </li>
                                                         <li>
                                                             <a href="contact.html">Contact</a>
@@ -231,15 +227,10 @@ const Header = () => {
                                                             </ul>
                                                         </li>
                                                         <li>
-                                                            <a href="news.html">
+                                                        <Link to="/blog">
                                                                 Blog
-                                                                <i className="fas fa-angle-down" />
-                                                            </a>
-                                                            <ul className="submenu">
-                                                                <li><a href="news-grid.html">Blog Grid</a></li>
-                                                                <li><a href="news.html">Blog List</a></li>
-                                                                <li><a href="news-details.html">Blog Details</a></li>
-                                                            </ul>
+                                                            </Link>
+                                                            
                                                         </li>
                                                         <li>
                                                             <a href="contact.html">Contact</a>

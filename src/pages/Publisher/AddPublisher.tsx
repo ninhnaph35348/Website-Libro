@@ -18,7 +18,7 @@ const AddPublisher = () => {
 
   const onSubmit = async (formData: IPublishers) => {
     await onAdd(formData);
-    navigate("/publisher");
+    navigate("..");
     reset();
   };
 

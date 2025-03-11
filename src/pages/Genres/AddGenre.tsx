@@ -12,7 +12,7 @@ const AddGenre = () => {
     const onSubmit = async (data: IGenre) => {
         if (context) {
             await context.onAdd(data);
-            navigate("/genres");
+            navigate("..");
             reset();
         }
     };

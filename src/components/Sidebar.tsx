@@ -52,32 +52,32 @@ const Sidebar = ({ collapsed, setCollapsed }: any) => {
       <nav className="py-4">
         <ul>
           <li className="px-4 py-2 hover:bg-gray-700 cursor-pointer">
-            <Link to="/" className="flex items-center">
+            <Link to="/admin" className="flex items-center text-white">
               <Home className="w-5 h-5" />
               {!collapsed && <span className="ml-3">Trang Chủ</span>}
             </Link>
           </li>
           <li className="px-4 py-2 hover:bg-gray-700 cursor-pointer">
-            <Link to="/category" className="flex items-center">
+            <Link to="/admin/category" className="flex items-center text-white">
               <Library className="w-5 h-5" />
               {!collapsed && <span className="ml-3">Danh Mục</span>}
             </Link>
           </li>
 
           <li className="px-4 py-2 hover:bg-gray-700 cursor-pointer">
-            <Link to="/product" className="flex items-center">
+            <Link to="/admin/product" className="flex items-center text-white">
               <Book className="w-5 h-5" />
               {!collapsed && <span className="ml-3">Sản Phẩm</span>}
             </Link>
           </li>
           <li className="px-4 py-2 hover:bg-gray-700 cursor-pointer">
-            <Link to="/order" className="flex items-center">
+            <Link to="/admin/order" className="flex items-center text-white">
               <ListOrdered className="w-5 h-5" />
               {!collapsed && <span className="ml-3">Đơn Hàng</span>}
             </Link>
           </li>
           <li className="px-4 py-2 hover:bg-gray-700 cursor-pointer">
-            <Link to="/user" className="flex items-center">
+            <Link to="/admin/user" className="flex items-center text-white">
               <CircleUserRound className="w-5 h-5" />
               {!collapsed && <span className="ml-3">Tài Khoản</span>}
             </Link>
@@ -89,7 +89,7 @@ const Sidebar = ({ collapsed, setCollapsed }: any) => {
             onClick={() => setDropdownOpen(!dropdownOpen)}
           >
             <div className="flex items-center justify-between">
-              <div className="flex items-center">
+              <div className="flex items-center text-white">
                 <AlignJustify className="w-5 h-5" />
                 {!collapsed && <span className="ml-3">Chức Năng</span>}
               </div>
@@ -106,25 +106,25 @@ const Sidebar = ({ collapsed, setCollapsed }: any) => {
           {dropdownOpen && !collapsed && (
             <ul className="pl-8">
               <li className="px-4 py-2 hover:bg-gray-700 cursor-pointer">
-                <Link to="/author" className="flex items-center">
+                <Link to="/admin/author" className="flex items-center text-white">
                   <Pencil className="w-5 h-5" />
                   <span className="ml-3">Tác Giả</span>
                 </Link>
               </li>
               <li className="px-4 py-2 hover:bg-gray-700 cursor-pointer">
-                <Link to="/publisher" className="flex items-center">
+                <Link to="/admin/publisher" className="flex items-center text-white">
                   <Users className="w-5 h-5" />
                   <span className="ml-3">Nhà Xuất Bản</span>
                 </Link>
               </li>
               <li className="px-4 py-2 hover:bg-gray-700 cursor-pointer">
-                <Link to="/languages" className="flex items-center">
+                <Link to="/admin/languages" className="flex items-center text-white">
                   <Globe className="w-5 h-5" />
                   <span className="ml-3">Ngôn Ngữ</span>
                 </Link>
               </li>
               <li className="px-4 py-2 hover:bg-gray-700 cursor-pointer">
-                <Link to="/genres" className="flex items-center">
+                <Link to="/admin/genres" className="flex items-center text-white">
                   <Layers className="w-5 h-5" />
                   <span className="ml-3">Thể Loại</span>
                 </Link>

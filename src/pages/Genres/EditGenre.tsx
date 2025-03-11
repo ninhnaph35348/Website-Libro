@@ -22,7 +22,7 @@ const EditGenre = () => {
 
     const onSubmit = async (genre: IGenre) => {
         await onEdit(genre, param.id);
-        navigate('/genres');
+        navigate('..');
     };
 
     return (

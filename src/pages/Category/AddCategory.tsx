@@ -13,7 +13,7 @@ const AddCategory = () => {
 
   const onSubmit = async (formData: ICategories) => {
     await onAdd(formData);
-    navigate('/category');
+    navigate('..');
     reset();
   };
 
@@ -34,7 +34,7 @@ const AddCategory = () => {
         <textarea
           className="w-full border p-2 mb-2"
           placeholder="Mô tả danh mục"
-          {...register("description", { required: "Mô tả không được để trống" })}
+          {...register("description")}
           value={newCategory.description}
           onChange={(e) => setNewCategory({ ...newCategory, description: e.target.value })}
         />

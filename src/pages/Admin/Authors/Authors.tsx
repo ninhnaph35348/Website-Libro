@@ -1,11 +1,12 @@
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AuthorContext } from '../../context/Author';
-import { IAuthor } from '../../interfaces/Authors';
+import { AuthorContext } from '../../../context/Author';
+import { IAuthor } from '../../../interfaces/Authors';
 
 const Author = () => {
   const { authors, onDelete } = useContext(AuthorContext)
 
+  console.log("hah", authors);
 
   const navigate = useNavigate();
 

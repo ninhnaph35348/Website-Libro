@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { CategoryContext } from '../../context/Category';
-import { ICategories } from '../../interfaces/Categories';
+import { CategoryContext } from '../../../context/Category';
+import { ICategories } from '../../../interfaces/Categories';
 
 const CategoryList = () => {
   const { categories, onDelete } = useContext(CategoryContext);

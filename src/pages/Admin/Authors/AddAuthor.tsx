@@ -1,8 +1,8 @@
 import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AuthorContext } from '../../context/Author';
 import { useForm } from 'react-hook-form';
-import { IAuthor } from '../../interfaces/Authors';
+import { AuthorContext } from '../../../context/Author';
+import { IAuthor } from '../../../interfaces/Authors';
 
 const AddAuthor = () => {
   const { onAdd } = useContext(AuthorContext); // Đặt useContext trong function component

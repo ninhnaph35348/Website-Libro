@@ -1,8 +1,8 @@
 import { useContext } from "react";
-import { GenreContext } from "../../context/Genre";
+import { GenreContext } from "../../../context/Genre";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { IGenre } from "../../interfaces/Genre";
+import { IGenre } from "../../../interfaces/Genre";
 
 const AddGenre = () => {
     const context = useContext(GenreContext);
@@ -12,7 +12,7 @@ const AddGenre = () => {
     const onSubmit = async (data: IGenre) => {
         if (context) {
             await context.onAdd(data);
-            navigate("/genres");
+            navigate(-1);
             reset();
         }
     };

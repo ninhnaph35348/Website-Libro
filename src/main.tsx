@@ -33,21 +33,24 @@ import CategoryProvider from "./context/Category.tsx";
 import PublisherProvider from "./context/Publisher.tsx";
 import LanguageProvider from "./context/Language.tsx";
 import GenreProvider from "./context/Genre.tsx";
+import ProductProvider from "./context/Product.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <BrowserRouter>
     <PublisherProvider>
-      <CategoryProvider>
-        <AuthorProvider>
-          <LanguageProvider>
-            <GenreProvider>
-              <StrictMode>
-                <App />
-              </StrictMode>
-            </GenreProvider>
-          </LanguageProvider>
-        </AuthorProvider>
-      </CategoryProvider>
+      <ProductProvider>
+        <CategoryProvider>
+          <AuthorProvider>
+            <LanguageProvider>
+              <GenreProvider>
+                <StrictMode>
+                  <App />
+                </StrictMode>
+              </GenreProvider>
+            </LanguageProvider>
+          </AuthorProvider >
+        </CategoryProvider>
+      </ProductProvider>
     </PublisherProvider>
   </BrowserRouter>
 );

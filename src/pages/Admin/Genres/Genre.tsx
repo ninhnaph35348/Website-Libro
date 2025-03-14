@@ -1,7 +1,7 @@
 import { useContext } from "react";
-import { GenreContext } from "../../context/Genre";
+import { GenreContext } from "../../../context/Genre";
 import { Link } from "react-router-dom";
-import { IGenre } from "../../interfaces/Genre";
+import { IGenre } from "../../../interfaces/Genre";
 
 const Genres = () => {
     const { genres, onDelete } = useContext(GenreContext);
@@ -9,7 +9,7 @@ const Genres = () => {
     return (
         <div className="p-6 w-full mx-auto bg-white shadow-md rounded-lg">
             <h2 className="text-xl font-bold mb-4">Danh Sách Thể Loại</h2>
-            <Link to="/genres/add" className="bg-green-500 text-white px-4 py-2 rounded mb-4 inline-block">
+            <Link to="add" className="bg-green-500 text-white px-4 py-2 rounded mb-4 inline-block">
                 Thêm Thể Loại
             </Link>
             <table className="w-full border-collapse border border-gray-200 mt-4">

@@ -1,9 +1,9 @@
 import { useContext, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { LanguageContext } from "../../context/Language";
+import { LanguageContext } from "../../../context/Language";
 import { useForm } from "react-hook-form";
-import { getLanguageById } from "../../services/Language";
-import { ILanguage } from "../../interfaces/Language";
+import { getLanguageById } from "../../../services/Language";
+import { ILanguage } from "../../../interfaces/Language";
 
 const EditLanguage = () => {
     const context = useContext(LanguageContext);

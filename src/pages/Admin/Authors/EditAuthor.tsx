@@ -1,9 +1,9 @@
 import { useContext, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { AuthorContext } from '../../context/Author';
+import { AuthorContext } from '../../../context/Author';
 import { useForm } from 'react-hook-form';
-import { getAuthorById } from '../../services/Author';
-import { IAuthor } from '../../interfaces/Authors';
+import { getAuthorById } from '../../../services/Author';
+import { IAuthor } from '../../../interfaces/Authors';
 
 const EditAuthor = () => {
     const { onEdit } = useContext(AuthorContext);

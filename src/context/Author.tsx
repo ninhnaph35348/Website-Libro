@@ -7,22 +7,23 @@ type Props = {
 }
 export const AuthorContext = createContext({} as any);
 
-// eslint-disable-next-line react/prop-types
 const AuthorProvider = ({ children }: Props) => {
     const [authors, setAuthors] = useState<IAuthor[]>([]);
+    const [reload, setReload] = useState(false); // 👈 Thêm state reload
 
     useEffect(() => {
         (async () => {
             const data = await getAllAuthors();
             setAuthors(data);
         })();
-    }, []);
+    }, [reload]);
 
     const onAdd = async (dataAuthor:IAuthor) => {
         try {
             const data = await createAuthor(dataAuthor);
             setAuthors([...authors, data]);
             alert("Thêm tác giả thành công!");
+            setReload((prev) => !prev); // 👈 Set lại state reload
         } catch (error) {
             console.log(error);
         }

@@ -42,7 +42,7 @@ export const updateGenre = async (
 
 export const deleteGenre = async (id: number | string) => {
   try {
-    const { data } = await instance.delete(`genres/${id}`);
+    const { data } = await instance.put(`genres/${id}`);
     return data;
   } catch (error) {
     throw new Error("Lỗi");

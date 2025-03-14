@@ -1,8 +1,8 @@
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { PublisherContext } from "../../context/Publisher";
+import { PublisherContext } from "../../../context/Publisher";
 import { useForm } from "react-hook-form";
-import { IPublishers } from "../../interfaces/Publishers";
+import { IPublishers } from "../../../interfaces/Publishers";
 
 const AddPublisher = () => {
   const { onAdd } = useContext(PublisherContext);

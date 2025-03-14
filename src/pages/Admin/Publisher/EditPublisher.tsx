@@ -1,9 +1,9 @@
 import { useContext, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { PublisherContext } from '../../context/Publisher';
+import { PublisherContext } from '../../../context/Publisher';
 import { useForm } from 'react-hook-form';
-import { getPublisherById } from '../../services/Publisher';
-import { IPublishers } from '../../interfaces/Publishers';
+import { getPublisherById } from '../../../services/Publisher';
+import { IPublishers } from '../../../interfaces/Publishers';
 
 const EditPublisher = () => {
     const { onEdit } = useContext(PublisherContext);

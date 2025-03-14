@@ -1,8 +1,8 @@
 import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { CategoryContext } from '../../context/Category';
+import { CategoryContext } from '../../../context/Category';
 import { useForm } from 'react-hook-form';
-import { ICategories } from '../../interfaces/Categories';
+import { ICategories } from '../../../interfaces/Categories';
 
 const AddCategory = () => {
   const { onAdd } = useContext(CategoryContext);

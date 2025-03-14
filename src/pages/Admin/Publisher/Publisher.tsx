@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { PublisherContext } from "../../context/Publisher";
-import { IPublishers } from "../../interfaces/Publishers";
+import { PublisherContext } from "../../../context/Publisher";
+import { IPublishers } from "../../../interfaces/Publishers";
 
 const PublisherList = () => {
   const { publishers, onDelete } = useContext(PublisherContext);

@@ -1,9 +1,9 @@
 import { useContext, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { CategoryContext } from '../../context/Category';
+import { CategoryContext } from '../../../context/Category';
 import { useForm } from 'react-hook-form';
-import { getCategoryById } from '../../services/Category';
-import { ICategories } from '../../interfaces/Categories';
+import { getCategoryById } from '../../../services/Category';
+import { ICategories } from '../../../interfaces/Categories';
 
 const EditCategory = () => {
     const { onEdit } = useContext(CategoryContext);

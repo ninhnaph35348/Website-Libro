@@ -12,11 +12,14 @@ import {
   Library,
   AlignJustify,
   Pencil,
+  Shield,
+  User,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Sidebar = ({ collapsed, setCollapsed }: any) => {
-  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [accountDropdownOpen, setAccountDropdownOpen] = useState(false);
+  const [functionDropdownOpen, setFunctionDropdownOpen] = useState(false);
 
   return (
     <aside
@@ -33,19 +36,6 @@ const Sidebar = ({ collapsed, setCollapsed }: any) => {
           className="w-6 h-6 ml-auto cursor-pointer"
           onClick={() => setCollapsed(!collapsed)}
         />
-      </div>
-
-      {/* User Profile */}
-      <div className="p-4 border-b border-gray-700">
-        <div className="flex items-center">
-          <div className="w-8 h-8 rounded-full bg-gray-500"></div>
-          {!collapsed && (
-            <div className="ml-3">
-              <div className="text-sm font-medium">Hchaos-Le-Ma</div>
-              <div className="text-xs text-gray-400">Administrator</div>
-            </div>
-          )}
-        </div>
       </div>
 
       {/* Navigation */}
@@ -76,17 +66,53 @@ const Sidebar = ({ collapsed, setCollapsed }: any) => {
               {!collapsed && <span className="ml-3">Đơn Hàng</span>}
             </Link>
           </li>
-          <li className="px-4 py-2 hover:bg-gray-700 cursor-pointer">
-            <Link to="/admin/user" className="flex items-center text-white">
-              <CircleUserRound className="w-5 h-5" />
-              {!collapsed && <span className="ml-3">Tài Khoản</span>}
-            </Link>
-          </li>
-          {/* Dropdown Chức Năng */}
 
+          {/* Dropdown Tài Khoản */}
           <li
             className="px-4 py-2 hover:bg-gray-700 cursor-pointer"
-            onClick={() => setDropdownOpen(!dropdownOpen)}
+            onClick={() => setAccountDropdownOpen(!accountDropdownOpen)}
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex items-center text-white">
+                <Users className="w-5 h-5" />
+                {!collapsed && <span className="ml-3">Tài Khoản</span>}
+              </div>
+              {!collapsed && (
+                <ChevronDown
+                  className={`w-4 h-4 transition-transform ${
+                    accountDropdownOpen ? "rotate-180" : ""
+                  }`}
+                />
+              )}
+            </div>
+          </li>
+          {accountDropdownOpen && !collapsed && (
+            <ul className="pl-8">
+              <li className="px-4 py-2 hover:bg-gray-700 cursor-pointer">
+                <Link
+                  to="/admin/user-admin"
+                  className="flex items-center text-white"
+                >
+                  <Shield className="w-5 h-5" />
+                  <span className="ml-3">Tài Khoản Quản Trị</span>
+                </Link>
+              </li>
+              <li className="px-4 py-2 hover:bg-gray-700 cursor-pointer">
+                <Link
+                  to="/admin/customer-accounts"
+                  className="flex items-center text-white"
+                >
+                  <User className="w-5 h-5" />
+                  <span className="ml-3">Tài Khoản Khách Hàng</span>
+                </Link>
+              </li>
+            </ul>
+          )}
+
+          {/* Dropdown Chức Năng */}
+          <li
+            className="px-4 py-2 hover:bg-gray-700 cursor-pointer"
+            onClick={() => setFunctionDropdownOpen(!functionDropdownOpen)}
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center text-white">
@@ -96,35 +122,46 @@ const Sidebar = ({ collapsed, setCollapsed }: any) => {
               {!collapsed && (
                 <ChevronDown
                   className={`w-4 h-4 transition-transform ${
-                    dropdownOpen ? "rotate-180" : ""
+                    functionDropdownOpen ? "rotate-180" : ""
                   }`}
                 />
               )}
             </div>
-
           </li>
-          {dropdownOpen && !collapsed && (
+          {functionDropdownOpen && !collapsed && (
             <ul className="pl-8">
               <li className="px-4 py-2 hover:bg-gray-700 cursor-pointer">
-                <Link to="/admin/author" className="flex items-center text-white">
+                <Link
+                  to="/admin/author"
+                  className="flex items-center text-white"
+                >
                   <Pencil className="w-5 h-5" />
                   <span className="ml-3">Tác Giả</span>
                 </Link>
               </li>
               <li className="px-4 py-2 hover:bg-gray-700 cursor-pointer">
-                <Link to="/admin/publisher" className="flex items-center text-white">
+                <Link
+                  to="/admin/publisher"
+                  className="flex items-center text-white"
+                >
                   <Users className="w-5 h-5" />
                   <span className="ml-3">Nhà Xuất Bản</span>
                 </Link>
               </li>
               <li className="px-4 py-2 hover:bg-gray-700 cursor-pointer">
-                <Link to="/admin/languages" className="flex items-center text-white">
+                <Link
+                  to="/admin/languages"
+                  className="flex items-center text-white"
+                >
                   <Globe className="w-5 h-5" />
                   <span className="ml-3">Ngôn Ngữ</span>
                 </Link>
               </li>
               <li className="px-4 py-2 hover:bg-gray-700 cursor-pointer">
-                <Link to="/admin/genres" className="flex items-center text-white">
+                <Link
+                  to="/admin/genres"
+                  className="flex items-center text-white"
+                >
                   <Layers className="w-5 h-5" />
                   <span className="ml-3">Thể Loại</span>
                 </Link>

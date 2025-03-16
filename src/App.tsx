@@ -29,6 +29,10 @@ import Shopcart from "./pages/Client/Shopcart/Shopcart";
 import Shopdefaul from "./pages/Client/Shopdefaul/Shopdefaul";
 import Client from "./pages/Client";
 import Blog from "./pages/Client/Blog/Blog";
+import UserAdmin from "./pages/UserAdmin/UserAdmin";
+import AddAdminAccount from "./pages/UserAdmin/AddUserAdmin";
+import EditUserAdmin from "./pages/UserAdmin/EditUserAdmin";
+import UserDetail from "./pages/UserAdmin/UserDetail";
 
 const App = () => {
   return (
@@ -82,16 +86,22 @@ const App = () => {
           <Route path="add" element={<AddGenre />} />
           <Route path="edit/:id" element={<EditGenre />} />
         </Route>
+        <Route path="user-admin">
+          <Route index element={<UserAdmin />} /> {/* 🆕 Danh sách AdminUser */}
+          <Route path="add" element={<AddAdminAccount />} />
+          <Route path="edit/:id" element={<EditUserAdmin />} />
+          <Route path="detail/:id" element={<UserDetail />} />
+        </Route>
       </Route>
 
       {/* Client */}
-      <Route path="/" element={<LayoutClient />} >
-      <Route index element={<Client />} />
-      <Route path="/check-out" element={<Checkout />} />
-      <Route path="/shop-detail" element={<Shopdetail />} />
-      <Route path="/shop-cart" element={<Shopcart />} />
-      <Route path="/shop" element={<Shopdefaul />} />
-      <Route path="/blog" element={<Blog />} />
+      <Route path="/" element={<LayoutClient />}>
+        <Route index element={<Client />} />
+        <Route path="/check-out" element={<Checkout />} />
+        <Route path="/shop-detail" element={<Shopdetail />} />
+        <Route path="/shop-cart" element={<Shopcart />} />
+        <Route path="/shop" element={<Shopdefaul />} />
+        <Route path="/blog" element={<Blog />} />
       </Route>
       <Route path="/login" element={<Login />} />
 

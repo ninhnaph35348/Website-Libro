@@ -11,7 +11,6 @@ import "./assets/css/meanmenu.css";
 import "./assets/css/nice-select.css";
 import "./assets/css/all.min.css";
 
-
 import "./assets/js/jquery-3.7.1.min.js";
 import "./assets/js/bootstrap.bundle.min.js";
 // import "./assets/js/gsap.min.js";
@@ -25,7 +24,6 @@ import "./assets/js/swiper-bundle.min.js";
 import "./assets/js/viewport.jquery.js";
 // import "./assets/js/wow.min.js";
 
-
 import App from "./App.jsx";
 import { BrowserRouter } from "react-router-dom";
 import AuthorProvider from "./context/Author.tsx";
@@ -33,6 +31,7 @@ import CategoryProvider from "./context/Category.tsx";
 import PublisherProvider from "./context/Publisher.tsx";
 import LanguageProvider from "./context/Language.tsx";
 import GenreProvider from "./context/Genre.tsx";
+import AdminUserProvider from "./context/UserAdmin.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <BrowserRouter>
@@ -41,9 +40,11 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         <AuthorProvider>
           <LanguageProvider>
             <GenreProvider>
-              <StrictMode>
-                <App />
-              </StrictMode>
+              <AdminUserProvider>
+                <StrictMode>
+                  <App />
+                </StrictMode>
+              </AdminUserProvider>
             </GenreProvider>
           </LanguageProvider>
         </AuthorProvider>

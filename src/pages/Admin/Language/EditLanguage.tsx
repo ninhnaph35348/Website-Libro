@@ -29,7 +29,7 @@ const EditLanguage = () => {
     const onSubmit = async (language: ILanguage) => {
         if (context && id) {
             await context.onEdit(language, id);
-            navigate("/languages");
+            navigate("..");
         }
     };
 

@@ -43,7 +43,7 @@ const ProductDetail = () => {
             <p className="mt-2"><strong>Nhà xuất bản:</strong> {product.publisher}</p>
             <p className="mt-2"><strong>Nhà cung cấp:</strong> {product.supplier_name}</p>
             <p className="mt-2"><strong>Thể loại:</strong> {product.genres.join(", ")}</p>
-            <p className="mt-2"><strong>Trạng thái:</strong> {product.status === "in_stock" ? "Còn hàng" : "Hết hàng"}</p>
+            {/* <p className="mt-2"><strong>Trạng thái:</strong> {product.status === "in_stock" ? "Còn hàng" : "Hết hàng"}</p> */}
             <Link to="/admin/product" className="inline-block mt-4 bg-blue-500 text-white px-4 py-2 rounded">Quay lại</Link>
         </div>
     );

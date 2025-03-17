@@ -93,7 +93,7 @@ const AddProduct = () => {
                     <div>
                         <label className="block text-gray-700 font-medium mb-1">Thể loại</label>
                         <div className="grid grid-cols-2 gap-2">
-                            {genres.map((genre) => (
+                            {genres.map((genre: any) => (
                                 <label key={genre.id} className="flex items-center space-x-2">
                                     <input
                                         type="checkbox"

@@ -27,7 +27,7 @@ export const createAuthor = async (authorData: IAuthor) =>{
 }
 export const updateAuthor = async (authorData: IAuthor, id: number | string ) =>{
     try {
-        const {data} = await instance.put(`authors/${id}`, authorData)
+        const {data} = await instance.put(`authors/edit/${id}`, authorData)
         return data
     } catch (error) {
         throw new Error("Lỗi")
@@ -35,7 +35,7 @@ export const updateAuthor = async (authorData: IAuthor, id: number | string ) =>
 }
 export const deleteAuthor = async (id: number | string) =>{
     try {
-        const {data} = await instance.delete(`authors/${id}`)
+        const {data} = await instance.put(`authors/${id}`)
         return data
     } catch (error) {
         throw new Error("Lỗi")

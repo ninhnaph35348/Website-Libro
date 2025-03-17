@@ -33,6 +33,7 @@ import UserAdmin from "./pages/UserAdmin/UserAdmin";
 import AddAdminAccount from "./pages/UserAdmin/AddUserAdmin";
 import EditUserAdmin from "./pages/UserAdmin/EditUserAdmin";
 import UserDetail from "./pages/UserAdmin/UserDetail";
+import Contact from "./pages/Client/Contact/Contact";
 
 const App = () => {
   return (
@@ -102,6 +103,8 @@ const App = () => {
         <Route path="/shop-cart" element={<Shopcart />} />
         <Route path="/shop" element={<Shopdefaul />} />
         <Route path="/blog" element={<Blog />} />
+        <Route path="/contact" element={<Contact />} />
+
       </Route>
       <Route path="/login" element={<Login />} />
 

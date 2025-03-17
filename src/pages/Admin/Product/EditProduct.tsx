@@ -98,7 +98,13 @@ const EditProduct = () => {
     // 🚀 Submit form
     const onSubmit = async (formData: IProduct) => {
         try {
-            const updatedData = { ...formData, genres: selectedGenres }; // Gửi danh sách thể loại đã chọn
+            const updatedData = {
+                ...formData,
+                genres: selectedGenres,
+                image: images.length > 0 ? images[0] : null,
+                images: additionalImages.length > 0 ? additionalImages : [],
+            };
+            console.log(updatedData);
             await onEdit(updatedData, id as string);
             alert("Cập nhật sản phẩm thành công!");
             navigate("/admin/product");

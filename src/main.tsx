@@ -34,6 +34,8 @@ import PublisherProvider from "./context/Publisher.tsx";
 import LanguageProvider from "./context/Language.tsx";
 import GenreProvider from "./context/Genre.tsx";
 import ProductProvider from "./context/Product.tsx";
+import OrderProvider from "./context/Order.tsx";
+import OrderStatusProvider from "./context/OrderStatus.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <BrowserRouter>
@@ -43,9 +45,13 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
           <AuthorProvider>
             <LanguageProvider>
               <GenreProvider>
-                <StrictMode>
-                  <App />
-                </StrictMode>
+                <OrderStatusProvider>
+                  <OrderProvider>
+                    <StrictMode>
+                      <App />
+                    </StrictMode>
+                  </OrderProvider>
+                </OrderStatusProvider>
               </GenreProvider>
             </LanguageProvider>
           </AuthorProvider >

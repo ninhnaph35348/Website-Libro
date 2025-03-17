@@ -11,7 +11,7 @@ const CategoryList = () => {
     <div className="p-6 w-full mx-auto bg-white shadow-md rounded-lg">
       <h2 className="text-xl font-bold mb-4">Quản lý Danh Mục</h2>
       <button 
-        onClick={() => navigate('/category/add')} 
+        onClick={() => navigate('add')} 
         className="bg-blue-500 text-white px-4 py-2 rounded mb-4"
       >
         Thêm Danh Mục
@@ -39,7 +39,7 @@ const CategoryList = () => {
                   Xóa
                 </button>
                 <button 
-                  onClick={() => navigate(`/category/edit/${cat.id}`)} 
+                  onClick={() => navigate(`edit/${cat.id}`)} 
                   className="bg-yellow-500 text-white px-2 py-1 rounded"
                 >
                   Sửa

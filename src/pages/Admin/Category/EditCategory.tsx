@@ -23,7 +23,7 @@ const EditCategory = () => {
 
     const onSubmit = async (category: ICategories) => {
         await onEdit(category, param.id);
-        navigate('/category');
+        navigate('..');
     };
 
     return (
@@ -42,7 +42,7 @@ const EditCategory = () => {
                 <textarea
                     className="w-full border p-2 mb-2"
                     placeholder="Mô tả danh mục"
-                    {...register("description", { required: "Mô tả không được để trống" })}
+                    {...register("description")}
                     defaultValue={watch("description")}
                 />
                 {errors.description && <p className="text-red-500">{errors.description.message}</p>}

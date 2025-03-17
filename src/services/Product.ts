@@ -1,4 +1,3 @@
-import { IProduct } from './../interfaces/Products';
 import instance from "../config/axios"
 
 export const getAllProducts = async () =>{
@@ -31,13 +30,10 @@ export const createProduct = async (productData: FormData) => {
 
 export const updateProduct = async (productData: FormData, id: number | string) => {
     try {
-        productData.append("_method", "PUT"); // 🔥 Thêm _method để server hiểu đây là PUT request
-        
-
-
+        productData.append("_method", "PUT");
         const { data } = await instance.post(`products/edit/${id}`, productData, {
             headers: {
-                "Content-Type": "multipart/form-data",
+                "Content-Type": "multipart/form-data", // 🛠 Quan trọng
             },
         });
 

@@ -2,21 +2,21 @@ export interface IProduct {
     id: number;
     code: string;
     title: string;
-    image: string | File; // ✅ Có thể là URL hoặc File upload
-    images: (string | File)[]; // ✅ Mảng chứa URL hoặc File
+    image: string | File;
+    images: (string | File)[];
     
     supplier_name: string;
     author: string;
-    author_id: number; // ✅ Chỉ cần lưu ID
+    author_id: number;
     publisher: string;
-    publisher_id: number; // ✅ Chỉ cần lưu ID
+    publisher_id: number;
     
     description: string;
     language: string;
-    language_id: number; // ✅ Chỉ cần lưu ID
+    language_id: number;
     category: string;
-    category_id: number; // ✅ Chỉ cần lưu ID
+    category_id: number;
     
-    status: number; // ✅ Nên dùng number nếu API yêu cầu
-    genres: number[]; // ✅ Gửi lên API thì là number[], nếu lấy từ API có thể cần đổi thành IGenre[]
+    status: number;
+    genres: number[];
 }

@@ -1,7 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import LayoutAdmin from "./layouts/Admin";
 import Home from "./pages/Home";
-import Order from "./pages/Order";
 import User from "./pages/User";
 import Author from "./pages/Admin/Authors/Authors";
 import AddAuthor from "./pages/Admin/Authors/AddAuthor";
@@ -30,6 +29,9 @@ import Shopdefaul from "./pages/Client/Shopdefaul/Shopdefaul";
 import Client from "./pages/Client";
 import ProductDetail from "./pages/Admin/Product/DetailProduct";
 import EditProduct from "./pages/Admin/Product/EditProduct";
+import Orders from "./pages/Admin/Order/Orders";
+import OrderStatus from "./pages/Admin/OrderStatus/OrderStatus";
+import DetailOrder from "./pages/Admin/Order/DetailOrder";
 
 const App = () => {
   return (
@@ -39,7 +41,10 @@ const App = () => {
         <Route index element={<Home />} />
         {/* <Route path="categories" element={<Category />} /> */}
 
-        <Route path="order" element={<Order />} />
+        <Route path="order">
+          <Route index element={<Orders />} />
+          <Route path=":code" element={<DetailOrder/>} />
+        </Route>
         <Route path="user" element={<User />} />
 
         {/* Product */}
@@ -76,6 +81,11 @@ const App = () => {
           <Route index element={<Language />} />
           <Route path="add" element={<AddLanguage />} />
           <Route path="edit/:id" element={<EditLanguage />} />
+        </Route>
+
+        {/* OrderStatuss */}
+        <Route path="orderstatus">
+          <Route index element={<OrderStatus />} />
         </Route>
 
         {/* Genres */}

@@ -1,10 +1,11 @@
 import { useContext } from "react";
 import { GenreContext } from "../../../context/Genre";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { IGenre } from "../../../interfaces/Genre";
 
 const Genres = () => {
     const { genres, onDelete } = useContext(GenreContext);
+    const navigate = useNavigate();
 
     return (
         <div className="p-6 w-full mx-auto bg-white shadow-md rounded-lg">
@@ -21,24 +22,27 @@ const Genres = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {genres.map((genre: IGenre) => (
-                        <tr key={genre.id}>
-                            <td className="border p-2 text-center">{genre.id}</td>
-                            <td className="border p-2">{genre.name}</td>
-                            <td className="border p-2 text-center">
-                                <Link to={`/genres/edit/${genre.id}`} className="bg-yellow-500 text-white px-2 py-1 rounded mr-2">
-                                    Sửa
-                                </Link>
-                                <button
-                                    onClick={() => onDelete(genre.id)}
-                                    className="bg-red-500 text-white px-2 py-1 rounded"
-                                >
-                                    Xóa
-                                </button>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
+    {genres.map((genre: IGenre) => (
+        <tr key={genre.id}>
+            <td className="border p-2 text-center">{genre.id}</td>
+            <td className="border p-2">{genre.name}</td>
+            <td className="border p-2 text-center flex gap-2 justify-center">
+                <button 
+                    onClick={() => onDelete(genre.id)} 
+                    className="bg-red-500 text-white px-2 py-1 rounded"
+                >
+                    Xóa
+                </button>
+                <button 
+                    onClick={() => navigate(`edit/${genre.id}`)} 
+                    className="bg-yellow-500 text-white px-2 py-1 rounded"
+                >
+                    Sửa
+                </button>
+            </td>
+        </tr>
+    ))}
+</tbody>
             </table>
         </div>
     );

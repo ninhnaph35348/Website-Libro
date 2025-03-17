@@ -11,7 +11,7 @@ const PublisherList = () => {
     <div className="p-6 w-full mx-auto bg-white shadow-md rounded-lg">
       <h2 className="text-xl font-bold mb-4">Quản lý Nhà Xuất Bản</h2>
       <button
-        onClick={() => navigate("/publisher/add")}
+        onClick={() => navigate("add")}
         className="bg-blue-500 text-white px-4 py-2 rounded mb-4"
       >
         Thêm Nhà Xuất Bản
@@ -29,7 +29,7 @@ const PublisherList = () => {
             <tr key={pub.id} className="border">
               <td className="border p-2">{pub.id}</td>
               <td className="border p-2">{pub.name}</td>
-              <td className="border p-2 flex gap-2 justify-center">
+              <td className="border p-2 flex gap-2 justify-center ">
                 <button
                   onClick={() => onDelete(pub.id)}
                   className="bg-red-500 text-white px-2 py-1 rounded"
@@ -37,8 +37,8 @@ const PublisherList = () => {
                   Xóa
                 </button>
                 <button
-                  onClick={() => navigate(`/publisher/edit/${pub.id}`)}
-                  className="bg-yellow-500 text-white px-2 py-1 rounded"
+                  onClick={() => navigate(`edit/${pub.id}`)}
+                  className="bg-yellow-500 text-white px-2 py-1 rounded "
                 >
                   Sửa
                 </button>

@@ -43,7 +43,6 @@ const ProductProvider = ({ children }: Props) => {
                 formData.append("genres[]", String(genre)); // Giả định `dataProduct.genres` là `number[]`
             });
         }
-
         // ✅ Xử lý ảnh chính (nếu có)
         if (dataProduct.image instanceof File) {
             formData.append("image", dataProduct.image);
@@ -74,11 +73,9 @@ const ProductProvider = ({ children }: Props) => {
         }
     };
 
-
     const onEdit = async (dataProduct: IProduct, id: number | string) => {
         try {
             const formData = createFormData(dataProduct);
-            formData.append("_method", "PUT"); // 🔥 Đảm bảo server hiểu đây là PUT request
 
             const data = await updateProduct(formData, id);
 

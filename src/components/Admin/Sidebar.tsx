@@ -13,6 +13,7 @@ import {
   Library,
   AlignJustify,
   Pencil,
+  Truck,
 } from "lucide-react";
 
 const Sidebar = ({ collapsed, setCollapsed }: { collapsed: boolean; setCollapsed: (c: boolean) => void }) => {
@@ -37,6 +38,7 @@ const Sidebar = ({ collapsed, setCollapsed }: { collapsed: boolean; setCollapsed
       { path: "/admin/publisher", label: "Nhà Xuất Bản", icon: Users },
       { path: "/admin/languages", label: "Ngôn Ngữ", icon: Globe },
       { path: "/admin/genres", label: "Thể Loại", icon: Layers },
+      { path: "/admin/orderstatus", label: "Trạng thái", icon: Truck },
     ],
     []
   );

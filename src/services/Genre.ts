@@ -3,7 +3,7 @@ import { IGenre } from "../interfaces/Genre";
 
 export const getAllGenre = async () => {
   try {
-    const { data } = await instance.get("genres/");
+    const { data } = await instance.get("genres");
     return data;
   } catch (error) {
     throw new Error("Lỗi");

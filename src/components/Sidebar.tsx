@@ -99,7 +99,7 @@ const Sidebar = ({ collapsed, setCollapsed }: any) => {
               </li>
               <li className="px-4 py-2 hover:bg-gray-700 cursor-pointer">
                 <Link
-                  to="/admin/customer-accounts"
+                  to="/admin/user-customer"
                   className="flex items-center text-white"
                 >
                   <User className="w-5 h-5" />

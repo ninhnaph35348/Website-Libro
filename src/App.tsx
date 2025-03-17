@@ -30,10 +30,11 @@ import Shopdefaul from "./pages/Client/Shopdefaul/Shopdefaul";
 import Client from "./pages/Client";
 import Blog from "./pages/Client/Blog/Blog";
 import UserAdmin from "./pages/UserAdmin/UserAdmin";
-import AddAdminAccount from "./pages/UserAdmin/AddUserAdmin";
+import AddUserAdmin from "./pages/UserAdmin/AddUserAdmin";
 import EditUserAdmin from "./pages/UserAdmin/EditUserAdmin";
 import UserDetail from "./pages/UserAdmin/UserDetail";
-
+import UserCustomer from "./pages/UserCustomer/UserCustomer";
+import EditUserCustomer from "./pages/UserCustomer/EditUserCustomer";
 const App = () => {
   return (
     <Routes>
@@ -88,9 +89,15 @@ const App = () => {
         </Route>
         <Route path="user-admin">
           <Route index element={<UserAdmin />} /> {/* 🆕 Danh sách AdminUser */}
-          <Route path="add" element={<AddAdminAccount />} />
+          <Route path="add" element={<AddUserAdmin />} />
           <Route path="edit/:id" element={<EditUserAdmin />} />
           <Route path="detail/:id" element={<UserDetail />} />
+        </Route>
+        <Route path="user-customer">
+          <Route index element={<UserCustomer />} />
+          {/* 🆕 Danh sách CustomerUser */}
+          <Route path="detail/:id" element={<UserDetail />} />
+          <Route path="edit/:id" element={<EditUserCustomer />} />
         </Route>
       </Route>
 

@@ -34,6 +34,7 @@ import AddAdminAccount from "./pages/UserAdmin/AddUserAdmin";
 import EditUserAdmin from "./pages/UserAdmin/EditUserAdmin";
 import UserDetail from "./pages/UserAdmin/UserDetail";
 import Contact from "./pages/Client/Contact/Contact";
+import Review from "./pages/Review/Review";
 
 const App = () => {
   return (
@@ -86,6 +87,11 @@ const App = () => {
           <Route index element={<Genre />} />
           <Route path="add" element={<AddGenre />} />
           <Route path="edit/:id" element={<EditGenre />} />
+        </Route>
+        <Route path="reviews">
+          <Route index element={<Review />} />
+          {/* <Route path="add" element={<AddReview />} />
+          <Route path="edit/:id" element={<EditReview />} /> */}
         </Route>
         <Route path="user-admin">
           <Route index element={<UserAdmin />} /> {/* 🆕 Danh sách AdminUser */}

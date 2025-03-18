@@ -5,6 +5,7 @@ import icon9 from "../../../assets/img/icon/icon-9.svg"
 import s1 from "../../../assets/img/shop-cart/01.png"
 import s2 from "../../../assets/img/shop-cart/02.png"
 import s3 from "../../../assets/img/shop-cart/03.png"
+import { Link } from 'react-router-dom'
 
 
 
@@ -24,11 +25,9 @@ const Shopcart = (props: Props) => {
                 <h1>Cart</h1>
                 <div className="page-header">
                     <ul className="breadcrumb-items wow fadeInUp" data-wow-delay=".3s">
-                        <li>
-                            <a href="index.html">
-                                Home
-                            </a>
-                        </li>
+                    <li>
+                  <Link to="/">Home</Link>
+                </li>
                         <li>
                             <i className="fa-solid fa-chevron-right"></i>
                         </li>

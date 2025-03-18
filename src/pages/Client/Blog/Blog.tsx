@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 import book1 from "../../../assets/img/hero/book1.png"
 import book2 from "../../../assets/img/hero/book2.png"
 import newsImg05 from "../../../assets/img/news/05.jpg"
@@ -28,11 +29,9 @@ const Blog = (props :Props) => {
                 <h1>Blog</h1>
                 <div className="page-header">
                     <ul className="breadcrumb-items wow fadeInUp" data-wow-delay=".3s">
-                        <li>
-                            <a href="index.html">
-                                Home
-                            </a>
-                        </li>
+                    <li>
+                  <Link to="/">Home</Link>
+                </li>
                         <li>
                             <i className="fa-solid fa-chevron-right"></i>
                         </li>

@@ -32,6 +32,7 @@ import PublisherProvider from "./context/Publisher.tsx";
 import LanguageProvider from "./context/Language.tsx";
 import GenreProvider from "./context/Genre.tsx";
 import AdminUserProvider from "./context/UserAdmin.tsx";
+import ReviewProvider from "./context/Review.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <BrowserRouter>
@@ -41,9 +42,11 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
           <LanguageProvider>
             <GenreProvider>
               <AdminUserProvider>
+                <ReviewProvider>
                 <StrictMode>
                   <App />
                 </StrictMode>
+                </ReviewProvider>
               </AdminUserProvider>
             </GenreProvider>
           </LanguageProvider>

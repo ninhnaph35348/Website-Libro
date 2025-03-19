@@ -1,6 +1,6 @@
 export interface IOrder {
     id: number;
-    code_order: string | number;
+    code_order: number;
     total_price: string;
     note?: string;
     user_name?: string | null;
@@ -11,6 +11,5 @@ export interface IOrder {
     status: string;
     payment_method: number;
     voucher_id?: number | null;
-    created_at: string;
-    updated_at: string;
+    order_status_id: number;
 }

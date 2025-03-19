@@ -11,7 +11,7 @@ type Props = {
 children: React.ReactNode;
 };
 
-export const OrderContext = createContext({} as any);
+export const    OrderContext = createContext({} as any);
 
 const OrderProvider = ({ children }: Props) => {
 const [orders, setOrders] = useState<IOrder[]>([]);
@@ -47,18 +47,23 @@ const onStatus = async (id: number) => {
     }
 };
 
-const onEdit = async (formData: IOrder, id: number | string) => {
+const onEdit = async (formData: IOrder, code_order: number | string) => {
     try {
-        const data = await updateOrder(formData, id);
-        const newOrders = orders.map((order) =>
-            order.id === id ? data : order
-        );
-        setOrders(newOrders);
-        setReload((prev) => !prev);
+        if (window.confirm("Bạn có chắc muốn cập nhật đơn hàng này không?")) {
+            const data = await updateOrder(formData, code_order);
+            const newOrders = orders.map((order) =>
+                order.code_order === code_order ? data : order
+            );
+            setOrders(newOrders);
+            setReload((prev) => !prev);
+            alert("Cập nhật đơn hàng thành công!");
+        }
     } catch (error) {
-        console.log(error);
+        alert("Cập nhật thất bại! Vui lòng thử lại.");
+        console.error(error);
     }
 };
+
 
 return (
     <OrderContext.Provider value={{ orders, onStatus, onEdit }}>

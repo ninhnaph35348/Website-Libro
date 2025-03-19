@@ -3,7 +3,7 @@ import instance from "../config/axios"
 
 export const getAllAuthors = async () =>{
     try {
-        const {data} = await instance.get('authors/')
+        const {data} = await instance.get('authors')
         return data
     } catch (error) {
         throw new Error("Lỗi")

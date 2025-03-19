@@ -43,6 +43,7 @@ import Blog from "./pages/Client/Blog/Blog";
 import Contact from "./pages/Client/Contact/Contact";
 
 import Review from "./pages/Review/Review";
+import ReviewDetail from "./pages/Review/ReviewDetail";
 // import AddAdminAccount from "./pages/UserAdmin/AddUserAdmin";
 
 
@@ -83,8 +84,8 @@ const App = () => {
         <Route path="reviews">
           <Route index element={<Review />} />
           {/* <Route path="add" element={<AddReview />} /> */}
-          {/* <Route path="edit/:id" element={<EditReview />} /> */}
-        </Route>
+          <Route path="detail/:id" element={<ReviewDetail />} />
+          </Route>
        
           {/* Quản lý nhà xuất bản */}
           <Route path="publisher">

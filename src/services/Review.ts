@@ -55,3 +55,13 @@ export const deleteReview = async (id: number | string) => {
         throw new Error("Lỗi khi xóa đánh giá");
     }
 };
+
+export const getProductById = async (id: string) => {
+    try {
+      const response = await instance.get(`/products/${id}`);
+      return response.data;
+    } catch (error) {
+      console.error("Lỗi khi lấy sản phẩm:", error);
+      return null;
+    }
+  };

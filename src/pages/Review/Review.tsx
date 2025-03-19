@@ -6,6 +6,8 @@ import { ReviewContext } from "../../context/Review";
 const Review = () => {
   const { reviews, onUpdateStatus, onDelete } = useContext(ReviewContext);
   
+  const navigate = useNavigate();
+
 
   return (
     <div className="p-6 w-full mx-auto bg-white shadow-md rounded-lg">
@@ -16,10 +18,10 @@ const Review = () => {
         <thead>
           <tr className="bg-gray-100">
             <th className="border p-2">STT</th>
-            <th className="border p-2">Rating</th>
-            <th className="border p-2">Review</th>
-            <th className="border p-2">User ID</th>
-            <th className="border p-2">Product ID</th>
+            <th className="border p-2">Đánh giá</th>
+            <th className="border p-2">Nội dung</th>
+            <th className="border p-2">Tên người dùng</th>
+            <th className="border p-2">Tên sản phẩm</th>
             <th className="border p-2">Trạng thái</th>
             <th className="border p-2">Hành động</th>
           </tr>
@@ -28,10 +30,10 @@ const Review = () => {
           {reviews.map((rev: IReviews, index: number) => (
             <tr key={rev.id ?? index} className="border">
               <td className="border p-2">{rev.id}</td>
-              <td className="border p-2">{rev.rating}</td>
+              <td className="border p-2">{rev.rating} ⭐</td>
               <td className="border p-2">{rev.review}</td>
-              <td className="border p-2">{rev.user_id}</td>
-              <td className="border p-2">{rev.product_id}</td>
+              <td className="border p-2">{rev.username}</td>
+              <td className="border p-2">{rev.title}</td>
               <td className="border p-2 text-center">
                 <span
                   className={`px-2 py-1 text-xs font-bold rounded ${
@@ -40,7 +42,7 @@ const Review = () => {
                       : "bg-green-500 text-white"
                   }`}
                 >
-                  {rev.del_flg === 1 ? "Ẩn" : "Hiện"}
+                  {rev.del_flg === 1 ? "Phê duyệt" : "Hiện"}
                 </span>
               </td>
               <td className="border p-2 flex gap-2 justify-center">
@@ -51,15 +53,15 @@ const Review = () => {
                     rev.del_flg === 1 ? "bg-green-500" : "bg-red-500"
                   }`}
                 >
-                  {rev.del_flg === 1 ? "Hiện" : "Ẩn"}
+                  {rev.del_flg === 1 ? "Hiện" : "Phê duyệt"}
                 </button>
 
                 {/* Xem chi tiết */}
                 <button
-                  onClick={() => alert(`Chi tiết review:\n${rev.review}`)}
-                  className="px-2 py-1 bg-blue-500 text-white rounded"
+                  onClick={() => navigate(`detail/${rev.id}`)}
+                  className="bg-green-500 text-white px-2 py-1 rounded"
                 >
-                  Xem
+                  Xem chi tiết
                 </button>
 
                 {/* Xóa (ẩn review) */}

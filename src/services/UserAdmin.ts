@@ -89,7 +89,10 @@ export const deleteAdmin = async (id: number | string) => {
     const { data } = await instance.put(`users/${id}`);
     return data;
   } catch (error: any) {
-    console.error("Lỗi khi xóa admin:", error.response?.data || error.message);
+    console.error(
+      "❌ Lỗi khi xóa admin:",
+      error.response?.data || error.message
+    );
     throw new Error(error.response?.data?.message || "Lỗi khi xóa admin");
   }
 };

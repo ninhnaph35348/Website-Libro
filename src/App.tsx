@@ -41,7 +41,10 @@ import Shopdefaul from "./pages/Client/Shopdefaul/Shopdefaul";
 import Client from "./pages/Client";
 import Blog from "./pages/Client/Blog/Blog";
 import Contact from "./pages/Client/Contact/Contact";
+
+import Review from "./pages/Review/Review";
 // import AddAdminAccount from "./pages/UserAdmin/AddUserAdmin";
+
 
 const App = () => {
   return (
@@ -76,6 +79,24 @@ const App = () => {
             <Route path="add" element={<AddAuthor />} />
             <Route path="edit/:id" element={<EditAuthor />} />
           </Route>
+
+
+        {/* Genres */}
+        <Route path="genres">
+          <Route index element={<Genre />} />
+          <Route path="add" element={<AddGenre />} />
+          <Route path="edit/:id" element={<EditGenre />} />
+        </Route>
+        <Route path="reviews">
+          <Route index element={<Review />} />
+          {/* <Route path="add" element={<AddReview />} />
+          <Route path="edit/:id" element={<EditReview />} /> */}
+        </Route>
+        <Route path="user-admin">
+          <Route index element={<UserAdmin />} /> {/* 🆕 Danh sách AdminUser */}
+          <Route path="add" element={<AddAdminAccount />} />
+          <Route path="edit/:id" element={<EditUserAdmin />} />
+          <Route path="detail/:id" element={<UserDetail />} />
 
           {/* Quản lý nhà xuất bản */}
           <Route path="publisher">

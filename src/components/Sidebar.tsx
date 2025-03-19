@@ -14,6 +14,7 @@ import {
   Pencil,
   Shield,
   User,
+  Star,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -164,6 +165,16 @@ const Sidebar = ({ collapsed, setCollapsed }: any) => {
                 >
                   <Layers className="w-5 h-5" />
                   <span className="ml-3">Thể Loại</span>
+                </Link>
+              </li>
+              <li className="px-4 py-2 hover:bg-gray-700 cursor-pointer">
+                <Link
+                  to="/admin/reviews"
+                  className="flex items-center text-white"
+                >
+                  <Star className="w-5 h-5" />{" "}
+                 
+                  <span className="ml-3">Đánh Giá</span>
                 </Link>
               </li>
             </ul>

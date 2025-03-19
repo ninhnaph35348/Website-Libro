@@ -49,62 +49,71 @@ const Header = () => {
                                         <div className="mean__menu-wrapper">
                                             <div className="main-menu">
                                                 <nav>
-                                                    <ul>
-                                                        <li>
-                                                            <a href="index.html">
+                                                <ul>
+                                                <li>
+                                                <Link to="/">
                                                                 Home
-                                                                <i className="fas fa-angle-down" />
-                                                            </a>
-                                                            <ul className="submenu">
-                                                                <li><a href="index.html">Home 01</a></li>
-                                                                <li><a href="index-2.html">Home 02</a></li>
-                                                            </ul>
-                                                        </li>
-                                                        <li>
-                                                            <a href="shop-details.html">
+                                                        </Link>
+                                                   
+                                                </li>
+                                                <li>
+                                                <Link to="/shop">
                                                                 Shop
-                                                                <i className="fas fa-angle-down" />
-                                                            </a>
-                                                            <ul className="submenu">
-                                                                <li><a href="shop.html">Shop Default</a></li>
-                                                                <li><a href="shop-list.html">Shop List</a></li>
-                                                                <li><a href="shop-details.html">Shop Details</a></li>
-                                                                <li><a href="shop-cart.html">Shop Cart</a></li>
-                                                                <li><a href="wishlist.html">Wishlist</a></li>
-                                                                <li><a href="checkout.html">Checkout</a></li>
-                                                            </ul>
-                                                        </li>
-                                                        <li className="has-dropdown">
-                                                            <a href="about.html">
-                                                                Pages
-                                                                <i className="fas fa-angle-down" />
-                                                            </a>
-                                                            <ul className="submenu">
-                                                                <li><a href="about.html">About Us</a></li>
-                                                                <li className="has-dropdown">
-                                                                    <a href="team-details.html">
-                                                                        Author
-                                                                        <i className="fas fa-angle-down" />
-                                                                    </a>
-                                                                    <ul className="submenu">
-                                                                        <li><a href="team.html">Author</a></li>
-                                                                        <li><a href="team-details.html">Author Profile</a></li>
-                                                                    </ul>
-                                                                </li>
-                                                                <li><a href="faq.html">Faq's</a></li>
-                                                                <li><a href="404.html">404 Page</a></li>
-                                                            </ul>
+                                                                <i className="fas fa-angle-down"></i>
+
+                                                        </Link>
+                                                    <ul className="submenu">
+                                                        <li>
+                                                        <Link to="/shop-detail">
+                                                                Shop Detail
+                                                        </Link>
                                                         </li>
                                                         <li>
-                                                            <Link to="/blog">
-                                                                Blog
-                                                            </Link>
-                                                           
+                                                        <Link to="/shop-cart">
+                                                                Shop Cart
+                                                        </Link>
                                                         </li>
                                                         <li>
-                                                            <a href="contact.html">Contact</a>
+                                                        <Link to="/check-out">
+                                                                Check Out
+                                                        </Link>
                                                         </li>
+                                                        
                                                     </ul>
+                                                </li>
+                                                <li className="has-dropdown">
+                                                    <a href="about.html">
+                                                        Pages
+                                                        <i className="fas fa-angle-down"></i>
+                                                    </a>
+                                                    <ul className="submenu">
+                                                        <li><a href="about.html">About Us</a></li>
+                                                        <li className="has-dropdown">
+                                                            <a href="team.html">
+                                                                Author
+                                                                <i className="fas fa-angle-down"></i>
+                                                            </a>
+                                                            <ul className="submenu">
+                                                                <li><a href="team.html">Author</a></li>
+                                                                <li><a href="team-details.html">Author Profile</a></li>
+                                                            </ul>
+                                                        </li>
+                                                        <li><a href="faq.html">Faq's</a></li>
+                                                        <li><a href="404.html">404 Page</a></li>
+                                                    </ul>
+                                                </li>
+                                                <li>
+                                                <Link to="/blog">
+                                                                Blog
+                                                        </Link>
+                                                   
+                                                </li>
+                                                <li>
+                                                <Link to="/contact">
+                                                                Contact
+                                                </Link>                                                
+                                                        </li>
+                                            </ul>
                                                 </nav>
                                             </div>
                                         </div>
@@ -180,62 +189,69 @@ const Header = () => {
                                         <div className="mean__menu-wrapper">
                                             <div className="main-menu">
                                                 <nav id="mobile-menu">
-                                                    <ul>
-                                                        <li>
-                                                            <a href="index.html">
+                                                <ul>
+                                                <li>
+                                                <Link to="/">
                                                                 Home
-                                                                <i className="fas fa-angle-down" />
-                                                            </a>
-                                                            <ul className="submenu">
-                                                                <li><a href="index.html">Home 01</a></li>
-                                                                <li><a href="index-2.html">Home 02</a></li>
-                                                            </ul>
-                                                        </li>
-                                                        <li>
-                                                            <a href="shop-details.html">
+                                                        </Link>
+                                                   
+                                                </li>
+                                                <li>
+                                                <Link to="/shop">
                                                                 Shop
-                                                                <i className="fas fa-angle-down" />
-                                                            </a>
-                                                            <ul className="submenu">
-                                                                <li><a href="shop.html">Shop Default</a></li>
-                                                                <li><a href="shop-list.html">Shop List</a></li>
-                                                                <li><a href="shop-details.html">Shop Details</a></li>
-                                                                <li><a href="shop-cart.html">Shop Cart</a></li>
-                                                                <li><a href="wishlist.html">Wishlist</a></li>
-                                                                <li><a href="checkout.html">Checkout</a></li>
-                                                            </ul>
-                                                        </li>
-                                                        <li className="has-dropdown">
-                                                            <a href="about.html">
-                                                                Pages
-                                                                <i className="fas fa-angle-down" />
-                                                            </a>
-                                                            <ul className="submenu">
-                                                                <li><a href="about.html">About Us</a></li>
-                                                                <li className="has-dropdown">
-                                                                    <a href="team-details.html">
-                                                                        Author
-                                                                        <i className="fas fa-angle-down" />
-                                                                    </a>
-                                                                    <ul className="submenu">
-                                                                        <li><a href="team.html">Author</a></li>
-                                                                        <li><a href="team-details.html">Author Profile</a></li>
-                                                                    </ul>
-                                                                </li>
-                                                                <li><a href="faq.html">Faq's</a></li>
-                                                                <li><a href="404.html">404 Page</a></li>
-                                                            </ul>
+                                                        </Link>
+                                                    <ul className="submenu">
+                                                        <li>
+                                                        <Link to="/shop-detail">
+                                                                Shop Detail
+                                                        </Link>
                                                         </li>
                                                         <li>
-                                                        <Link to="/blog">
-                                                                Blog
-                                                            </Link>
-                                                            
+                                                        <Link to="/shop-cart">
+                                                                Shop Cart
+                                                        </Link>
                                                         </li>
                                                         <li>
-                                                            <a href="contact.html">Contact</a>
+                                                        <Link to="/check-out">
+                                                                Check Out
+                                                        </Link>
                                                         </li>
+                                                        
                                                     </ul>
+                                                </li>
+                                                <li className="has-dropdown">
+                                                    <a href="about.html">
+                                                        Pages
+                                                        <i className="fas fa-angle-down"></i>
+                                                    </a>
+                                                    <ul className="submenu">
+                                                        <li><a href="about.html">About Us</a></li>
+                                                        <li className="has-dropdown">
+                                                            <a href="team.html">
+                                                                Author
+                                                                <i className="fas fa-angle-down"></i>
+                                                            </a>
+                                                            <ul className="submenu">
+                                                                <li><a href="team.html">Author</a></li>
+                                                                <li><a href="team-details.html">Author Profile</a></li>
+                                                            </ul>
+                                                        </li>
+                                                        <li><a href="faq.html">Faq's</a></li>
+                                                        <li><a href="404.html">404 Page</a></li>
+                                                    </ul>
+                                                </li>
+                                                <li>
+                                                <Link to="/blog">
+                                                                Blog
+                                                        </Link>
+                                                   
+                                                </li>
+                                                <li>
+                                                <Link to="/contact">
+                                                                Contact
+                                                </Link>                                                
+                                                        </li>
+                                            </ul>
                                                 </nav>
                                             </div>
                                         </div>

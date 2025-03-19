@@ -40,6 +40,11 @@ import Shopcart from "./pages/Client/Shopcart/Shopcart";
 import Shopdefaul from "./pages/Client/Shopdefaul/Shopdefaul";
 import Client from "./pages/Client";
 import Blog from "./pages/Client/Blog/Blog";
+import Contact from "./pages/Client/Contact/Contact";
+
+import Review from "./pages/Review/Review";
+// import AddAdminAccount from "./pages/UserAdmin/AddUserAdmin";
+
 
 const App = () => {
   return (
@@ -53,7 +58,7 @@ const App = () => {
           <Route index element={<Home />} />
           <Route path="order" element={<Order />} />
           <Route path="user" element={<User />} />
-
+         
           {/* Quản lý sản phẩm */}
           <Route path="product">
             <Route index element={<ProductList />} />
@@ -75,6 +80,12 @@ const App = () => {
             <Route path="edit/:id" element={<EditAuthor />} />
           </Route>
 
+        <Route path="reviews">
+          <Route index element={<Review />} />
+          {/* <Route path="add" element={<AddReview />} /> */}
+          {/* <Route path="edit/:id" element={<EditReview />} /> */}
+        </Route>
+       
           {/* Quản lý nhà xuất bản */}
           <Route path="publisher">
             <Route index element={<Publisher />} />
@@ -116,11 +127,13 @@ const App = () => {
       {/* Route Client */}
       <Route path="/" element={<LayoutClient />}>
         <Route index element={<Client />} />
-        <Route path="check-out" element={<Checkout />} />
-        <Route path="shop-detail" element={<Shopdetail />} />
-        <Route path="shop-cart" element={<Shopcart />} />
-        <Route path="shop" element={<Shopdefaul />} />
-        <Route path="blog" element={<Blog />} />
+
+        <Route path="/check-out" element={<Checkout />} />
+        <Route path="/shop-detail" element={<Shopdetail />} />
+        <Route path="/shop-cart" element={<Shopcart />} />
+        <Route path="/shop" element={<Shopdefaul />} />
+        <Route path="/blog" element={<Blog />} />
+        <Route path="/contact" element={<Contact />} />
       </Route>
 
       {/* Trang 404 */}
@@ -128,5 +141,5 @@ const App = () => {
     </Routes>
   );
 };
-
 export default App;
+

@@ -34,6 +34,7 @@ import LanguageProvider from "./context/Language.tsx";
 import GenreProvider from "./context/Genre.tsx";
 import AdminUserProvider from "./context/UserAdmin.tsx";
 import CustomerUserProvider from "./context/UserCustomer.tsx";
+import ReviewProvider from "./context/Review.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <Provider store={store}>
@@ -45,9 +46,11 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
               <GenreProvider>
                 <AdminUserProvider>
                   <CustomerUserProvider>
+                     <ReviewProvider>
                     <StrictMode>
                       <App />
                     </StrictMode>
+                       </ReviewProvider>
                   </CustomerUserProvider>
                 </AdminUserProvider>
               </GenreProvider>
@@ -57,4 +60,5 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       </PublisherProvider>
     </BrowserRouter>
   </Provider>
+
 );

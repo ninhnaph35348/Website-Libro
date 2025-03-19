@@ -7,6 +7,7 @@ import s03 from "../../../assets/img/book/03.png"
 import s04 from "../../../assets/img/book/04.png"
 import s05 from "../../../assets/img/book/05.png"
 import s06 from "../../../assets/img/book/06.png"
+import { Link } from "react-router-dom"
 
 
 type Props = {}
@@ -25,11 +26,9 @@ const Shopdefaul = (props:Props) => {
                 <h1>Shop Default</h1>
                 <div className="page-header">
                     <ul className="breadcrumb-items wow fadeInUp" data-wow-delay=".3s">
-                        <li>
-                            <a href="index.html">
-                                Home
-                            </a>
-                        </li>
+                    <li>
+                  <Link to="/">Home</Link>
+                </li>
                         <li>
                             <i className="fa-solid fa-chevron-right"></i>
                         </li>

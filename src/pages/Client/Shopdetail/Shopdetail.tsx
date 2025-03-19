@@ -18,6 +18,7 @@ import review from "../../../assets/img/shop-details/review.png"
 import s01 from "../../../assets/img/book/01.png"
 import clinet1 from "../../../assets/img/testimonial/client-1.png"
 import popupBg from "../../../assets/img/popupBg.png"
+import { Link } from "react-router-dom"
 
 type Props = {}
 
@@ -36,11 +37,9 @@ const Shopdetail = (props: Props) => {
                 <h1>Shop Details</h1>
                 <div className="page-header">
                     <ul className="breadcrumb-items wow fadeInUp" data-wow-delay=".3s">
-                        <li>
-                            <a href="index.html">
-                                Home
-                            </a>
-                        </li>
+                    <li>
+                  <Link to="/">Home</Link>
+                </li>
                         <li>
                             <i className="fa-solid fa-chevron-right"></i>
                         </li>

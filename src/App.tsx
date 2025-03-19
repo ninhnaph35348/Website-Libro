@@ -1,5 +1,9 @@
 import { Routes, Route } from "react-router-dom";
+import PrivateRoute from "./components/ProtectedRoute"; // Import PrivateRoute
 import LayoutAdmin from "./layouts/Admin";
+import Login from "./pages/Auth/Login";
+
+// Admin Pages
 import Home from "./pages/Home";
 import User from "./pages/User";
 import Author from "./pages/Admin/Authors/Authors";
@@ -9,7 +13,6 @@ import Language from "./pages/Admin/Language/Language";
 import AddLanguage from "./pages/Admin/Language/AddLanguage";
 import Genre from "./pages/Admin/Genres/Genre";
 import AddGenre from "./pages/Admin/Genres/AddGenre";
-import Login from "./pages/Login";
 import NotFound from "./pages/Notfound";
 import AddProduct from "./pages/Admin/Product/AddProduct";
 import ProductList from "./pages/Admin/Product/ProductList";
@@ -21,8 +24,14 @@ import AddPublisher from "./pages/Admin/Publisher/AddPublisher";
 import EditPublisher from "./pages/Admin/Publisher/EditPublisher";
 import EditLanguage from "./pages/Admin/Language/EditLanguage";
 import EditGenre from "./pages/Admin/Genres/EditGenre";
-import Checkout from "./pages/Client/Checkout/Checkout";
+import UserAdmin from "./pages/UserAdmin/UserAdmin";
+import AddUserAdmin from "./pages/UserAdmin/AddUserAdmin";
+import EditUserAdmin from "./pages/UserAdmin/EditUserAdmin";
+import UserDetail from "./pages/UserAdmin/UserDetail";
+
+// Client Pages
 import LayoutClient from "./layouts/Client";
+import Checkout from "./pages/Client/Checkout/Checkout";
 import Shopdetail from "./pages/Client/Shopdetail/Shopdetail";
 import Shopcart from "./pages/Client/Shopcart/Shopcart";
 import Shopdefaul from "./pages/Client/Shopdefaul/Shopdefaul";
@@ -32,84 +41,127 @@ import EditProduct from "./pages/Admin/Product/EditProduct";
 import Orders from "./pages/Admin/Order/Orders";
 import OrderStatus from "./pages/Admin/OrderStatus/OrderStatus";
 import DetailOrder from "./pages/Admin/Order/DetailOrder";
+import Blog from "./pages/Client/Blog/Blog";
+import Contact from "./pages/Client/Contact/Contact";
+
+import Review from "./pages/Review/Review";
+import AdminLogin from "./pages/Auth/Login";
+// import AddAdminAccount from "./pages/UserAdmin/AddUserAdmin";
+
 
 const App = () => {
   return (
     <Routes>
-      {/* Admin */}
-      <Route path="/admin" element={<LayoutAdmin />}>
-        <Route index element={<Home />} />
-        {/* <Route path="categories" element={<Category />} /> */}
+      {/* Route Đăng nhập Admin */}
+      <Route path="admin/login" element={<Login />} />
 
-        <Route path="order">
-          <Route index element={<Orders />} />
-          <Route path=":code" element={<DetailOrder/>} />
-        </Route>
-        <Route path="user" element={<User />} />
+      {/* Route Admin với bảo vệ PrivateRoute */}
+      <Route path="/admin" element={<PrivateRoute />}>
+        <Route element={<LayoutAdmin />}>
+          <Route index element={<Home />} />
+          <Route path="order">
+            <Route index element={<Orders />} />
+            <Route path=":code" element={<DetailOrder />} />
+          </Route>
+          <Route path="user" element={<User />} />
 
-        {/* Product */}
-        <Route path="product">
-          <Route index element={<ProductList />} />
-          <Route path="add" element={<AddProduct />} />
-          <Route path=":code" element={<ProductDetail />} />
-          <Route path="edit/:id" element={<EditProduct />} />
-        </Route>
+          {/* Product */}
+          <Route path="user" element={<User />} />
 
-        {/* categorie */}
-        <Route path="category">
-          <Route index element={<CategoryList />} />
-          <Route path="add" element={<AddCategory />} />
-          <Route path="edit/:id" element={<EditCategory />} />
-        </Route>
+          {/* Quản lý sản phẩm */}
+          <Route path="product">
+            <Route index element={<ProductList />} />
+            <Route path="add" element={<AddProduct />} />
+            <Route path=":code" element={<ProductDetail />} />
+            <Route path="edit/:id" element={<EditProduct />} />
+          </Route>
 
-        {/* Author */}
-        <Route path="author">
-          <Route index element={<Author />} />
-          <Route path="add" element={<AddAuthor />} />
-          <Route path="edit/:id" element={<EditAuthor />} />
-        </Route>
-        {/* Publisher */}
+          {/* Quản lý danh mục */}
+          <Route path="category">
+            <Route index element={<CategoryList />} />
+            <Route path="add" element={<AddCategory />} />
+            <Route path="edit/:id" element={<EditCategory />} />
+          </Route>
 
-        <Route path="publisher">
-          <Route index element={<Publisher />} />
-          <Route path="add" element={<AddPublisher />} />
-          <Route path="edit/:id" element={<EditPublisher />} />
-        </Route>
+          {/* Quản lý tác giả */}
+          <Route path="author">
+            <Route index element={<Author />} />
+            <Route path="add" element={<AddAuthor />} />
+            <Route path="edit/:id" element={<EditAuthor />} />
+          </Route>
 
-        {/* Languages */}
-        <Route path="languages">
-          <Route index element={<Language />} />
-          <Route path="add" element={<AddLanguage />} />
-          <Route path="edit/:id" element={<EditLanguage />} />
-        </Route>
+          <Route path="reviews">
+            <Route index element={<Review />} />
+            {/* <Route path="add" element={<AddReview />} /> */}
+            {/* <Route path="edit/:id" element={<EditReview />} /> */}
+          </Route>
 
-        {/* OrderStatuss */}
-        <Route path="orderstatus">
-          <Route index element={<OrderStatus />} />
-        </Route>
+          {/* Quản lý nhà xuất bản */}
+          <Route path="publisher">
+            <Route index element={<Publisher />} />
+            <Route path="add" element={<AddPublisher />} />
+            <Route path="edit/:id" element={<EditPublisher />} />
+          </Route>
 
-        {/* Genres */}
-        <Route path="genres">
-          <Route index element={<Genre />} />
-          <Route path="add" element={<AddGenre />} />
-          <Route path="edit/:id" element={<EditGenre />} />
+          {/* Quản lý ngôn ngữ */}
+          <Route path="languages">
+            <Route index element={<Language />} />
+            <Route path="add" element={<AddLanguage />} />
+            <Route path="edit/:id" element={<EditLanguage />} />
+          </Route>
+
+          {/* Quản lý thể loại */}
+          <Route path="genres">
+            <Route index element={<Genre />} />
+            <Route path="add" element={<AddGenre />} />
+            <Route path="edit/:id" element={<EditGenre />} />
+          </Route>
+
+          {/* Quản lý người dùng Admin */}
+          <Route path="user-admin">
+            <Route index element={<UserAdmin />} />
+            <Route path="add" element={<AddUserAdmin />} />
+            <Route path="edit/:id" element={<EditUserAdmin />} />
+            <Route path="detail/:id" element={<UserDetail />} />
+          </Route>
+
+          {/* Languages */}
+          <Route path="languages">
+            <Route index element={<Language />} />
+            <Route path="add" element={<AddLanguage />} />
+            <Route path="edit/:id" element={<EditLanguage />} />
+          </Route>
+
+          {/* OrderStatuss */}
+          <Route path="orderstatus">
+            <Route index element={<OrderStatus />} />
+          </Route>
+
+          {/* Genres */}
+          <Route path="genres">
+            <Route index element={<Genre />} />
+            <Route path="add" element={<AddGenre />} />
+            <Route path="edit/:id" element={<EditGenre />} />
+          </Route>
         </Route>
       </Route>
 
-      {/* Client */}
-      <Route path="/" element={<LayoutClient />} >
+      {/* Route Client */}
+      <Route path="/" element={<LayoutClient />}>
         <Route index element={<Client />} />
-        <Route path="check-out" element={<Checkout />} />
-        <Route path="shop-detail" element={<Shopdetail />} />
-        <Route path="shop-cart" element={<Shopcart />} />
-        <Route path="shop" element={<Shopdefaul />} />
+
+        <Route path="/check-out" element={<Checkout />} />
+        <Route path="/shop-detail" element={<Shopdetail />} />
+        <Route path="/shop-cart" element={<Shopcart />} />
+        <Route path="/shop" element={<Shopdefaul />} />
+        <Route path="/blog" element={<Blog />} />
+        <Route path="/contact" element={<Contact />} />
       </Route>
 
-      <Route path="/login" element={<Login />} />
       {/* Trang 404 */}
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
 };
-
 export default App;
+

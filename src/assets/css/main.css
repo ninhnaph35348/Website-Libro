@@ -173,9 +173,9 @@ input:focus {
   outline: none;
 }
 
-input {
+/* input {
   color: var(--white);
-}
+} */
 
 h1,
 h2,

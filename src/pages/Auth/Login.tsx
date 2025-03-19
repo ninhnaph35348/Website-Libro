@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../../store/auth/authSlice";
+import { login, setUser } from "../../store/auth/authSlice";
 import { RootState, AppDispatch } from "../../store/auth/store";
 import { useNavigate } from "react-router-dom";
 import { Loader, Mail, Lock } from "lucide-react";
@@ -30,9 +30,14 @@ const AdminLogin: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!validateForm()) return;
+    
     dispatch(login({ email, password })).then((res) => {
       if (res.meta.requestStatus === "fulfilled") {
+        localStorage.setItem("token", res.payload.token);
+        dispatch(setUser(res.payload.user)); // Cập nhật Redux state
+        console.log("User sau login:", res.payload.user); // Kiểm tra user
         navigate("/admin");
+        window.location.reload();
       }
     });
   };

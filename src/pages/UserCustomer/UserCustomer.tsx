@@ -1,14 +1,14 @@
 import { useNavigate } from "react-router-dom";
-import { AdminUserContext } from "../../context/UserAdmin";
+import { CustomerUserContext } from "../../context/UserCustomer";
 import { IUser } from "../../interfaces/User";
 import { useContext } from "react";
 import { LoaderPinwheel } from "lucide-react";
 
-const AdminAccounts = () => {
-  const { adminUsers, onDelete } = useContext(AdminUserContext); // ✅ Đúng cú pháp
+const CustomerAccounts = () => {
+  const { customerUsers, onDelete } = useContext(CustomerUserContext); // ✅ Đúng cú pháp
   const navigate = useNavigate();
 
-  if (!adminUsers) {
+  if (!customerUsers) {
     return (
       <div className="flex justify-center items-center h-screen">
         <LoaderPinwheel className="animate-spin w-12 h-12 text-gary-500" />
@@ -17,13 +17,8 @@ const AdminAccounts = () => {
   }
   return (
     <div className="p-6 w-full mx-auto bg-white shadow-md rounded-lg">
-      <h2 className="text-xl font-bold mb-4">Quản lý Tài Khoản Admin</h2>
-      <button
-        onClick={() => navigate("add")} // ✅ Đảm bảo đường dẫn hợp lệ
-        className="bg-blue-500 text-white px-4 py-2 rounded mb-4"
-      >
-        Thêm Admin
-      </button>
+      <h2 className="text-xl font-bold mb-4">Quản lý Tài Khoản Customer</h2>
+
       <table className="w-full border-collapse border border-gray-200">
         <thead>
           <tr className="bg-gray-100">
@@ -35,27 +30,27 @@ const AdminAccounts = () => {
           </tr>
         </thead>
         <tbody>
-          {adminUsers.map((admin: IUser) => (
-            <tr key={admin.id} className="border">
-              <td className="border p-2">{admin.id}</td>
-              <td className="border p-2">{admin.username}</td>
-              <td className="border p-2">{admin.fullname}</td>
-              <td className="border p-2">{admin.email}</td>
+          {customerUsers.map((customer: IUser) => (
+            <tr key={customer.id} className="border">
+              <td className="border p-2">{customer.id}</td>
+              <td className="border p-2">{customer.username}</td>
+              <td className="border p-2">{customer.fullname}</td>
+              <td className="border p-2">{customer.email}</td>
               <td className="border p-2 flex gap-2 justify-center">
                 <button
-                  onClick={() => navigate(`detail/${admin.id}`)}
+                  onClick={() => navigate(`detail/${customer.id}`)}
                   className="bg-green-500 text-white px-2 py-1 rounded"
                 >
                   Xem chi tiết
                 </button>
                 <button
-                  onClick={() => onDelete(admin.id)} // ✅ Gọi đúng hàm xóa
+                  onClick={() => onDelete(customer.id)} // ✅ Gọi đúng hàm xóa
                   className="bg-red-500 text-white px-2 py-1 rounded"
                 >
                   Xóa
                 </button>
                 <button
-                  onClick={() => navigate(`edit/${admin.id}`)}
+                  onClick={() => navigate(`edit/${customer.id}`)}
                   className="bg-yellow-500 text-white px-2 py-1 rounded"
                 >
                   Sửa
@@ -69,4 +64,4 @@ const AdminAccounts = () => {
   );
 };
 
-export default AdminAccounts;
+export default CustomerAccounts;

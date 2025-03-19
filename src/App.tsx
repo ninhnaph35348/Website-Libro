@@ -2,35 +2,32 @@ import { Routes, Route } from "react-router-dom";
 import PrivateRoute from "./components/ProtectedRoute"; // Import PrivateRoute
 import LayoutAdmin from "./layouts/Admin";
 import Login from "./pages/Auth/Login";
-import NotFound from "./pages/Notfound";
 
 // Admin Pages
 import Home from "./pages/Home";
-import Order from "./pages/Order";
 import User from "./pages/User";
-import ProductList from "./pages/Product/ProductList";
-import AddProduct from "./pages/Product/AddProduct";
-import EditAuthor from "./pages/Authors/EditAuthor";
-import CategoryList from "./pages/Category/Category";
-import AddCategory from "./pages/Category/AddCategory";
-import EditCategory from "./pages/Category/EditCategory";
-import Publisher from "./pages/Publisher/Publisher";
-import AddPublisher from "./pages/Publisher/AddPublisher";
-import EditPublisher from "./pages/Publisher/EditPublisher";
-import Author from "./pages/Authors/Authors";
-import AddAuthor from "./pages/Authors/AddAuthor";
-import Language from "./pages/Language/Language";
-import AddLanguage from "./pages/Language/AddLanguage";
-import EditLanguage from "./pages/Language/EditLanguage";
-import Genre from "./pages/Genres/Genre";
-import AddGenre from "./pages/Genres/AddGenre";
-import EditGenre from "./pages/Genres/EditGenre";
+import Author from "./pages/Admin/Authors/Authors";
+import AddAuthor from "./pages/Admin/Authors/AddAuthor";
+import EditAuthor from "./pages/Admin/Authors/EditAuthor";
+import Language from "./pages/Admin/Language/Language";
+import AddLanguage from "./pages/Admin/Language/AddLanguage";
+import Genre from "./pages/Admin/Genres/Genre";
+import AddGenre from "./pages/Admin/Genres/AddGenre";
+import NotFound from "./pages/Notfound";
+import AddProduct from "./pages/Admin/Product/AddProduct";
+import ProductList from "./pages/Admin/Product/ProductList";
+import CategoryList from "./pages/Admin/Category/Category";
+import AddCategory from "./pages/Admin/Category/AddCategory";
+import EditCategory from "./pages/Admin/Category/EditCategory";
+import Publisher from "./pages/Admin/Publisher/Publisher";
+import AddPublisher from "./pages/Admin/Publisher/AddPublisher";
+import EditPublisher from "./pages/Admin/Publisher/EditPublisher";
+import EditLanguage from "./pages/Admin/Language/EditLanguage";
+import EditGenre from "./pages/Admin/Genres/EditGenre";
 import UserAdmin from "./pages/UserAdmin/UserAdmin";
 import AddUserAdmin from "./pages/UserAdmin/AddUserAdmin";
 import EditUserAdmin from "./pages/UserAdmin/EditUserAdmin";
 import UserDetail from "./pages/UserAdmin/UserDetail";
-import UserCustomer from "./pages/UserCustomer/UserCustomer";
-import EditUserCustomer from "./pages/UserCustomer/EditUserCustomer";
 
 // Client Pages
 import LayoutClient from "./layouts/Client";
@@ -39,10 +36,16 @@ import Shopdetail from "./pages/Client/Shopdetail/Shopdetail";
 import Shopcart from "./pages/Client/Shopcart/Shopcart";
 import Shopdefaul from "./pages/Client/Shopdefaul/Shopdefaul";
 import Client from "./pages/Client";
+import ProductDetail from "./pages/Admin/Product/DetailProduct";
+import EditProduct from "./pages/Admin/Product/EditProduct";
+import Orders from "./pages/Admin/Order/Orders";
+import OrderStatus from "./pages/Admin/OrderStatus/OrderStatus";
+import DetailOrder from "./pages/Admin/Order/DetailOrder";
 import Blog from "./pages/Client/Blog/Blog";
 import Contact from "./pages/Client/Contact/Contact";
 
 import Review from "./pages/Review/Review";
+import AdminLogin from "./pages/Auth/Login";
 // import AddAdminAccount from "./pages/UserAdmin/AddUserAdmin";
 
 
@@ -56,14 +59,21 @@ const App = () => {
       <Route path="/admin" element={<PrivateRoute />}>
         <Route element={<LayoutAdmin />}>
           <Route index element={<Home />} />
-          <Route path="order" element={<Order />} />
+          <Route path="order">
+            <Route index element={<Orders />} />
+            <Route path=":code" element={<DetailOrder />} />
+          </Route>
           <Route path="user" element={<User />} />
-         
+
+          {/* Product */}
+          <Route path="user" element={<User />} />
+
           {/* Quản lý sản phẩm */}
           <Route path="product">
             <Route index element={<ProductList />} />
             <Route path="add" element={<AddProduct />} />
-            <Route path="edit/:id" element={<EditAuthor />} />
+            <Route path=":code" element={<ProductDetail />} />
+            <Route path="edit/:id" element={<EditProduct />} />
           </Route>
 
           {/* Quản lý danh mục */}
@@ -80,12 +90,12 @@ const App = () => {
             <Route path="edit/:id" element={<EditAuthor />} />
           </Route>
 
-        <Route path="reviews">
-          <Route index element={<Review />} />
-          {/* <Route path="add" element={<AddReview />} /> */}
-          {/* <Route path="edit/:id" element={<EditReview />} /> */}
-        </Route>
-       
+          <Route path="reviews">
+            <Route index element={<Review />} />
+            {/* <Route path="add" element={<AddReview />} /> */}
+            {/* <Route path="edit/:id" element={<EditReview />} /> */}
+          </Route>
+
           {/* Quản lý nhà xuất bản */}
           <Route path="publisher">
             <Route index element={<Publisher />} />
@@ -115,11 +125,23 @@ const App = () => {
             <Route path="detail/:id" element={<UserDetail />} />
           </Route>
 
-          {/* Quản lý người dùng khách hàng */}
-          <Route path="user-customer">
-            <Route index element={<UserCustomer />} />
-            <Route path="detail/:id" element={<UserDetail />} />
-            <Route path="edit/:id" element={<EditUserCustomer />} />
+          {/* Languages */}
+          <Route path="languages">
+            <Route index element={<Language />} />
+            <Route path="add" element={<AddLanguage />} />
+            <Route path="edit/:id" element={<EditLanguage />} />
+          </Route>
+
+          {/* OrderStatuss */}
+          <Route path="orderstatus">
+            <Route index element={<OrderStatus />} />
+          </Route>
+
+          {/* Genres */}
+          <Route path="genres">
+            <Route index element={<Genre />} />
+            <Route path="add" element={<AddGenre />} />
+            <Route path="edit/:id" element={<EditGenre />} />
           </Route>
         </Route>
       </Route>

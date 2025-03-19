@@ -256,6 +256,9 @@ a {
   -ms-transition: all 0.4s ease-in-out;
   -o-transition: all 0.4s ease-in-out;
 }
+.admin .side a {
+  color: white;
+}
 a:hover {
   color: var(--theme2);
 }

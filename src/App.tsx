@@ -58,7 +58,7 @@ const App = () => {
           <Route index element={<Home />} />
           <Route path="order" element={<Order />} />
           <Route path="user" element={<User />} />
-
+         
           {/* Quản lý sản phẩm */}
           <Route path="product">
             <Route index element={<ProductList />} />
@@ -80,24 +80,12 @@ const App = () => {
             <Route path="edit/:id" element={<EditAuthor />} />
           </Route>
 
-
-        {/* Genres */}
-        <Route path="genres">
-          <Route index element={<Genre />} />
-          <Route path="add" element={<AddGenre />} />
-          <Route path="edit/:id" element={<EditGenre />} />
-        </Route>
         <Route path="reviews">
           <Route index element={<Review />} />
-          {/* <Route path="add" element={<AddReview />} />
-          <Route path="edit/:id" element={<EditReview />} /> */}
+          {/* <Route path="add" element={<AddReview />} /> */}
+          {/* <Route path="edit/:id" element={<EditReview />} /> */}
         </Route>
-        <Route path="user-admin">
-          <Route index element={<UserAdmin />} /> {/* 🆕 Danh sách AdminUser */}
-          <Route path="add" element={<AddAdminAccount />} />
-          <Route path="edit/:id" element={<EditUserAdmin />} />
-          <Route path="detail/:id" element={<UserDetail />} />
-
+       
           {/* Quản lý nhà xuất bản */}
           <Route path="publisher">
             <Route index element={<Publisher />} />
@@ -153,5 +141,5 @@ const App = () => {
     </Routes>
   );
 };
-
 export default App;
+

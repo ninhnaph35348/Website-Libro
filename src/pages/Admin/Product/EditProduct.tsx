@@ -106,7 +106,6 @@ const EditProduct = () => {
             };
             console.log(updatedData);
             await onEdit(updatedData, id as string);
-            alert("Cập nhật sản phẩm thành công!");
             navigate("/admin/product");
         } catch (error) {
             console.error("❌ Lỗi khi cập nhật sản phẩm:", error);

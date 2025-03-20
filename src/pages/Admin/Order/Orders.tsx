@@ -15,7 +15,6 @@ const Orders = () => {
     const handleStatusChange = async (orderId: number, newStatus: string) => {
         try {
             await onEdit({ order_status_id: newStatus }, orderId);
-            alert("Cập nhật trạng thái thành công!");
         } catch (error) {
             alert("Cập nhật thất bại! Vui lòng thử lại.");
             console.error(error);

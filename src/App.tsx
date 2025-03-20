@@ -45,7 +45,8 @@ import Blog from "./pages/Client/Blog/Blog";
 import Contact from "./pages/Client/Contact/Contact";
 
 import Review from "./pages/Review/Review";
-import AdminLogin from "./pages/Auth/Login";
+import EditUserCustomer from "./pages/UserCustomer/EditUserCustomer";
+import CustomerAccounts from "./pages/UserCustomer/UserCustomer";
 // import AddAdminAccount from "./pages/UserAdmin/AddUserAdmin";
 
 
@@ -143,6 +144,13 @@ const App = () => {
             <Route path="add" element={<AddGenre />} />
             <Route path="edit/:id" element={<EditGenre />} />
           </Route>
+
+          {/* Quản lý người dùng khách hàng */}
+          <Route path="user-customer">
+            <Route index element={<CustomerAccounts />} />
+            <Route path="detail/:id" element={<UserDetail />} />
+            <Route path="edit/:id" element={<EditUserCustomer />} />
+          </Route>
         </Route>
       </Route>
 
@@ -164,4 +172,3 @@ const App = () => {
   );
 };
 export default App;
-

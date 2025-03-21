@@ -39,7 +39,7 @@ const Orders = () => {
                         <tr key={order.id ?? index}>
                             <td className="border p-2 text-center">{ index + 1 }</td>
                             <td className="border p-2">
-                                <Link className="text-blue-400 hover:text-blue-600" to={`/edit/${order.id}`}>
+                                <Link className="text-blue-400 hover:text-blue-600" to={`${order.id}`}>
                                     {order.code_order}
                                 </Link>
                             </td>

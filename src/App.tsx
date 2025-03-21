@@ -4,7 +4,7 @@ import LayoutAdmin from "./layouts/Admin";
 import Login from "./pages/Admin/Auth/Login";
 
 // Admin Pages
-import Home from "./pages/Home";
+import Home from "./pages/Admin/Home";
 import User from "./pages/User";
 import Author from "./pages/Admin/Authors/Authors";
 import AddAuthor from "./pages/Admin/Authors/AddAuthor";
@@ -13,7 +13,7 @@ import Language from "./pages/Admin/Language/Language";
 import AddLanguage from "./pages/Admin/Language/AddLanguage";
 import Genre from "./pages/Admin/Genres/Genre";
 import AddGenre from "./pages/Admin/Genres/AddGenre";
-import NotFound from "./pages/Notfound";
+import NotFound from "./pages/Admin/Notfound";
 import AddProduct from "./pages/Admin/Product/AddProduct";
 import ProductList from "./pages/Admin/Product/ProductList";
 import CategoryList from "./pages/Admin/Category/Category";

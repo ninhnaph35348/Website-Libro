@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { login, setUser } from "../../store/auth/authSlice";
-import { RootState, AppDispatch } from "../../store/auth/store";
+import { login, setUser } from "../../../store/auth/authSlice";
+import { RootState, AppDispatch } from "../../../store/auth/store";
 import { useNavigate } from "react-router-dom";
 import { Loader, Mail, Lock } from "lucide-react";
 

@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { IReviews } from "../../interfaces/Reviews";
-import { ReviewContext } from "../../context/Review";
+import { IReviews } from "../../../interfaces/Reviews";
+import { ReviewContext } from "../../../context/Review";
 
 const Review = () => {
   const { reviews, onUpdateStatus, onDelete } = useContext(ReviewContext);

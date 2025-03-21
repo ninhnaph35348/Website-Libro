@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import PrivateRoute from "./components/ProtectedRoute"; // Import PrivateRoute
 import LayoutAdmin from "./layouts/Admin";
-import Login from "./pages/Auth/Login";
+import Login from "./pages/Admin/Auth/Login";
 
 // Admin Pages
 import Home from "./pages/Home";
@@ -24,10 +24,16 @@ import AddPublisher from "./pages/Admin/Publisher/AddPublisher";
 import EditPublisher from "./pages/Admin/Publisher/EditPublisher";
 import EditLanguage from "./pages/Admin/Language/EditLanguage";
 import EditGenre from "./pages/Admin/Genres/EditGenre";
-import UserAdmin from "./pages/UserAdmin/UserAdmin";
-import AddUserAdmin from "./pages/UserAdmin/AddUserAdmin";
-import EditUserAdmin from "./pages/UserAdmin/EditUserAdmin";
-import UserDetail from "./pages/UserAdmin/UserDetail";
+
+import UserAdmin from "./pages/Admin/UserAdmin/UserAdmin";
+import AddUserAdmin from "./pages/Admin/UserAdmin/AddUserAdmin";
+import EditUserAdmin from "./pages/Admin/UserAdmin/EditUserAdmin";
+import UserDetail from "./pages/Admin/UserAdmin/UserDetail";
+
+import Review from "./pages/Admin/Review/Review";
+import EditUserCustomer from "./pages/Admin/UserCustomer/EditUserCustomer";
+import CustomerAccounts from "./pages/Admin/UserCustomer/UserCustomer";
+// import AddAdminAccount from "./pages/UserAdmin/AddUserAdmin";
 
 // Client Pages
 import LayoutClient from "./layouts/Client";
@@ -43,11 +49,6 @@ import OrderStatus from "./pages/Admin/OrderStatus/OrderStatus";
 import DetailOrder from "./pages/Admin/Order/DetailOrder";
 import Blog from "./pages/Client/Blog/Blog";
 import Contact from "./pages/Client/Contact/Contact";
-
-import Review from "./pages/Review/Review";
-import EditUserCustomer from "./pages/UserCustomer/EditUserCustomer";
-import CustomerAccounts from "./pages/UserCustomer/UserCustomer";
-// import AddAdminAccount from "./pages/UserAdmin/AddUserAdmin";
 
 
 const App = () => {

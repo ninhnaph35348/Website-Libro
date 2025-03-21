@@ -19,15 +19,15 @@ const PublisherList = () => {
       <table className="w-full border-collapse border border-gray-200">
         <thead>
           <tr className="bg-gray-100">
-            <th className="border p-2">ID</th>
+            <th className="border p-2">STT</th>
             <th className="border p-2">Tên Nhà Xuất Bản</th>
             <th className="border p-2">Hành động</th>
           </tr>
         </thead>
         <tbody>
-          {publishers.map((pub: IPublishers) => (
-            <tr key={pub.id} className="border">
-              <td className="border p-2">{pub.id}</td>
+          {publishers.map((pub: IPublishers, index:number) => (
+            <tr key={pub.id ?? index} className="border">
+              <td className="border p-2">{index + 1}</td>
               <td className="border p-2">{pub.name}</td>
               <td className="border p-2 flex gap-2 justify-center ">
                 <button

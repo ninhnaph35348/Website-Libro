@@ -44,6 +44,12 @@ const AddPublisher = () => {
         >
           Thêm
         </button>
+        <button
+          onClick={() => navigate(-1)}
+          className="bg-gray-600 text-white px-4 py-2 rounded mt-2 ml-2"
+        >
+          Quay lại
+        </button>
       </form>
     </div>
   );

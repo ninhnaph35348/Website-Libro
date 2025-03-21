@@ -27,7 +27,7 @@ const AdminAccounts = () => {
       <table className="w-full border-collapse border border-gray-200">
         <thead>
           <tr className="bg-gray-100">
-            <th className="border p-2">ID</th>
+            <th className="border p-2">STT</th>
             <th className="border p-2">Tên Đăng Nhập</th>
             <th className="border p-2">Tên đầy đủ</th>
             <th className="border p-2">Email</th>
@@ -35,9 +35,9 @@ const AdminAccounts = () => {
           </tr>
         </thead>
         <tbody>
-          {adminUsers.map((admin: IUser) => (
-            <tr key={admin.id} className="border">
-              <td className="border p-2">{admin.id}</td>
+          {adminUsers.map((admin: IUser, index:number) => (
+            <tr key={admin.id ?? index} className="border">
+              <td className="border p-2">{index + 1}</td>
               <td className="border p-2">{admin.username}</td>
               <td className="border p-2">{admin.fullname}</td>
               <td className="border p-2">{admin.email}</td>

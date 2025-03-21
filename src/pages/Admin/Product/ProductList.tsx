@@ -19,7 +19,7 @@ const ProductList = () => {
             <table className="w-full border-collapse border border-gray-200">
                 <thead>
                     <tr className="bg-gray-100 text-center">
-                        <th className="border p-2">ID</th>
+                        <th className="border p-2">STT</th>
                         <th className="border p-2">Mã</th>
                         <th className="border p-2">Tiêu đề</th>
                         <th className="border p-2">Tác giả</th>
@@ -32,7 +32,7 @@ const ProductList = () => {
                 </thead>
                 <tbody>
                     {products.map((product: IProduct, index: number) => (
-                        <tr key={product.id} className="border">
+                        <tr key={product.id ?? index} className="border">
                             <td className="border p-2 text-center">{index + 1}</td>
                             <td className="border p-2"><Link className='text-blue-400 hover:text-blue-600' to={`${product.code}`}>{product.code}</Link></td>
                             <td className="border p-2">{product.title}</td>

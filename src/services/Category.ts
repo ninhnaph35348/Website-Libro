@@ -33,7 +33,7 @@ export const updateCategory = async (
   id: number | string
 ) => {
   try {
-    const { data } = await instance.put(`categories/${id}`, categoryData);
+    const { data } = await instance.put(`categories/edit/${id}`, categoryData);
     return data;
   } catch (error) {
     throw new Error("Lỗi");
@@ -42,7 +42,7 @@ export const updateCategory = async (
 
 export const deleteCategory = async (id: number | string) => {
   try {
-    const { data } = await instance.delete(`categories/${id}`);
+    const { data } = await instance.put(`categories/${id}`);
     return data;
   } catch (error) {
     throw new Error("Lỗi");

@@ -33,7 +33,7 @@ export const updateGenre = async (
   id: number | string
 ) => {
   try {
-    const { data } = await instance.put(`genres/${id}`, genreData);
+    const { data } = await instance.put(`genres/edit/${id}`, genreData);
     return data;
   } catch (error) {
     throw new Error("Lỗi");

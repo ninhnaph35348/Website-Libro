@@ -27,7 +27,7 @@ const Orders = () => {
             <table className="w-full border-collapse border border-gray-200 mt-4">
                 <thead>
                     <tr className="bg-gray-100 text-center">
-                        <th className="border p-2">ID</th>
+                        <th className="border p-2">STT</th>
                         <th className="border p-2">Mã Đơn Hàng</th>
                         <th className="border p-2">Khách Hàng</th>
                         <th className="border p-2">Giá Trị</th>
@@ -35,7 +35,7 @@ const Orders = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {orders.map((order: IOrder, index: Number) => (
+                    {orders.map((order: IOrder, index: number) => (
                         <tr key={order.id ?? index}>
                             <td className="border p-2 text-center">{ index + 1 }</td>
                             <td className="border p-2">

@@ -22,7 +22,7 @@ const CustomerAccounts = () => {
       <table className="w-full border-collapse border border-gray-200">
         <thead>
           <tr className="bg-gray-100">
-            <th className="border p-2">ID</th>
+            <th className="border p-2">STT</th>
             <th className="border p-2">Tên Đăng Nhập</th>
             <th className="border p-2">Tên đầy đủ</th>
             <th className="border p-2">Email</th>
@@ -30,9 +30,9 @@ const CustomerAccounts = () => {
           </tr>
         </thead>
         <tbody>
-          {customerUsers.map((customer: IUser) => (
-            <tr key={customer.id} className="border">
-              <td className="border p-2">{customer.id}</td>
+          {customerUsers.map((customer: IUser, index:number) => (
+            <tr key={customer.id ?? index} className="border">
+              <td className="border p-2">{index + 1}</td>
               <td className="border p-2">{customer.username}</td>
               <td className="border p-2">{customer.fullname}</td>
               <td className="border p-2">{customer.email}</td>

@@ -19,16 +19,16 @@ const CategoryList = () => {
       <table className="w-full border-collapse border border-gray-200">
         <thead>
           <tr className="bg-gray-100">
-            <th className="border p-2">ID</th>
+            <th className="border p-2">STT</th>
             <th className="border p-2">Tên</th>
             <th className="border p-2">Mô Tả</th>
             <th className="border p-2">Hành động</th>
           </tr>
         </thead>
         <tbody>
-          {categories.map((cat: ICategories) => (
-            <tr key={cat.id} className="border">
-              <td className="border p-2">{cat.id}</td>
+          {categories.map((cat: ICategories , index : number) => (
+            <tr key={cat.id ?? index}  className="border">
+              <td className="border p-2">{index + 1}</td>
               <td className="border p-2">{cat.name}</td>
               <td className="border p-2">{cat.description}</td>
               <td className="border p-2 flex gap-2 justify-center">

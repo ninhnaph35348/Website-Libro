@@ -5,7 +5,7 @@ import Login from "./pages/Admin/Auth/Login";
 
 // Admin Pages
 import Home from "./pages/Admin/Home";
-import User from "./pages/User";
+
 import Author from "./pages/Admin/Authors/Authors";
 import AddAuthor from "./pages/Admin/Authors/AddAuthor";
 import EditAuthor from "./pages/Admin/Authors/EditAuthor";
@@ -65,10 +65,6 @@ const App = () => {
             <Route index element={<Orders />} />
             <Route path=":code" element={<DetailOrder />} />
           </Route>
-          <Route path="user" element={<User />} />
-
-          {/* Product */}
-          <Route path="user" element={<User />} />
 
           {/* Quản lý sản phẩm */}
           <Route path="product">

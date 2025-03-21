@@ -62,6 +62,7 @@ const AddProduct = () => {
         console.log("🚀 Dữ liệu sản phẩm gửi đi:", productData);
         await onAdd(productData, reset);
         navigate("/admin/product");
+        window.location.reload();
     };
 
 

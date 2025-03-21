@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { createAdmin } from "../../services/UserAdmin";
+import { createAdmin } from "../../../services/UserAdmin";
 import { useNavigate } from "react-router-dom";
 
 const AddAdmin = () => {

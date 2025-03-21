@@ -4,7 +4,6 @@ import { IOrder } from "../interfaces/Orders";
 export const getAllOrder = async () => {
   try {
     const { data } = await instance.get("orders");
-    console.log("haha");
     
     return data;
   } catch (error) {

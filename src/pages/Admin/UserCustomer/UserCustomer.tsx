@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import { CustomerUserContext } from "../../context/UserCustomer";
-import { IUser } from "../../interfaces/User";
+import { CustomerUserContext } from "../../../context/UserCustomer";
+import { IUser } from "../../../interfaces/User";
 import { useContext } from "react";
 import { LoaderPinwheel } from "lucide-react";
 

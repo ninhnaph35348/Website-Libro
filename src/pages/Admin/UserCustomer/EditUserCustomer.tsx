@@ -1,12 +1,12 @@
 import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { AdminUserContext } from "../../context/UserAdmin";
+import { CustomerUserContext } from "../../../context/UserCustomer";
 import { useForm } from "react-hook-form";
-import { getAdminById } from "../../services/UserAdmin";
-import { IUser } from "../../interfaces/User";
+import { getUserById } from "../../../services/UserCustomer";
+import { IUser } from "../../../interfaces/User";
 
-const EditUserAdmin = () => {
-  const { onEdit } = useContext(AdminUserContext);
+const EditUserCustomer = () => {
+  const { onEdit } = useContext(CustomerUserContext);
   const {
     register,
     handleSubmit,
@@ -22,7 +22,7 @@ const EditUserAdmin = () => {
   useEffect(() => {
     (async () => {
       try {
-        const user = await getAdminById(param.id as string | number);
+        const user = await getUserById(param.id as string | number);
         if (!user) {
           console.error("Không tìm thấy user");
           return;
@@ -56,7 +56,7 @@ const EditUserAdmin = () => {
 
   return (
     <div className="p-6 w-full mx-auto bg-white shadow-md rounded-lg">
-      <h2 className="text-xl font-bold mb-4">Sửa Thông Tin Quản Trị Viên</h2>
+      <h2 className="text-xl font-bold mb-4">Sửa Thông Tin Người Dùng</h2>
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <input
@@ -140,4 +140,4 @@ const EditUserAdmin = () => {
   );
 };
 
-export default EditUserAdmin;
+export default EditUserCustomer;

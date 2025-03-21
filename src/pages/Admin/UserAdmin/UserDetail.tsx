@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getAdminById } from "../../services/UserAdmin";
-import { IUser } from "../../interfaces/User";
+import { getAdminById } from "../../../services/UserAdmin";
+import { IUser } from "../../../interfaces/User";
 import { LoaderPinwheel } from "lucide-react";
 
 const UserAdminDetail = () => {

@@ -33,7 +33,7 @@ export const updateLanguage = async (
   id: number | string
 ) => {
   try {
-    const { data } = await instance.put(`languages/${id}`, languageData);
+    const { data } = await instance.put(`languages/edit/${id}`, languageData);
     return data;
   } catch (error) {
     throw new Error("Lỗi");
@@ -42,7 +42,7 @@ export const updateLanguage = async (
 
 export const deleteLanguage = async (id: number | string) => {
   try {
-    const { data } = await instance.delete(`languages/${id}`);
+    const { data } = await instance.put(`languages/${id}`);
     return data;
   } catch (error) {
     throw new Error("Lỗi");

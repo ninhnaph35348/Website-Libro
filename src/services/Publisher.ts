@@ -33,7 +33,7 @@ export const updatePublisher = async (
   id: number | string
 ) => {
   try {
-    const { data } = await instance.put(`publishers/${id}`, publisherData);
+    const { data } = await instance.put(`publishers/edit/${id}`, publisherData);
     return data;
   } catch (error) {
     throw new Error("Lỗi");
@@ -42,7 +42,7 @@ export const updatePublisher = async (
 
 export const deletePublisher = async (id: number | string) => {
   try {
-    const { data } = await instance.delete(`publishers/${id}`);
+    const { data } = await instance.put(`publishers/${id}`);
     return data;
   } catch (error) {
     throw new Error("Lỗi");

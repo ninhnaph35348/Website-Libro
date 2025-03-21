@@ -27,7 +27,7 @@ const Review = () => {
         <tbody>
           {reviews.map((rev: IReviews, index: number) => (
             <tr key={rev.id ?? index} className="border">
-              <td className="border p-2">{rev.id}</td>
+              <td className="border p-2">{index + 1}</td>
               <td className="border p-2">{rev.rating}</td>
               <td className="border p-2">{rev.review}</td>
               <td className="border p-2">{rev.user_id}</td>

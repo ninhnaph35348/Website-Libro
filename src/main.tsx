@@ -1,7 +1,6 @@
 import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
-import { Provider } from "react-redux";
 import { store } from "./store/auth/store.ts"; // Import store của bạn
 
 import "./index.css";
@@ -32,9 +31,14 @@ import CategoryProvider from "./context/Category.tsx";
 import PublisherProvider from "./context/Publisher.tsx";
 import LanguageProvider from "./context/Language.tsx";
 import GenreProvider from "./context/Genre.tsx";
+import ProductProvider from "./context/Product.tsx";
+import OrderProvider from "./context/Order.tsx";
+import OrderStatusProvider from "./context/OrderStatus.tsx";
 import AdminUserProvider from "./context/UserAdmin.tsx";
 import CustomerUserProvider from "./context/UserCustomer.tsx";
 import ReviewProvider from "./context/Review.tsx";
+import { Provider } from "react-redux";
+
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <Provider store={store}>
@@ -44,15 +48,21 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
           <AuthorProvider>
             <LanguageProvider>
               <GenreProvider>
-                <AdminUserProvider>
-                  <CustomerUserProvider>
-                     <ReviewProvider>
-                    <StrictMode>
-                      <App />
-                    </StrictMode>
-                       </ReviewProvider>
-                  </CustomerUserProvider>
-                </AdminUserProvider>
+                <ProductProvider>
+                  <OrderStatusProvider>
+                    <OrderProvider>
+                      <AdminUserProvider>
+                        <CustomerUserProvider>
+                          <ReviewProvider>
+                            <StrictMode>
+                              <App />
+                            </StrictMode>
+                          </ReviewProvider>
+                        </CustomerUserProvider>
+                      </AdminUserProvider>
+                    </OrderProvider>
+                  </OrderStatusProvider>
+                </ProductProvider>
               </GenreProvider>
             </LanguageProvider>
           </AuthorProvider>

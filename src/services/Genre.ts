@@ -3,7 +3,7 @@ import { IGenre } from "../interfaces/Genre";
 
 export const getAllGenre = async () => {
   try {
-    const { data } = await instance.get("genres/");
+    const { data } = await instance.get("genres");
     return data;
   } catch (error) {
     throw new Error("Lỗi");
@@ -33,7 +33,7 @@ export const updateGenre = async (
   id: number | string
 ) => {
   try {
-    const { data } = await instance.put(`genres/${id}`, genreData);
+    const { data } = await instance.put(`genres/edit/${id}`, genreData);
     return data;
   } catch (error) {
     throw new Error("Lỗi");
@@ -42,7 +42,7 @@ export const updateGenre = async (
 
 export const deleteGenre = async (id: number | string) => {
   try {
-    const { data } = await instance.delete(`genres/${id}`);
+    const { data } = await instance.put(`genres/${id}`);
     return data;
   } catch (error) {
     throw new Error("Lỗi");

@@ -4,7 +4,7 @@ import { IReviews } from "../../../interfaces/Reviews";
 import { ReviewContext } from "../../../context/Review";
 
 const Review = () => {
-  const { reviews, onUpdateStatus, onDelete } = useContext(ReviewContext);
+  const { reviews, handleUpdateStatus } = useContext(ReviewContext);
   
   const navigate = useNavigate();
 
@@ -30,7 +30,7 @@ const Review = () => {
           {reviews.map((rev: IReviews, index: number) => ( 
             <tr key={rev.id ?? index} className="border">
               <td className="border p-2">{index + 1}</td>
-              <td className="border p-2">{rev.rating}</td>
+              <td className="border p-2">{rev.rating}⭐</td>
               <td className="border p-2">{rev.review}</td>
               <td className="border p-2">{rev.username}</td>
               <td className="border p-2">{rev.title}</td>
@@ -48,13 +48,13 @@ const Review = () => {
               <td className="border p-2 flex gap-2 justify-center">
                 {/* Cập nhật trạng thái */}
                 <button
-                  onClick={() => onUpdateStatus(rev.id, rev.del_flg === 1 ? 0 : 1)}
-                  className={`px-2 py-1 rounded text-white ${
-                    rev.del_flg === 1 ? "bg-green-500" : "bg-red-500"
-                  }`}
-                >
-                  {rev.del_flg === 1 ? "Hiện" : "Phê duyệt"}
-                </button>
+  onClick={() => handleUpdateStatus(rev.id, rev.del_flg)}
+  className={`px-2 py-1 rounded text-white ${
+    rev.del_flg === 1 ? "bg-green-500" : "bg-red-500"
+  }`}
+>
+  {rev.del_flg === 1 ? "Hiện" : "Phê duyệt"}
+</button>
 
                 {/* Xem chi tiết */}
                 <button
@@ -65,12 +65,7 @@ const Review = () => {
                 </button>
 
                 {/* Xóa (ẩn review) */}
-                <button
-        onClick={() => onDelete(rev.id)}
-        className="px-2 py-1 rounded bg-gray-500 text-white"
-    >
-        Xóa
-    </button>
+              
               </td>
             </tr>
           ))}

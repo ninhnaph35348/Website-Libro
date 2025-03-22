@@ -49,7 +49,7 @@ import DetailOrder from "./pages/Admin/Order/DetailOrder";
 import Blog from "./pages/Client/Blog/Blog";
 import Contact from "./pages/Client/Contact/Contact";
 import ReviewDetail from "./pages/Admin/Review/ReviewDetail";
-import Review from "./pages/Review/Review";
+import Review from "./pages/Admin/Review/Review";
 
 
 const App = () => {

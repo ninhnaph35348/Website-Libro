@@ -1,12 +1,14 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { IReviews } from "../../../interfaces/Reviews";
 import { getReviewById } from "../../../services/Review";
+import { ReviewContext } from "../../../context/Review";
 
 const ReviewDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [review, setReview] = useState<IReviews | null>(null);
+  const [review, setReview, ] = useState<IReviews | null>(null);
+  const { onDelete } = useContext(ReviewContext);
 
   useEffect(() => {
     (async () => {
@@ -32,6 +34,12 @@ const ReviewDetail = () => {
         >
           Quay lại
         </button>
+        <button
+        onClick={() => onDelete(review.id)}
+        className="mt-4 bg-red-600 text-white px-6 py-3 rounded-lg shadow-md hover:bg-gray-700"
+        >
+        Xóa
+    </button>
       </div>
     </div>
   );

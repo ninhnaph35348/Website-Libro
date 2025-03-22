@@ -22,17 +22,20 @@ export const getReviewById = async (id: number | string) => {
 };
 
 // Cập nhật trạng thái review (Ẩn/Hiện)
-export const updateReviewStatus = async (id: number | string, del_flg: number) => {
+export const onUpdateStatus = async (id: number | string, del_flg: number) => {
     try {
         console.log("Gửi yêu cầu cập nhật:", { id, del_flg });
-        const { data } = await instance.put(`reviews/hidden/${id}`, { del_flg }); // Sửa URL
-        console.log("Kết quả API:", data);
+
+        const { data } = await instance.put(`reviews/hidden/${id}`); // Không cần gửi del_flg
+
+        console.log("Dữ liệu trả về từ API:", data);
         return data;
     } catch (error) {
         console.error("Lỗi cập nhật trạng thái review:", error);
         throw new Error("Lỗi cập nhật trạng thái review");
     }
 };
+
 
 
 

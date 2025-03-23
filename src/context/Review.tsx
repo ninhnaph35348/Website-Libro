@@ -50,7 +50,7 @@ const ReviewProvider = ({ children }: Props) => {
         // Cập nhật lại danh sách review ngay lập tức
         setReviews((prevReviews) =>
             prevReviews.map((rev) =>
-                rev.id === id ? { ...rev, del_flg: isHiding ? 1 : 0 } : rev
+                rev.id === id ? { ...rev, status: isHiding ? 1 : 0 } : rev
             )
         );
 
@@ -67,12 +67,19 @@ const ReviewProvider = ({ children }: Props) => {
   // Ẩn review (Xóa mềm)
   const onHideReview = async (id: number | string) => {
     try {
-      await hideReview(id);
-      fetchReviews();
+        // Hiển thị hộp thoại xác nhận
+        if (!window.confirm("Bạn có chắc chắn muốn ẩn đánh giá này không?")) return;
+
+        await hideReview(id);
+        alert("Đánh giá đã được ẩn thành công!");
+
+        fetchReviews(); // Cập nhật danh sách review
     } catch (error) {
-      console.error("Lỗi khi ẩn review:", error);
+        console.error("Lỗi khi ẩn review:", error);
+        alert("Đã xảy ra lỗi khi ẩn đánh giá!");
     }
-  };
+};
+
   const onDelete = async (id: number) => {
     try {
         if (!window.confirm("Bạn có chắc chắn muốn xóa vĩnh viễn không?")) return;

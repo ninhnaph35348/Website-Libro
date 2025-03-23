@@ -5,6 +5,6 @@ export interface IReviews {
     username: string;
     title: string ;
     del_flg: number;
-    avatar?: string;
+    status: number;
     created_at:number
 }

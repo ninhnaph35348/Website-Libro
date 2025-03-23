@@ -30,7 +30,6 @@ import AddUserAdmin from "./pages/Admin/UserAdmin/AddUserAdmin";
 import EditUserAdmin from "./pages/Admin/UserAdmin/EditUserAdmin";
 import UserDetail from "./pages/Admin/UserAdmin/UserDetail";
 
-import Review from "./pages/Admin/Review/Review";
 import EditUserCustomer from "./pages/Admin/UserCustomer/EditUserCustomer";
 import CustomerAccounts from "./pages/Admin/UserCustomer/UserCustomer";
 // import AddAdminAccount from "./pages/UserAdmin/AddUserAdmin";
@@ -49,6 +48,8 @@ import OrderStatus from "./pages/Admin/OrderStatus/OrderStatus";
 import DetailOrder from "./pages/Admin/Order/DetailOrder";
 import Blog from "./pages/Client/Blog/Blog";
 import Contact from "./pages/Client/Contact/Contact";
+import ReviewDetail from "./pages/Admin/Review/ReviewDetail";
+import Review from "./pages/Admin/Review/Review";
 
 
 const App = () => {
@@ -91,7 +92,8 @@ const App = () => {
           <Route path="reviews">
             <Route index element={<Review />} />
             {/* <Route path="add" element={<AddReview />} /> */}
-            {/* <Route path="edit/:id" element={<EditReview />} /> */}
+            <Route path="detail/:id" element={<ReviewDetail />} />
+
           </Route>
 
           {/* Quản lý nhà xuất bản */}

@@ -115,7 +115,7 @@ Description: Bookle - Book Store WooCommerce Html Template
             const bookSlider = new Swiper(".book-slider", {
                 spaceBetween: 30,
                 speed: 2000,
-                loop: true,
+                loop: false,
                 autoplay: {
                     delay: 2000,
                     disableOnInteraction: false,

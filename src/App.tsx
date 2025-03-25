@@ -51,7 +51,6 @@ import Contact from "./pages/Client/Contact/Contact";
 import ReviewDetail from "./pages/Admin/Review/ReviewDetail";
 import Review from "./pages/Admin/Review/Review";
 
-
 const App = () => {
   return (
     <Routes>
@@ -93,7 +92,6 @@ const App = () => {
             <Route index element={<Review />} />
             {/* <Route path="add" element={<AddReview />} /> */}
             <Route path="detail/:id" element={<ReviewDetail />} />
-
           </Route>
 
           {/* Quản lý nhà xuất bản */}
@@ -158,7 +156,7 @@ const App = () => {
         <Route index element={<Client />} />
 
         <Route path="/check-out" element={<Checkout />} />
-        <Route path="/shop-detail" element={<Shopdetail />} />
+        <Route path="/shop-details/:code" element={<Shopdetail />} />
         <Route path="/shop-cart" element={<Shopcart />} />
         <Route path="/shop" element={<Shopdefaul />} />
         <Route path="/blog" element={<Blog />} />

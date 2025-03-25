@@ -1,3 +1,10 @@
+import { useContext } from "react";
+import { Link } from "react-router-dom";
+import { ProductContext } from "../../context/Product";
+import { IProduct } from "../../interfaces/Products";
+import { ArrowRight } from "lucide-react";
+
+// Import các hình ảnh tĩnh
 import book from "../../assets/img/hero/book.png";
 import frame from "../../assets/img/hero/frame.png";
 import frame2 from "../../assets/img/hero/frame-2.png";
@@ -5,20 +12,29 @@ import xstar from "../../assets/img/hero/xstar.png";
 import frameShape from "../../assets/img/hero/frame-shape.png";
 import bgshape from "../../assets/img/hero/bg-shape.png";
 import bgshape2 from "../../assets/img/hero/bg-shape2.png";
-import book01 from "../../assets/img/book/01.png";
 import client1 from "../../assets/img/testimonial/client-1.png";
 import client2 from "../../assets/img/testimonial/client-2.png";
-import book05 from "../../assets/img/book/05.png";
-import topBook1 from "../../assets/img/top-book/01.png";
+import heroGirl from "../../assets/img/hero/hero-girl.png";
 import news9 from "../../assets/img/news/09.jpg";
 import news10 from "../../assets/img/news/10.jpg";
 import news11 from "../../assets/img/news/11.jpg";
 import news12 from "../../assets/img/news/12.jpg";
-import heroGirl from "../../assets/img/hero/hero-girl.png";
-import { ArrowRight } from "lucide-react";
 
 type Props = {};
 const Client = (props: Props) => {
+  // Lấy dữ liệu sản phẩm từ ProductContext
+  const { products } = useContext(ProductContext);
+
+  // In dữ liệu products để kiểm tra
+  console.log("Products:", products);
+
+  // Sắp xếp products: sản phẩm có image sẽ được ưu tiên lên đầu
+  const sortedProducts = [...products].sort((a: IProduct, b: IProduct) => {
+    if (a.image && !b.image) return -1;
+    if (!a.image && b.image) return 1;
+    return 0;
+  });
+
   return (
     <>
       <div className="hero-section hero-1 fix">
@@ -64,13 +80,14 @@ const Client = (props: Props) => {
             </div>
             <div className="col-12 col-xl-4 col-lg-6">
               <div className="girl-image">
-                <img className=" float-bob-x" src={heroGirl} alt="img" />
+                <img className="float-bob-x" src={heroGirl} alt="img" />
               </div>
             </div>
           </div>
         </div>
       </div>
-      {/* Feature Section start  */}
+
+      {/* Feature Section start */}
       <section className="feature-section fix section-padding">
         <div className="container">
           <div className="feature-wrapper">
@@ -126,261 +143,262 @@ const Client = (props: Props) => {
         </div>
       </section>
 
-      {/* Shop Section start  */}
+      {/* Shop Section start - Sách Mới Nhất */}
       <section className="shop-section section-padding fix pt-0">
         <div className="container">
-          <div className="section-title-area">
+          <div className="section-title-area flex justify-between items-center mb-6">
             <div className="section-title">
-              <h2 className="wow fadeInUp" data-wow-delay=".3s">
-                Sách mới nhất
+              <h2
+                className="wow fadeInUp text-3xl font-bold text-blue-900"
+                data-wow-delay=".3s"
+              >
+                Sách Mới Nhất
               </h2>
             </div>
-            <a
-              href="shop.html"
+            <Link
+              to="/shop"
               className="bg-transparent border border-gray-500 text-gray-500 px-4 py-2 flex items-center gap-2 hover:bg-gray-100 transition-all animate-fade-up rounded-full"
               style={{ animationDelay: "0.5s" }}
             >
               Xem thêm <ArrowRight className="w-6 h-6" />
-            </a>
+            </Link>
           </div>
-          <div className="book-slider">
-            <div className="swiper-wrapper">
-              <div className="swiper-slide">
-                <div className="shop-box-items style-2">
-                  <div className="book-thumb center ">
-                    <a href="shop-details-2.html">
-                      <img src={book01} alt="img" />
-                    </a>
+          <div className="book-shop-wrapper grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {sortedProducts.length > 0 ? (
+              sortedProducts.slice(0, 5).map((product: IProduct) => (
+                <div
+                  key={product.id ?? product.code}
+                  className="shop-box-items style-2 flex flex-col items-center gap-4 p-6 bg-white shadow-md rounded-lg min-h-[450px] max-w-[300px] mx-auto"
+                >
+                  <div className="book-thumb w-full aspect-[3/4] overflow-hidden rounded-lg bg-gray-100">
+                    <Link to={`/shop-details/${product.code}`}>
+                      <img
+                        src={
+                          product.image
+                            ? `http://127.0.0.1:8000/storage/${product.image}`
+                            : news9
+                        }
+                        alt={product.title}
+                        className="w-full h-full object-cover"
+                      />
+                    </Link>
                   </div>
-                  <div className="shop-content">
-                    <h5> Design Low Book </h5>
-                    <h3>
-                      <a href="shop-details.html">
-                        Simple Things You To <br /> Save BOOK
-                      </a>
+                  <div className="shop-content flex flex-col items-center gap-2 text-center">
+                    <h5 className="text-sm text-orange-500 font-medium truncate w-full">
+                      {product.category || "Sách Thiếu Nhi"}
+                    </h5>
+                    <h3 className="text-xl font-semibold text-blue-900 h-14 line-clamp-2 overflow-hidden">
+                      <Link to={`/shop-details/${product.code}`}>
+                        {product.title ||
+                          "Thỏ Bảy Màu Và Những Người Nghĩ Nó Là Bạn"}
+                      </Link>
                     </h3>
-                    <ul className="price-list">
-                      <li>$30.00</li>
-                      <li>
-                        <del>$39.99</del>
+                    <ul className="author-post flex items-center gap-2 mt-2">
+                      <li className="authot-list flex items-center gap-2">
+                        <span className="thumb">
+                          <img
+                            src={client1}
+                            alt="img"
+                            className="w-6 h-6 rounded-full"
+                          />
+                        </span>
+                        <span className="content text-gray-600 text-sm truncate w-32">
+                          {product.supplier_name || "Huyền Thái Ngọc"}
+                        </span>
                       </li>
                     </ul>
-                    <ul className="author-post">
-                      <li className="authot-list">
-                        <span className="content">Wilson</span>
-                      </li>
-                      <li className="star">
-                        <i className="fa-solid fa-star"></i>
-                      </li>
-                    </ul>
-                  </div>
-                  <div className="shop-button">
-                    <a href="shop-details.html" className="theme-btn">
-                      <i className="fa-solid fa-basket-shopping"></i> Add To
-                      Cart
-                    </a>
+                    <div className="shop-button mt-4">
+                      <Link
+                        to={`/shop-details/${product.code}`}
+                        className="inline-flex items-center gap-2 bg-blue-100 text-blue-600 px-6 py-2 rounded-full hover:bg-blue-200 transition-all"
+                      >
+                        <i className="fa-solid fa-basket-shopping"></i> Add To
+                        Cart
+                      </Link>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
+              ))
+            ) : (
+              <p className="text-gray-500 text-center col-span-full">
+                Không có sản phẩm để hiển thị.
+              </p>
+            )}
           </div>
         </div>
       </section>
 
+      {/* Shop Section - Sách Bán Chạy Nhất */}
       <section className="shop-section section-padding fix">
         <div className="container">
-          <div className="section-title-area">
-            <div
-              className="section-title mb- wow fadeInUp"
-              data-wow-delay=".3s"
-            >
-              <h2>Sách Hay Nhất</h2>
+          <div className="section-title-area flex justify-between items-center mb-6">
+            <div className="section-title">
+              <h2
+                className="wow fadeInUp text-3xl font-bold text-blue-900"
+                data-wow-delay=".3s"
+              >
+                Sách Bán Chạy Nhất
+              </h2>
             </div>
-            <a
-              href="shop.html"
+            <Link
+              to="/shop"
               className="bg-transparent border border-gray-500 text-gray-500 px-4 py-2 flex items-center gap-2 hover:bg-gray-100 transition-all animate-fade-up rounded-full"
               style={{ animationDelay: "0.5s" }}
             >
               Xem thêm <ArrowRight className="w-6 h-6" />
-            </a>
+            </Link>
           </div>
-          <div className="book-shop-wrapper">
-            <div className="shop-box-items style-2">
-              <div className="book-thumb center">
-                <a href="shop-details-2.html">
-                  <img src={book05} alt="img" />
-                </a>
-              </div>
-              <div className="shop-content">
-                <h5> Design Low Book </h5>
-                <h3>
-                  <a href="shop-details.html">
-                    Flovely and Unicom <br /> Erna
-                  </a>
-                </h3>
-                <ul className="price-list">
-                  <li>$30.00</li>
-                  <li>
-                    <del>$39.99</del>
-                  </li>
-                </ul>
-                <ul className="author-post">
-                  <li className="authot-list">
-                    <span className="thumb">
-                      <img src={client1} alt="img" />
-                    </span>
-                    <span className="content">(Author) Albert</span>
-                  </li>
-                  <li className="star">
-                    <i className="fa-solid fa-star"></i>
-                  </li>
-                </ul>
-              </div>
-              <div className="shop-button">
-                <a href="shop-details.html" className="theme-btn">
-                  <i className="fa-solid fa-basket-shopping"></i> Add To Cart
-                </a>
-              </div>
-            </div>
+          <div className="book-shop-wrapper grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {sortedProducts.length > 0 ? (
+              sortedProducts.slice(0, 5).map((product: IProduct) => (
+                <div
+                  key={product.id ?? product.code}
+                  className="shop-box-items style-2 flex flex-col items-center gap-4 p-6 bg-white shadow-md rounded-lg min-h-[450px] max-w-[300px] mx-auto"
+                >
+                  <div className="book-thumb w-full aspect-[3/4] overflow-hidden rounded-lg bg-gray-100">
+                    <Link to={`/shop-details/${product.code}`}>
+                      <img
+                        src={
+                          product.image
+                            ? `http://127.0.0.1:8000/storage/${product.image}`
+                            : news9
+                        }
+                        alt={product.title}
+                        className="w-full h-full object-cover"
+                      />
+                    </Link>
+                  </div>
+                  <div className="shop-content flex flex-col items-center gap-2 text-center">
+                    <h5 className="text-sm text-orange-500 font-medium truncate w-full">
+                      {product.category || "Sách Thiếu Nhi"}
+                    </h5>
+                    <h3 className="text-xl font-semibold text-blue-900 h-14 line-clamp-2 overflow-hidden">
+                      <Link to={`/shop-details/${product.code}`}>
+                        {product.title ||
+                          "Thỏ Bảy Màu Và Những Người Nghĩ Nó Là Bạn"}
+                      </Link>
+                    </h3>
+                    <ul className="author-post flex items-center gap-2 mt-2">
+                      <li className="authot-list flex items-center gap-2">
+                        <span className="thumb">
+                          <img
+                            src={client1}
+                            alt="img"
+                            className="w-6 h-6 rounded-full"
+                          />
+                        </span>
+                        <span className="content text-gray-600 text-sm truncate w-32">
+                          {product.supplier_name || "Huyền Thái Ngọc"}
+                        </span>
+                      </li>
+                    </ul>
+                    <div className="shop-button mt-4">
+                      <Link
+                        to={`/shop-details/${product.code}`}
+                        className="inline-flex items-center gap-2 bg-blue-100 text-blue-600 px-6 py-2 rounded-full hover:bg-blue-200 transition-all"
+                      >
+                        <i className="fa-solid fa-basket-shopping"></i> Add To
+                        Cart
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <p className="text-gray-500 text-center col-span-full">
+                Không có sản phẩm để hiển thị.
+              </p>
+            )}
           </div>
         </div>
       </section>
 
-      {/* Top Ratting Book Section start  */}
+      {/* Top Ratting Book Section start (Đã comment vì không có rating) */}
       <section className="top-ratting-book-section fix section-padding section-bg">
         <div className="container">
           <div className="top-ratting-book-wrapper">
-            <div className="section-title-area">
+            <div className="section-title-area flex justify-between items-center mb-6">
               <div className="section-title">
-                <h2 className="wow fadeInUp" data-wow-delay=".3s">
+                <h2
+                  className="wow fadeInUp text-3xl font-bold text-blue-900"
+                  data-wow-delay=".3s"
+                >
                   Xếp hạng hàng đầu
                 </h2>
               </div>
-              <a
-                href="shop.html"
+              <Link
+                to="/shop"
                 className="bg-transparent border border-gray-500 text-gray-500 px-4 py-2 flex items-center gap-2 hover:bg-gray-100 transition-all animate-fade-up rounded-full"
                 style={{ animationDelay: "0.5s" }}
               >
                 Xem thêm <ArrowRight className="w-6 h-6" />
-              </a>
+              </Link>
             </div>
             <div className="row">
-              <div className="col-xl-6 wow fadeInUp" data-wow-delay=".3s">
-                <div className="top-ratting-box-items">
-                  <div className="book-thumb">
-                    <a href="shop-details.html">
-                      <img src={topBook1} alt="img" />
-                    </a>
-                  </div>
-                  <div className="book-content">
-                    <div className="title-header">
-                      <div>
-                        <h5> Design Low Book </h5>
-                        <h3>
-                          <a href="shop-details.html">
-                            Simple Things You To Save BOOK
-                          </a>
+              {/* Comment lại phần này vì database không có rating */}
+              {/* {sortedProducts
+                .filter((product: IProduct) => product.rating)
+                .slice(0, 1)
+                .map((product: IProduct) => (
+                  <div className="col-xl-6 wow fadeInUp" data-wow-delay=".3s" key={product.id ?? product.code}>
+                    <div className="top-ratting-box-items flex flex-col md:flex-row items-center gap-6 p-6 bg-white shadow-md rounded-lg">
+                      <div className="book-thumb w-full md:w-1/3 flex justify-center">
+                        <Link to={`/shop-details/${product.code}`}>
+                          <img
+                            src={product.image ? `http://127.0.0.1:8000/storage/${product.image}` : news9}
+                            alt={product.title}
+                            className="w-48 h-64 object-cover rounded-lg"
+                          />
+                        </Link>
+                      </div>
+                      <div className="book-content w-full md:w-2/3 flex flex-col gap-2">
+                        <h5 className="text-sm text-orange-500 font-medium">{product.category}</h5>
+                        <h3 className="text-xl font-semibold text-blue-900">
+                          <Link to={`/shop-details/${product.code}`}>
+                            {product.title}
+                          </Link>
                         </h3>
-                      </div>
-                    </div>
-                    <span className="mt-10">$30.00</span>
-                    <ul className="author-post">
-                      <li className="authot-list">
-                        <span className="thumb">
-                          <img src={client2} alt="img" />
+                        <span className="text-lg font-bold text-orange-500">
+                          ${product.price?.toFixed(2) || "30.00"}
                         </span>
-                        <span className="content mt-10">Wilson</span>
-                      </li>
-                    </ul>
-                    <div className="shop-btn">
-                      <div className="star">
-                        <i className="fa-solid fa-star"></i>
+                        <ul className="author-post flex items-center gap-2 mt-2">
+                          <li className="authot-list flex items-center gap-2">
+                            <span className="thumb">
+                              <img src={client2} alt="img" className="w-6 h-6 rounded-full" />
+                            </span>
+                            <span className="content text-gray-600 text-sm">{product.supplier_name}</span>
+                          </li>
+                        </ul>
+                        <div className="shop-btn mt-4 flex items-center gap-3">
+                          {product.rating && (
+                            <div className="star text-yellow-500">
+                              <i className="fa-solid fa-star"></i>
+                            </div>
+                          )}
+                          <Link
+                            to={`/shop-details/${product.code}`}
+                            className="inline-flex items-center gap-2 bg-blue-100 text-blue-600 px-6 py-2 rounded-full hover:bg-blue-200 transition-all"
+                          >
+                            <i className="fa-solid fa-basket-shopping"></i> Add To Cart
+                          </Link>
+                        </div>
                       </div>
-                      <a href="shop-details.html" className="theme-btn">
-                        <i className="fa-solid fa-basket-shopping"></i> Add To
-                        Cart
-                      </a>
                     </div>
                   </div>
-                </div>
-              </div>
+                ))} */}
             </div>
           </div>
         </div>
       </section>
 
-      {/* Shop Section start  */}
-      <section className="shop-section section-padding fix">
-        <div className="container">
-          <div className="section-title-area">
-            <div className="section-title wow fadeInUp" data-wow-delay=".3s">
-              <h2>Sách bán chạy nhất</h2>
-            </div>
-            <a
-              href="shop.html"
-              className="bg-transparent border border-gray-500 text-gray-500 px-4 py-2 flex items-center gap-2 hover:bg-gray-100 transition-all animate-fade-up rounded-full"
-              style={{ animationDelay: "0.5s" }}
-            >
-              Xem thêm <ArrowRight className="w-6 h-6" />
-            </a>
-          </div>
-          <div className="swiper book-slider">
-            <div className="swiper-wrapper">
-              <div className="swiper-slide">
-                <div className="shop-box-items style-2">
-                  <div className="book-thumb center">
-                    <a href="shop-details-2.html">
-                      <img src={book01} alt="img" />
-                    </a>
-                    <ul className="post-box">
-                      <li>Hot</li>
-                      <li>-30%</li>
-                    </ul>
-                  </div>
-                  <div className="shop-content">
-                    <h5> Design Low Book </h5>
-                    <h3>
-                      <a href="shop-details.html">
-                        Simple Things You To <br /> Save BOOK
-                      </a>
-                    </h3>
-                    <ul className="price-list">
-                      <li>$30.00</li>
-                      <li>
-                        <del>$39.99</del>
-                      </li>
-                    </ul>
-                    <ul className="author-post">
-                      <li className="authot-list">
-                        <span className="thumb">
-                          <img src={client1} alt="img" />
-                        </span>
-                        <span className="content">Wilson</span>
-                      </li>
-
-                      <li className="star">
-                        <i className="fa-solid fa-star"></i>
-                      </li>
-                    </ul>
-                  </div>
-                  <div className="shop-button">
-                    <a href="shop-details.html" className="theme-btn">
-                      <i className="fa-solid fa-basket-shopping"></i> Add To
-                      Cart
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* News Section start  */}
+      {/* News Section start */}
       <section className="news-section fix section-padding section-bg">
         <div className="container">
           <div className="section-title text-center">
-            <h2 className="mb-3 wow fadeInUp" data-wow-delay=".3s">
+            <h2
+              className="mb-3 wow fadeInUp text-3xl font-bold text-blue-900"
+              data-wow-delay=".3s"
+            >
               Our Latest News
             </h2>
           </div>
@@ -407,13 +425,13 @@ const Client = (props: Props) => {
                     </li>
                   </ul>
                   <h3>
-                    <a href="news-details.html">
+                    <Link to="/news-details">
                       Montes suspendisse massa curae malesuada
-                    </a>
+                    </Link>
                   </h3>
-                  <a href="news-details.html" className="theme-btn-2">
+                  <Link to="/news-details" className="theme-btn-2">
                     Read More <i className="fa-regular fa-arrow-right-long"></i>
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -439,13 +457,13 @@ const Client = (props: Props) => {
                     </li>
                   </ul>
                   <h3>
-                    <a href="news-details.html">
+                    <Link to="/news-details">
                       Playful Picks Paradise: Kids’ Essentials with Dash.
-                    </a>
+                    </Link>
                   </h3>
-                  <a href="news-details.html" className="theme-btn-2">
+                  <Link to="/news-details" className="theme-btn-2">
                     Read More <i className="fa-regular fa-arrow-right-long"></i>
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -471,13 +489,13 @@ const Client = (props: Props) => {
                     </li>
                   </ul>
                   <h3>
-                    <a href="news-details.html">
+                    <Link to="/news-details">
                       Tiny Emporium: Playful Picks for Kids’ Delightful Days.
-                    </a>
+                    </Link>
                   </h3>
-                  <a href="news-details.html" className="theme-btn-2">
+                  <Link to="/news-details" className="theme-btn-2">
                     Read More <i className="fa-regular fa-arrow-right-long"></i>
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -503,13 +521,13 @@ const Client = (props: Props) => {
                     </li>
                   </ul>
                   <h3>
-                    <a href="news-details.html">
+                    <Link to="/news-details">
                       Eu parturient dictumst fames quam tempor
-                    </a>
+                    </Link>
                   </h3>
-                  <a href="news-details.html" className="theme-btn-2">
+                  <Link to="/news-details" className="theme-btn-2">
                     Read More <i className="fa-regular fa-arrow-right-long"></i>
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>

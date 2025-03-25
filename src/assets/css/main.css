@@ -6121,7 +6121,7 @@ span {
 }
 .shop-box-items .book-thumb {
   background-color: var(--bg2);
-  padding: 30px;
+  /* padding: 30px; */
   border-radius: 10px;
   position: relative;
   overflow: hidden;
@@ -7684,7 +7684,7 @@ span {
   border: 1px solid rgba(92, 112, 126, 0.3);
   background: #f8f8f8;
   text-align: center;
-  padding: 65px 40px;
+  /* padding: 65px 40px; */
 }
 @media (max-width: 767px) {
   .shop-details-wrapper .shop-details-image .shop-details-thumb {

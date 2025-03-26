@@ -49,6 +49,9 @@ import OrderStatus from "./pages/Admin/OrderStatus/OrderStatus";
 import DetailOrder from "./pages/Admin/Order/DetailOrder";
 import Blog from "./pages/Client/Blog/Blog";
 import Contact from "./pages/Client/Contact/Contact";
+import Covers from "./pages/Admin/Cover/Covers";
+import AddCover from "./pages/Admin/Cover/AddCover";
+import EditCover from "./pages/Admin/Cover/EditCover";
 
 
 const App = () => {
@@ -113,6 +116,13 @@ const App = () => {
             <Route index element={<Genre />} />
             <Route path="add" element={<AddGenre />} />
             <Route path="edit/:id" element={<EditGenre />} />
+          </Route>
+
+          {/* Quản lý trang bìa */}
+          <Route path="covers">
+            <Route index element={<Covers />} />
+            <Route path="add" element={<AddCover />} />
+            <Route path="edit/:id" element={<EditCover />} />
           </Route>
 
           {/* Quản lý người dùng Admin */}

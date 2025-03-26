@@ -82,8 +82,11 @@ const EditProduct = () => {
 
     // ❌ Xóa ảnh
     const handleRemoveImage = (index: number, setImageFunc: React.Dispatch<React.SetStateAction<File[]>>, imagesList: File[]) => {
-        setImageFunc(imagesList.filter((_, i) => i !== index));
+        const updatedImages = [...imagesList];
+        updatedImages.splice(index, 1); // Xoá đúng ảnh dựa vào index
+        setImageFunc(updatedImages);
     };
+
     const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
 
     // 🛠 Xử lý chọn/bỏ chọn thể loại
@@ -106,8 +109,10 @@ const EditProduct = () => {
             };
             console.log(updatedData);
             await onEdit(updatedData, id as string);
-            navigate("/admin/product");
-            window.location.reload();
+            // navigate("/admin/product");
+            // window.location.reload();
+            console.log(updatedData);
+
         } catch (error) {
             console.error("❌ Lỗi khi cập nhật sản phẩm:", error);
         }
@@ -193,7 +198,7 @@ const EditProduct = () => {
                                 alt="Ảnh chính"
                                 className="w-32 h-32 object-cover rounded-lg border"
                             />
-                            <button onClick={() => setImages([])} className="absolute top-0 right-0 bg-red-500 text-white px-2 py-1 rounded-full">X</button>
+                            <button type="button" onClick={() => setImages([])} className="absolute top-0 right-0 bg-red-500 text-white px-2 py-1 rounded-full">X</button>
                         </div>
                     )}
 
@@ -209,6 +214,7 @@ const EditProduct = () => {
                                     className="w-24 h-24 object-cover rounded-lg border"
                                 />
                                 <button
+                                    type="button"
                                     onClick={() => handleRemoveImage(index, setAdditionalImages, additionalImages)}
                                     className="absolute top-0 right-0 bg-red-500 text-white px-2 py-1 rounded-full"
                                 >

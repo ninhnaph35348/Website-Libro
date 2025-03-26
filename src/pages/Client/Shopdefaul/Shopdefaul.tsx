@@ -367,7 +367,7 @@ const Shopdefaul = (props:Props) => {
                                         </div>
                                     </div>
                                     <div className="col-xl-3 col-lg-4 col-md-6 wow fadeInUp" data-wow-delay=".4s">
-                                        <div className="shop-box-items">
+                                        <div className="shop-box-items">zz
                                             <div className="book-thumb center">
                                                 <a href="shop-details-2.html"><img src={s02} alt="img"/></a>
                                                 <ul className="shop-icon d-grid justify-content-center align-items-center">

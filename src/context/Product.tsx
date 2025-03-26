@@ -48,14 +48,16 @@ const ProductProvider = ({ children }: Props) => {
             formData.append("image", dataProduct.image);
         }
 
-        // ✅ Xử lý ảnh bổ sung
         if (Array.isArray(dataProduct.images)) {
             dataProduct.images.forEach((image) => {
                 if (image instanceof File) {
                     formData.append("images[]", image);
+                } else if (typeof image === "string") {
+                    formData.append("images[]", image); // Gửi ảnh cũ dạng URL
                 }
             });
         }
+
 
         return formData;
     };

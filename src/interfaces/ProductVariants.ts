@@ -4,7 +4,7 @@ export interface IProductVariant{
     id: number,
     product_id: number,
     price: number,
-    quantity: string,
+    quantity: number,
     promotion: number,
     cover_id: number,
     cover: string,

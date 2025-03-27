@@ -23,6 +23,7 @@ const EditProductvariant = () => {
         handleSubmit,
         reset,
         control,
+        watch,
         setValue, // 👈 Thêm setValue
         formState: { errors },
     } = useForm<IProductVariant>();
@@ -35,13 +36,12 @@ const EditProductvariant = () => {
                 const response = await getProductVariantById(id as string);
                 if (response?.data) {
                     const variant = response.data;
-                    reset({
-                        price: Number(variant.price), // Chuyển về số
-                        promotion: Number(variant.promotion), // Chuyển về số
-                        quantity: variant.quantity,
-                        cover_id: covers.find((c: any) => c.name === variant.author)?.id || "",
-                        product_id: products.find((p: any) => p.name === variant.publisher)?.id || "",
-                    });
+
+                    setValue("price", Number(variant.price));
+                    setValue("promotion", Number(variant.promotion));
+                    setValue("quantity", variant.quantity);
+                    setValue("cover_id", covers.find((c: any) => c.name === variant.author)?.id || "");
+                    setValue("product_id", products.find((p: any) => p.name === variant.publisher)?.id || "");
                 }
             } catch (error) {
                 console.error("Lỗi khi lấy sản phẩm:", error);
@@ -53,7 +53,8 @@ const EditProductvariant = () => {
         if (id && covers.length > 0 && products.length > 0) {
             fetchProduct();
         }
-    }, [id, covers, products, reset]); // 👈 Thêm covers và products vào dependencies
+    }, [id, covers, products, setValue]);
+
 
 
 
@@ -64,6 +65,7 @@ const EditProductvariant = () => {
         }
         try {
             await onEdit(data, id);
+            navigate(-1);
         } catch (error) {
             console.error("❌ Lỗi khi cập nhật sản phẩm:", error);
         }
@@ -104,6 +106,7 @@ const EditProductvariant = () => {
                     <Input
                         type="number"
                         placeholder="Nhập giá bán"
+                        value={watch("price")}
                         {...register("price", { required: "Giá bán không được để trống" })}
                         onChange={(e) => setValue("price", Number(e.target.value), { shouldValidate: true })}
                     />
@@ -116,6 +119,7 @@ const EditProductvariant = () => {
                     <Input
                         type="number"
                         placeholder="Nhập giá khuyến mãi"
+                        value={watch("promotion")}
                         {...register("promotion", { required: "Giá khuyến mãi không được để trống" })}
                         onChange={(e) => setValue("promotion", e.target.value as any, { shouldValidate: true })}
                     />
@@ -128,8 +132,9 @@ const EditProductvariant = () => {
                     <Input
                         type="number"
                         placeholder="Nhập số lượng"
+                        value={watch("quantity")}
                         {...register("quantity", { required: "Số lượng không được để trống" })}
-                        onChange={(e) => setValue("quantity", e.target.value, { shouldValidate: true })}
+                        onChange={(e) => setValue("quantity", e.target.value as any, { shouldValidate: true })}
                     />
                     {errors.quantity && <p className="text-red-500">{errors.quantity.message}</p>}
                 </div>
@@ -158,7 +163,7 @@ const EditProductvariant = () => {
 
                 {/* Buttons */}
                 <div className="mt-4 flex gap-2">
-                    <Button type="primary" htmlType="submit">Thêm</Button>
+                    <Button type="primary" htmlType="submit">Sửa</Button>
                     <Button onClick={() => navigate(-1)}>Quay lại</Button>
                 </div>
             </form>

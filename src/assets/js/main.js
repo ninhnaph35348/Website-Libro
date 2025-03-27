@@ -1,5 +1,10 @@
-/*-----------------------------------------------------------------
+import jQuery from "jquery";
+import { gsap } from "gsap";
 
+// Gán jQuery vào window
+window.jQuery = window.$ = jQuery;
+
+/*-----------------------------------------------------------------
 Template Name: Bookle - Book Store WooCommerce Html Template 
 Author:  Gramentheme
 Author URI: https://themeforest.net/user/gramentheme/portfolio
@@ -18,7 +23,7 @@ Description: Bookle - Book Store WooCommerce Html Template
 06. Wow Animation
 07. Nice Select
 8.  Book Slider
-09. Testimonial Slider
+9. Testimonial Slider
 10. Team Slider
 11. Range Slider
 12. Quantity
@@ -55,10 +60,9 @@ Description: Bookle - Book Store WooCommerce Html Template
         // 03.Body Overlay 
         $(".body-overlay").on("click", function () {
             $(".offcanvas__area").removeClass("offcanvas-opened");
-            $(".df-search-area").removeClass("opened");;
+            $(".df-search-area").removeClass("opened");
             $(".body-overlay").removeClass("opened");
         });
-
 
         $(window).on('scroll', function () {
             const mainHeaderHeight = $('.header-main').outerHeight();
@@ -80,8 +84,7 @@ Description: Bookle - Book Store WooCommerce Html Template
 
         $('.video-popup').magnificPopup({
             type: 'iframe',
-            callbacks: {
-            }
+            callbacks: {}
         });
 
         // 05. Counterup 
@@ -93,17 +96,15 @@ Description: Bookle - Book Store WooCommerce Html Template
         // 06. Wow Animation 
         // new WOW().init();
 
-
         // 07.Nice Select 
         $('select').niceSelect();
 
-        //  08.Book Slider 
+        // 08.Book Slider 
         if ($('.hero-book-slider').length > 0) {
             const heroBookSlider = new Swiper(".hero-book-slider", {
                 spaceBetween: 30,
                 speed: 2000,
                 loop: true,
-
                 navigation: {
                     nextEl: ".array-prev",
                     prevEl: ".array-next",
@@ -115,7 +116,7 @@ Description: Bookle - Book Store WooCommerce Html Template
             const bookSlider = new Swiper(".book-slider", {
                 spaceBetween: 30,
                 speed: 2000,
-                loop: true,
+                loop: false,
                 autoplay: {
                     delay: 2000,
                     disableOnInteraction: false,
@@ -218,7 +219,7 @@ Description: Bookle - Book Store WooCommerce Html Template
             });
         }
 
-        //  09.Testimonial Slider  
+        // 09.Testimonial Slider  
         if ($('.testimonial-slider').length > 0) {
             const testimonialSlider = new Swiper(".testimonial-slider", {
                 centeredSlides: true,
@@ -250,7 +251,7 @@ Description: Bookle - Book Store WooCommerce Html Template
             });
         }
 
-        //  10.Team Slider  
+        // 10.Team Slider  
         if ($('.team-slider').length > 0) {
             const teamSlider = new Swiper(".team-slider", {
                 spaceBetween: 30,
@@ -287,7 +288,7 @@ Description: Bookle - Book Store WooCommerce Html Template
             });
         }
 
-        // 11.Range sliger
+        // 11.Range slider
         function getVals() {
             let parent = this.parentNode;
             let slides = parent.getElementsByTagName("input");
@@ -413,13 +414,12 @@ Description: Bookle - Book Store WooCommerce Html Template
             });
         });
 
-        //12. Quantity 
+        // 12. Quantity 
         const inputs = document.querySelectorAll('#qty, #qty2, #qty3');
         const btnminus = document.querySelectorAll('.qtyminus');
         const btnplus = document.querySelectorAll('.qtyplus');
 
         if (inputs.length > 0 && btnminus.length > 0 && btnplus.length > 0) {
-
             inputs.forEach(function (input, index) {
                 const min = Number(input.getAttribute('min'));
                 const max = Number(input.getAttribute('max'));
@@ -450,7 +450,7 @@ Description: Bookle - Book Store WooCommerce Html Template
             });
         }
 
-        // 13.Back to top btn    
+        // 13. Back to top btn    
         $(window).scroll(function () {
             if ($(this).scrollTop() > 20) {
                 $("#back-top").addClass("show");
@@ -463,13 +463,13 @@ Description: Bookle - Book Store WooCommerce Html Template
             return false;
         });
 
-        // 14.Category-click
+        // 14. Category-click
         $(".bd-category__click").click(function () {
             $(this).siblings(".category__items, .category__items-2, .category__items-3, .category__items-4").slideToggle();
             $(this).toggleClass("items-open");
         });
 
-        //  15.Gsap Animation 
+        // 15. Gsap Animation 
         if ($('.cursor-follower').length > 0) {
             var follower = $(".cursor-follower");
 
@@ -479,17 +479,16 @@ Description: Bookle - Book Store WooCommerce Html Template
             var mouseX = 0,
                 mouseY = 0;
 
-            TweenMax.to({}, 0.016, {
+            gsap.to({}, {
+                duration: 0.016,
                 repeat: -1,
                 onRepeat: function () {
                     posX += (mouseX - posX) / 9;
                     posY += (mouseY - posY) / 9;
 
-                    TweenMax.set(follower, {
-                        css: {
-                            left: posX - 12,
-                            top: posY - 12
-                        }
+                    gsap.set(follower, {
+                        left: posX - 12,
+                        top: posY - 12
                     });
                 }
             });
@@ -502,18 +501,4 @@ Description: Bookle - Book Store WooCommerce Html Template
 
     }); // End Document Ready Function
 
-
-
-    // function loader() {
-    //     $(window).on('load', function () {
-    //         // Animate loader off screen
-    //         $(".preloader").addClass('loaded');
-    //         $(".preloader").delay(600).fadeOut();
-    //     });
-    // }
-
-    // loader();
-
-
 })(jQuery); // End jQuery
-

@@ -46,12 +46,12 @@ const ListProductVariant = () => {
                                 >
                                     Xóa
                                 </button>
-                                <button
+                                {/* <button
                                     onClick={() => navigate(`edit/${productvariant.id}`)}
                                     className="bg-yellow-500 text-white px-2 py-1 rounded"
                                 >
                                     Sửa
-                                </button>
+                                </button> */}
                             </td>
                         </tr>
                     ))}

@@ -30,7 +30,6 @@ import AddUserAdmin from "./pages/Admin/UserAdmin/AddUserAdmin";
 import EditUserAdmin from "./pages/Admin/UserAdmin/EditUserAdmin";
 import UserDetail from "./pages/Admin/UserAdmin/UserDetail";
 
-import Review from "./pages/Admin/Review/Review";
 import EditUserCustomer from "./pages/Admin/UserCustomer/EditUserCustomer";
 import CustomerAccounts from "./pages/Admin/UserCustomer/UserCustomer";
 // import AddAdminAccount from "./pages/UserAdmin/AddUserAdmin";
@@ -56,6 +55,8 @@ import ListProductVariant from "./pages/Admin/ProductVariants/ListProductVariant
 import AddProductvariant from "./pages/Admin/ProductVariants/AddProductVariant";
 import EditProductvariant from "./pages/Admin/ProductVariants/EditProductVariant";
 
+import ReviewDetail from "./pages/Admin/Review/ReviewDetail";
+import Review from "./pages/Admin/Review/Review";
 
 const App = () => {
   return (
@@ -105,7 +106,7 @@ const App = () => {
           <Route path="reviews">
             <Route index element={<Review />} />
             {/* <Route path="add" element={<AddReview />} /> */}
-            {/* <Route path="edit/:id" element={<EditReview />} /> */}
+            <Route path="detail/:id" element={<ReviewDetail />} />
           </Route>
 
           {/* Quản lý nhà xuất bản */}
@@ -177,7 +178,7 @@ const App = () => {
         <Route index element={<Client />} />
 
         <Route path="/check-out" element={<Checkout />} />
-        <Route path="/shop-detail" element={<Shopdetail />} />
+        <Route path="/shop-details/:code" element={<Shopdetail />} />
         <Route path="/shop-cart" element={<Shopcart />} />
         <Route path="/shop" element={<Shopdefaul />} />
         <Route path="/blog" element={<Blog />} />

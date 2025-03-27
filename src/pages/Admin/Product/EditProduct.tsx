@@ -21,7 +21,7 @@ const EditProduct = () => {
     const { id } = useParams(); // Lấy ID từ URL
     const navigate = useNavigate();
 
-    const { register, handleSubmit, setValue, reset, formState: { errors } } = useForm<IProduct>();
+    const { register, handleSubmit, reset, formState: { errors } } = useForm<IProduct>();
 
     const [loading, setLoading] = useState(true);
     const [images, setImages] = useState<File[]>([]);
@@ -81,11 +81,11 @@ const EditProduct = () => {
     };
 
     // ❌ Xóa ảnh
-    const handleRemoveImage = (index: number, setImageFunc: React.Dispatch<React.SetStateAction<File[]>>, imagesList: File[]) => {
-        const updatedImages = [...imagesList];
-        updatedImages.splice(index, 1); // Xoá đúng ảnh dựa vào index
-        setImageFunc(updatedImages);
-    };
+    // const handleRemoveImage = (index: number, setImageFunc: React.Dispatch<React.SetStateAction<File[]>>, imagesList: File[]) => {
+    //     const updatedImages = [...imagesList];
+    //     updatedImages.splice(index, 1); // Xoá đúng ảnh dựa vào index
+    //     setImageFunc(updatedImages);
+    // };
 
     const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
 
@@ -107,11 +107,9 @@ const EditProduct = () => {
                 image: images.length > 0 ? images[0] : null,
                 images: additionalImages.length > 0 ? additionalImages : [],
             };
-            console.log(updatedData);
             await onEdit(updatedData, id as string);
-            // navigate("/admin/product");
-            // window.location.reload();
-            console.log(updatedData);
+            navigate("/admin/product");
+            window.location.reload();
 
         } catch (error) {
             console.error("❌ Lỗi khi cập nhật sản phẩm:", error);
@@ -130,16 +128,16 @@ const EditProduct = () => {
                     {/* Nhập thông tin */}
                     {[
                         { name: "title", label: "Tiêu đề" },
-                        { name: "code", label: "Mã" },
+                        { name: "code", label: "Mã", readOnly: true },
                         { name: "supplier_name", label: "Tên nhà cung cấp" },
                         { name: "description", label: "Mô tả", type: "textarea" },
-                    ].map(({ name, label, type }) => (
+                    ].map(({ name, label, type, readOnly }) => (
                         <div key={name}>
                             <label className="block text-gray-700 font-medium mb-1">{label}</label>
                             {type === "textarea" ? (
                                 <textarea rows={5} {...register(name as keyof IProduct)} className="w-full p-2 border rounded-lg text-black focus:outline-none focus:ring-2 focus:ring-blue-500" />
                             ) : (
-                                <input {...register(name as keyof IProduct)} className="w-full p-2 border rounded-lg text-black focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                                <input {...register(name as keyof IProduct)} readOnly={readOnly} className="w-full p-2 border rounded-lg text-black focus:outline-none focus:ring-2 focus:ring-blue-500" />
                             )}
                             {errors[name as keyof IProduct] && <span className="text-red-500 text-sm">{errors[name as keyof IProduct]?.message}</span>}
                         </div>
@@ -192,19 +190,22 @@ const EditProduct = () => {
                     <h3 className="text-xl font-semibold">Ảnh chính</h3>
                     <input type="file" accept="image/*" onChange={(e) => handleImageChange(e, setImages)} className="w-full p-2 border border-gray-300 rounded-lg" />
                     {images.length > 0 && (
-                        <div className="relative">
+                        <div className="relative w-32 h-32">
                             <img
                                 src={images[0] instanceof File ? URL.createObjectURL(images[0]) : `http://127.0.0.1:8000/storage/${images[0]}`}
                                 alt="Ảnh chính"
                                 className="w-32 h-32 object-cover rounded-lg border"
                             />
-                            <button type="button" onClick={() => setImages([])} className="absolute top-0 right-0 bg-red-500 text-white px-2 py-1 rounded-full">X</button>
+                            <button type="button" onClick={() => setImages([])} className="absolute top-0 right-0 bg-red-500 text-white px-2 py-0.5 rounded-full">X</button>
                         </div>
                     )}
 
                     {/* Ảnh bổ sung */}
                     <h3 className="text-xl font-semibold">Hình ảnh bổ sung</h3>
-                    <input type="file" accept="image/*" multiple onChange={(e) => handleImageChange(e, setAdditionalImages)} className="w-full p-2 border border-gray-300 rounded-lg" />
+                    <div className="space-x-2">
+                        <input type="file" accept="image/*" multiple onChange={(e) => handleImageChange(e, setAdditionalImages)} className="w-full p-2 border border-gray-300 rounded-lg" />
+                        <p className="text-[9px]">Bạn chỉ có thể thay đổi toàn bộ ảnh</p>
+                    </div>
                     <div className="mt-4 flex flex-wrap gap-2">
                         {additionalImages.map((image, index) => (
                             <div key={index} className="relative">
@@ -213,13 +214,6 @@ const EditProduct = () => {
                                     alt={`Ảnh ${index}`}
                                     className="w-24 h-24 object-cover rounded-lg border"
                                 />
-                                <button
-                                    type="button"
-                                    onClick={() => handleRemoveImage(index, setAdditionalImages, additionalImages)}
-                                    className="absolute top-0 right-0 bg-red-500 text-white px-2 py-1 rounded-full"
-                                >
-                                    X
-                                </button>
                             </div>
                         ))}
                     </div>

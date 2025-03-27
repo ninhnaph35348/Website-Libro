@@ -29,6 +29,7 @@ import CustomerUserProvider from "./context/UserCustomer.tsx";
 import ReviewProvider from "./context/Review.tsx";
 import { Provider } from "react-redux";
 import CoverProvider from "./context/Cover.tsx";
+import ProductVariantProvider from "./context/ProductVariants.tsx";
 
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
@@ -39,23 +40,25 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
           <AuthorProvider>
             <LanguageProvider>
               <GenreProvider>
-                <CoverProvider>
-                <ProductProvider>
-                  <OrderStatusProvider>
-                    <OrderProvider>
-                      <AdminUserProvider>
-                        <CustomerUserProvider>
-                          <ReviewProvider>
-                            <StrictMode>
-                              <App />
-                            </StrictMode>
-                          </ReviewProvider>
-                        </CustomerUserProvider>
-                      </AdminUserProvider>
-                    </OrderProvider>
-                  </OrderStatusProvider>
-                </ProductProvider>
-                </CoverProvider>
+                <ProductVariantProvider>
+                  <ProductProvider>
+                    <CoverProvider>
+                      <OrderStatusProvider>
+                        <OrderProvider>
+                          <AdminUserProvider>
+                            <CustomerUserProvider>
+                              <ReviewProvider>
+                                <StrictMode>
+                                  <App />
+                                </StrictMode>
+                              </ReviewProvider>
+                            </CustomerUserProvider>
+                          </AdminUserProvider>
+                        </OrderProvider>
+                      </OrderStatusProvider>
+                    </CoverProvider>
+                  </ProductProvider>
+                </ProductVariantProvider>
               </GenreProvider>
             </LanguageProvider>
           </AuthorProvider>

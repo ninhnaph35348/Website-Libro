@@ -52,6 +52,9 @@ import Contact from "./pages/Client/Contact/Contact";
 import Covers from "./pages/Admin/Cover/Covers";
 import AddCover from "./pages/Admin/Cover/AddCover";
 import EditCover from "./pages/Admin/Cover/EditCover";
+import ListProductVariant from "./pages/Admin/ProductVariants/ListProductVariant";
+import AddProductvariant from "./pages/Admin/ProductVariants/AddProductVariant";
+import EditProductvariant from "./pages/Admin/ProductVariants/EditProductVariant";
 
 
 const App = () => {
@@ -75,6 +78,14 @@ const App = () => {
             <Route path="add" element={<AddProduct />} />
             <Route path=":code" element={<ProductDetail />} />
             <Route path="edit/:id" element={<EditProduct />} />
+          </Route>
+
+          {/* Quản lý sản phẩm */}
+          <Route path="product-variant">
+            <Route index element={<ListProductVariant />} />
+            <Route path="add" element={<AddProductvariant />} />
+            <Route path=":code" element={<ProductDetail />} />
+            <Route path="edit/:id" element={<EditProductvariant />} />
           </Route>
 
           {/* Quản lý danh mục */}

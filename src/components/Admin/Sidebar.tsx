@@ -17,6 +17,9 @@ import {
   MessageCircle,
   UserCircle,
   Settings,
+  Layers2,
+  Package,
+  Boxes,
 } from "lucide-react";
 
 const Sidebar = ({
@@ -27,14 +30,23 @@ const Sidebar = ({
   setCollapsed: (c: boolean) => void;
 }) => {
   const [accountDropdownOpen, setAccountDropdownOpen] = useState(false);
+  const [productDropdownOpen, setProdcutDropdownOpen] = useState(false);
   const [functionDropdownOpen, setFunctionDropdownOpen] = useState(false);
 
   const menuItems = useMemo(
     () => [
       { path: "/admin", label: "Trang Chủ", icon: Home },
-      { path: "/admin/product", label: "Sản Phẩm", icon: Book },
       { path: "/admin/category", label: "Danh Mục", icon: Library },
       { path: "/admin/order", label: "Đơn Hàng", icon: ListOrdered },
+    ],
+    []
+  );
+
+  const productDropdown = useMemo(
+    () => [
+      { path: "/admin/product", label: "Sản Phẩm", icon: Book },
+      { path: "/admin/covers", label: "Trang bìa", icon: Layers2 },
+      { path: "/admin/product-variant", label: "Biến thể sản phẩm", icon: Boxes },
     ],
     []
   );
@@ -122,6 +134,13 @@ const Sidebar = ({
       <nav className="py-4 overflow-auto h-[calc(100vh-4rem)]">
         <ul>
           {menuItems.map(renderMenuItem)}
+          {renderDropdown(
+            "Sản phẩm",
+            Package,
+            productDropdown,
+            productDropdownOpen,
+            setProdcutDropdownOpen
+          )}
           {renderDropdown(
             "Tài Khoản",
             UserCircle,

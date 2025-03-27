@@ -75,9 +75,12 @@ const ProductProvider = ({ children }: Props) => {
             dataProduct.images.forEach((image) => {
                 if (image instanceof File) {
                     formData.append("images[]", image);
+                } else if (typeof image === "string") {
+                    formData.append("images[]", image); // Gửi ảnh cũ dạng URL
                 }
             });
         }
+
 
         return formData;
     };

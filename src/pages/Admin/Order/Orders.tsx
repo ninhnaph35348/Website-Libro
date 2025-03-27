@@ -37,22 +37,22 @@ const Orders = () => {
                 <tbody>
                     {orders.map((order: IOrder, index: number) => (
                         <tr key={order.id ?? index}>
-                            <td className="border p-2 text-center">{ index + 1 }</td>
+                            <td className="border p-2 text-center">{index + 1}</td>
                             <td className="border p-2">
-                                <Link className="text-blue-400 hover:text-blue-600" to={`${order.id}`}>
+                                <Link className="text-blue-400 hover:text-blue-600" to={`${order.code_order}`}>
                                     {order.code_order}
                                 </Link>
                             </td>
                             <td className="border p-2">{order.user_name || "Khách lẻ"}</td>
                             <td className="border p-2">{Number(order.total_price).toLocaleString()} VND</td>
                             <td className="border p-2 text-center">
-                                <select className="border p-1 rounded" value={orderstatus.find((status: any) => status.name === order.status)?.id || ""} onChange={(e) => handleStatusChange(order.code_order, Number(e.target.value))}>
-                                        {orderstatus.filter((status: any) => status.id >= (orderstatus.find((s: any) => s.name === order.status)?.id || 0))
-                                                    .map((status: any) => (
-                                                        <option key={status.id} value={status.id}>
-                                                            {status.name}
-                                                        </option>
-                                                    ))}
+                                <select className="border p-1 rounded" value={orderstatus.find((status: any) => status.name === order.status)?.id || ""} onChange={(e) => handleStatusChange(order.code_order, Number(e.target.value) as any)}>
+                                    {orderstatus.filter((status: any) => status.id >= (orderstatus.find((s: any) => s.name === order.status)?.id || 0))
+                                        .map((status: any) => (
+                                            <option key={status.id} value={status.id}>
+                                                {status.name}
+                                            </option>
+                                        ))}
                                 </select>
                             </td>
                         </tr>

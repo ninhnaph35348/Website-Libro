@@ -61,7 +61,7 @@ const AddProduct = () => {
         };
         console.log("🚀 Dữ liệu sản phẩm gửi đi:", productData);
         await onAdd(productData, reset);
-        navigate("/admin/product");
+        navigate("/admin/product-variant/add");
         window.location.reload();
     };
 

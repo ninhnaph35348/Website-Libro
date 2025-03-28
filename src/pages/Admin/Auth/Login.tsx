@@ -27,21 +27,29 @@ const AdminLogin: React.FC = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validateForm()) return;
 
-    dispatch(login({ email, password })).then((res) => {
-      if (res.meta.requestStatus === "fulfilled") {
-        localStorage.setItem("token", res.payload.token);
-        dispatch(setUser(res.payload.user)); // Cập nhật Redux state
-        console.log("User sau login:", res.payload.user); // Kiểm tra user
-        navigate("/admin");
-        window.location.reload();
-      }
-    });
-  };
+    try {
+      const res = await dispatch(login({ email, password })).unwrap();
 
+      if (res.status === "inactive") {
+        setErrors({
+          email: "Tài khoản của bạn đã bị khóa do nhập sai quá nhiều lần.",
+        });
+        return;
+      }
+
+      localStorage.setItem("token", res.token);
+      dispatch(setUser(res.user));
+      navigate("/admin");
+      window.location.reload();
+    } catch (err: any) {
+      console.error("Lỗi đăng nhập:", err); // Kiểm tra lỗi trong console
+      setErrors({ email: err || "Đăng nhập thất bại" }); // Hiển thị lỗi từ Redux
+    }
+  };
   return (
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-indigo-50 to-blue-50">
       <div className="w-full max-w-md transform transition-all duration-300">
@@ -50,8 +58,8 @@ const AdminLogin: React.FC = () => {
             Đăng nhập Admin
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
-            {error ? (
-              <span className="text-red-500">{error}</span>
+            {errors.email || error ? (
+              <span className="text-red-500">{errors.email || error}</span>
             ) : (
               "Vui lòng nhập thông tin đăng nhập"
             )}
@@ -73,9 +81,6 @@ const AdminLogin: React.FC = () => {
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
-              {errors.email && (
-                <p className="text-sm text-red-500">{errors.email}</p>
-              )}
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700">
@@ -93,9 +98,6 @@ const AdminLogin: React.FC = () => {
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
-              {errors.password && (
-                <p className="text-sm text-red-500">{errors.password}</p>
-              )}
             </div>
             <button
               type="submit"

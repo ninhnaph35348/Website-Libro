@@ -3,22 +3,32 @@ import axiosInstance from "../../utils/axiosInstance";
 
 // Lấy thông tin user đăng nhập từ token (API /me)
 export const fetchUser = createAsyncThunk("auth/fetchUser", async () => {
-  const response = await axiosInstance.get("/me"); 
+  const response = await axiosInstance.get("/me");
   return response.data.user;
 });
 
 // Đăng nhập
-export const login = createAsyncThunk("auth/login", async (credentials, { dispatch }) => {
-  const response = await axiosInstance.post("/login", credentials);
-  localStorage.setItem("token", response.data.token);
-  dispatch(fetchUser()); // Gọi API lấy user ngay sau khi login
-  return response.data;
-});
+export const login = createAsyncThunk(
+  "auth/login",
+  async (credentials, { dispatch, rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.post("/login", credentials);
+      localStorage.setItem("token", response.data.token);
+      dispatch(fetchUser()); // Gọi API lấy user ngay sau khi login
+      return response.data;
+    } catch (error: any) {
+      // Trả về lỗi từ API
+      return rejectWithValue(
+        error.response?.data?.message || "Đăng nhập thất bại"
+      );
+    }
+  }
+);
 
 const authSlice = createSlice({
   name: "auth",
-  initialState: { 
-    user: null, 
+  initialState: {
+    user: null,
     token: localStorage.getItem("token") || null,
     loading: false,
     error: null,
@@ -35,8 +45,17 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(login.pending, (state) => {
+        state.loading = true;
+        state.error = null; // Xóa lỗi cũ
+      })
       .addCase(login.fulfilled, (state, action) => {
+        state.loading = false;
         state.token = action.payload.token;
+      })
+      .addCase(login.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string; // Lưu thông báo lỗi từ API
       })
       .addCase(fetchUser.fulfilled, (state, action) => {
         state.user = action.payload;

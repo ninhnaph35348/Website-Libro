@@ -30,7 +30,7 @@ const AdminLogin: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!validateForm()) return;
-    
+
     dispatch(login({ email, password })).then((res) => {
       if (res.meta.requestStatus === "fulfilled") {
         localStorage.setItem("token", res.payload.token);
@@ -50,9 +50,12 @@ const AdminLogin: React.FC = () => {
             Đăng nhập Admin
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
-            Vui lòng nhập thông tin đăng nhập
+            {error ? (
+              <span className="text-red-500">{error}</span>
+            ) : (
+              "Vui lòng nhập thông tin đăng nhập"
+            )}
           </p>
-          {error && <div className="mb-6 text-red-500 text-sm">{error}</div>}
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label className="block text-sm font-medium text-gray-700">
@@ -66,7 +69,7 @@ const AdminLogin: React.FC = () => {
                     errors.email ? "border-red-300" : "border-gray-300"
                   }`}
                   value={email}
-                  placeholder="Vui Long Nhap Email"
+                  placeholder="Vui lòng nhập email"
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
@@ -86,7 +89,7 @@ const AdminLogin: React.FC = () => {
                     errors.password ? "border-red-300" : "border-gray-300"
                   }`}
                   value={password}
-                  placeholder="Vui Long Nhap Mat Khau"
+                  placeholder="Vui lòng nhập mật khẩu"
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>

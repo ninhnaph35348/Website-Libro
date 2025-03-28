@@ -17,7 +17,6 @@ import {
   MessageCircle,
   UserCircle,
   Settings,
-  Layers2,
   Package,
   Boxes,
 } from "lucide-react";
@@ -45,7 +44,6 @@ const Sidebar = ({
   const productDropdown = useMemo(
     () => [
       { path: "/admin/product", label: "Sản Phẩm", icon: Book },
-      { path: "/admin/covers", label: "Trang bìa", icon: Layers2 },
       { path: "/admin/product-variant", label: "Biến thể sản phẩm", icon: Boxes },
     ],
     []

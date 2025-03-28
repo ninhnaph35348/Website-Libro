@@ -54,8 +54,9 @@ const authSlice = createSlice({
         state.token = action.payload.token;
       })
       .addCase(login.rejected, (state, action) => {
+        console.log("Lỗi từ API:", action.payload); // Debug lỗi
         state.loading = false;
-        state.error = action.payload as string; // Lưu thông báo lỗi từ API
+        state.error = action.payload || "Đăng nhập thất bại"; // Đảm bảo luôn có error
       })
       .addCase(fetchUser.fulfilled, (state, action) => {
         state.user = action.payload;

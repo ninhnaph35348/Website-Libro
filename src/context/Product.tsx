@@ -10,7 +10,8 @@ export const ProductContext = createContext({} as any);
 const ProductProvider = ({ children }: Props) => {
     const [products, setProducts] = useState<IProduct[]>([]);
     const [filteredProducts, setFilteredProducts] = useState<IProduct[]>([]);
-    const [searchTimeout, setSearchTimeout] = useState<NodeJS.Timeout | null>(null);
+    const [searchTimeout, setSearchTimeout] = useState<ReturnType<typeof setTimeout> | null>(null);
+
 
     useEffect(() => {
         (async () => {

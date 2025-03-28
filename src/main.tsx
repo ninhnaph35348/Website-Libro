@@ -38,6 +38,7 @@ import AdminUserProvider from "./context/UserAdmin.tsx";
 import CustomerUserProvider from "./context/UserCustomer.tsx";
 import ReviewProvider from "./context/Review.tsx";
 import { Provider } from "react-redux";
+import AuthProvider from "./context/Auth.tsx";
 
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
@@ -54,9 +55,11 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
                       <AdminUserProvider>
                         <CustomerUserProvider>
                           <ReviewProvider>
+                          <AuthProvider>
                             <StrictMode>
                               <App />
                             </StrictMode>
+                           </AuthProvider>
                           </ReviewProvider>
                         </CustomerUserProvider>
                       </AdminUserProvider>

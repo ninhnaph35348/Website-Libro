@@ -1,6 +1,8 @@
 import { createContext, useEffect, useState } from "react";
 import { createProduct, deleteProduct, getAllProducts, updateProduct } from "../services/Product";
 import { IProduct } from "../interfaces/Products";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 type Props = {
     children: React.ReactNode;
@@ -88,10 +90,11 @@ const ProductProvider = ({ children }: Props) => {
             const data = await createProduct(formData);
             setProducts((prevProducts) => [...prevProducts, data]);
             setFilteredProducts((prevProducts) => [...prevProducts, data]);
-
-            alert("Thêm sản phẩm thành công!");
+    
+            toast.success("Thêm sản phẩm thành công!");
         } catch (error) {
             console.error("❌ Lỗi khi thêm sản phẩm:", error);
+            toast.error("Lỗi khi thêm sản phẩm!");
         }
     };
 
@@ -99,31 +102,33 @@ const ProductProvider = ({ children }: Props) => {
         try {
             const formData = createFormData(dataProduct);
             const data = await updateProduct(formData, id);
-
+    
             setProducts((prevProducts) =>
                 prevProducts.map((product) => (product.id === id ? data : product))
             );
             setFilteredProducts((prevProducts) =>
                 prevProducts.map((product) => (product.id === id ? data : product))
             );
-
-            alert("Sửa sản phẩm thành công!");
+    
+            toast.success("Sửa sản phẩm thành công!");
         } catch (error) {
             console.error("❌ Lỗi khi sửa sản phẩm:", error);
+            toast.error("Lỗi khi sửa sản phẩm!");
         }
     };
-
+    
     const onDelete = async (id: number | string) => {
         try {
             if (window.confirm("Bạn có muốn xóa không?")) {
                 await deleteProduct(id);
-                alert("Xóa thành công!");
-
+                toast.success("Xóa sản phẩm thành công!");
+    
                 setProducts((prevProducts) => prevProducts.filter((product) => product.id !== id));
                 setFilteredProducts((prevProducts) => prevProducts.filter((product) => product.id !== id));
             }
         } catch (error) {
             console.error("❌ Lỗi khi xóa sản phẩm:", error);
+            toast.error("Lỗi khi xóa sản phẩm!");
         }
     };
 

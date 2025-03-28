@@ -24,6 +24,7 @@ const Shopdetail = (props: Props) => {
   const [product, setProduct] = useState<IProduct | null>(null);
   const { code } = useParams<{ code: string }>();
   const navigate = useNavigate();
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   useEffect(() => {
     (async () => {
@@ -38,6 +39,9 @@ const Shopdetail = (props: Props) => {
       }
     })();
   }, [code]);
+  const getImageSrc = (image: string | File) => {
+    return typeof image === "string" ? `http://127.0.0.1:8000/storage/${image}` : URL.createObjectURL(image);
+};
 
   if (!product)
     return (
@@ -81,36 +85,24 @@ const Shopdetail = (props: Props) => {
           <div className="shop-details-wrapper">
             <div className="row g-4">
               <div className="col-lg-5">
-                <div className="shop-details-image">
-                  {/* Ảnh chính */}
-                  <div className="shop-details-thumb">
-                    <img
-                      src={`http://127.0.0.1:8000/storage/${product.image}`}
-                      alt={product.title}
-                      style={{ width: "100%", height: "auto" }}
-                    />
-                  </div>
-                  {/* Ảnh phụ (nếu có) */}
-                  {product.images && product.images.length > 0 && (
-                    <div
-                      className="sub-images d-flex gap-2 mt-1"
-                      style={{ marginTop: "8px" }}
-                    >
-                      {product.images.map((img: any, index: any) => (
-                        <div key={index} className="sub-image">
-                          <img
-                            src={`http://127.0.0.1:8000/storage/${img}`}
-                            alt={`Product image ${index}`}
-                            style={{
-                              width: "100px",
-                              height: "100px",
-                              objectFit: "cover",
-                            }}
-                          />
+              <div className="max-w-3xl mx-auto p-6 border rounded-lg shadow-md">
+                    <img src={selectedImage || getImageSrc(product.image)} alt={product.title} className="w-full object-cover rounded" />
+
+                    {product.images?.length > 0 && (
+                        <div className="flex gap-2 mt-4">
+                            {product.images.map((img, index) => (
+                                <img
+                                    key={index}
+                                    src={getImageSrc(img)}
+                                    alt={`Product image ${index}`}
+                                    className={`w-24 h-24 object-cover rounded cursor-pointer border-2 ${
+                                        selectedImage === getImageSrc(img) ? "border-blue-500" : "border-transparent"
+                                    }`}
+                                    onClick={() => setSelectedImage(getImageSrc(img))}
+                                />
+                            ))}
                         </div>
-                      ))}
-                    </div>
-                  )}
+                    )}
                 </div>
               </div>
               <div className="col-lg-7">

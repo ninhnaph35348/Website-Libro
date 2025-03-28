@@ -6,6 +6,8 @@ getAllOrder,
 updateOrder,
 } from "../services/Order";
 import { IOrder } from "../interfaces/Orders";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 type Props = {
 children: React.ReactNode;
@@ -34,37 +36,38 @@ const [reload, setReload] = useState(false);
         })();
     }, [reload]);
 
-
-const onStatus = async (id: number) => {
-    try {
-        if (window.confirm("Bạn có muốn xóa không?")) {
-            await deleteOrder(id);
-            alert("Đổi trạng thái thành công!");
-            setOrders(orders.filter((order) => order.id !== id));
+ 
+    
+    const onStatus = async (id: number) => {
+        try {
+            if (window.confirm("Bạn có muốn xóa không?")) {
+                await deleteOrder(id);
+                toast.success("Đổi trạng thái thành công!");
+                setOrders(orders.filter((order) => order.id !== id));
+            }
+        } catch (error) {
+            console.log(error);
+            toast.error("Lỗi khi đổi trạng thái!");
         }
-    } catch (error) {
-        console.log(error);
-    }
-};
-
-const onEdit = async (formData: IOrder, code_order: number | string) => {
-    try {
-        if (window.confirm("Bạn có chắc muốn cập nhật đơn hàng này không?")) {
-            const data = await updateOrder(formData, code_order);
-            const newOrders = orders.map((order) =>
-                order.code_order === code_order ? data : order
-            );
-            setOrders(newOrders);
-            setReload((prev) => !prev);
-            alert("Cập nhật đơn hàng thành công!");
+    };
+    
+    const onEdit = async (formData: IOrder, code_order: number | string) => {
+        try {
+            if (window.confirm("Bạn có chắc muốn cập nhật đơn hàng này không?")) {
+                const data = await updateOrder(formData, code_order);
+                const newOrders = orders.map((order) =>
+                    order.code_order === code_order ? data : order
+                );
+                setOrders(newOrders);
+                setReload((prev) => !prev);
+                toast.success("Cập nhật đơn hàng thành công!");
+            }
+        } catch (error) {
+            toast.error("Cập nhật thất bại! Vui lòng thử lại.");
+            console.error(error);
         }
-    } catch (error) {
-        alert("Cập nhật thất bại! Vui lòng thử lại.");
-        console.error(error);
-    }
-};
-
-
+    };
+    
 return (
     <OrderContext.Provider value={{ orders, onStatus, onEdit }}>
         {children}

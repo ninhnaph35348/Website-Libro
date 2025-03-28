@@ -5,6 +5,7 @@ import { IGenre } from "../../../interfaces/Genre";
 
 const Genres = () => {
     const { genres, onDelete } = useContext(GenreContext);
+    console.log("Genres:", genres);
     const navigate = useNavigate();
 
     return (
@@ -22,7 +23,7 @@ const Genres = () => {
                     </tr>
                 </thead>
                 <tbody>
-    {genres.map((genre: IGenre , index: number) => (
+    {(genres || []).map((genre: IGenre, index: number) => (
         <tr key={genre.id ?? index}>
             <td className="border p-2 text-center">{index + 1}</td>
             <td className="border p-2">{genre.name}</td>
@@ -43,6 +44,7 @@ const Genres = () => {
         </tr>
     ))}
 </tbody>
+
             </table>
         </div>
     );

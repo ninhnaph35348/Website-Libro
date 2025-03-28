@@ -6,7 +6,6 @@ import { ReviewContext } from "../../../context/Review";
 const Review = () => {
   const { reviews, handleUpdateStatus, onHideReview } =
     useContext(ReviewContext);
-
   const navigate = useNavigate();
 
   return (
@@ -44,15 +43,19 @@ const Review = () => {
                   {rev.status === 1 ? "Chưa duyệt" : "Đã duyệt"}
                 </span>
               </td>
+
               <td className="border p-2 flex gap-2 justify-center">
-                {/* Cập nhật trạng thái */}
+                {/* Nút duyệt */}
                 <button
                   onClick={() => handleUpdateStatus(rev.id, rev.status)}
                   className={`px-2 py-1 rounded text-white ${
-                    rev.status === 1 ? "bg-green-500" : "bg-red-500"
+                    rev.status === 0
+                      ? "bg-gray-400 cursor-not-allowed"
+                      : "bg-blue-500"
                   }`}
+                  disabled={rev.status === 0} // Nếu đã duyệt thì vô hiệu hóa
                 >
-                  {rev.status === 1 ? "Đã duyệt" : " Chưa duyệt"}
+                  {rev.status === 0 ? "Đã duyệt" : "Duyệt"}
                 </button>
 
                 {/* Xem chi tiết */}
@@ -60,14 +63,18 @@ const Review = () => {
                   onClick={() => navigate(`detail/${rev.id}`)}
                   className="bg-green-500 text-white px-2 py-1 rounded"
                 >
-                  Xem chi tiết
+                  Chi tiết
                 </button>
 
-                {/* Xóa (ẩn review) */}
+                {/* Nút ẩn */}
                 <button
                   onClick={() => onHideReview(rev.id)}
-                  className="bg-gray-500 text-white px-2 py-1 rounded"
-                  disabled={rev.del_flg === 1} 
+                  className={`px-2 py-1 rounded text-white ${
+                    rev.del_flg === 1
+                      ? "bg-gray-400 cursor-not-allowed"
+                      : "bg-red-500"
+                  }`}
+                  disabled={rev.del_flg === 1} // Nếu đã ẩn thì vô hiệu hóa
                 >
                   Ẩn
                 </button>
@@ -81,4 +88,3 @@ const Review = () => {
 };
 
 export default Review;
-///

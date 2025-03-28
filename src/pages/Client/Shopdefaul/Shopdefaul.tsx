@@ -510,7 +510,7 @@ const Shopdefaul = (props: Props) => {
                     </div>
                   </div>
                 </div>
-                {/* <div className="page-nav-wrap text-center">
+                <div className="page-nav-wrap text-center">
                             <ul>
                                 <li><a className="previous" href="shop.html">Previous</a></li>
                                 <li><a className="page-numbers" href="shop.html">1</a></li>
@@ -519,7 +519,7 @@ const Shopdefaul = (props: Props) => {
                                 <li><a className="page-numbers" href="shop.html">...</a></li>
                                 <li><a className="next" href="shop.html">Next</a></li>
                             </ul>
-                        </div> */}
+                        </div>
               </div>
             </div>
           </div>

@@ -2,6 +2,8 @@ import { createContext, useEffect, useState } from "react";
 import { IReviews } from "../interfaces/Reviews";
 import { deleteReview, getAllReviews, hideReview, onUpdateStatus } from "../services/Review";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 type Props = {
   children: React.ReactNode;
@@ -31,15 +33,13 @@ const ReviewProvider = ({ children }: Props) => {
 
   // Cập nhật trạng thái review (Ẩn/Hiện)
   const handleUpdateStatus = async (id: number, currentStatus: number) => {
-    const isHiding = currentStatus === 0; // Nếu `del_flg` hiện tại là 0 thì sẽ chuyển sang 1 (tức là ẩn)
+    const isHiding = currentStatus === 0; // Nếu `status` hiện tại là 0 thì sẽ chuyển sang 1 (tức là ẩn)
 
     const message = isHiding 
         ? "Bạn có muốn ẩn bình luận này không?" 
         : "Bạn có muốn hiển thị lại bình luận này không?";
 
-    if (!window.confirm(message)) {
-        return; // Nếu người dùng nhấn Cancel, thoát ra
-    }
+    if (!window.confirm(message)) return;
 
     try {
         console.log("Trước khi cập nhật:", { id, currentStatus, isHiding });
@@ -54,11 +54,11 @@ const ReviewProvider = ({ children }: Props) => {
             )
         );
 
-        alert(isHiding ? "Bình luận đã bị ẩn!" : "Bình luận đã được hiển thị!");
+        toast.success(isHiding ? "Bình luận đã bị ẩn!" : "Bình luận đã được hiển thị!");
         console.log("Sau khi cập nhật:", reviews);
     } catch (error) {
         console.error("Lỗi cập nhật trạng thái:", error);
-        alert("Cập nhật trạng thái thất bại!");
+        toast.error("Cập nhật trạng thái thất bại!");
     }
 };
 
@@ -67,36 +67,35 @@ const ReviewProvider = ({ children }: Props) => {
   // Ẩn review (Xóa mềm)
   const onHideReview = async (id: number | string) => {
     try {
-        // Hiển thị hộp thoại xác nhận
         if (!window.confirm("Bạn có chắc chắn muốn ẩn đánh giá này không?")) return;
 
         await hideReview(id);
-        alert("Đánh giá đã được ẩn thành công!");
+        toast.success("Đánh giá đã được ẩn thành công!");
 
         fetchReviews(); // Cập nhật danh sách review
     } catch (error) {
         console.error("Lỗi khi ẩn review:", error);
-        alert("Đã xảy ra lỗi khi ẩn đánh giá!");
+        toast.error("Đã xảy ra lỗi khi ẩn đánh giá!");
     }
 };
 
-  const onDelete = async (id: number) => {
-    try {
-        if (!window.confirm("Bạn có chắc chắn muốn xóa vĩnh viễn không?")) return;
+const onDelete = async (id: number) => {
+  try {
+      if (!window.confirm("Bạn có chắc chắn muốn xóa vĩnh viễn không?")) return;
 
-        await deleteReview(id); 
-        alert("Xóa đánh giá thành công!");
+      await deleteReview(id); 
+      toast.success("Xóa đánh giá thành công!");
 
-        // Cập nhật danh sách review mà không cần load lại trang
-        setReviews((prevReviews) => 
-            prevReviews ? prevReviews.filter((review) => review.id !== id) : []
-        );
+      // Cập nhật danh sách review mà không cần load lại trang
+      setReviews((prevReviews) => 
+          prevReviews ? prevReviews.filter((review) => review.id !== id) : []
+      );
 
-        navigate('/admin/reviews');
-    } catch (error) {
-        console.error("Lỗi khi xóa review:", error);
-        alert("Đã xảy ra lỗi khi xóa đánh giá!");
-    }
+      navigate('/admin/reviews');
+  } catch (error) {
+      console.error("Lỗi khi xóa review:", error);
+      toast.error("Đã xảy ra lỗi khi xóa đánh giá!");
+  }
 };
 
   return (

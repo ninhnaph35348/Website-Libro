@@ -25,6 +25,8 @@ import "../../assets/js/main.js";
 import "../../assets/js/swiper-bundle.min.js";
 import "../../assets/js/viewport.jquery.js";
 
+
+
 const LayoutClient = () => {
   return (
     <>

@@ -10,7 +10,7 @@ export const ProductContext = createContext({} as any);
 const ProductProvider = ({ children }: Props) => {
     const [products, setProducts] = useState<IProduct[]>([]);
     const [filteredProducts, setFilteredProducts] = useState<IProduct[]>([]);
-    const [searchTimeout, setSearchTimeout] = useState<NodeJS.Timeout | null>(null);
+    const [searchTimeout, setSearchTimeout] = useState<ReturnType<typeof setTimeout> | null>(null);
 
     useEffect(() => {
         (async () => {
@@ -80,8 +80,6 @@ const ProductProvider = ({ children }: Props) => {
                 }
             });
         }
-
-
         return formData;
     };
 
@@ -91,7 +89,6 @@ const ProductProvider = ({ children }: Props) => {
             const data = await createProduct(formData);
             setProducts((prevProducts) => [...prevProducts, data]);
             setFilteredProducts((prevProducts) => [...prevProducts, data]);
-
             alert("Thêm sản phẩm thành công!");
         } catch (error) {
             console.error("❌ Lỗi khi thêm sản phẩm:", error);

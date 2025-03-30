@@ -50,6 +50,13 @@ import OrderStatus from "./pages/Admin/OrderStatus/OrderStatus";
 import DetailOrder from "./pages/Admin/Order/DetailOrder";
 import Blog from "./pages/Client/Blog/Blog";
 import Contact from "./pages/Client/Contact/Contact";
+import Covers from "./pages/Admin/Cover/Covers";
+import AddCover from "./pages/Admin/Cover/AddCover";
+import EditCover from "./pages/Admin/Cover/EditCover";
+import ListProductVariant from "./pages/Admin/ProductVariants/ListProductVariant";
+import AddProductvariant from "./pages/Admin/ProductVariants/AddProductVariant";
+import EditProductvariant from "./pages/Admin/ProductVariants/EditProductVariant";
+
 import ReviewDetail from "./pages/Admin/Review/ReviewDetail";
 import Review from "./pages/Admin/Review/Review";
 import LoginClient from "./pages/Client/Login/Login";
@@ -82,6 +89,14 @@ const App = () => {
             <Route path="add" element={<AddProduct />} />
             <Route path=":code" element={<ProductDetail />} />
             <Route path="edit/:id" element={<EditProduct />} />
+          </Route>
+
+          {/* Quản lý sản phẩm */}
+          <Route path="product-variant">
+            <Route index element={<ListProductVariant />} />
+            <Route path="add" element={<AddProductvariant />} />
+            <Route path=":code" element={<ProductDetail />} />
+            <Route path="edit/:id" element={<EditProductvariant />} />
           </Route>
 
           {/* Quản lý danh mục */}
@@ -123,6 +138,13 @@ const App = () => {
             <Route index element={<Genre />} />
             <Route path="add" element={<AddGenre />} />
             <Route path="edit/:id" element={<EditGenre />} />
+          </Route>
+
+          {/* Quản lý trang bìa */}
+          <Route path="covers">
+            <Route index element={<Covers />} />
+            <Route path="add" element={<AddCover />} />
+            <Route path="edit/:id" element={<EditCover />} />
           </Route>
 
           {/* Quản lý người dùng Admin */}

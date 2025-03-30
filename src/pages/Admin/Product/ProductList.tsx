@@ -7,7 +7,6 @@ const ProductList = () => {
     const { filteredProducts, onDelete, filterProductsByTitle } = useContext(ProductContext);
     const navigate = useNavigate();
     const [searchTerm, setSearchTerm] = useState("");
-
     // Phân trang
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10;
@@ -72,6 +71,10 @@ const ProductList = () => {
                     </tr>
                 </thead>
                 <tbody>
+                    {filteredProducts.length > 0 ? (
+                        filteredProducts.map((product: IProduct, index: number) => (
+                            <tr key={product.id ?? index} className="border">
+                                <td className="border p-2 text-center">{index + 1}</td>
                     {paginatedProducts.length > 0 ? (
                         paginatedProducts.map((product: IProduct, index: number) => (
                             <tr key={product.id ?? index} className="border">

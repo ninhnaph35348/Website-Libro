@@ -1,6 +1,6 @@
 import instance from "../config/axios";
 
-// Lấy toàn bộ danh sách review
+// ! Lấy toàn bộ danh sách review (Chỉ lấy những review có del_flg = 0)
 export const getAllReviews = async () => {
     try {
         const { data } = await instance.get("reviews/");
@@ -11,7 +11,7 @@ export const getAllReviews = async () => {
     }
 };
 
-// Lấy chi tiết review theo ID
+// ! Lấy chi tiết review theo ID
 export const getReviewById = async (id: number | string) => {
     try {
         const { data } = await instance.get(`reviews/${id}`);
@@ -21,34 +21,33 @@ export const getReviewById = async (id: number | string) => {
     }
 };
 
-// Cập nhật trạng thái review (Ẩn/Hiện)
-export const onUpdateStatus = async (id: number | string, del_flg: number) => {
+// ! Cập nhật trạng thái review (Hiện/Ẩn)
+export const onUpdateStatus = async (id: number | string, status: number) => {
     try {
-        console.log("Gửi yêu cầu cập nhật:", { id, del_flg });
+        console.log("🔹 Gửi yêu cầu cập nhật trạng thái:", { id, status });
 
-        const { data } = await instance.put(`reviews/hidden/${id}`); // Không cần gửi del_flg
+        const { data } = await instance.put(`reviews/edit/${id}`, { status });
 
-        console.log("Dữ liệu trả về từ API:", data);
+        console.log("✅ Dữ liệu trả về từ API:", data);
         return data;
     } catch (error) {
-        console.error("Lỗi cập nhật trạng thái review:", error);
+        console.error("❌ Lỗi cập nhật trạng thái review:", error);
         throw new Error("Lỗi cập nhật trạng thái review");
     }
 };
 
 
-
-
-
-// Ẩn review (Soft delete)
+// ! Ẩn review (Soft delete - Cập nhật del_flg = 1)
 export const hideReview = async (id: number | string) => {
     try {
-        const { data } = await instance.put(`reviews/${id}/hide`);
+        const { data } = await instance.put(`reviews/${id}`);
         return data;
     } catch (error) {
         throw new Error("Lỗi khi ẩn review");
     }
 };
+
+// ! Xóa review vĩnh viễn (chỉ gọi khi cần)
 export const deleteReview = async (id: number | string) => {
     try {
         const { data } = await instance.delete(`reviews/${id}`);
@@ -59,12 +58,13 @@ export const deleteReview = async (id: number | string) => {
     }
 };
 
+// 📌 Lấy thông tin sản phẩm theo ID
 export const getProductById = async (id: string) => {
     try {
-      const response = await instance.get(`/products/${id}`);
-      return response.data;
+        const response = await instance.get(`/products/${id}`);
+        return response.data;
     } catch (error) {
-      console.error("Lỗi khi lấy sản phẩm:", error);
-      return null;
+        console.error("Lỗi khi lấy sản phẩm:", error);
+        return null;
     }
-  };
+};

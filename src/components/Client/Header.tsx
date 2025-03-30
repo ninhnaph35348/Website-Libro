@@ -1,7 +1,12 @@
+import { useContext } from "react";
+import { AuthContext } from "../../context/Auth"
 import whiteLogo from "../../assets/img/logo/white-logo.svg";
 import icon13 from "../../assets/img/icon/icon-13.svg";
 import { Link } from "react-router-dom";
+
 const Header = () => {
+  const { user, logout } = useContext(AuthContext);
+
   return (
     <>
       <div className="header-top-1">
@@ -25,19 +30,27 @@ const Header = () => {
                 </Link>
               </li>
 
-              <li>
-                <i className="fa-light fa-user" />
-                <button data-bs-toggle="modal" data-bs-target="#loginModal">
-                  Login
-                </button>
-              </li>
+              {user ? (
+                <li className="relative">
+                  <i className="fa-light fa-user" />
+                  <span className="ml-2">{user.username}</span>
+                  <button className="ml-4 text-red-500" onClick={logout}>
+                    Đăng xuất
+                  </button>
+                </li>
+              ) : (
+                <li>
+                  <i className="fa-light fa-user" />
+                  <Link to="/login">Login</Link>
+                </li>
+              )}
             </ul>
           </div>
         </div>
       </div>
-      {/* Sticky Header Section start  */}
 
-      {/* Main Header Section start  */}
+      {/* Sticky Header Section start */}
+
       <header className="header-1">
         <div className="mega-menu-wrapper">
           <div className="header-main">

@@ -6,6 +6,8 @@ import {
   updateLanguage,
 } from "../services/Language";
 import { ILanguage } from "../interfaces/Language";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 type Props = {
   children: React.ReactNode;
@@ -28,7 +30,7 @@ const LanguageProvider = ({ children }: Props) => {
     try {
       const data = await createLanguage(dataLanguage);
       setLanguages([...languages, data]);
-      alert("Thêm ngôn ngữ thành công!");
+      toast.success("Thêm ngôn ngữ thành công")
       setReload((prev) => !prev);
     } catch (error) {
       console.log(error);
@@ -39,11 +41,12 @@ const LanguageProvider = ({ children }: Props) => {
     try {
       if (window.confirm("Bạn có muốn xóa không?")) {
         await deleteLanguage(id);
-        alert("Xóa ngôn ngữ thành công!");
+        toast.success("Xóa ngôn ngữ thành công!");
         setLanguages(languages.filter((language) => language.id !== id));
       }
     } catch (error) {
       console.log(error);
+      toast.error("Lỗi khi xóa ngôn ngữ!");
     }
   };
 
@@ -54,10 +57,11 @@ const LanguageProvider = ({ children }: Props) => {
         language.id === id ? data : language
       );
       setLanguages(newLanguages);
-      alert("Sửa ngôn ngữ thành công!");
+      toast.success("Sửa ngôn ngữ thành công!");
       setReload((prev) => !prev);
     } catch (error) {
       console.log(error);
+      toast.error("Lỗi khi sửa ngôn ngữ!");
     }
   };
 

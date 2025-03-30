@@ -3,6 +3,8 @@ import PrivateRoute from "./components/ProtectedRoute"; // Import PrivateRoute
 import LayoutAdmin from "./layouts/Admin";
 import Login from "./pages/Admin/Auth/Login";
 
+
+
 // Admin Pages
 import Home from "./pages/Admin/Home";
 
@@ -57,10 +59,18 @@ import EditProductvariant from "./pages/Admin/ProductVariants/EditProductVariant
 
 import ReviewDetail from "./pages/Admin/Review/ReviewDetail";
 import Review from "./pages/Admin/Review/Review";
+import LoginClient from "./pages/Client/Login/Login";
+import Sinup from "./pages/Client/Login/Sinup";
+import Profile from "./pages/Client/Profile/Profile";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 const App = () => {
   return (
-    <Routes>
+    <>
+      <ToastContainer position="top-right" autoClose={3000} />
+      <Routes>
       {/* Route Đăng nhập Admin */}
       <Route path="admin/login" element={<Login />} />
 
@@ -182,12 +192,20 @@ const App = () => {
         <Route path="/shop-cart" element={<Shopcart />} />
         <Route path="/shop" element={<Shopdefaul />} />
         <Route path="/blog" element={<Blog />} />
+       
+
         <Route path="/contact" element={<Contact />} />
       </Route>
+      <Route path="/login" element={<LoginClient/>} />
+      <Route path="/register" element={<Sinup/>} />
+      <Route path="/profile" element={<Profile/>} />
+
+
 
       {/* Trang 404 */}
-      <Route path="*" element={<NotFound />} />
-    </Routes>
+      </Routes>
+    </>
   );
 };
+
 export default App;

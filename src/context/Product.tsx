@@ -12,7 +12,6 @@ const ProductProvider = ({ children }: Props) => {
     const [filteredProducts, setFilteredProducts] = useState<IProduct[]>([]);
     const [searchTimeout, setSearchTimeout] = useState<ReturnType<typeof setTimeout> | null>(null);
 
-
     useEffect(() => {
         (async () => {
             try {
@@ -76,10 +75,11 @@ const ProductProvider = ({ children }: Props) => {
             dataProduct.images.forEach((image) => {
                 if (image instanceof File) {
                     formData.append("images[]", image);
+                } else if (typeof image === "string") {
+                    formData.append("images[]", image); // Gửi ảnh cũ dạng URL
                 }
             });
         }
-
         return formData;
     };
 
@@ -89,7 +89,6 @@ const ProductProvider = ({ children }: Props) => {
             const data = await createProduct(formData);
             setProducts((prevProducts) => [...prevProducts, data]);
             setFilteredProducts((prevProducts) => [...prevProducts, data]);
-
             alert("Thêm sản phẩm thành công!");
         } catch (error) {
             console.error("❌ Lỗi khi thêm sản phẩm:", error);

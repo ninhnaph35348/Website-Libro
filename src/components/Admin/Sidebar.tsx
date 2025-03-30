@@ -17,6 +17,8 @@ import {
   MessageCircle,
   UserCircle,
   Settings,
+  Package,
+  Boxes,
 } from "lucide-react";
 
 const Sidebar = ({
@@ -27,14 +29,22 @@ const Sidebar = ({
   setCollapsed: (c: boolean) => void;
 }) => {
   const [accountDropdownOpen, setAccountDropdownOpen] = useState(false);
+  const [productDropdownOpen, setProdcutDropdownOpen] = useState(false);
   const [functionDropdownOpen, setFunctionDropdownOpen] = useState(false);
 
   const menuItems = useMemo(
     () => [
       { path: "/admin", label: "Trang Chủ", icon: Home },
-      { path: "/admin/product", label: "Sản Phẩm", icon: Book },
       { path: "/admin/category", label: "Danh Mục", icon: Library },
       { path: "/admin/order", label: "Đơn Hàng", icon: ListOrdered },
+    ],
+    []
+  );
+
+  const productDropdown = useMemo(
+    () => [
+      { path: "/admin/product", label: "Sản Phẩm", icon: Book },
+      { path: "/admin/product-variant", label: "Biến thể sản phẩm", icon: Boxes },
     ],
     []
   );
@@ -57,6 +67,7 @@ const Sidebar = ({
       { path: "/admin/publisher", label: "Nhà Xuất Bản", icon: Users },
       { path: "/admin/languages", label: "Ngôn Ngữ", icon: Globe },
       { path: "/admin/genres", label: "Thể Loại", icon: Layers },
+      { path: "/admin/covers", label: "Loại Bìa", icon: Layers },
       { path: "/admin/reviews", label: "Bình Luận", icon: MessageCircle },
       { path: "/admin/orderstatus", label: "Trạng thái", icon: Truck },
     ],
@@ -91,9 +102,8 @@ const Sidebar = ({
           </div>
           {!collapsed && (
             <ChevronDown
-              className={`w-4 h-4 transition-transform ${
-                isOpen ? "rotate-180" : ""
-              }`}
+              className={`w-4 h-4 transition-transform ${isOpen ? "rotate-180" : ""
+                }`}
             />
           )}
         </div>
@@ -106,9 +116,8 @@ const Sidebar = ({
 
   return (
     <aside
-      className={`fixed left-0 h-full bg-gray-800 text-white ${
-        collapsed ? "w-16" : "w-64"
-      } transition-all duration-300 z-30`}
+      className={`fixed left-0 h-full bg-gray-800 text-white ${collapsed ? "w-16" : "w-64"
+        } transition-all duration-300 z-30`}
     >
       <div className="h-16 flex items-center px-4 bg-gray-900">
         <span className={`font-bold text-xl ${collapsed ? "hidden" : "block"}`}>
@@ -120,9 +129,16 @@ const Sidebar = ({
         />
       </div>
 
-      <nav className="py-4">
+      <nav className="py-4 overflow-auto h-[calc(100vh-4rem)]">
         <ul>
           {menuItems.map(renderMenuItem)}
+          {renderDropdown(
+            "Sản phẩm",
+            Package,
+            productDropdown,
+            productDropdownOpen,
+            setProdcutDropdownOpen
+          )}
           {renderDropdown(
             "Tài Khoản",
             UserCircle,

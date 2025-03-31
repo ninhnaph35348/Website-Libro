@@ -1,11 +1,12 @@
-import { useContext } from "react";
-import { AuthContext } from "../../context/Auth"
+import { useContext, useState } from "react";
+import { AuthContext } from "../../context/Auth";
 import whiteLogo from "../../assets/img/logo/white-logo.svg";
 import icon13 from "../../assets/img/icon/icon-13.svg";
 import { Link } from "react-router-dom";
 
 const Header = () => {
   const { user, logout } = useContext(AuthContext);
+  const [showConfirm, setShowConfirm] = useState(false);
 
   return (
     <>
@@ -31,12 +32,41 @@ const Header = () => {
               </li>
 
               {user ? (
-                <li className="relative">
-                  <i className="fa-light fa-user" />
-                  <span className="ml-2">{user.username}</span>
-                  <button className="ml-4 text-red-500" onClick={logout}>
-                    Đăng xuất
-                  </button>
+                <li className="relative flex flex-col items-start gap-2">
+                  <div className="flex items-center gap-2">
+                    <i className="fa-light fa-user text-blue-500 text-lg" />
+                    <span className="ml-2 font-semibold text-gray-800 text-base">
+                      {user.username}
+                    </span>
+                    <button
+                      className="ml-4 text-red-500 hover:text-red-700 font-medium"
+                      onClick={() => setShowConfirm(true)}
+                    >
+                      Đăng xuất
+                    </button>
+                  </div>
+
+                  {showConfirm && (
+                    <div className="bg-white shadow-md p-2 rounded-md absolute top-full right-0 mt-1 z-50 w-auto border border-gray-200">
+                      <p className="text-xs text-gray-700 font-medium text-center mb-1">
+                        Đăng xuất?
+                      </p>
+                      <div className="flex justify-center gap-2">
+                        <button
+                          className="bg-blue-500 text-white px-3 py-1 rounded text-xs hover:bg-blue-600 transition duration-200"
+                          onClick={logout}
+                        >
+                          Có
+                        </button>
+                        <button
+                          className="bg-blue-500 text-white px-3 py-1 rounded text-xs hover:bg-blue-600 transition duration-200"
+                          onClick={() => setShowConfirm(false)}
+                        >
+                          Không
+                        </button>
+                      </div>
+                    </div>
+                  )}
                 </li>
               ) : (
                 <li>
@@ -50,7 +80,6 @@ const Header = () => {
       </div>
 
       {/* Sticky Header Section start */}
-
       <header className="header-1">
         <div className="mega-menu-wrapper">
           <div className="header-main">

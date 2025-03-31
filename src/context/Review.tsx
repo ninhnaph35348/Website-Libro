@@ -47,83 +47,59 @@ const ReviewProvider = ({ children }: Props) => {
     if (!window.confirm(message)) return;
 
     try {
-        console.log("Trước khi cập nhật:", { id, currentStatus, isHiding });
+      const response = await onUpdateStatus(id, isHiding ? 1 : 0);
 
-        const response = await onUpdateStatus(id, isHiding ? 1 : 0);
-        console.log("Kết quả API:", response);
-
-        // Cập nhật lại danh sách review ngay lập tức
-        setReviews((prevReviews) =>
-            prevReviews.map((rev) =>
-                rev.id === id ? { ...rev, status: isHiding ? 1 : 0 } : rev
-            )
-        );
-
-        toast.success(isHiding ? "Bình luận đã bị ẩn!" : "Bình luận đã được hiển thị!");
-        console.log("Sau khi cập nhật:", reviews);
-    } catch (error) {
-        console.error("Lỗi cập nhật trạng thái:", error);
-        toast.error("Cập nhật trạng thái thất bại!");
-      const response = await onUpdateStatus(id, isApproving ? 0 : 1);
-      console.log("Kết quả API:", response);
-
-      // Cập nhật danh sách review ngay lập tức
+      // Cập nhật lại danh sách review ngay lập tức
       setReviews((prevReviews) =>
         prevReviews.map((rev) =>
-          rev.id === id ? { ...rev, status: isApproving ? 0 : 1 } : rev
+          rev.id === id ? { ...rev, status: isHiding ? 1 : 0 } : rev
         )
       );
 
-      alert(
-        isApproving
-          ? "Bình luận đã được duyệt!"
-          : "Bình luận đã chuyển về chưa duyệt!"
+      toast.success(
+        isHiding ? "Bình luận đã bị ẩn!" : "Bình luận đã được hiển thị!"
       );
     } catch (error) {
       console.error("Lỗi cập nhật trạng thái:", error);
-      alert("Cập nhật trạng thái thất bại!");
+      toast.error("Cập nhật trạng thái thất bại!");
     }
   };
 
   // Ẩn review (Xóa mềm)
   const onHideReview = async (id: number | string) => {
     try {
-        if (!window.confirm("Bạn có chắc chắn muốn ẩn đánh giá này không?")) return;
-
-        await hideReview(id);
-        toast.success("Đánh giá đã được ẩn thành công!");
-      // Hiển thị hộp thoại xác nhận
       if (!window.confirm("Bạn có chắc chắn muốn ẩn đánh giá này không?"))
         return;
 
       await hideReview(id);
-      alert("Đánh giá đã được ẩn thành công!");
+      toast.success("Đánh giá đã được ẩn thành công!");
 
       fetchReviews(); // Cập nhật danh sách review
     } catch (error) {
-        console.error("Lỗi khi ẩn review:", error);
-        toast.error("Đã xảy ra lỗi khi ẩn đánh giá!");
+      console.error("Lỗi khi ẩn review:", error);
+      toast.error("Đã xảy ra lỗi khi ẩn đánh giá!");
     }
   };
 
-const onDelete = async (id: number) => {
-  try {
+  // Xóa review (Xóa vĩnh viễn)
+  const onDelete = async (id: number) => {
+    try {
       if (!window.confirm("Bạn có chắc chắn muốn xóa vĩnh viễn không?")) return;
 
-      await deleteReview(id); 
+      await deleteReview(id);
       toast.success("Xóa đánh giá thành công!");
 
       // Cập nhật danh sách review mà không cần load lại trang
-      setReviews((prevReviews) => 
-          prevReviews ? prevReviews.filter((review) => review.id !== id) : []
+      setReviews((prevReviews) =>
+        prevReviews ? prevReviews.filter((review) => review.id !== id) : []
       );
 
-      navigate('/admin/reviews');
-  } catch (error) {
+      navigate("/admin/reviews");
+    } catch (error) {
       console.error("Lỗi khi xóa review:", error);
       toast.error("Đã xảy ra lỗi khi xóa đánh giá!");
-  }
-
+    }
+  };
 
   return (
     <ReviewContext.Provider

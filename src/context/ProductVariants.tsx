@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import { IProductVariant } from "../interfaces/ProductVariants";
-import { createProductVariant, deleteProductVariant, getAllProductVariant, updateProductVariant } from "../services/ProductVariants";
+import { createProductVariant, deleteProductVariant, getAllProductVariant, getAllProductVariantLatest, updateProductVariant } from "../services/ProductVariants";
 
 
 type Props = {
@@ -11,6 +11,7 @@ export const ProductVariantContext = createContext({} as any);
 
 const ProductVariantProvider = ({ children }: Props) => {
 const [productvariants, setProductVariants] = useState<IProductVariant[]>([]);
+const [productVariantLatest, setProductVariantLatest] = useState<IProductVariant[]>([]);
 const [reload, setReload] = useState(false);
 
 useEffect(() => {
@@ -19,6 +20,15 @@ useEffect(() => {
         setProductVariants(data?.data);
     })();
 }, [reload]);
+
+const fetchLatestVariants  = async () => {
+    try {
+        const data = await getAllProductVariantLatest();
+        setProductVariantLatest(data?.data);
+    } catch (error) {
+        console.log(error);
+    }
+};
 
 const onAdd = async (dataProductVariant: IProductVariant) => {
     try {
@@ -58,7 +68,7 @@ const onEdit = async (formData: IProductVariant, id: number | string) => {
 };
 
 return (
-    <ProductVariantContext.Provider value={{ productvariants, onAdd, onDelete, onEdit }}>
+    <ProductVariantContext.Provider value={{ productvariants, productVariantLatest, fetchLatestVariants , onAdd, onDelete, onEdit }}>
         {children}
     </ProductVariantContext.Provider>
 );

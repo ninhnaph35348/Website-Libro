@@ -40,7 +40,7 @@ export const onUpdateStatus = async (id: number | string, status: number) => {
 // ! Ẩn review (Soft delete - Cập nhật del_flg = 1)
 export const hideReview = async (id: number | string) => {
     try {
-        const { data } = await instance.put(`reviews/hidden/${id}`);
+        const { data } = await instance.put(`reviews/${id}`);
         return data;
     } catch (error) {
         throw new Error("Lỗi khi ẩn review");
@@ -58,13 +58,4 @@ export const deleteReview = async (id: number | string) => {
     }
 };
 
-// 📌 Lấy thông tin sản phẩm theo ID
-export const getProductById = async (id: string) => {
-    try {
-        const response = await instance.get(`/products/${id}`);
-        return response.data;
-    } catch (error) {
-        console.error("Lỗi khi lấy sản phẩm:", error);
-        return null;
-    }
-};
+

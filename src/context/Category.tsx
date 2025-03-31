@@ -1,11 +1,13 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useState } from "react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { ICategories } from "../interfaces/Categories";
 import {
   createCategory,
   deleteCategory,
   getAllCategories,
   updateCategory,
 } from "../services/Category";
-import { ICategories } from "../interfaces/Categories";
 
 type Props = {
   children: React.ReactNode;
@@ -13,25 +15,27 @@ type Props = {
 
 export const CategoryContext = createContext({} as any);
 
-// eslint-disable-next-line react/prop-types
 const CategoryProvider = ({ children }: Props) => {
   const [categories, setCategories] = useState<ICategories[]>([]);
-  const [reload, setReload] = useState(false); // 👈 Thêm state reload
-  useEffect(() => {
-    (async () => {
+
+  const getAllCategory = async () => {
+    try {
       const data = await getAllCategories();
       setCategories(data);
-    })();
-  }, [reload]); // 👈 Thêm reload vào dependency array
+    } catch (error) {
+      toast.error("Lỗi khi tải danh mục!");
+      console.error(error);
+    }
+  }
 
   const onAdd = async (dataCategory: ICategories) => {
     try {
       const data = await createCategory(dataCategory);
       setCategories([...categories, data]);
-      alert("Thêm danh mục thành công!");
-      setReload((prev) => !prev); // 👈 Set lại state reload
+      toast.success("Thêm danh mục thành công!");
     } catch (error) {
-      console.log(error);
+      toast.error("Lỗi khi thêm danh mục!");
+      console.error(error);
     }
   };
 
@@ -39,30 +43,28 @@ const CategoryProvider = ({ children }: Props) => {
     try {
       if (window.confirm("Bạn có muốn xóa không?")) {
         await deleteCategory(id);
-        alert("Xóa danh mục thành công!");
         setCategories(categories.filter((category) => category.id !== id));
+        toast.success("Xóa danh mục thành công!");
       }
     } catch (error) {
-      console.log(error);
+      toast.error("Lỗi khi xóa danh mục!");
+      console.error(error);
     }
   };
 
   const onEdit = async (formData: ICategories, id: number | string) => {
     try {
       const data = await updateCategory(formData, id);
-      const newCategories = categories.map((category) =>
-        category.id === id ? data : category
-      );
-      setCategories(newCategories);
-      alert("Sửa danh mục thành công!");
-      setReload((prev) => !prev); // 👈 Set lại state reload
+      setCategories(categories.map((category) => (category.id === id ? data : category)));
+      toast.success("Sửa danh mục thành công!");
     } catch (error) {
-      console.log(error);
+      toast.error("Lỗi khi sửa danh mục!");
+      console.error(error);
     }
   };
 
   return (
-    <CategoryContext.Provider value={{ categories, onAdd, onDelete, onEdit }}>
+    <CategoryContext.Provider value={{ categories, getAllCategory, onAdd, onDelete, onEdit }}>
       {children}
     </CategoryContext.Provider>
   );

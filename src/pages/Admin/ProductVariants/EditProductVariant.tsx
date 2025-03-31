@@ -120,10 +120,9 @@ const EditProductvariant = () => {
                         type="number"
                         placeholder="Nhập giá khuyến mãi"
                         value={watch("promotion")}
-                        {...register("promotion", { required: "Giá khuyến mãi không được để trống" })}
+                        {...register("promotion")}
                         onChange={(e) => setValue("promotion", e.target.value as any, { shouldValidate: true })}
                     />
-                    {errors.promotion && <p className="text-red-500">{errors.promotion.message}</p>}
                 </div>
 
                 {/* Input Số Lượng */}

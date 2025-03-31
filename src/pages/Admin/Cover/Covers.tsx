@@ -1,12 +1,14 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ICover } from "../../../interfaces/Cover";
 import { CoverContext } from "../../../context/Cover";
 
 const Covers = () => {
-    const { covers, onDelete } = useContext(CoverContext);
+    const { covers, getAllCovers, onDelete } = useContext(CoverContext);
     const navigate = useNavigate();
-
+    useEffect(() => {
+        getAllCovers();
+    }, []);
     return (
         <div className="p-6 w-full mx-auto bg-white shadow-md rounded-lg">
             <h2 className="text-xl font-bold mb-4">Danh Sách Thể Loại</h2>

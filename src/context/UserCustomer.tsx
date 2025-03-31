@@ -6,6 +6,8 @@ import {
   getUserById,
 } from "../services/UserCustomer";
 import { IUser } from "../interfaces/User";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 type Props = {
   children: React.ReactNode;
@@ -23,6 +25,7 @@ const CustomerUserProvider = ({ children }: Props) => {
         const data = await getAllUsers();
         setCustomerUsers(data);
       } catch (error) {
+        toast.error("Lỗi khi tải danh sách khách hàng!");
         console.error("Lỗi khi lấy danh sách khách hàng:", error);
       }
     };
@@ -33,29 +36,20 @@ const CustomerUserProvider = ({ children }: Props) => {
     try {
       return await getUserById(id);
     } catch (error) {
+      toast.error("Lỗi khi lấy chi tiết khách hàng!");
       console.error("Lỗi khi lấy chi tiết khách hàng:", error);
       return null;
     }
   };
-
-  // const onAdd = async (customerUser: IUser) => {
-  //   try {
-  //     const data = await createUser(customerUser);
-  //     setCustomerUsers([...customerUsers, data]);
-  //     alert("Thêm tài khoản khách hàng thành công!");
-  //     setReload((prev) => !prev);
-  //   } catch (error) {
-  //     console.error("Lỗi khi thêm khách hàng:", error);
-  //   }
-  // };
 
   const onDelete = async (id: number) => {
     try {
       if (!window.confirm("Bạn có chắc chắn muốn xóa?")) return;
       await deleteUser(id);
       setCustomerUsers((prev) => prev.filter((user) => user.id !== id));
-      alert("Xóa tài khoản khách hàng thành công!");
+      toast.success("Xóa tài khoản khách hàng thành công!");
     } catch (error) {
+      toast.error("Lỗi khi xóa khách hàng!");
       console.error("Lỗi khi xóa khách hàng:", error);
     }
   };
@@ -63,22 +57,19 @@ const CustomerUserProvider = ({ children }: Props) => {
   const onEdit = async (formData: IUser, id: number | string) => {
     try {
       const data = await updateUser(formData, id);
-      const newCustomers = customerUsers.map((user) =>
-        user.id === id ? data : user
+      setCustomerUsers((prev) =>
+        prev.map((user) => (user.id === id ? data : user))
       );
-      setCustomerUsers(newCustomers);
-
-      alert("Cập nhật tài khoản khách hàng thành công!");
+      toast.success("Cập nhật tài khoản khách hàng thành công!");
       setReload((prev) => !prev);
     } catch (error) {
+      toast.error("Lỗi khi cập nhật khách hàng!");
       console.error("Lỗi khi cập nhật khách hàng:", error);
     }
   };
 
   return (
-    <CustomerUserContext.Provider
-      value={{ customerUsers, onDelete, onEdit, onDetail }}
-    >
+    <CustomerUserContext.Provider value={{ customerUsers, onDelete, onEdit, onDetail }}>
       {children}
     </CustomerUserContext.Provider>
   );

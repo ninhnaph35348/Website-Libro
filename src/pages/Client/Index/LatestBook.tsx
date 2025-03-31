@@ -3,7 +3,6 @@ import { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import "swiper/css";
 import { Swiper, SwiperSlide } from "swiper/react";
-import shuffle from "../../../assets/img/icon/shuffle.svg";
 import news9 from "../../../assets/img/news/09.jpg";
 import { ProductVariantContext } from '../../../context/ProductVariants';
 import { IProductVariant } from '../../../interfaces/ProductVariants';

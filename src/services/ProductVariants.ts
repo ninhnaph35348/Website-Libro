@@ -10,6 +10,15 @@ export const getAllProductVariant = async () => {
   }
 };
 
+export const getAllProductVariantLatest = async () => {
+  try {
+    const { data } = await instance.get("product_variants/latest");
+    return data;
+  } catch (error) {
+    throw new Error("Lỗi");
+  }
+};
+
 export const getProductVariantById = async (id: number | string) => {
   try {
     const { data } = await instance.get(`product_variants/${id}`);

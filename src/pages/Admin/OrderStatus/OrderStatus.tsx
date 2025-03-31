@@ -1,9 +1,13 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { OrderStatusContext } from "../../../context/OrderStatus";
 import { IOrderStatus } from "../../../interfaces/OrderStatus";
 
 const OrderStatus = () => {
-    const { orderstatus } = useContext(OrderStatusContext);
+    const { orderstatus, getAllStatus } = useContext(OrderStatusContext);
+
+    useEffect(() => {
+        getAllStatus();
+    }, []);
 
     return (
         <div className="p-6 w-full mx-auto bg-white shadow-md rounded-lg">

@@ -1,6 +1,6 @@
-import { createContext, useEffect, useState } from "react";
-import { createProduct, deleteProduct, getAllProducts, updateProduct } from "../services/Product";
+import { createContext, useState } from "react";
 import { IProduct } from "../interfaces/Products";
+import { createProduct, deleteProduct, getAllProducts, updateProduct } from "../services/Product";
 
 type Props = {
     children: React.ReactNode;
@@ -10,10 +10,9 @@ export const ProductContext = createContext({} as any);
 const ProductProvider = ({ children }: Props) => {
     const [products, setProducts] = useState<IProduct[]>([]);
     const [filteredProducts, setFilteredProducts] = useState<IProduct[]>([]);
-    const [searchTimeout, setSearchTimeout] = useState<NodeJS.Timeout | null>(null);
+    const [searchTimeout, setSearchTimeout] = useState<ReturnType<typeof setTimeout> | null>(null);
 
-    useEffect(() => {
-        (async () => {
+    const getAllProduct = async () => {
             try {
                 const response = await getAllProducts();
                 if (response?.data && Array.isArray(response.data)) {
@@ -29,8 +28,7 @@ const ProductProvider = ({ children }: Props) => {
                 setProducts([]);
                 setFilteredProducts([]);
             }
-        })();
-    }, []);
+        }
 
     // ✅ Hàm lọc sản phẩm theo title với độ trễ 500ms
     const filterProductsByTitle = (title: string) => {
@@ -80,8 +78,6 @@ const ProductProvider = ({ children }: Props) => {
                 }
             });
         }
-
-
         return formData;
     };
 
@@ -91,7 +87,6 @@ const ProductProvider = ({ children }: Props) => {
             const data = await createProduct(formData);
             setProducts((prevProducts) => [...prevProducts, data]);
             setFilteredProducts((prevProducts) => [...prevProducts, data]);
-
             alert("Thêm sản phẩm thành công!");
         } catch (error) {
             console.error("❌ Lỗi khi thêm sản phẩm:", error);
@@ -131,7 +126,7 @@ const ProductProvider = ({ children }: Props) => {
     };
 
     return (
-        <ProductContext.Provider value={{ products, filteredProducts, onAdd, onDelete, onEdit, filterProductsByTitle }}>
+        <ProductContext.Provider value={{ products, filteredProducts, getAllProduct, onAdd, onDelete, onEdit, filterProductsByTitle }}>
             {children}
         </ProductContext.Provider>
     );

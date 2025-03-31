@@ -1,12 +1,15 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ProductVariantContext } from "../../../context/ProductVariants";
 import { IProductVariant } from "../../../interfaces/ProductVariants";
 
 const ListProductVariant = () => {
-    const { productvariants, onDelete } = useContext(ProductVariantContext);
+    const { productvariants, getAllProductVariants, onDelete } = useContext(ProductVariantContext);
     const navigate = useNavigate();
 
+    useEffect(() => {
+        getAllProductVariants();
+    }, []);
     return (
         <div className="p-6 w-full mx-auto bg-white shadow-md rounded-lg">
             <h2 className="text-xl font-bold mb-4">Danh Sách Thể Loại</h2>

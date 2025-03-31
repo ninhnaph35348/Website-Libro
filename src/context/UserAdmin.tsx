@@ -7,7 +7,8 @@ import {
   getAdminById,
 } from "../services/UserAdmin";
 import { IUser } from "../interfaces/User";
-import { set } from "react-hook-form";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 type Props = {
   children: React.ReactNode;
@@ -17,14 +18,16 @@ export const AdminUserContext = createContext({} as any);
 
 const AdminUserProvider = ({ children }: Props) => {
   const [adminUsers, setAdminUsers] = useState<IUser[]>([]);
-  const [reload, setReload] = useState(false); // 👈 Thêm state reload
-  // Fetch danh sách admin khi component mount
+  const [reload, setReload] = useState(false);
+
+  // Fetch danh sách admin khi component mount hoặc reload thay đổi
   useEffect(() => {
     const fetchAdmins = async () => {
       try {
         const data = await getAllAdmins();
         setAdminUsers(data);
       } catch (error) {
+        toast.error("Lỗi khi tải danh sách admin!");
         console.error("Lỗi khi lấy danh sách admin:", error);
       }
     };
@@ -36,20 +39,21 @@ const AdminUserProvider = ({ children }: Props) => {
     try {
       return await getAdminById(id);
     } catch (error) {
+      toast.error("Lỗi khi lấy chi tiết admin!");
       console.error("Lỗi khi lấy chi tiết admin:", error);
       return null;
     }
   };
 
   // Thêm admin mới
-
   const onAdd = async (adminUser: IUser) => {
     try {
       const data = await createAdmin(adminUser);
-      setAdminUsers([...adminUsers, data]);
-      alert("Thêm tài khoản admin thành công!");
+      setAdminUsers((prev) => [...prev, data]);
+      toast.success("Thêm tài khoản admin thành công!");
       setReload((prev) => !prev);
     } catch (error) {
+      toast.error("Lỗi khi thêm admin!");
       console.error("Lỗi khi thêm admin:", error);
     }
   };
@@ -59,9 +63,10 @@ const AdminUserProvider = ({ children }: Props) => {
     try {
       if (!window.confirm("Bạn có chắc chắn muốn xóa?")) return;
       await deleteAdmin(id);
-      setAdminUsers((prev) => prev.filter((user) => user.id !== id)); // ✅ Cập nhật danh sách ngay
-      alert("Xóa tài khoản admin thành công!");
+      setAdminUsers((prev) => prev.filter((user) => user.id !== id));
+      toast.success("Xóa tài khoản admin thành công!");
     } catch (error) {
+      toast.error("Lỗi khi xóa admin!");
       console.error("Lỗi khi xóa admin:", error);
     }
   };
@@ -70,22 +75,19 @@ const AdminUserProvider = ({ children }: Props) => {
   const onEdit = async (formData: IUser, id: number | string) => {
     try {
       const data = await updateAdmin(formData, id);
-      const newAdmins = adminUsers.map((user) =>
-        user.id === id ? data : user
+      setAdminUsers((prev) =>
+        prev.map((user) => (user.id === id ? data : user))
       );
-      setAdminUsers(newAdmins);
-
-      alert("Cập nhật tài khoản admin thành công!");
-      setReload((prev) => !prev); // 👈 Set lại state reload
+      toast.success("Cập nhật tài khoản admin thành công!");
+      setReload((prev) => !prev);
     } catch (error) {
+      toast.error("Lỗi khi cập nhật admin!");
       console.error("Lỗi khi cập nhật admin:", error);
     }
   };
 
   return (
-    <AdminUserContext.Provider
-      value={{ adminUsers, onAdd, onDelete, onEdit, onDetail }}
-    >
+    <AdminUserContext.Provider value={{ adminUsers, onAdd, onDelete, onEdit, onDetail }}>
       {children}
     </AdminUserContext.Provider>
   );

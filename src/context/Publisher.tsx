@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useState } from "react";
 import {
   createPublisher,
   deletePublisher,
@@ -6,6 +6,8 @@ import {
   updatePublisher,
 } from "../services/Publisher";
 import { IPublishers } from "../interfaces/Publishers";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 type Props = {
   children: React.ReactNode;
@@ -15,23 +17,25 @@ export const PublisherContext = createContext({} as any);
 
 const PublisherProvider = ({ children }: Props) => {
   const [publishers, setPublishers] = useState<IPublishers[]>([]);
-  const [reload, setReload] = useState(false);
 
-  useEffect(() => {
-    (async () => {
-      const data = await getAllPublishers();
-      setPublishers(data);
-    })();
-  }, [reload]);
+  const getAllPublisher = async () => {
+      try {
+        const data = await getAllPublishers();
+        setPublishers(data);
+      } catch (error) {
+        toast.error("Lỗi khi tải danh sách nhà xuất bản!");
+        console.error(error);
+      }
+    }
 
   const onAdd = async (dataPublisher: IPublishers) => {
     try {
       const data = await createPublisher(dataPublisher);
       setPublishers([...publishers, data]);
-      alert("Thêm nhà xuất bản thành công!");
-      setReload((prev) => !prev);
+      toast.success("Thêm nhà xuất bản thành công!");
     } catch (error) {
-      console.log(error);
+      toast.error("Lỗi khi thêm nhà xuất bản!");
+      console.error(error);
     }
   };
 
@@ -39,30 +43,28 @@ const PublisherProvider = ({ children }: Props) => {
     try {
       if (window.confirm("Bạn có muốn xóa không?")) {
         await deletePublisher(id);
-        alert("Xóa nhà xuất bản thành công!");
         setPublishers(publishers.filter((publisher) => publisher.id !== id));
+        toast.success("Xóa nhà xuất bản thành công!");
       }
     } catch (error) {
-      console.log(error);
+      toast.error("Lỗi khi xóa nhà xuất bản!");
+      console.error(error);
     }
   };
 
   const onEdit = async (formData: IPublishers, id: number | string) => {
     try {
       const data = await updatePublisher(formData, id);
-      const newPublishers = publishers.map((publisher) =>
-        publisher.id === id ? data : publisher
-      );
-      setPublishers(newPublishers);
-      alert("Sửa nhà xuất bản thành công!");
-      setReload((prev) => !prev);
+      setPublishers(publishers.map((publisher) => (publisher.id === id ? data : publisher)));
+      toast.success("Sửa nhà xuất bản thành công!");
     } catch (error) {
-      console.log(error);
+      toast.error("Lỗi khi sửa nhà xuất bản!");
+      console.error(error);
     }
   };
 
   return (
-    <PublisherContext.Provider value={{ publishers, onAdd, onDelete, onEdit }}>
+    <PublisherContext.Provider value={{ publishers, getAllPublisher, onAdd, onDelete, onEdit }}>
       {children}
     </PublisherContext.Provider>
   );

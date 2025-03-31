@@ -14,7 +14,6 @@ import "./index.css";
 // import "./assets/css/nice-select.css";
 // import "./assets/css/all.min.css";
 
-
 import App from "./App.jsx";
 import AuthorProvider from "./context/Author.tsx";
 import CategoryProvider from "./context/Category.tsx";
@@ -31,42 +30,42 @@ import { Provider } from "react-redux";
 import CoverProvider from "./context/Cover.tsx";
 import ProductVariantProvider from "./context/ProductVariants.tsx";
 import AuthProvider from "./context/Auth.tsx";
+import CartProvider from "./context/Cart.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <Provider store={store}>
     <BrowserRouter>
-      <PublisherProvider>
-        <CategoryProvider>
-          <AuthorProvider>
-            <LanguageProvider>
-              <GenreProvider>
-                <ProductVariantProvider>
-                  <ProductProvider>
-                    <CoverProvider>
-                      <OrderStatusProvider>
-                        <OrderProvider>
-                          <AdminUserProvider>
-                            <CustomerUserProvider>
-                              <ReviewProvider>
-                                 <AuthProvider>
-                                <StrictMode>
-                                  <App />
-                                </StrictMode>
-                                 </AuthProvider>
-                              </ReviewProvider>
-                            </CustomerUserProvider>
-                          </AdminUserProvider>
-                        </OrderProvider>
-                      </OrderStatusProvider>
-                    </CoverProvider>
-                  </ProductProvider>
-                </ProductVariantProvider>
-              </GenreProvider>
-            </LanguageProvider>
-          </AuthorProvider>
-        </CategoryProvider>
-      </PublisherProvider>
+      <CartProvider>
+        <PublisherProvider>
+          <CategoryProvider>
+            <AuthorProvider>
+              <LanguageProvider>
+                <GenreProvider>
+                  <ProductVariantProvider>
+                    <ProductProvider>
+                      <CoverProvider>
+                        <OrderStatusProvider>
+                          <OrderProvider>
+                            <AdminUserProvider>
+                              <CustomerUserProvider>
+                                <ReviewProvider>
+                                  <StrictMode>
+                                    <App />
+                                  </StrictMode>
+                                </ReviewProvider>
+                              </CustomerUserProvider>
+                            </AdminUserProvider>
+                          </OrderProvider>
+                        </OrderStatusProvider>
+                      </CoverProvider>
+                    </ProductProvider>
+                  </ProductVariantProvider>
+                </GenreProvider>
+              </LanguageProvider>
+            </AuthorProvider>
+          </CategoryProvider>
+        </PublisherProvider>
+      </CartProvider>
     </BrowserRouter>
   </Provider>
-
 );

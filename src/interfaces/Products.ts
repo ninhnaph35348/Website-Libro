@@ -42,13 +42,5 @@ export interface IProduct {
   status: number;
   genres: number[];
 
-  // Thêm các trường mới
-  price?: number;
-  total_page?: number;
-  publish_year?: number;
-  country?: string;
-  publish_date?: string;
-  format?: string;
-  dimensions?: string;
-  weight?: string;
+ 
 }

@@ -126,9 +126,7 @@ const Shopdefaul = (props: Props) => {
                             <input type="checkbox" />
                             <span className="checkmark d-center"></span>
                           </span>
-                          <span className="text-color">
-                            Kinh Tế 
-                          </span>
+                          <span className="text-color">Kinh Tế</span>
                         </span>
                       </label>
                     </div>
@@ -560,7 +558,7 @@ const Shopdefaul = (props: Props) => {
                                         className="inline-flex items-center gap-2 bg-blue-100 text-blue-600 px-6 py-2 rounded-full hover:bg-blue-200 transition-all"
                                       >
                                         <i className="fa-solid fa-basket-shopping"></i>{" "}
-                                        Add To Cart
+                                        Xem Chi Tiết
                                       </Link>
                                     </div>
                                   </div>

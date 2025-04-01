@@ -1,11 +1,14 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { GenreContext } from "../../../context/Genre";
 import { Link, useNavigate } from "react-router-dom";
 import { IGenre } from "../../../interfaces/Genre";
 
 const Genres = () => {
-    const { genres, onDelete } = useContext(GenreContext);
+    const { genres, getAllGenries, onDelete } = useContext(GenreContext);
     const navigate = useNavigate();
+    useEffect(() => {
+        getAllGenries();
+    }, []);
 
     // Phân trang
     const [currentPage, setCurrentPage] = useState(1);
@@ -50,14 +53,14 @@ const Genres = () => {
                                 <td className="border p-2 text-center">{(currentPage - 1) * itemsPerPage + index + 1}</td>
                                 <td className="border p-2">{genre.name}</td>
                                 <td className="border p-2 text-center flex gap-2 justify-center">
-                                    <button 
-                                        onClick={() => onDelete(genre.id)} 
+                                    <button
+                                        onClick={() => onDelete(genre.id)}
                                         className="bg-red-500 text-white px-2 py-1 rounded"
                                     >
                                         Xóa
                                     </button>
-                                    <button 
-                                        onClick={() => navigate(`edit/${genre.id}`)} 
+                                    <button
+                                        onClick={() => navigate(`edit/${genre.id}`)}
                                         className="bg-yellow-500 text-white px-2 py-1 rounded"
                                     >
                                         Sửa

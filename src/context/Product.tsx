@@ -1,6 +1,6 @@
-import { createContext, useEffect, useState } from "react";
-import { createProduct, deleteProduct, getAllProducts, updateProduct } from "../services/Product";
+import { createContext, useState } from "react";
 import { IProduct } from "../interfaces/Products";
+import { createProduct, deleteProduct, getAllProducts, updateProduct } from "../services/Product";
 
 type Props = {
     children: React.ReactNode;
@@ -12,8 +12,7 @@ const ProductProvider = ({ children }: Props) => {
     const [filteredProducts, setFilteredProducts] = useState<IProduct[]>([]);
     const [searchTimeout, setSearchTimeout] = useState<ReturnType<typeof setTimeout> | null>(null);
 
-    useEffect(() => {
-        (async () => {
+    const getAllProduct = async () => {
             try {
                 const response = await getAllProducts();
                 if (response?.data && Array.isArray(response.data)) {
@@ -29,8 +28,7 @@ const ProductProvider = ({ children }: Props) => {
                 setProducts([]);
                 setFilteredProducts([]);
             }
-        })();
-    }, []);
+        }
 
     // ✅ Hàm lọc sản phẩm theo title với độ trễ 500ms
     const filterProductsByTitle = (title: string) => {
@@ -128,7 +126,7 @@ const ProductProvider = ({ children }: Props) => {
     };
 
     return (
-        <ProductContext.Provider value={{ products, filteredProducts, onAdd, onDelete, onEdit, filterProductsByTitle }}>
+        <ProductContext.Provider value={{ products, filteredProducts, getAllProduct, onAdd, onDelete, onEdit, filterProductsByTitle }}>
             {children}
         </ProductContext.Provider>
     );

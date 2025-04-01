@@ -1,13 +1,13 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useState } from "react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { ILanguage } from "../interfaces/Language";
 import {
   createLanguage,
   deleteLanguage,
   getAllLanguage,
   updateLanguage,
 } from "../services/Language";
-import { ILanguage } from "../interfaces/Language";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 type Props = {
   children: React.ReactNode;
@@ -17,21 +17,17 @@ export const LanguageContext = createContext({} as any);
 
 const LanguageProvider = ({ children }: Props) => {
   const [languages, setLanguages] = useState<ILanguage[]>([]);
-  const [reload, setReload] = useState(false);
 
-  useEffect(() => {
-    (async () => {
+  const getAllLanguagies = async () => {
       const data = await getAllLanguage();
       setLanguages(data);
-    })();
-  }, [reload]);
+    }
 
   const onAdd = async (dataLanguage: ILanguage) => {
     try {
       const data = await createLanguage(dataLanguage);
       setLanguages([...languages, data]);
       toast.success("Thêm ngôn ngữ thành công")
-      setReload((prev) => !prev);
     } catch (error) {
       console.log(error);
     }
@@ -58,7 +54,6 @@ const LanguageProvider = ({ children }: Props) => {
       );
       setLanguages(newLanguages);
       toast.success("Sửa ngôn ngữ thành công!");
-      setReload((prev) => !prev);
     } catch (error) {
       console.log(error);
       toast.error("Lỗi khi sửa ngôn ngữ!");
@@ -66,7 +61,7 @@ const LanguageProvider = ({ children }: Props) => {
   };
 
   return (
-    <LanguageContext.Provider value={{ languages, onAdd, onDelete, onEdit }}>
+    <LanguageContext.Provider value={{ languages, getAllLanguagies, onAdd, onDelete, onEdit }}>
       {children}
     </LanguageContext.Provider>
   );

@@ -1,10 +1,15 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthorContext } from '../../../context/Author';
 import { IAuthor } from '../../../interfaces/Authors';
 
 const Author = () => {
-  const { authors, onDelete } = useContext(AuthorContext);
+  const { authors, getAllAuthor, onDelete } = useContext(AuthorContext);
+
+  useEffect(() => {
+    getAllAuthor();
+  }, []);
+  
   const navigate = useNavigate();
 
   // Phân trang

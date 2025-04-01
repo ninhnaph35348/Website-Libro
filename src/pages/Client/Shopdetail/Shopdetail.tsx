@@ -1,15 +1,11 @@
-// src/components/Shopdetail.tsx
 import { useEffect, useState } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
-import { IProduct } from "../../../interfaces/Products";
-import { getProductById } from "../../../services/Product";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useCart } from "../../../context/Cart";
 import { IProductVariant } from "../../../interfaces/ProductVariants";
+import { getProductVariantById } from "../../../services/ProductVariants";
 
 const Shopdetail = () => {
-  const [product, setProduct] = useState<IProduct | null>(null);
-  const [selectedVariant, setSelectedVariant] =
-    useState<IProductVariant | null>(null);
+  const [productVariant, setProductVariant] = useState<IProductVariant | null>(null);
   const { code } = useParams<{ code: string }>();
   const navigate = useNavigate();
   const [quantity, setQuantity] = useState(1);
@@ -19,56 +15,36 @@ const Shopdetail = () => {
     (async () => {
       if (code) {
         try {
-          const data = await getProductById(code);
-          const fetchedProduct = data.data;
-          console.log("Fetched product:", fetchedProduct);
-          // Tạm thời set status = 1 để kiểm tra
-          fetchedProduct.status = 1; // Xóa dòng này sau khi kiểm tra
-          setProduct(fetchedProduct);
-
-          const defaultVariant: IProductVariant = fetchedProduct
-            .variants?.[0] || {
-            id: fetchedProduct.id,
-            product_id: fetchedProduct.id,
-            price: fetchedProduct.price || 30,
-            quantity: fetchedProduct.quantity || 10,
-            promotion: fetchedProduct.promotion || 0,
-            cover_id: fetchedProduct.cover_id || 0, // Giả sử API trả về cover_id
-            cover: fetchedProduct.cover || "bìa mềm", // Giả sử API trả về cover, nếu không thì mặc định là "bìa mềm"
-            product: fetchedProduct,
-          };
-          console.log("Selected variant:", defaultVariant);
-          setSelectedVariant(defaultVariant);
+          const response = await getProductVariantById(code);
+          const data = response?.data;
+          if (Array.isArray(data) && data.length > 0) {
+            setProductVariant(data[0]);
+          } else {
+            setProductVariant(null);
+          }
         } catch (error) {
           console.error("Lỗi khi tải sản phẩm:", error);
-          setProduct(null);
-          setSelectedVariant(null);
+          setProductVariant(null);
         }
       }
     })();
   }, [code]);
 
-  if (!product || !selectedVariant) {
-    return (
-      <p className="text-center mt-10 text-gray-500">Sản phẩm không tồn tại.</p>
-    );
+  if (!productVariant || !productVariant.product) {
+    return <p className="text-center mt-10 text-gray-500">Sản phẩm không tồn tại.</p>;
   }
 
-  const handleAddToCart = (variant: IProductVariant) => {
-    console.log("handleAddToCart called with:", { variant, quantity });
-    if (product.status !== 1) {
-      alert("Sản phẩm hiện đã hết hàng, không thể thêm vào giỏ hàng!");
-      console.log("Product out of stock, cannot add to cart");
-      return;
-    }
 
+  const handleAddToCart = () => {
+    console.log("Clicked");
+    // if (productVariant.product.status !== 1) {
+    //   alert("Sản phẩm đã hết hàng!");
+    //   return;
+    // }
     try {
-      addToCart(variant, quantity);
-      console.log("addToCart called successfully");
-      setTimeout(() => {
-        console.log("Navigating to /shop-cart");
-        navigate("/shop-cart");
-      }, 1000);
+      addToCart(productVariant, quantity);
+      alert("Thêm thành công!");
+      setTimeout(() => navigate("/shop-cart"), 1000);
     } catch (error) {
       console.error("Lỗi khi thêm vào giỏ hàng:", error);
       alert("Đã có lỗi xảy ra khi thêm sản phẩm vào giỏ hàng!");
@@ -77,153 +53,203 @@ const Shopdetail = () => {
 
   return (
     <>
-      <div className="breadcrumb-wrapper">
+      <section className="shop-details-section">
         <div className="container">
-          <div className="page-heading">
-            <h1>Shop Details</h1>
-            <div className="page-header">
-              <ul className="breadcrumb-items">
-                <li>
-                  <Link to="/">Home</Link>
-                </li>
-                <li>
-                  <i className="fa-solid fa-chevron-right"></i>
-                </li>
-                <li>Shop Details</li>
-              </ul>
-            </div>
+          <div className="relative overflow-hidden bg-[#e6eff2] py-[80px]">
+            <h1 className="text-2xl font-bold text-center">Chi Tiết Sản Phẩm</h1>
+            <ul className="breadcrumb flex justify-center gap-2 text-gray-500">
+              <li><Link to="/">Trang chủ</Link></li>
+              <li>/</li>
+              <li>Chi tiết sản phẩm</li>
+            </ul>
           </div>
-        </div>
-      </div>
 
-      <section className="shop-details-section fix section-padding">
-        <div className="container">
-          <div className="shop-details-wrapper">
-            <div className="row g-4">
-              <div className="col-lg-5">
-                <div className="shop-details-image">
-                  <div className="shop-details-thumb">
-                    <img
-                      src={
-                        typeof product.image === "string"
-                          ? `http://127.0.0.1:8000/storage/${product.image}`
-                          : ""
-                      }
-                      alt={product.title}
-                      style={{ width: "100%", height: "auto" }}
-                    />
-                  </div>
-                  {product.images?.length > 0 && (
-                    <div className="sub-images d-flex gap-2 mt-1">
-                      {product.images.map((img, index) => (
-                        <div key={index} className="sub-image">
-                          <img
-                            src={
-                              typeof img === "string"
-                                ? `http://127.0.0.1:8000/storage/${img}`
-                                : ""
-                            }
-                            alt={`Product image ${index}`}
-                            style={{
-                              width: "100px",
-                              height: "100px",
-                              objectFit: "cover",
-                            }}
-                          />
+          <section className="shop-details-section fix section-padding">
+            <div className="container">
+              <div className="shop-details-wrapper">
+                <div className="row g-4">
+                  <div className="col-lg-5">
+                    <div className="shop-details-image">
+                      <div className="tab-content">
+                        <div id="thumb1" className="tab-pane fade show active">
+                          <div className="shop-details-thumb">
+                            <img
+                              src={`http://127.0.0.1:8000/storage/${productVariant.product.image}`}
+                              alt={productVariant.product.title}
+                              className="border border-gray-300 p-3 shadow-md hover:shadow-lg transition rounded-xl object-cover w-full"
+                            />
+                          </div>
                         </div>
-                      ))}
+                        {productVariant.product.images?.map((img, index) => (
+                          <div key={index} id={`thumb${index + 2}`} className="tab-pane fade">
+                            <div className="shop-details-thumb">
+                              <img
+                                src={`http://127.0.0.1:8000/storage/${img}`}
+                                alt={`Ảnh ${index + 2}`}
+                                className="border border-gray-300 p-3 shadow-md hover:shadow-lg transition rounded-xl object-cover w-full"
+                              />
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                      <ul className="nav">
+                        <li className="nav-item">
+                          <a href="#thumb1" data-bs-toggle="tab" className="nav-link active">
+                            <img
+                              src={`http://127.0.0.1:8000/storage/${productVariant.product.image}`}
+                              alt="Ảnh chính"
+                              className="w-20 h-20 object-cover rounded-lg border border-gray-300 p-1"
+                            />
+                          </a>
+                        </li>
+                        {productVariant.product.images?.map((img, index) => (
+                          <li key={index} className="nav-item">
+                            <a href={`#thumb${index + 2}`} data-bs-toggle="tab" className="nav-link">
+                              <img
+                                src={`http://127.0.0.1:8000/storage/${img}`}
+                                alt={`Ảnh ${index + 2}`}
+                                className="w-20 h-20 object-cover rounded-lg border border-gray-300 p-1"
+                              />
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
-                  )}
-                </div>
-              </div>
-
-              <div className="col-lg-7">
-                <div className="shop-details-content">
-                  <h2>{product.title}</h2>
-                  <h5>
-                    {product.status === 1 ? "Stock available" : "Out of stock"}
-                  </h5>
-                  <p>{product.description || "No description available."}</p>
-                  <div className="price-list">
-                    <h3>${selectedVariant.price}</h3>
                   </div>
-                  <p>
-                    <strong>Author:</strong> {product.author}
-                  </p>
-                  <p>
-                    <strong>Publisher:</strong> {product.publisher}
-                  </p>
-                  <p>
-                    <strong>Category:</strong> {product.category}
-                  </p>
-                  <p>
-                    <strong>Language:</strong> {product.language}
-                  </p>
-                  <p>
-                    <strong>Supplier:</strong> {product.supplier_name}
-                  </p>
-                  <p>
-                    <strong>Cover:</strong> {selectedVariant.cover}
-                  </p>
-
-                  <div className="cart-wrapper">
-                    <div className="quantity-basket">
-                      <p className="qty">
-                        <button
-                          className="qtyminus"
-                          onClick={() =>
-                            setQuantity((prev) => Math.max(1, prev - 1))
-                          }
-                          disabled={product.status !== 1}
-                        >
-                          −
-                        </button>
-                        <input
-                          type="number"
-                          name="qty"
-                          id="qty2"
-                          min="1"
-                          max={selectedVariant.quantity}
-                          step="1"
-                          value={quantity}
-                          onChange={(e) => {
-                            const newValue = Number(e.target.value);
-                            if (
-                              newValue >= 1 &&
-                              newValue <= selectedVariant.quantity
-                            ) {
-                              setQuantity(newValue);
-                            }
-                          }}
-                          disabled={product.status !== 1}
-                        />
-                        <button
-                          className="qtyplus"
-                          onClick={() =>
-                            setQuantity((prev) =>
-                              Math.min(selectedVariant.quantity, prev + 1)
-                            )
-                          }
-                          disabled={product.status !== 1}
-                        >
-                          +
-                        </button>
+                  <div className="col-lg-7">
+                    <div className="shop-details-content">
+                      <div>
+                        <h2 className="text-4xl font-semibold">{productVariant.product.title}</h2>
+                        <h5 className="text-[#57C600] font-semibold text-xl">Còn hàng</h5>
+                      </div>
+                      <div className="star">
+                        <a href="shop-details.html"> <i className="fas fa-star" /></a>
+                        <a href="shop-details.html"><i className="fas fa-star" /></a>
+                        <a href="shop-details.html"> <i className="fas fa-star" /></a>
+                        <a href="shop-details.html"><i className="fas fa-star" /></a>
+                        <a href="shop-details.html"><i className="fa-regular fa-star" /></a>
+                        <span>(1 Customer Reviews)</span>
+                      </div>
+                      <p>
+                        {productVariant.product.description || "Chưa có mô tả."}
                       </p>
-                    </div>
+                      <div className="price-list">
+                        <h3>Giá: {Math.round(productVariant.promotion || productVariant.price).toLocaleString()}₫</h3>
+                      </div>
+                      <div className="cart-wrapper">
+                        <div className="quantity-basket">
+                          <p className="qty">
+                            <button className="qtyminus" aria-hidden="true">−</button>
+                            <input type="number" name="qty" id="qty2" min={1}
+                              onChange={(e) =>
+                                setQuantity(Math.min(productVariant.quantity, Math.max(1, Number(e.target.value))))
+                              }
+                              max={productVariant.quantity} step={1} defaultValue={1} />
+                            <button className="qtyplus"
+                              onClick={() => setQuantity((q) => Math.min(productVariant.quantity, q + 1))}
+                              aria-hidden="true">+</button>
+                          </p>
+                        </div>
+                        {/* <button type="button" className="theme-btn style-2" data-bs-toggle="modal" data-bs-target="#readMoreModal">
+                          Read A little
+                        </button>
+                        Read More Modal
+                        <div className="modal fade" id="readMoreModal" tabIndex={-1} aria-labelledby="readMoreModalLabel" aria-hidden="true">
+                          <div className="modal-dialog">
+                            <div className="modal-content">
+                              <div className="modal-body" style={{ backgroundImage: 'url(assets/img/popupBg.png)' }}>
+                                <div className="close-btn">
+                                  <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
+                                </div>
+                                <div className="readMoreBox">
+                                  <div className="content">
+                                    <h3 id="readMoreModalLabel">The Role Of Book</h3>
+                                    <p>
+                                      Educating the Public <br />
+                                      Political books play a crucial role in educating the public about political theories, historical events, policies, and the workings of governments. They provide readers with insights into complex political concepts and the historical context behind current events, helping to foster a more informed citizenry. <br /><br />
+                                      Shaping Public Opinion <br />
+                                      Authors of political books often aim to influence public opinion by presenting arguments and perspectives on various issues. These books can sway readers' views, either reinforcing their existing beliefs or challenging them to consider alternative viewpoints. This influence can extend to political debates and discussions in the public sphere. <br /><br />
+                                      Documenting History <br />
+                                      Political books serve as valuable records of historical events and political movements. They document the thoughts, actions, and decisions of political leaders and activists, providing future generations with a detailed account of significant periods and events. This historical documentation is essential for understanding the evolution of political systems and ideologies.
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div> */}
+                        <button
+                          disabled={productVariant.product.status !== 1}
+                          onClick={handleAddToCart}
+                          className="theme-btn">
+                          <i className="fa-solid fa-basket-shopping" /> Thêm vào giỏ hàng
+                        </button>
+                      </div>
+                      <div className="category-box">
+                        <div className="category-list">
+                          <ul>
+                            <li>
+                              <span>Code:</span> {productVariant.product.code}
+                            </li>
+                            <li>
+                              <span>Danh mục:</span> {productVariant.product.category}
+                            </li>
+                          </ul>
+                          <ul>
+                            <li>
+                              <span>Loại bìa:</span> {productVariant.cover}
+                            </li>
+                            <li>
+                              <span>Số trang:</span> 330
+                            </li>
+                          </ul>
+                          <ul>
+                            <li>
+                              <span>Ngôn ngữ:</span> {productVariant.product.language}
+                            </li>
+                            <li>
+                              <span>Năm sản xuất:</span> 2021
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                      <div className="box-check">
+                        <div className="check-list">
+                          <ul>
+                            <li>
+                              <i className="fa-solid fa-check" />
+                              Miễn phí vận chuyển cho đơn hàng từ 500.000₫
+                            </li>
+                            <li>
+                              <i className="fa-solid fa-check" />
+                              Hỗ trợ đổi trả trong 30 ngày nếu lỗi từ nhà sản xuất
+                            </li>
+                          </ul>
+                          <ul>
+                            <li>
+                              <i className="fa-solid fa-check" />
+                              Ưu đãi hấp dẫn: Giảm đến 30% cho khách hàng mới
+                            </li>
+                            <li>
+                              <i className="fa-solid fa-check" />
+                              Thanh toán an toàn – Đảm bảo bảo mật thông tin
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
 
-                    <button
-                      className="theme-btn"
-                      disabled={product.status !== 1}
-                      onClick={() => handleAddToCart(selectedVariant)}
-                    >
-                      <i className="fa-solid fa-basket-shopping"></i> Thêm Vào
-                      Giỏ Hàng
-                    </button>
+                      {/* <div className="social-icon">
+                        <h6>Also Available On:</h6>
+                        <a href="https://www.customer.io/"><img src="assets/img/cutomerio.png" alt="cutomer.io" /></a>
+                        <a href="https://www.amazon.com/"><img src="assets/img/amazon.png" alt="amazon" /></a>
+                        <a href="https://www.dropbox.com/"><img src="assets/img/dropbox.png" alt="dropbox" /></a>
+                      </div> */}
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
+          </section>
         </div>
       </section>
     </>

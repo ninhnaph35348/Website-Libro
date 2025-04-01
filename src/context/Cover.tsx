@@ -1,11 +1,11 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useState } from "react";
+import { ICover } from "../interfaces/Cover";
 import {
     createCover,
     deleteCover,
     getAllCover,
     updateCover,
 } from "../services/Cover";
-import { ICover } from "../interfaces/Cover";
 
 type Props = {
     children: React.ReactNode;
@@ -15,21 +15,21 @@ export const CoverContext = createContext({} as any);
 
 const CoverProvider = ({ children }: Props) => {
     const [covers, setCovers] = useState<ICover[]>([]);
-    const [reload, setReload] = useState(false);
 
-    useEffect(() => {
-        (async () => {
+    const getAllCovers = async () => {
+        try {
             const data = await getAllCover();
             setCovers(data);
-        })();
-    }, [reload]);
+        } catch (error) {
+            console.log("Lỗi khi lấy danh sách biến thể sản phẩm:", error);
+        }
+    };
 
     const onAdd = async (dataCover: ICover) => {
         try {
             const data = await createCover(dataCover);
             setCovers([...covers, data]);
             alert("Thêm thể loại thành công!");
-            setReload((prev) => !prev);
         } catch (error) {
             console.log(error);
         }
@@ -55,14 +55,13 @@ const CoverProvider = ({ children }: Props) => {
             );
             setCovers(newCovers);
             alert("Sửa thể loại thành công!");
-            setReload((prev) => !prev);
         } catch (error) {
             console.log(error);
         }
     };
 
     return (
-        <CoverContext.Provider value={{ covers, onAdd, onDelete, onEdit }}>
+        <CoverContext.Provider value={{ covers, getAllCovers, onAdd, onDelete, onEdit }}>
             {children}
         </CoverContext.Provider>
     );

@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useState } from "react";
 import { IOrderStatus } from "../interfaces/OrderStatus";
 import { getAllOrderstatus } from "../services/OrderStatus";
 
@@ -12,12 +12,10 @@ const OrderStatusProvider = ({ children }: Props) => {
     const [orderstatus, setOrderStatus] = useState<IOrderStatus[]>([]);
     // const [reload, setReload] = useState(false);
 
-    useEffect(() => {
-        (async () => {
-            const data = await getAllOrderstatus();
-            setOrderStatus(data);
-        })();
-    }, []);
+    const getAllStatus = async () => {
+        const data = await getAllOrderstatus();
+        setOrderStatus(data);
+    }
 
 
     // const onStatus = async (id: number) => {
@@ -47,7 +45,7 @@ const OrderStatusProvider = ({ children }: Props) => {
     // };
 
     return (
-        <OrderStatusContext.Provider value={{ orderstatus }}>
+        <OrderStatusContext.Provider value={{ orderstatus, getAllStatus }}>
             {children}
         </OrderStatusContext.Provider>
     );

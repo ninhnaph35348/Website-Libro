@@ -1,12 +1,15 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { OrderContext } from "../../../context/Order";
 import { OrderStatusContext } from "../../../context/OrderStatus";
 import { Link } from "react-router-dom";
 import { IOrder } from "../../../interfaces/Orders";
 
 const Orders = () => {
-  const { orders, onEdit } = useContext(OrderContext);
+  const { orders, getAllStatus, onEdit } = useContext(OrderContext);
   const { orderstatus } = useContext(OrderStatusContext);
+      useEffect(() => {
+        getAllStatus();
+      }, []);
 
   // Phân trang
   const [currentPage, setCurrentPage] = useState(1);

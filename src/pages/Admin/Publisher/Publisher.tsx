@@ -1,11 +1,15 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { PublisherContext } from "../../../context/Publisher";
 import { IPublishers } from "../../../interfaces/Publishers";
 
 const PublisherList = () => {
-  const { publishers, onDelete } = useContext(PublisherContext);
+  const { publishers, getAllPublisher, onDelete } = useContext(PublisherContext);
   const navigate = useNavigate();
+
+      useEffect(() => {
+        getAllPublisher();
+      }, []);
 
   // Phân trang
   const [currentPage, setCurrentPage] = useState(1);

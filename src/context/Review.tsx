@@ -31,10 +31,6 @@ const ReviewProvider = ({ children }: Props) => {
     }
   };
 
-  useEffect(() => {
-    fetchReviews();
-  }, []);
-
   // Cập nhật trạng thái review (Ẩn/Hiện)
   const handleUpdateStatus = async (id: number, currentStatus: number) => {
     const isHiding = currentStatus === 0; // Nếu `status` hiện tại là 0 thì sẽ chuyển sang 1 (tức là ẩn)

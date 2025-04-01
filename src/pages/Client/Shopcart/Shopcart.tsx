@@ -1,10 +1,9 @@
 // src/components/ShopCart.tsx
-import React, { useContext, useState } from "react";
-import { CartContext } from "../../../context/Cart";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import book1 from "../../../assets/img/hero/book1.png";
 import book2 from "../../../assets/img/hero/book2.png";
-import icon9 from "../../../assets/img/icon/icon-9.svg";
+import { CartContext } from "../../../context/Cart";
 
 type Props = {};
 

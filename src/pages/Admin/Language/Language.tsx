@@ -1,11 +1,15 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LanguageContext } from '../../../context/Language';
 import { ILanguage } from '../../../interfaces/Language';
 
 const Language = () => {
-  const { languages, onDelete } = useContext(LanguageContext);
+  const { languages, getAllLanguagies, onDelete } = useContext(LanguageContext);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    getAllLanguagies();
+  }, []);
 
   // Phân trang
   const [currentPage, setCurrentPage] = useState(1);

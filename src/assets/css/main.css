@@ -2292,9 +2292,9 @@ span {
     gap: 105px;
   }
 }
-.header-1 .header-left .logo {
+/* .header-1 .header-left .logo {
   margin-bottom: 50px;
-}
+} */
 @media (max-width: 1199px) {
   .header-1 .header-left .logo {
     margin-bottom: 0;

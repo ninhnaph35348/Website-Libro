@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useState } from "react";
 import {
   createPublisher,
   deletePublisher,
@@ -17,10 +17,8 @@ export const PublisherContext = createContext({} as any);
 
 const PublisherProvider = ({ children }: Props) => {
   const [publishers, setPublishers] = useState<IPublishers[]>([]);
-  const [reload, setReload] = useState(false);
 
-  useEffect(() => {
-    (async () => {
+  const getAllPublisher = async () => {
       try {
         const data = await getAllPublishers();
         setPublishers(data);
@@ -28,15 +26,13 @@ const PublisherProvider = ({ children }: Props) => {
         toast.error("Lỗi khi tải danh sách nhà xuất bản!");
         console.error(error);
       }
-    })();
-  }, [reload]);
+    }
 
   const onAdd = async (dataPublisher: IPublishers) => {
     try {
       const data = await createPublisher(dataPublisher);
       setPublishers([...publishers, data]);
       toast.success("Thêm nhà xuất bản thành công!");
-      setReload((prev) => !prev);
     } catch (error) {
       toast.error("Lỗi khi thêm nhà xuất bản!");
       console.error(error);
@@ -61,7 +57,6 @@ const PublisherProvider = ({ children }: Props) => {
       const data = await updatePublisher(formData, id);
       setPublishers(publishers.map((publisher) => (publisher.id === id ? data : publisher)));
       toast.success("Sửa nhà xuất bản thành công!");
-      setReload((prev) => !prev);
     } catch (error) {
       toast.error("Lỗi khi sửa nhà xuất bản!");
       console.error(error);
@@ -69,7 +64,7 @@ const PublisherProvider = ({ children }: Props) => {
   };
 
   return (
-    <PublisherContext.Provider value={{ publishers, onAdd, onDelete, onEdit }}>
+    <PublisherContext.Provider value={{ publishers, getAllPublisher, onAdd, onDelete, onEdit }}>
       {children}
     </PublisherContext.Provider>
   );

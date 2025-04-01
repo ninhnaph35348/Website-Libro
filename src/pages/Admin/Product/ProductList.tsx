@@ -1,11 +1,16 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ProductContext } from '../../../context/Product';
 import { IProduct } from '../../../interfaces/Products';
 
 const ProductList = () => {
-    const { filteredProducts, onDelete, filterProductsByTitle } = useContext(ProductContext);
+    const { filteredProducts, getAllProduct, onDelete, filterProductsByTitle } = useContext(ProductContext);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        getAllProduct();
+    }, []);
+
     const [searchTerm, setSearchTerm] = useState("");
 
     // Phân trang

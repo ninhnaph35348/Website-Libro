@@ -1,6 +1,6 @@
-import { createContext, useEffect, useState } from "react";
-import { deleteOrder, getAllOrder, updateOrder } from "../services/Order";
+import { createContext, useState } from "react";
 import { IOrder } from "../interfaces/Orders";
+import { deleteOrder, getAllOrder, updateOrder } from "../services/Order";
 
 type Props = {
   children: React.ReactNode;
@@ -10,10 +10,8 @@ export const OrderContext = createContext({} as any);
 
 const OrderProvider = ({ children }: Props) => {
   const [orders, setOrders] = useState<IOrder[]>([]);
-  const [reload, setReload] = useState(false);
 
-  useEffect(() => {
-    (async () => {
+  const getAllOrders = async () => {
       try {
         const response = await getAllOrder();
         if (response?.data && Array.isArray(response.data)) {
@@ -26,8 +24,7 @@ const OrderProvider = ({ children }: Props) => {
         console.error("Lỗi khi fetch sản phẩm:", error);
         setOrders([]);
       }
-    })();
-  }, [reload]);
+    }
 
   const onStatus = async (id: number) => {
     try {
@@ -49,7 +46,6 @@ const OrderProvider = ({ children }: Props) => {
           order.code_order === code_order ? data : order
         );
         setOrders(newOrders);
-        setReload((prev) => !prev);
         alert("Cập nhật đơn hàng thành công!");
       }
     } catch (error) {
@@ -59,7 +55,7 @@ const OrderProvider = ({ children }: Props) => {
   };
 
   return (
-    <OrderContext.Provider value={{ orders, onStatus, onEdit }}>
+    <OrderContext.Provider value={{ orders, getAllOrders, onStatus, onEdit }}>
       {children}
     </OrderContext.Provider>
   );

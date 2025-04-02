@@ -1,3 +1,4 @@
+// src/components/Shopdetail.tsx
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useCart } from "../../../context/Cart";
@@ -34,9 +35,9 @@ const Shopdetail = () => {
     return <p className="text-center mt-10 text-gray-500">Sản phẩm không tồn tại.</p>;
   }
 
-
   const handleAddToCart = () => {
-    console.log("Clicked");
+    console.log("Clicked Add to Cart", { productVariant, quantity });
+    // Kiểm tra số lượng thay vì status
     if (productVariant.quantity === 0) {
       alert("Sản phẩm đã hết hàng!");
       return;
@@ -58,7 +59,9 @@ const Shopdetail = () => {
           <div className="relative overflow-hidden bg-[#e6eff2] py-[80px]">
             <h1 className="text-2xl font-bold text-center">Chi Tiết Sản Phẩm</h1>
             <ul className="breadcrumb flex justify-center gap-2 text-gray-500">
-              <li><Link to="/">Trang chủ</Link></li>
+              <li>
+                <Link to="/">Trang chủ</Link>
+              </li>
               <li>/</li>
               <li>Chi tiết sản phẩm</li>
             </ul>
@@ -120,11 +123,9 @@ const Shopdetail = () => {
                     <div className="shop-details-content">
                       <div>
                         <h2 className="text-4xl font-semibold">{productVariant.product.title}</h2>
-                        {productVariant.quantity === 0 ? (
-                          <h5 className="text-red-500 font-semibold text-xl">Hết hàng</h5>
-                        ) : (
-                          <h5 className="text-[#57C600] font-semibold text-xl">Còn hàng</h5>
-                        )}
+                        <h5 className="text-[#57C600] font-semibold text-xl">
+                          {productVariant.quantity === 0 ? "Hết hàng" : "Còn hàng"}
+                        </h5>
                       </div>
                       <div className="star">
                         <a href="shop-details.html"> <i className="fas fa-star" /></a>
@@ -143,15 +144,36 @@ const Shopdetail = () => {
                       <div className="cart-wrapper">
                         <div className="quantity-basket">
                           <p className="qty">
-                            <button className="qtyminus" aria-hidden="true">−</button>
-                            <input type="number" name="qty" id="qty2" min={1}
+                            <button
+                              className="qtyminus"
+                              onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                              disabled={quantity <= 1}
+                              aria-hidden="true"
+                            >
+                              −
+                            </button>
+                            <input
+                              type="number"
+                              name="qty"
+                              id="qty2"
+                              min={1}
+                              max={productVariant.quantity}
+                              value={quantity}
                               onChange={(e) =>
-                                setQuantity(Math.min(productVariant.quantity, Math.max(1, Number(e.target.value))))
+                                setQuantity(
+                                  Math.min(productVariant.quantity, Math.max(1, Number(e.target.value)))
+                                )
                               }
-                              max={productVariant.quantity} step={1} defaultValue={1} />
-                            <button className="qtyplus"
+                              className="w-12 text-center border-gray-300 rounded"
+                            />
+                            <button
+                              className="qtyplus"
                               onClick={() => setQuantity((q) => Math.min(productVariant.quantity, q + 1))}
-                              aria-hidden="true">+</button>
+                              disabled={quantity >= productVariant.quantity}
+                              aria-hidden="true"
+                            >
+                              +
+                            </button>
                           </p>
                         </div>
                         {/* <button type="button" className="theme-btn style-2" data-bs-toggle="modal" data-bs-target="#readMoreModal">
@@ -185,7 +207,8 @@ const Shopdetail = () => {
                         {/* <button
                           // disabled={productVariant.product.status !== 1}
                           onClick={handleAddToCart}
-                          className="theme-btn">
+                          className="theme-btn"
+                        >
                           <i className="fa-solid fa-basket-shopping" /> Thêm vào giỏ hàng
                         </button> */}
                         {productVariant.quantity === 0 ? (

@@ -1,61 +1,61 @@
 import PayPal from "../../../assets/img/paypal.png";
 import GooglePay from "../../../assets/img/GooglePay.png";
 import Mastercard2 from "../../../assets/img/Mastercard2.png"; import { useContext, useEffect, useState } from "react";
-// import { Select } from "antd";
-// import { District, getDistricts, getProvinces, getWards, Province, Ward } from "../../../config/provincesApi";
+import { Select } from "antd";
+import { District, getDistricts, getProvinces, getWards, Province, Ward } from "../../../config/provincesApi";
 import { CheckoutContext } from "../../../context/Checkout";
 import { ICheckout } from "../../../interfaces/Checkout";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { useCart } from "../../../context/Cart";
-import { ICartItem } from "../../../interfaces/Cart";
 
-// const { Option } = Select;
+const { Option } = Select;
 
 
 const Checkout: React.FC = () => {
-    const { cartItems, totalPrice } = useCart();
-    const { register, handleSubmit, reset, formState: { errors } } = useForm<ICheckout>();
-    const navigate = useNavigate();
+    const [provinces, setProvinces] = useState<Province[]>([]);
+    const [districts, setDistricts] = useState<District[]>([]);
+    const [wards, setWards] = useState<Ward[]>([]);
+    const [selectedProvince, setSelectedProvince] = useState<number | null>(null);
+    const [selectedDistrict, setSelectedDistrict] = useState<number | null>(null);
+
+    useEffect(() => {
+        getProvinces().then(setProvinces);
+    }, []);
+
+    const handleProvinceChange = (value: number) => {
+        setSelectedProvince(value);
+        setSelectedDistrict(null);
+        setWards([]);
+        getDistricts(value).then(setDistricts);
+    };
+
+    const handleDistrictChange = (value: number) => {
+        setSelectedDistrict(value);
+        getWards(value).then(setWards);
+    };
+
     const context = useContext(CheckoutContext);
+    const {
+        register,
+        handleSubmit,
+        reset,
+        formState: { errors },
+    } = useForm<ICheckout>();
+    const navigate = useNavigate();
 
-    // const [provinces, setProvinces] = useState<Province[]>([]);
-    // const [districts, setDistricts] = useState<District[]>([]);
-    // const [wards, setWards] = useState<Ward[]>([]);
-    // const [selectedProvince, setSelectedProvince] = useState<number | null>(null);
-    // const [selectedDistrict, setSelectedDistrict] = useState<number | null>(null);
-
-    // useEffect(() => {
-    //     getProvinces().then(setProvinces);
-    // }, []);
-
-    // const handleProvinceChange = (value: number) => {
-    //     setSelectedProvince(value);
-    //     setSelectedDistrict(null);
-    //     setWards([]);
-    //     getDistricts(value).then(setDistricts);
-    // };
-
-    // const handleDistrictChange = (value: number) => {
-    //     setSelectedDistrict(value);
-    //     getWards(value).then(setWards);
-    // };
-
-
-    const onSubmit = async (data: ICheckout) => {
+    const onSubmit = async (data: ICheckout) => {        
         if (context) {
-            const orderData: ICheckout = { ...data, cart: cartItems };
-            await context.onAdd(orderData);
-            navigate("/order-success");
+            await context.onAdd(data);
+            navigate(-1);
             reset();
         }
     };
     return (
         <section className="checkout-section fix section-padding mx-[200px]">
-            <form onSubmit={handleSubmit(onSubmit)} method="post">
-                <div className="container">
-                    <div className="row g-5">
-                        <div className="col-lg-6">
+            <div className="container">
+                <div className="row g-5">
+                    <div className="col-lg-8">
+                        <form onSubmit={handleSubmit(onSubmit)} method="post">
                             <div className="checkout-single-wrapper">
                                 <div className="checkout-single boxshado-single">
                                     <h4>Chi tiết thanh toán</h4>
@@ -71,7 +71,7 @@ const Checkout: React.FC = () => {
                                                     {errors.user_name && <p className="text-red-500">{errors.user_name.message}</p>}
                                                 </div>
                                             </div>
-                                            {/* <div className="hidden">
+                                            <div className="hidden">
                                                 <Select placeholder="Chọn tỉnh/thành" style={{ width: 200 }} onChange={handleProvinceChange}>
                                                     {provinces.map((province) => (
                                                         <Option key={province.code} value={province.code}>
@@ -95,7 +95,7 @@ const Checkout: React.FC = () => {
                                                         </Option>
                                                     ))}
                                                 </Select>
-                                            </div> */}
+                                            </div>
                                             <div className="col-lg-12">
                                                 <div className="input-single">
                                                     <span>Số điện thoại*</span>
@@ -136,103 +136,105 @@ const Checkout: React.FC = () => {
                                                     <label htmlFor="saveForNext2">Gửi đến một địa chỉ khác?</label>
                                                 </div>
                                             </div> */}
-                                            {/* <div className="col-lg-12">
+                                            <div className="col-lg-12">
                                                 <div className="input-single">
                                                     <span>Ghi chú (tùy chọn)</span>
                                                     <textarea name="notes" id="notes" placeholder="Ghi chú về đơn hàng của bạn, ví dụ ghi chú đặc biệt về việc giao hàng." defaultValue={""} />
                                                 </div>
-                                            </div> */}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div className="col-lg-6">
-                            <div className="checkout-order-area">
-                                <h3>Đơn hàng của tôi</h3>
-                                <div className="product-checout-area space-x-1">
-                                    <div className="checkout-summary">
-                                        <div className="checkout-header grid grid-cols-5 text-center font-bold py-2 border-b">
-                                            <p className="col-span-3">Sản phẩm</p>
-                                            <p>Số lượng</p>
-                                            <p>Giá</p>
-                                        </div>
-
-                                        {cartItems.map((item: ICartItem) => (
-                                            <div key={item.product.code} className="checkout-item grid grid-cols-5 text-center py-2 border-b items-center">
-                                                <p className="col-span-3 text-left">{item.product.title}</p>
-                                                <p>{item.cartQuantity}</p>
-                                                <p className="font-medium text-orange-600">
-                                                    {item.promotion && item.promotion < item.price ? (
-                                                        <>
-                                                            {Math.round(item.promotion * item.cartQuantity).toLocaleString("vi-VN")}₫
-
-                                                        </>
-                                                    ) : (
-                                                        `${Math.round(item.price * item.cartQuantity).toLocaleString("vi-VN")}₫`
-                                                    )}
-                                                </p>
-                                            </div>
-                                        ))}
-                                    </div>
-
-                                    <div className="checkout-item grid grid-cols-5 text-center">
-                                        <p className="col-span-4 text-left">Vận chuyển</p>
-                                        <p>30.000₫</p>
-                                    </div>
-                                    <div className="checkout-item grid grid-cols-5 text-center ">
-                                        <p className="col-span-4 text-left !text-2xl">Tổng cộng:</p> 
-                                        <p className="!text-red-400 !text-2xl">{totalPrice.toLocaleString("vi-VN")}₫</p>
-                                    </div>
-                                    <div className="checkout-item-2">
-                                        <div className="form-check-2 d-flex align-items-center from-customradio-2">
-                                            <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1222" />
-                                            <label className="form-check-label" htmlFor="flexRadioDefault1222">
-                                                Chuyển khoản ngân hàng trực tiếp
+                        </form>
+                    </div>
+                    <div className="col-lg-4">
+                        <div className="checkout-order-area">
+                            <h3>Đơn hàng của tôi</h3>
+                            <div className="product-checout-area">
+                                <div className="checkout-item d-flex align-items-center justify-content-between">
+                                    <p>Sản phẩm</p>
+                                    <p>Tổng cộng</p>
+                                </div>
+                                <div className="checkout-item d-flex align-items-center justify-content-between">
+                                    <p>Sản phẩm 1</p>
+                                    <p>$29.00</p>
+                                </div>
+                                <div className="checkout-item d-flex justify-content-between">
+                                    <p>Vận chuyển</p>
+                                    <div className="shopping-items">
+                                        <div className="form-check d-flex align-items-center from-customradio">
+                                            <label className="form-check-label">
+                                                Miễn phí vận chuyển
                                             </label>
+                                            <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault12" />
                                         </div>
-                                        <p>
-                                            Thanh toán trực tiếp vào tài khoản ngân hàng của chúng tôi, vui lòng sử dụng Mã đơn hàng của bạn làm tham chiếu thanh toán. Đơn hàng của bạn sẽ không được giao cho đến khi tiền được chuyển vào tài khoản của chúng tôi.
-                                        </p>
-                                        <div className="form-check-3 d-flex align-items-center from-customradio-2 mt-3">
-                                            <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault12224" />
-                                            <label className="form-check-label" htmlFor="flexRadioDefault12224">
-                                                Thanh toán khi nhận hàng
+                                        <div className="form-check d-flex align-items-center from-customradio">
+                                            <label className="form-check-label">
+                                                Địa phương: $15.00
                                             </label>
+                                            <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault123" />
                                         </div>
-                                        <div className="form-check-3 d-flex align-items-center from-customradio-2 mt-3">
-                                            <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault12225" />
-                                            <label className="form-check-label" htmlFor="flexRadioDefault12225">
-                                                Paypal
+                                        <div className="form-check d-flex align-items-center from-customradio">
+                                            <label className="form-check-label">
+                                                Giá cố định: $10.00
                                             </label>
-                                            <ul className="brand-logo">
-                                                <li>
-                                                    <a href="checkout.html">
-                                                        <img src={PayPal} alt="img" />
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="checkout.html">
-                                                        <img src={GooglePay} alt="img" />
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="checkout.html">
-                                                        <img src={Mastercard2} alt="img" />
-                                                    </a>
-                                                </li>
-                                            </ul>
+                                            <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault124" />
                                         </div>
                                     </div>
-                                    <div className="text-center">
-                                        <button type="submit" className="theme-btn">Thanh toán</button>
+                                </div>
+                                <div className="checkout-item d-flex align-items-center justify-content-between">
+                                    <p>Tổng cộng</p>
+                                    <p>$55.00</p>
+                                </div>
+                                <div className="checkout-item-2">
+                                    <div className="form-check-2 d-flex align-items-center from-customradio-2">
+                                        <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1222" />
+                                        <label className="form-check-label" htmlFor="flexRadioDefault1222">
+                                            Chuyển khoản ngân hàng trực tiếp
+                                        </label>
                                     </div>
+                                    <p>
+                                        Thanh toán trực tiếp vào tài khoản ngân hàng của chúng tôi, vui lòng sử dụng Mã đơn hàng của bạn làm tham chiếu thanh toán. Đơn hàng của bạn sẽ không được giao cho đến khi tiền được chuyển vào tài khoản của chúng tôi.
+                                    </p>
+                                    <div className="form-check-3 d-flex align-items-center from-customradio-2 mt-3">
+                                        <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault12224" />
+                                        <label className="form-check-label" htmlFor="flexRadioDefault12224">
+                                            Thanh toán khi nhận hàng
+                                        </label>
+                                    </div>
+                                    <div className="form-check-3 d-flex align-items-center from-customradio-2 mt-3">
+                                        <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault12225" />
+                                        <label className="form-check-label" htmlFor="flexRadioDefault12225">
+                                            Paypal
+                                        </label>
+                                        <ul className="brand-logo">
+                                            <li>
+                                                <a href="checkout.html">
+                                                    <img src={PayPal} alt="img" />
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="checkout.html">
+                                                    <img src={GooglePay} alt="img" />
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="checkout.html">
+                                                    <img src={Mastercard2} alt="img" />
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div className="text-center">
+                                    <button type="submit" className="theme-btn">Thanh toán</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </form>
+            </div>
         </section>
 
     )

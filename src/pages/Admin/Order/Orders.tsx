@@ -5,11 +5,15 @@ import { Link } from "react-router-dom";
 import { IOrder } from "../../../interfaces/Orders";
 
 const Orders = () => {
-  const { orders, getAllStatus, onEdit } = useContext(OrderContext);
-  const { orderstatus } = useContext(OrderStatusContext);
-      useEffect(() => {
-        getAllStatus();
-      }, []);
+  const { orders, getAllOrders, onEdit } = useContext(OrderContext);
+  const { orderstatus, getAllStatus } = useContext(OrderStatusContext);
+
+  useEffect(() => {
+    getAllStatus();
+  }, []);
+  useEffect(() => {
+    getAllOrders();
+  }, []);
 
   // Phân trang
   const [currentPage, setCurrentPage] = useState(1);
@@ -128,11 +132,10 @@ const Orders = () => {
           <button
             onClick={() => handlePageChange(currentPage - 1)}
             className={`px-4 py-2 rounded-full border shadow-md transition-all duration-300 
-                                    ${
-                                      currentPage === 1
-                                        ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                                        : "bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:shadow-lg hover:scale-105"
-                                    }`}
+                                    ${currentPage === 1
+                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                : "bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:shadow-lg hover:scale-105"
+              }`}
             disabled={currentPage === 1}
           >
             ◀ Trước
@@ -144,11 +147,10 @@ const Orders = () => {
               key={index}
               onClick={() => handlePageChange(index + 1)}
               className={`px-4 py-2 rounded-full border shadow-md transition-all duration-300 font-semibold
-                                        ${
-                                          currentPage === index + 1
-                                            ? "bg-blue-500 text-white scale-110 shadow-lg"
-                                            : "bg-gray-200 text-gray-700 hover:bg-gray-300 hover:scale-105"
-                                        }`}
+                                        ${currentPage === index + 1
+                  ? "bg-blue-500 text-white scale-110 shadow-lg"
+                  : "bg-gray-200 text-gray-700 hover:bg-gray-300 hover:scale-105"
+                }`}
             >
               {index + 1}
             </button>
@@ -158,11 +160,10 @@ const Orders = () => {
           <button
             onClick={() => handlePageChange(currentPage + 1)}
             className={`px-4 py-2 rounded-full border shadow-md transition-all duration-300 
-                                    ${
-                                      currentPage === totalPages
-                                        ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                                        : "bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:shadow-lg hover:scale-105"
-                                    }`}
+                                    ${currentPage === totalPages
+                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                : "bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:shadow-lg hover:scale-105"
+              }`}
             disabled={currentPage === totalPages}
           >
             Tiếp ▶

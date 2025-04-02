@@ -1,16 +1,15 @@
-import React, { useContext, useState, useEffect } from "react";
-import { CartContext } from "../../../context/Cart";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import book1 from "../../../assets/img/hero/book1.png";
 import book2 from "../../../assets/img/hero/book2.png";
+import { CartContext } from "../../../context/Cart";
 
-type Props = {};
 
-const ShopCart = (props: Props) => {
+const ShopCart = () => {
   const cartContext = useContext(CartContext);
   const cartItems = cartContext?.cartItems || [];
-  const removeFromCart = cartContext?.removeFromCart || (() => {});
-  const updateCartQuantity = cartContext?.updateCartQuantity || (() => {});
+  const removeFromCart = cartContext?.removeFromCart || (() => { });
+  const updateCartQuantity = cartContext?.updateCartQuantity || (() => { });
   const [mess, setMess] = useState(""); // State để lưu thông báo
 
   // Log dữ liệu cartItems để kiểm tra
@@ -132,12 +131,10 @@ const ShopCart = (props: Props) => {
                               </span>
                             </td>
                             <td className="text-center">
-                              {item.promotion && item.promotion < item.price ? (
+                              {item.promotion ? (
                                 <>
                                   {Math.round(item.promotion).toLocaleString()}₫
-                                  <del className="!font-medium ml-2 text-[#5c707e]">
-                                    {Math.round(item.price).toLocaleString()}₫
-                                  </del>
+
                                 </>
                               ) : (
                                 `${Math.round(item.price).toLocaleString()}₫`
@@ -189,7 +186,7 @@ const ShopCart = (props: Props) => {
                             </td>
                             <td className="text-center">
                               {Math.round(
-                                (item.promotion && item.promotion < item.price
+                                (item.promotion
                                   ? item.promotion
                                   : item.price) * item.cartQuantity
                               ).toLocaleString("vi-VN")}{" "}

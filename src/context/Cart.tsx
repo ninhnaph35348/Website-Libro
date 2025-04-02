@@ -140,7 +140,7 @@ const CartProvider = ({ children }: Props) => {
     removeFromCart,
     updateCartQuantity,
     clearCart,
-    message, // Bây giờ message đã được khai báo trong ICartContext
+    message
   };
 
   return (

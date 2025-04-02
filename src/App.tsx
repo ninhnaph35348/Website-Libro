@@ -62,6 +62,11 @@ import Sinup from "./pages/Client/Login/Sinup";
 // import Profile from "./pages/Client/Profile/Profile";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Profile from "./pages/Client/Profile/Profile";
+import EditProfile from "./pages/Client/Profile/EditProfile";
+import ChangePassword from "./pages/Client/Profile/ChangePassword";
+import ProfilePage from "./pages/Client/Profile/pageProfile";
+import Sidebar from "./pages/Client/Profile/pageProfile";
 
 const App = () => {
   return (
@@ -189,12 +194,22 @@ const App = () => {
           <Route path="/shop-cart" element={<Shopcart />} />
           <Route path="/shop" element={<Shopdefaul />} />
           <Route path="/blog" element={<Blog />} />
+          <Route path="/profile/accout" element={<ProfilePage />} />
+          
+          <Route path="/profile" element={<Sidebar />}>
+          <Route path="/profile" element={<Profile/>} />
+
+          <Route path="/profile/edit" element={<EditProfile/>} />
+          <Route path="change-password" element={<ChangePassword />} />
+        </Route>
+
+
 
           <Route path="/contact" element={<Contact />} />
         </Route>
         <Route path="/login" element={<LoginClient />} />
         <Route path="/register" element={<Sinup />} />
-        {/* <Route path="/profile" element={<Profile/>} /> */}
+       
 
         {/* Trang 404 */}
         <Route path="*" element={<NotFound />} />

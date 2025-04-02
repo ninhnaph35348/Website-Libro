@@ -46,7 +46,7 @@ export const updateProduct = async (productData: FormData, id: number | string) 
 
 export const deleteProduct = async (id: number | string) =>{
     try {
-        const {data} = await instance.put(`products/${id}`)
+        const {data} = await instance.delete(`products/${id}`)
         return data
     } catch (error) {
         throw new Error("Lỗi")

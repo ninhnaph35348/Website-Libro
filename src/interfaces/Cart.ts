@@ -1,4 +1,3 @@
-import { message } from 'antd';
 import { IProductVariant } from "./ProductVariants";
 
 export interface ICartItem extends IProductVariant {

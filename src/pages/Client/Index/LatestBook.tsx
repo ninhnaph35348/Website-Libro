@@ -13,9 +13,6 @@ const LatestBook = () => {
         fetchLatestVariants();
     }, []);
 
-    // console.log(productVariantLatest);
-
-
     return (
         // Shop Section start - Sách Mới Nhất
         <section className="shop-section section-padding fix pt-0" >
@@ -30,7 +27,7 @@ const LatestBook = () => {
                         </h2>
                     </div>
                     <Link
-                        to="/products"
+                        to="/shop"
                         className="theme-btn transparent-btn flex justify-center items-center gap-1"
                         style={{ animationDelay: "0.5s" }}
                     >
@@ -63,9 +60,9 @@ const LatestBook = () => {
                                                 <li>
                                                     Hot
                                                 </li>
-                                                {Math.round(((variant.price - variant.promotion) / variant.price) * 100) > 0 && (
+                                                {variant.promotion && (
                                                     <li>
-                                                        {Math.round(((variant.price - variant.promotion) / variant.price) * 100)}%
+                                                        -{Math.round((1 - variant.promotion / variant.price) * 100)}%
                                                     </li>
                                                 )}
                                             </ul>
@@ -88,7 +85,7 @@ const LatestBook = () => {
                                             <h3><Link to={`/shop-details/${variant.product.code}`} className='line-clamp-1'>{variant.product.title}</Link></h3>
                                             <ul className="author-post">
                                                 <li className="!text-base !font-bold text-[#ff6500]">
-                                                    {variant.promotion && variant.promotion < variant.price ? (
+                                                    {variant.promotion ? (
                                                         <>
                                                             {Math.round(variant.promotion).toLocaleString()}₫
                                                             <del className="!font-medium ml-2 text-[#5c707e]">

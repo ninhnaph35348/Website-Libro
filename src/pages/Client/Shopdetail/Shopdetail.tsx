@@ -37,10 +37,10 @@ const Shopdetail = () => {
 
   const handleAddToCart = () => {
     console.log("Clicked");
-    // if (productVariant.product.status !== 1) {
-    //   alert("Sản phẩm đã hết hàng!");
-    //   return;
-    // }
+    if (productVariant.quantity === 0) {
+      alert("Sản phẩm đã hết hàng!");
+      return;
+    }
     try {
       addToCart(productVariant, quantity);
       alert("Thêm thành công!");
@@ -120,7 +120,11 @@ const Shopdetail = () => {
                     <div className="shop-details-content">
                       <div>
                         <h2 className="text-4xl font-semibold">{productVariant.product.title}</h2>
-                        <h5 className="text-[#57C600] font-semibold text-xl">Còn hàng</h5>
+                        {productVariant.quantity === 0 ? (
+                          <h5 className="text-red-500 font-semibold text-xl">Hết hàng</h5>
+                        ) : (
+                          <h5 className="text-[#57C600] font-semibold text-xl">Còn hàng</h5>
+                        )}
                       </div>
                       <div className="star">
                         <a href="shop-details.html"> <i className="fas fa-star" /></a>
@@ -178,15 +182,30 @@ const Shopdetail = () => {
                             </div>
                           </div>
                         </div> */}
-                        <button
-                          disabled={productVariant.product.status !== 1}
+                        {/* <button
+                          // disabled={productVariant.product.status !== 1}
                           onClick={handleAddToCart}
                           className="theme-btn">
                           <i className="fa-solid fa-basket-shopping" /> Thêm vào giỏ hàng
-                        </button>
+                        </button> */}
+                        {productVariant.quantity === 0 ? (
+                          <button
+                            disabled={productVariant.product.status !== 1}
+                            onClick={handleAddToCart}
+                            className="theme-btn">
+                            <i className="fa-solid fa-basket-shopping" /> Thêm vào giỏ hàng
+                          </button>
+                        ) : (
+                          <button
+                            // disabled={productVariant.product.status !== 1}
+                            onClick={handleAddToCart}
+                            className="theme-btn">
+                            <i className="fa-solid fa-basket-shopping" /> Thêm vào giỏ hàng
+                          </button>
+                        )}
                       </div>
                       <div className="category-box">
-                        <div className="category-list">
+                        <div className="category-list !grid-cols-3">
                           <ul>
                             <li>
                               <span>Code:</span> {productVariant.product.code}

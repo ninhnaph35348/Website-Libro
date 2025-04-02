@@ -55,7 +55,7 @@ const Checkout: React.FC = () => {
             <form onSubmit={handleSubmit(onSubmit)} method="post">
                 <div className="container">
                     <div className="row g-5">
-                        <div className="col-lg-8">
+                        <div className="col-lg-6">
                             <div className="checkout-single-wrapper">
                                 <div className="checkout-single boxshado-single">
                                     <h4>Chi tiết thanh toán</h4>
@@ -147,45 +147,42 @@ const Checkout: React.FC = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="col-lg-4">
+                        <div className="col-lg-6">
                             <div className="checkout-order-area">
                                 <h3>Đơn hàng của tôi</h3>
-                                <div className="product-checout-area">
-                                    <div className="checkout-item d-flex align-items-center justify-content-between">
-                                        <p>Sản phẩm</p>
-                                        <p>Tổng cộng</p>
-                                    </div>
-                                    {cartItems.map((item: ICartItem) => (
-                                        <div className="checkout-item d-flex align-items-center justify-content-between">
-                                            <p>{item.product.title} x {item.cartQuantity}</p>
-                                            <p>{(parseFloat(item.price as any) * item.cartQuantity).toLocaleString("vi-VN")} VND</p>
+                                <div className="product-checout-area space-x-1">
+                                    <div className="checkout-summary">
+                                        <div className="checkout-header grid grid-cols-5 text-center font-bold py-2 border-b">
+                                            <p className="col-span-3">Sản phẩm</p>
+                                            <p>Số lượng</p>
+                                            <p>Giá</p>
                                         </div>
-                                    ))}
-                                    <div className="checkout-item d-flex justify-content-between">
-                                        <p>Vận chuyển</p>
-                                        <div className="shopping-items">
-                                            <div className="form-check d-flex align-items-center from-customradio">
-                                                <label className="form-check-label">
-                                                    Miễn phí vận chuyển
-                                                </label>
-                                                <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault12" />
+
+                                        {cartItems.map((item: ICartItem) => (
+                                            <div key={item.product.code} className="checkout-item grid grid-cols-5 text-center py-2 border-b items-center">
+                                                <p className="col-span-3 text-left">{item.product.title}</p>
+                                                <p>{item.cartQuantity}</p>
+                                                <p className="font-medium text-orange-600">
+                                                    {item.promotion && item.promotion < item.price ? (
+                                                        <>
+                                                            {Math.round(item.promotion * item.cartQuantity).toLocaleString("vi-VN")}₫
+
+                                                        </>
+                                                    ) : (
+                                                        `${Math.round(item.price * item.cartQuantity).toLocaleString("vi-VN")}₫`
+                                                    )}
+                                                </p>
                                             </div>
-                                            <div className="form-check d-flex align-items-center from-customradio">
-                                                <label className="form-check-label">
-                                                    Địa phương: $15.00
-                                                </label>
-                                                <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault123" />
-                                            </div>
-                                            <div className="form-check d-flex align-items-center from-customradio">
-                                                <label className="form-check-label">
-                                                    Giá cố định: $10.00
-                                                </label>
-                                                <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault124" />
-                                            </div>
-                                        </div>
+                                        ))}
                                     </div>
-                                    <div className="checkout-item d-flex align-items-center justify-content-between">
-                                        <p>Tổng cộng: {totalPrice.toLocaleString("vi-VN")} VND</p>
+
+                                    <div className="checkout-item grid grid-cols-5 text-center">
+                                        <p className="col-span-4 text-left">Vận chuyển</p>
+                                        <p>30.000₫</p>
+                                    </div>
+                                    <div className="checkout-item grid grid-cols-5 text-center ">
+                                        <p className="col-span-4 text-left !text-2xl">Tổng cộng:</p> 
+                                        <p className="!text-red-400 !text-2xl">{totalPrice.toLocaleString("vi-VN")}₫</p>
                                     </div>
                                     <div className="checkout-item-2">
                                         <div className="form-check-2 d-flex align-items-center from-customradio-2">

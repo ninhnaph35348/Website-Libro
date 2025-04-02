@@ -82,11 +82,11 @@ const ShopCart = () => {
                               <img src={`http://127.0.0.1:8000/storage/${item.product.image}`} alt={item.product.title} className="cart w-[50px] h-[50px] object-cover" />
                               <Link to={`/shop-details/${item.product.code}`} className="cart-title">{item.product.title}</Link>
                             </td>
-                            <td className="text-center">{parseFloat(item.price).toLocaleString("vi-VN")} VND</td>
+                            <td className="text-center">{parseFloat(item.promotion ||item.price as any).toLocaleString("vi-VN")} VND</td>
                             <td className="text-center">{item.cover || "Không xác định"}</td>
                             <td className="text-center">
                               <div className="quantity-basket">
-                                <button onClick={() => handleQuantityChange(item.id, (item.cartQuantity - 1).toString())} disabled={item.cartQuantity <= 1}>−</button>
+                                <button onClick={() => handleQuantityChange(item.id, (item.cartQuantity - 1).toString())} disabled={item.cartQuantity <= 1}></button>
                                 <input type="number" value={item.cartQuantity} min="1" max={item.quantity} onChange={(e) => handleQuantityChange(item.id, e.target.value)} />
                                 <button onClick={() => handleQuantityChange(item.id, (item.cartQuantity + 1).toString())} disabled={item.cartQuantity >= item.quantity}>+</button>
                               </div>

@@ -12,11 +12,19 @@ import { getProductById } from "../../../services/Product";
 
 const EditProduct = () => {
     const { onEdit } = useContext(ProductContext);
-    const { categories } = useContext(CategoryContext);
-    const { authors } = useContext(AuthorContext);
-    const { publishers } = useContext(PublisherContext);
-    const { languages } = useContext(LanguageContext);
-    const { genres } = useContext(GenreContext);
+    const { categories, getAllCategory } = useContext(CategoryContext);
+    const { authors, getAllAuthor } = useContext(AuthorContext);
+    const { publishers, getAllPublisher } = useContext(PublisherContext);
+    const { languages, getAllLanguagies } = useContext(LanguageContext);
+    const { genres, getAllGenries } = useContext(GenreContext);
+
+    useEffect(() => {
+        getAllCategory();
+        getAllAuthor();
+        getAllPublisher();
+        getAllLanguagies();
+        getAllGenries();
+    }, []);
 
     const { id } = useParams(); // Lấy ID từ URL
     const navigate = useNavigate();
@@ -67,9 +75,6 @@ const EditProduct = () => {
         }
     }, [id, reset, genres]); // Thêm `genres` vào dependency để cập nhật danh sách
 
-
-    console.log(images);
-
     // 🖼 Xử lý chọn ảnh
     const handleImageChange = (
         e: ChangeEvent<HTMLInputElement>,
@@ -108,8 +113,7 @@ const EditProduct = () => {
                 images: additionalImages.length > 0 ? additionalImages : [],
             };
             await onEdit(updatedData, id as string);
-            navigate("/admin/product");
-            window.location.reload();
+            // navigate("/admin/product");
 
         } catch (error) {
             console.error("❌ Lỗi khi cập nhật sản phẩm:", error);

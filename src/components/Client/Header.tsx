@@ -134,9 +134,9 @@ const Header = () => {
                       <a href="wishlist.html" className="cart-icon">
                         <i className="fa-regular fa-heart" />
                       </a>
-                      <a href="shop-cart.html" className="cart-icon">
+                      <Link to="shop-cart" className="cart-icon">
                         <i className="fa-regular fa-cart-shopping" />
-                      </a>
+                      </Link>
                       <div className="header-humbager ml-30">
                         <a
                           className="sidebar__toggle"

@@ -13,18 +13,21 @@ import { getProductVariantById } from "../../../services/ProductVariants";
 
 const EditProductvariant = () => {
     const { onEdit } = useContext(ProductVariantContext);
-    const { products } = useContext(ProductContext);
-    const { covers } = useContext(CoverContext);
+    const { products, getAllProduct } = useContext(ProductContext);
+    const { covers, getAllCovers } = useContext(CoverContext);
     const [loading, setLoading] = useState(true);
 
-    const { id } = useParams(); // Lấy ID từ URL
+    useEffect(() => {
+        getAllProduct();
+        getAllCovers();
+    }, []);
+    const { id } = useParams();
     const {
         register,
         handleSubmit,
-        reset,
         control,
         watch,
-        setValue, // 👈 Thêm setValue
+        setValue,
         formState: { errors },
     } = useForm<IProductVariant>();
 
@@ -65,7 +68,7 @@ const EditProductvariant = () => {
         }
         try {
             await onEdit(data, id);
-            navigate(-1);
+            // navigate(-1);
         } catch (error) {
             console.error("❌ Lỗi khi cập nhật sản phẩm:", error);
         }

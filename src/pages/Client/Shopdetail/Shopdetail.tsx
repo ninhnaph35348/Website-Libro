@@ -204,16 +204,31 @@ const Shopdetail = () => {
                             </div>
                           </div>
                         </div> */}
-                        <button
-                          disabled={productVariant.quantity === 0}
+                        {/* <button
+                          // disabled={productVariant.product.status !== 1}
                           onClick={handleAddToCart}
                           className="theme-btn"
                         >
                           <i className="fa-solid fa-basket-shopping" /> Thêm vào giỏ hàng
-                        </button>
+                        </button> */}
+                        {productVariant.quantity === 0 ? (
+                          <button
+                            disabled={productVariant.product.status !== 1}
+                            onClick={handleAddToCart}
+                            className="theme-btn">
+                            <i className="fa-solid fa-basket-shopping" /> Thêm vào giỏ hàng
+                          </button>
+                        ) : (
+                          <button
+                            // disabled={productVariant.product.status !== 1}
+                            onClick={handleAddToCart}
+                            className="theme-btn">
+                            <i className="fa-solid fa-basket-shopping" /> Thêm vào giỏ hàng
+                          </button>
+                        )}
                       </div>
                       <div className="category-box">
-                        <div className="category-list">
+                        <div className="category-list !grid-cols-3">
                           <ul>
                             <li>
                               <span>Code:</span> {productVariant.product.code}

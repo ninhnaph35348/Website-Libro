@@ -31,19 +31,19 @@ const Shopdefaul = (props: Props) => {
         </div>
         <div className="container">
           <div className="page-heading">
-            <h1>Shop Default</h1>
+            <h1>Trang Sản Phẩm</h1>
             <div className="page-header">
               <ul
                 className="breadcrumb-items wow fadeInUp"
                 data-wow-delay=".3s"
               >
                 <li>
-                  <Link to="/">Home</Link>
+                  <Link to="/">Trang Chủ</Link>
                 </li>
                 <li>
                   <i className="fa-solid fa-chevron-right"></i>
                 </li>
-                <li>Shop Default</li>
+                <li>Sản Phẩm</li>
               </ul>
             </div>
           </div>
@@ -575,15 +575,39 @@ const Shopdefaul = (props: Props) => {
                   </div>
                 </div>
                 <div className="page-nav-wrap text-center">
-                            <ul>
-                                <li><a className="previous" href="shop.html">Previous</a></li>
-                                <li><a className="page-numbers" href="shop.html">1</a></li>
-                                <li><a className="page-numbers" href="shop.html">2</a></li>
-                                <li><a className="page-numbers" href="shop.html">3</a></li>
-                                <li><a className="page-numbers" href="shop.html">...</a></li>
-                                <li><a className="next" href="shop.html">Next</a></li>
-                            </ul>
-                        </div>
+                  <ul>
+                    <li>
+                      <a className="previous" href="shop.html">
+                        Previous
+                      </a>
+                    </li>
+                    <li>
+                      <a className="page-numbers" href="shop.html">
+                        1
+                      </a>
+                    </li>
+                    <li>
+                      <a className="page-numbers" href="shop.html">
+                        2
+                      </a>
+                    </li>
+                    <li>
+                      <a className="page-numbers" href="shop.html">
+                        3
+                      </a>
+                    </li>
+                    <li>
+                      <a className="page-numbers" href="shop.html">
+                        ...
+                      </a>
+                    </li>
+                    <li>
+                      <a className="next" href="shop.html">
+                        Next
+                      </a>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>

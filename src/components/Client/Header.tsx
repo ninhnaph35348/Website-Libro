@@ -35,7 +35,7 @@ const Header = () => {
                 <li className="relative flex flex-col items-start gap-2">
                   <div className="flex items-center gap-2">
                     <i className="fa-light fa-user text-blue-500 text-lg" />
-                    <span className="ml-2 font-semibold text-gray-800 text-base">
+                    <span className="ml-2 font-semibold text-white text-base">
                       {user.username}
                     </span>
                     <button

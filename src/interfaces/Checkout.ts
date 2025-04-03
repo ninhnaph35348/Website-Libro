@@ -1,8 +1,10 @@
-import { ICartItem } from "./Cart";
 
 export interface ICheckout{
     id: string | number;
-    cart: ICartItem;
+    cart: {
+        product_variant_id: number;
+        quantity: number;
+    }
     user_name: string;
     user_email: string;
     user_address: string;

@@ -1,23 +1,30 @@
-import PayPal from "../../../assets/img/paypal.png";
-import GooglePay from "../../../assets/img/GooglePay.png";
-import Mastercard2 from "../../../assets/img/Mastercard2.png"; import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
+import Pr_pay from "../../../assets/img/pr_pay.jpg";
 // import { Select } from "antd";
 // import { District, getDistricts, getProvinces, getWards, Province, Ward } from "../../../config/provincesApi";
-import { CheckoutContext } from "../../../context/Checkout";
-import { ICheckout } from "../../../interfaces/Checkout";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../../../context/Cart";
+import { CheckoutContext } from "../../../context/Checkout";
 import { ICartItem } from "../../../interfaces/Cart";
+import { ICheckout } from "../../../interfaces/Checkout";
 
 // const { Option } = Select;
 
 
 const Checkout: React.FC = () => {
-    const { cartItems, totalPrice } = useCart();
+    const { cartItems } = useCart();
     const { register, handleSubmit, reset, formState: { errors } } = useForm<ICheckout>();
     const navigate = useNavigate();
+    const [showQR, setShowQR] = useState(false);
     const context = useContext(CheckoutContext);
+    const [paymentMethod, setPaymentMethod] = useState<number>(0);
+
+    const shippingFee = 30000;
+    const totalAmount = cartItems.reduce((total, item) => {
+        const itemPrice = item.promotion && item.promotion < item.price ? item.promotion : item.price;
+        return total + itemPrice * item.cartQuantity;
+    }, 0) + shippingFee;
 
     // const [provinces, setProvinces] = useState<Province[]>([]);
     // const [districts, setDistricts] = useState<District[]>([]);
@@ -43,10 +50,20 @@ const Checkout: React.FC = () => {
 
 
     const onSubmit = async (data: ICheckout) => {
+
         if (context) {
-            const orderData: ICheckout = { ...data, cart: cartItems };
+            const orderData: ICheckout = {
+                ...data,
+                cart: cartItems.map(item => ({
+                    product_variant_id: item.id,
+                    quantity: item.cartQuantity,
+                })) as any,
+                shipping_fee: 30000, // Mặc định phí vận chuyển 30,000₫
+                payment_method: paymentMethod, // Lấy từ state
+            };
+            console.log(orderData);
             await context.onAdd(orderData);
-            navigate("/order-success");
+            // navigate("/order-success");
             reset();
         }
     };
@@ -181,26 +198,80 @@ const Checkout: React.FC = () => {
                                         <p>30.000₫</p>
                                     </div>
                                     <div className="checkout-item grid grid-cols-5 text-center ">
-                                        <p className="col-span-4 text-left !text-2xl">Tổng cộng:</p> 
-                                        <p className="!text-red-400 !text-2xl">{totalPrice.toLocaleString("vi-VN")}₫</p>
+                                        <p className="col-span-4 text-left !text-2xl">Tổng cộng:</p>
+                                        <p className="!text-red-400 !text-2xl">{totalAmount.toLocaleString("vi-VN")}₫</p>
                                     </div>
                                     <div className="checkout-item-2">
                                         <div className="form-check-2 d-flex align-items-center from-customradio-2">
-                                            <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1222" />
-                                            <label className="form-check-label" htmlFor="flexRadioDefault1222">
+                                            <input
+                                                className="form-check-input"
+                                                type="radio"
+                                                name="paymentMethod"
+                                                id="paymentBankTransfer"
+                                                value="1"
+                                                checked={paymentMethod === 1}
+                                                onChange={() => {
+                                                    setPaymentMethod(1);
+                                                    setShowQR(true); // Hiển thị mã QR
+                                                }}
+                                            />
+                                            <label className="form-check-label" htmlFor="paymentBankTransfer">
                                                 Chuyển khoản ngân hàng trực tiếp
                                             </label>
                                         </div>
                                         <p>
                                             Thanh toán trực tiếp vào tài khoản ngân hàng của chúng tôi, vui lòng sử dụng Mã đơn hàng của bạn làm tham chiếu thanh toán. Đơn hàng của bạn sẽ không được giao cho đến khi tiền được chuyển vào tài khoản của chúng tôi.
                                         </p>
+
                                         <div className="form-check-3 d-flex align-items-center from-customradio-2 mt-3">
-                                            <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault12224" />
-                                            <label className="form-check-label" htmlFor="flexRadioDefault12224">
+                                            <input
+                                                className="form-check-input"
+                                                type="radio"
+                                                name="paymentMethod"
+                                                id="paymentCOD"
+                                                value="0"
+                                                checked={paymentMethod === 0}
+                                                onChange={() => setPaymentMethod(0)}
+                                            />
+                                            <label className="form-check-label" htmlFor="paymentCOD">
                                                 Thanh toán khi nhận hàng
                                             </label>
                                         </div>
-                                        <div className="form-check-3 d-flex align-items-center from-customradio-2 mt-3">
+
+
+                                        {/* ✅ Hiển thị mã QR khi chọn chuyển khoản */}
+                                        {showQR && (
+                                            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                                                <div className="bg-white p-8 rounded-2xl shadow-2xl text-center w-[500px] relative">
+                                                    <h2 className="text-2xl font-bold mb-6 text-gray-800">Quét mã QR để thanh toán</h2>
+                                                    <img src={Pr_pay} alt="QR Code" className="mx-auto w-64 border-4 border-gray-300 rounded-lg shadow-md" />
+                                                    <div className="flex flex-col justify-center gap-6 mt-6">
+                                                        <button
+                                                            className="theme-btn mx-auto mt-4"
+                                                            onClick={() => {
+                                                                setShowQR(false);
+                                                                setPaymentMethod(1);
+                                                            }}
+                                                        >
+                                                            ✅ Tôi đã thanh toán
+                                                        </button>
+                                                        <button
+                                                            className="bg-gray-300 text-gray-700 mx-auto px-4 py-2 rounded hover:bg-gray-400"
+                                                            onClick={() => {
+                                                                setShowQR(false);
+                                                                setPaymentMethod(0);
+                                                            }}
+                                                        >
+                                                            ❌ Hủy
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )}
+
+
+
+                                        {/* <div className="form-check-3 d-flex align-items-center from-customradio-2 mt-3">
                                             <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault12225" />
                                             <label className="form-check-label" htmlFor="flexRadioDefault12225">
                                                 Paypal
@@ -222,7 +293,7 @@ const Checkout: React.FC = () => {
                                                     </a>
                                                 </li>
                                             </ul>
-                                        </div>
+                                        </div> */}
                                     </div>
                                     <div className="text-center">
                                         <button type="submit" className="theme-btn">Thanh toán</button>

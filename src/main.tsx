@@ -41,6 +41,7 @@ import CoverProvider from "./context/Cover.tsx";
 import ProductVariantProvider from "./context/ProductVariants.tsx";
 import CartProvider from "./context/Cart.tsx";
 import CheckoutProvider from "./context/Checkout.tsx";
+import AuthProvider from "./context/Auth.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <Provider store={store}>
@@ -59,11 +60,13 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
                             <OrderProvider>
                               <AdminUserProvider>
                                 <CustomerUserProvider>
-                                  <ReviewProvider>
-                                    <StrictMode>
-                                      <App />
-                                    </StrictMode>
-                                  </ReviewProvider>
+                                  <AuthProvider>
+                                    <ReviewProvider>
+                                      <StrictMode>
+                                        <App />
+                                      </StrictMode>
+                                    </ReviewProvider>
+                                  </AuthProvider>
                                 </CustomerUserProvider>
                               </AdminUserProvider>
                             </OrderProvider>

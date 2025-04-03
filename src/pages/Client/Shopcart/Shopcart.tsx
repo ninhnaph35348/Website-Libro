@@ -250,7 +250,7 @@ const ShopCart = () => {
                 Tiếp tục mua hàng
               </Link>
               <Link
-                to="/checkout"
+                to="/check-out"
                 className="inline-block px-5 py-2.5 bg-blue-500 text-white no-underline rounded-md transition-colors duration-300 hover:bg-blue-700"
               >
                 Thanh Toán

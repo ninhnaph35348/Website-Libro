@@ -27,6 +27,7 @@ const EditProductvariant = () => {
         handleSubmit,
         control,
         watch,
+        reset,
         setValue,
         formState: { errors },
     } = useForm<IProductVariant>();
@@ -39,7 +40,13 @@ const EditProductvariant = () => {
                 const response = await getProductVariantById(id as string);
                 if (response?.data) {
                     const variant = response.data;
-
+                    reset({
+                        price: variant.price,
+                        promotion: variant.promotion,
+                        quantity: variant.quantity,
+                        cover_id: covers.find((a: any) => a.name === variant.author)?.id || "",
+                        product_id: products.find((p: any) => p.name === variant.publisher)?.id || "",
+                    });
                     setValue("price", Number(variant.price));
                     setValue("promotion", Number(variant.promotion));
                     setValue("quantity", variant.quantity);
@@ -57,7 +64,6 @@ const EditProductvariant = () => {
             fetchProduct();
         }
     }, [id, covers, products, setValue]);
-
 
 
 

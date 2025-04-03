@@ -4,12 +4,11 @@ import book1 from "../../../assets/img/hero/book1.png";
 import book2 from "../../../assets/img/hero/book2.png";
 import { CartContext } from "../../../context/Cart";
 
-
 const ShopCart = () => {
   const cartContext = useContext(CartContext);
   const cartItems = cartContext?.cartItems || [];
-  const removeFromCart = cartContext?.removeFromCart || (() => { });
-  const updateCartQuantity = cartContext?.updateCartQuantity || (() => { });
+  const removeFromCart = cartContext?.removeFromCart || (() => {});
+  const updateCartQuantity = cartContext?.updateCartQuantity || (() => {});
   const [mess, setMess] = useState(""); // State để lưu thông báo
 
   // Log dữ liệu cartItems để kiểm tra
@@ -35,13 +34,16 @@ const ShopCart = () => {
     showMessage("Cập nhật số lượng thành công!");
   };
 
+  // Hàm lấy giá hiển thị (dùng để tính tổng tiền)
+  const getDisplayPrice = (item: any) => {
+    // Nếu có promotion thì dùng promotion, nếu không thì dùng price
+    return item.promotion ? item.promotion : item.price;
+  };
+
   // Hàm tính tổng tiền cho toàn bộ giỏ hàng
   const calculateTotalPrice = () => {
     const total = cartItems.reduce((sum, item) => {
-      const price =
-        item.promotion && item.promotion < item.price
-          ? item.promotion
-          : item.price;
+      const price = getDisplayPrice(item);
       return sum + price * item.cartQuantity;
     }, 0);
     return Math.max(0, Math.round(total));
@@ -68,19 +70,19 @@ const ShopCart = () => {
         </div>
         <div className="container">
           <div className="page-heading">
-            <h1>Cart</h1>
+            <h1>Giỏ Hàng</h1>
             <div className="page-header">
               <ul
                 className="breadcrumb-items wow fadeInUp"
                 data-wow-delay=".3s"
               >
                 <li>
-                  <Link to="/">Home</Link>
+                  <Link to="/">Trang Chủ</Link>
                 </li>
                 <li>
                   <i className="fa-solid fa-chevron-right"></i>
                 </li>
-                <li>Cart</li>
+                <li>Giỏ Hàng</li>
               </ul>
             </div>
           </div>
@@ -134,7 +136,9 @@ const ShopCart = () => {
                               {item.promotion ? (
                                 <>
                                   {Math.round(item.promotion).toLocaleString()}₫
-
+                                  <del className="!font-medium ml-2 text-[#5c707e]">
+                                    {Math.round(item.price).toLocaleString()}₫
+                                  </del>
                                 </>
                               ) : (
                                 `${Math.round(item.price).toLocaleString()}₫`
@@ -186,9 +190,7 @@ const ShopCart = () => {
                             </td>
                             <td className="text-center">
                               {Math.round(
-                                (item.promotion
-                                  ? item.promotion
-                                  : item.price) * item.cartQuantity
+                                getDisplayPrice(item) * item.cartQuantity
                               ).toLocaleString("vi-VN")}{" "}
                               VND
                             </td>
@@ -219,7 +221,7 @@ const ShopCart = () => {
                       <tr>
                         <td>
                           <span className="d-flex justify-content-between">
-                            <span className="sub-title">Subtotal:</span>
+                            <span className="sub-title">Tổng phụ:</span>
                             <span className="sub-price">
                               {totalPrice.toLocaleString("vi-VN")} VND
                             </span>
@@ -229,7 +231,7 @@ const ShopCart = () => {
                       <tr>
                         <td>
                           <span className="d-flex justify-content-between">
-                            <span className="sub-title">Total:</span>
+                            <span className="sub-title">Tổng:</span>
                             <span className="sub-price sub-price-total">
                               {totalPrice.toLocaleString("vi-VN")} VND
                             </span>

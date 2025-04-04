@@ -4,10 +4,13 @@ import { IUser } from "../../../interfaces/User";
 import { RootState } from "../../../store/auth/store";
 import { fetchUser, updateAvatar } from "../../../store/auth/authSlice";
 import { Link } from "react-router-dom";
+import dayjs from "dayjs";
 
 const Profile: React.FC = () => {
   const dispatch = useDispatch();
-  const user = useSelector((state: RootState) => state.auth.user) as IUser | null;
+  const user = useSelector(
+    (state: RootState) => state.auth.user
+  ) as IUser | null;
   const ordersCount = useSelector((state: RootState) => state.auth.ordersCount); // Lấy số đơn hàng từ store
   const loading = useSelector((state: RootState) => state.auth.loading);
   const [avatar, setAvatar] = useState<File | null>(null);
@@ -29,20 +32,22 @@ const Profile: React.FC = () => {
 
   const handleAvatarSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!avatar) {
-      return;
-    }
+    if (!avatar) return;
+  
     const formData = new FormData();
     formData.append("avatar", avatar);
-
+  
     try {
-      await dispatch(updateAvatar(formData)); // Dispatch action to upload the avatar
+      await dispatch(updateAvatar(formData));
+      await dispatch(fetchUser() as any); // Cập nhật lại thông tin người dùng
+      setAvatar(null); // Xóa ảnh tạm trong state
+      setAvatarPreview(null);
       alert("Cập nhật avatar thành công!");
     } catch (error) {
       alert("Có lỗi xảy ra khi cập nhật avatar.");
     }
   };
-
+  
   if (loading) return <p>Đang tải thông tin người dùng...</p>;
   if (!user) return <p>Không có dữ liệu người dùng</p>;
 
@@ -54,7 +59,11 @@ const Profile: React.FC = () => {
           <div className="relative w-20 h-20 bg-gray-200 rounded-full flex items-center justify-center">
             {/* Avatar */}
             {avatarPreview ? (
-              <img src={avatarPreview} alt="Avatar" className="w-full h-full object-cover rounded-full" />
+              <img
+                src={avatarPreview}
+                alt="Avatar"
+                className="w-full h-full object-cover rounded-full"
+              />
             ) : (
               <span className="text-xl font-bold">B</span>
             )}
@@ -71,14 +80,19 @@ const Profile: React.FC = () => {
             <p className="text-sm">Thành viên Bạc</p>
           </div>
         </div>
-        <button className="text-sm text-blue-600">Cập nhật thông tin ngay</button>
+        <button className="text-sm text-blue-600">
+          Cập nhật thông tin ngay
+        </button>
       </div>
 
       {/* Avatar Upload Form */}
       <form onSubmit={handleAvatarSubmit} className="mt-4">
         {avatar && (
           <div>
-            <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded">
+            <button
+              type="submit"
+              className="px-4 py-2 bg-blue-500 text-white rounded"
+            >
               Cập nhật Avatar
             </button>
           </div>
@@ -89,7 +103,8 @@ const Profile: React.FC = () => {
       <div className="grid grid-cols-2 gap-4 mb-6">
         <div>
           <p className="text-sm text-gray-500">Số đơn hàng</p>
-          <p className="text-lg font-semibold">{ordersCount} đơn hàng</p> {/* Hiển thị số đơn hàng */}
+          <p className="text-lg font-semibold">{ordersCount} đơn hàng</p>{" "}
+          {/* Hiển thị số đơn hàng */}
         </div>
         <div>
           <p className="text-sm text-gray-500">Đã thanh toán</p>
@@ -139,7 +154,9 @@ const Profile: React.FC = () => {
           <label className="block text-sm font-medium">Ngày sinh:</label>
           <input
             type="text"
-            value={user.birth_date || ""}
+            value={
+              user.birth_date ? dayjs(user.birth_date).format("DD/MM/YYYY") : ""
+            }
             disabled
             className="w-full p-2 border rounded bg-gray-100"
           />
@@ -153,10 +170,7 @@ const Profile: React.FC = () => {
             className="w-full p-2 border rounded bg-gray-100"
           />
         </div>
-        
-        
       </div>
-      
 
       {/* Edit Profile Button */}
       {/* <div className="mt-6">

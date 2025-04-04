@@ -3,6 +3,7 @@ import { IProduct } from "../interfaces/Products";
 import { createProduct, deleteProduct, getAllProducts, updateProduct } from "../services/Product";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
 type Props = {
     children: React.ReactNode;
 };
@@ -88,9 +89,9 @@ const ProductProvider = ({ children }: Props) => {
             const data = await createProduct(formData);
             setProducts((prevProducts) => [...prevProducts, data]);
             setFilteredProducts((prevProducts) => [...prevProducts, data]);
-            alert("Thêm sản phẩm thành công!");
+            toast.success("Thêm sản phẩm thành công!");
         } catch (error) {
-            console.error("❌ Lỗi khi thêm sản phẩm:", error);
+            toast.error("❌ Lỗi khi thêm sản phẩm:");
         }
     };
 
@@ -115,13 +116,6 @@ const ProductProvider = ({ children }: Props) => {
     const onDelete = async (id: number | string) => {
         try {
             if (window.confirm("Bạn có muốn xóa không?")) {
-                console.log("🔄 Đang xóa sản phẩm với ID:", id);
-                
-                const response = await deleteProduct(id);
-                console.log("✅ Kết quả API:", response);
-    
-                toast.success("Xóa sản phẩm thành công!");
-    
                 await deleteProduct(id);
                 alert("Xóa thành công!");
 
@@ -132,7 +126,6 @@ const ProductProvider = ({ children }: Props) => {
             console.error("❌ Lỗi khi xóa sản phẩm:", error);
         }
     };
-    
 
     return (
         <ProductContext.Provider value={{ products, filteredProducts, getAllProduct, onAdd, onDelete, onEdit, filterProductsByTitle }}>

@@ -84,7 +84,7 @@ const EditProfile: React.FC = () => {
   if (loading) return <p>Đang tải thông tin người dùng...</p>;
 
   return (
-    <div className="container mx-auto p-6 bg-white shadow-lg rounded-lg max-w-4xl">
+    <div className="max-w-7xl mx-auto p-4 bg-white shadow-lg rounded-lg">
     <h2 className="text-3xl font-bold mb-6">Chỉnh sửa thông tin cá nhân</h2>
     <div className="grid grid-cols-2 gap-4">
       <div>

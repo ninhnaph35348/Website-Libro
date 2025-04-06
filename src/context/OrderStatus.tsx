@@ -13,37 +13,20 @@ const OrderStatusProvider = ({ children }: Props) => {
     // const [reload, setReload] = useState(false);
 
     const getAllStatus = async () => {
-        const data = await getAllOrderstatus();
-        setOrderStatus(data);
-    }
+        try {
+          const data = await getAllOrderstatus();
+          //  console.log("👉 Dữ liệu trạng thái nhận được:", data);  // <== LOG NÀY
+          //console.log(orderstatus); // Xem giá trị của orderstatus sau khi gọi getAllStatus()
+
+          setOrderStatus(data);
+        } catch (error) {
+          // console.log("❌ Lỗi khi lấy trạng thái đơn hàng:", error);
+        }
+      }
+      
 
 
-    // const onStatus = async (id: number) => {
-    //     try {
-    //         if (window.confirm("Bạn có muốn xóa không?")) {
-    //             await deleteOrderStatus(id);
-    //             alert("Đổi trạng thái thành công!");
-    //             setOrderStatus(orderstatuss.filter((orderstatus) => orderstatus.id !== id));
-    //         }
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // };
-
-    // const onEdit = async (formData: IOrderStatus, id: number | string) => {
-    //     try {
-    //         const data = await updateOrderStatus(formData, id);
-    //         const newOrderStatuss = orderstatuss.map((orderstatus) =>
-    //             orderstatus.id === id ? data : orderstatus
-    //         );
-    //         setOrderStatuss(newOrderStatuss);
-    //         alert("Sửa thể loại thành công!");
-    //         setReload((prev) => !prev);
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // };
-
+    
     return (
         <OrderStatusContext.Provider value={{ orderstatus, getAllStatus }}>
             {children}

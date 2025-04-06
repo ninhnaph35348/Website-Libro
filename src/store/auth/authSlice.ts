@@ -5,7 +5,7 @@ import { IUser } from "../../interfaces/User";
 // Lấy thông tin user đăng nhập từ token (API /me)
 export const fetchUser = createAsyncThunk("auth/fetchUser", async () => {
   const response = await axiosInstance.get("/me");
-  console.log("Dữ liệu user từ API /me:", response.data);
+ console.log("Dữ liệu user từ API /me:", response.data);
   return response.data.user;  // Trả về user từ API
 });
 
@@ -41,33 +41,53 @@ export const updateUser = createAsyncThunk(
     }
   }
 );
+
 export const updatePassword = createAsyncThunk(
   "auth/updatePassword",
-  async ({ currentPassword, newPassword }: { currentPassword: string; newPassword: string }, { rejectWithValue }) => {
+  async (
+    { currentPassword, newPassword, newPasswordConfirmation }: { 
+      currentPassword: string; 
+      newPassword: string; 
+      newPasswordConfirmation: string; // Thêm confirm_new_password
+    }, 
+    { rejectWithValue }
+  ) => {
     try {
-      // Replace with your API call to update the password
-      const response = await axiosInstance.post("/update-password", { currentPassword, newPassword });
-      return response.data; // Return the updated user data or success message
+      // Gửi PUT request với dữ liệu đúng với API yêu cầu
+      const response = await axiosInstance.put("/change-password", {
+        old_password: currentPassword, // Sửa thành old_password
+        new_password: newPassword, // Sửa thành new_password
+        confirm_new_password: newPasswordConfirmation, // Thêm confirm_new_password
+      });
+      return response.data; // Trả về thông điệp thành công hoặc dữ liệu người dùng
     } catch (err) {
       return rejectWithValue("Đổi mật khẩu thất bại. Vui lòng thử lại.");
     }
   }
 );
+
 export const updateAvatar = createAsyncThunk(
   "auth/updateAvatar",
   async (formData: FormData, { rejectWithValue }) => {
     try {
-      const response = await axiosInstance.post("/update-avatar", formData, {
+      // Thêm _method vào FormData giống như trong updateProduct
+      formData.append("_method", "PUT");
+
+      const response = await axiosInstance.post("/update-profile", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
-      return response.data; // Return the updated user data with new avatar URL
+
+      console.log("Dữ liệu trả về sau khi cập nhật avatar:", response.data);
+      return response.data; // Trả về dữ liệu người dùng cập nhật với avatar mới
     } catch (err) {
       return rejectWithValue("Cập nhật avatar thất bại.");
     }
   }
 );
+
+
 
 axiosInstance.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
@@ -76,7 +96,6 @@ axiosInstance.interceptors.request.use((config) => {
   }
   return config;
 });
-
 
 const authSlice = createSlice({
   name: "auth",
@@ -98,43 +117,56 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      // Xử lý login
       .addCase(login.pending, (state) => {
         state.loading = true;
-        state.error = null; // Xóa lỗi cũ
+        state.error = null;
       })
       .addCase(login.fulfilled, (state, action) => {
         state.loading = false;
         state.token = action.payload.token;
+        state.user = action.payload.user; // Lưu thông tin người dùng vào state
       })
       .addCase(login.rejected, (state, action) => {
-        console.log("Lỗi từ API:", action.payload); // Debug lỗi
         state.loading = false;
-        state.error = action.payload || "Đăng nhập thất bại"; // Đảm bảo luôn có error
+        state.error = action.payload || "Đăng nhập thất bại";
       })
+      // Xử lý fetchUser
       .addCase(fetchUser.fulfilled, (state, action) => {
-        if (action.payload) {
-          state.user = action.payload;
-        } else {
-          // Có thể xử lý trạng thái khi không có user, ví dụ: thông báo người dùng chưa đăng nhập
-          state.user = null;
-        }
+        state.user = action.payload;
       })
+      .addCase(fetchUser.rejected, (state) => {
+        state.user = null;
+        state.error = "Không thể lấy thông tin người dùng.";
+      })
+      // Xử lý updateUser
       .addCase(updateUser.pending, (state) => {
         state.loading = true;
-        state.error = null;  // Xóa lỗi cũ
       })
       .addCase(updateUser.fulfilled, (state, action) => {
         state.loading = false;
-        state.user = action.payload;  // Cập nhật lại user với dữ liệu mới
+        state.user = action.payload;
       })
       .addCase(updateUser.rejected, (state, action) => {
-        console.log("Lỗi khi cập nhật người dùng:", action.payload);  // Debug lỗi
         state.loading = false;
-        state.error = action.payload || "Cập nhật người dùng thất bại"; // Đảm bảo luôn có error
+        state.error = action.payload || "Cập nhật người dùng thất bại";
+      })
+      // Xử lý updateAvatar
+      .addCase(updateAvatar.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(updateAvatar.fulfilled, (state, action) => {
+        console.log("Dữ liệu trả về sau khi cập nhật avatar:", action.payload);
+        state.loading = false;
+        state.user = action.payload;
+      })
+      
+      .addCase(updateAvatar.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload || "Cập nhật avatar thất bại.";
       });
   },
 });
-
 
 export const { setUser, logout } = authSlice.actions;
 export default authSlice.reducer;

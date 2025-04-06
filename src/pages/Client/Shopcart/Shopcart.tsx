@@ -1,16 +1,20 @@
-// src/components/ShopCart.tsx
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import book1 from "../../../assets/img/hero/book1.png";
 import book2 from "../../../assets/img/hero/book2.png";
 import { CartContext } from "../../../context/Cart";
 
-type Props = {};
-
-const ShopCart = (props: Props) => {
-  const { cartItems, removeFromCart, updateCartQuantity } =
-    useContext(CartContext);
+const ShopCart = () => {
+  const cartContext = useContext(CartContext);
+  const cartItems = cartContext?.cartItems || [];
+  const removeFromCart = cartContext?.removeFromCart || (() => {});
+  const updateCartQuantity = cartContext?.updateCartQuantity || (() => {});
   const [mess, setMess] = useState(""); // State để lưu thông báo
+
+  // Log dữ liệu cartItems để kiểm tra
+  useEffect(() => {
+    console.log("Cart Items:", cartItems);
+  }, [cartItems]);
 
   // Hàm hiển thị thông báo
   const showMessage = (message: string) => {
@@ -30,12 +34,22 @@ const ShopCart = (props: Props) => {
     showMessage("Cập nhật số lượng thành công!");
   };
 
-  // Tính tổng tiền
-  const totalPrice = cartItems.reduce(
-    (total, item) =>
-      total + item.price * item.cartQuantity * (1 - item.promotion / 100),
-    0
-  );
+  // Hàm lấy giá hiển thị (dùng để tính tổng tiền)
+  const getDisplayPrice = (item: any) => {
+    // Nếu có promotion thì dùng promotion, nếu không thì dùng price
+    return item.promotion ? item.promotion : item.price;
+  };
+
+  // Hàm tính tổng tiền cho toàn bộ giỏ hàng
+  const calculateTotalPrice = () => {
+    const total = cartItems.reduce((sum, item) => {
+      const price = getDisplayPrice(item);
+      return sum + price * item.cartQuantity;
+    }, 0);
+    return Math.max(0, Math.round(total));
+  };
+
+  const totalPrice = calculateTotalPrice();
 
   return (
     <>
@@ -56,19 +70,19 @@ const ShopCart = (props: Props) => {
         </div>
         <div className="container">
           <div className="page-heading">
-            <h1>Cart</h1>
+            <h1>Giỏ Hàng</h1>
             <div className="page-header">
               <ul
                 className="breadcrumb-items wow fadeInUp"
                 data-wow-delay=".3s"
               >
                 <li>
-                  <Link to="/">Home</Link>
+                  <Link to="/">Trang Chủ</Link>
                 </li>
                 <li>
                   <i className="fa-solid fa-chevron-right"></i>
                 </li>
-                <li>Cart</li>
+                <li>Giỏ Hàng</li>
               </ul>
             </div>
           </div>
@@ -105,19 +119,11 @@ const ShopCart = (props: Props) => {
                           <tr key={item.id}>
                             <td>
                               <span className="flex items-center gap-5">
-                                {/* Bỏ nút xóa ở đầu */}
-                                {/* <button
-                                  className="remove-icon bg-transparent border-none cursor-pointer"
-                                  onClick={() => handleRemoveItem(item.id)}
-                                >
-                                  <img src={icon9} alt="remove" />
-                                </button> */}
                                 <img
                                   src={`http://127.0.0.1:8000/storage/${item.product.image}`}
                                   alt={item.product.title}
                                   className="cart w-[50px] h-[50px] object-cover"
                                 />
-                                {/* Làm tiêu đề sản phẩm thành liên kết đến trang chi tiết */}
                                 <Link
                                   to={`/shop-details/${item.product.code}`}
                                   className="cart-title hover:text-blue-500"
@@ -127,7 +133,16 @@ const ShopCart = (props: Props) => {
                               </span>
                             </td>
                             <td className="text-center">
-                              {item.price.toLocaleString("vi-VN")} VND
+                              {item.promotion ? (
+                                <>
+                                  {Math.round(item.promotion).toLocaleString()}₫
+                                  <del className="!font-medium ml-2 text-[#5c707e]">
+                                    {Math.round(item.price).toLocaleString()}₫
+                                  </del>
+                                </>
+                              ) : (
+                                `${Math.round(item.price).toLocaleString()}₫`
+                              )}
                             </td>
                             <td className="text-center">
                               {item.cover || "Không xác định"}
@@ -174,10 +189,8 @@ const ShopCart = (props: Props) => {
                               </div>
                             </td>
                             <td className="text-center">
-                              {(
-                                item.price *
-                                item.cartQuantity *
-                                (1 - item.promotion / 100)
+                              {Math.round(
+                                getDisplayPrice(item) * item.cartQuantity
                               ).toLocaleString("vi-VN")}{" "}
                               VND
                             </td>
@@ -208,7 +221,7 @@ const ShopCart = (props: Props) => {
                       <tr>
                         <td>
                           <span className="d-flex justify-content-between">
-                            <span className="sub-title">Subtotal:</span>
+                            <span className="sub-title">Tổng phụ:</span>
                             <span className="sub-price">
                               {totalPrice.toLocaleString("vi-VN")} VND
                             </span>
@@ -218,7 +231,7 @@ const ShopCart = (props: Props) => {
                       <tr>
                         <td>
                           <span className="d-flex justify-content-between">
-                            <span className="sub-title">Total:</span>
+                            <span className="sub-title">Tổng:</span>
                             <span className="sub-price sub-price-total">
                               {totalPrice.toLocaleString("vi-VN")} VND
                             </span>

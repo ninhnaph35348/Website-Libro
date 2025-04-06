@@ -65,8 +65,9 @@ import "react-toastify/dist/ReactToastify.css";
 import Profile from "./pages/Client/Profile/Profile";
 import EditProfile from "./pages/Client/Profile/EditProfile";
 import ChangePassword from "./pages/Client/Profile/ChangePassword";
-import ProfilePage from "./pages/Client/Profile/pageProfile";
 import Sidebar from "./pages/Client/Profile/pageProfile";
+import OrderList from "./pages/Client/Oder/OderList";
+import OrderDetailPage from "./pages/Client/Oder/OderDetail";
 
 const App = () => {
   return (
@@ -187,29 +188,29 @@ const App = () => {
 
         {/* Route Client */}
         <Route path="/" element={<LayoutClient />}>
-          <Route index element={<Client />} />
+  <Route index element={<Client />} />
+  
+  {/* Các route khác */}
+  <Route path="/check-out" element={<Checkout />} />
+  <Route path="/shop-details/:code" element={<Shopdetail />} />
+  <Route path="/shop-cart" element={<Shopcart />} />
+  <Route path="/shop" element={<Shopdefaul />} />
+  <Route path="/blog" element={<Blog />} />
 
-          <Route path="/check-out" element={<Checkout />} />
-          <Route path="/shop-details/:code" element={<Shopdetail />} />
-          <Route path="/shop-cart" element={<Shopcart />} />
-          <Route path="/shop" element={<Shopdefaul />} />
-          <Route path="/blog" element={<Blog />} />
-          <Route path="/profile/accout" element={<ProfilePage />} />
-          
-          <Route path="/profile" element={<Sidebar />}>
-          <Route path="/profile" element={<Profile/>} />
+  {/* Route Profile */}
+  <Route path="/profile" element={<Sidebar />}>
+    <Route index element={<Profile />} /> {/* không nên dùng "/" ở đây */}
+    <Route path="edit" element={<EditProfile />} />
+    <Route path="change-password" element={<ChangePassword />} />
+    <Route path="order_detail" element={<OrderList />} /> {/* ✅ thêm đúng chỗ */}
+    </Route>
+    <Route path="/order_detail/:code_order" element={<OrderDetailPage />} />
 
-          <Route path="/profile/edit" element={<EditProfile/>} />
-          <Route path="change-password" element={<ChangePassword />} />
-        </Route>
+  <Route path="/contact" element={<Contact />} />
+</Route>
 
-
-
-          <Route path="/contact" element={<Contact />} />
-        </Route>
         <Route path="/login" element={<LoginClient />} />
         <Route path="/register" element={<Sinup />} />
-       
 
         {/* Trang 404 */}
         <Route path="*" element={<NotFound />} />

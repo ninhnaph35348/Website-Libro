@@ -1,4 +1,4 @@
-import { ChangeEvent, useContext, useState } from "react";
+import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { ProductContext } from "../../../context/Product";
@@ -11,11 +11,19 @@ import { IProduct } from "../../../interfaces/Products";
 
 const AddProduct = () => {
     const { onAdd } = useContext(ProductContext);
-    const { categories } = useContext(CategoryContext);
-    const { authors } = useContext(AuthorContext);
-    const { publishers } = useContext(PublisherContext);
-    const { languages } = useContext(LanguageContext);
-    const { genres } = useContext(GenreContext);
+    const { categories, getAllCategory } = useContext(CategoryContext);
+    const { authors, getAllAuthor } = useContext(AuthorContext);
+    const { publishers, getAllPublisher } = useContext(PublisherContext);
+    const { languages, getAllLanguagies } = useContext(LanguageContext);
+    const { genres, getAllGenries } = useContext(GenreContext);
+
+    useEffect(() => {
+        getAllCategory();
+        getAllAuthor();
+        getAllPublisher();
+        getAllLanguagies();
+        getAllGenries();
+    }, []);
     const navigate = useNavigate();
 
     const { register, handleSubmit, reset, formState: { errors } } = useForm<IProduct>();

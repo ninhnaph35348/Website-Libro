@@ -13,18 +13,22 @@ import { getProductVariantById } from "../../../services/ProductVariants";
 
 const EditProductvariant = () => {
     const { onEdit } = useContext(ProductVariantContext);
-    const { products } = useContext(ProductContext);
-    const { covers } = useContext(CoverContext);
+    const { products, getAllProduct } = useContext(ProductContext);
+    const { covers, getAllCovers } = useContext(CoverContext);
     const [loading, setLoading] = useState(true);
 
-    const { id } = useParams(); // Lấy ID từ URL
+    useEffect(() => {
+        getAllProduct();
+        getAllCovers();
+    }, []);
+    const { id } = useParams();
     const {
         register,
         handleSubmit,
-        reset,
         control,
         watch,
-        setValue, // 👈 Thêm setValue
+        reset,
+        setValue,
         formState: { errors },
     } = useForm<IProductVariant>();
 
@@ -36,7 +40,13 @@ const EditProductvariant = () => {
                 const response = await getProductVariantById(id as string);
                 if (response?.data) {
                     const variant = response.data;
-
+                    reset({
+                        price: variant.price,
+                        promotion: variant.promotion,
+                        quantity: variant.quantity,
+                        cover_id: covers.find((a: any) => a.name === variant.author)?.id || "",
+                        product_id: products.find((p: any) => p.name === variant.publisher)?.id || "",
+                    });
                     setValue("price", Number(variant.price));
                     setValue("promotion", Number(variant.promotion));
                     setValue("quantity", variant.quantity);
@@ -57,7 +67,6 @@ const EditProductvariant = () => {
 
 
 
-
     const onSubmit = async (data: IProductVariant) => {
         if (!id) {
             console.error("ID không hợp lệ!");
@@ -65,7 +74,7 @@ const EditProductvariant = () => {
         }
         try {
             await onEdit(data, id);
-            navigate(-1);
+            // navigate(-1);
         } catch (error) {
             console.error("❌ Lỗi khi cập nhật sản phẩm:", error);
         }

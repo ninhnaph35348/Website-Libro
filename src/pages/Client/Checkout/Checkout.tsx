@@ -1,76 +1,149 @@
-import PayPal from "../../../assets/img/paypal.png";
-import GooglePay from "../../../assets/img/GooglePay.png";
-import Mastercard2 from "../../../assets/img/Mastercard2.png";
+import { useContext, useState } from "react";
+import Pr_pay from "../../../assets/img/pr_pay.jpg";
+// import { Select } from "antd";
+// import { District, getDistricts, getProvinces, getWards, Province, Ward } from "../../../config/provincesApi";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { useCart } from "../../../context/Cart";
+import { CheckoutContext } from "../../../context/Checkout";
+import { ICartItem } from "../../../interfaces/Cart";
+import { ICheckout } from "../../../interfaces/Checkout";
 
-type Props = {}
+// const { Option } = Select;
 
-const Checkout = (props: Props) => {
+
+const Checkout: React.FC = () => {
+    const { cartItems } = useCart();
+    const { register, handleSubmit, reset, formState: { errors } } = useForm<ICheckout>();
+    const navigate = useNavigate();
+    const [showQR, setShowQR] = useState(false);
+    const context = useContext(CheckoutContext);
+    const [paymentMethod, setPaymentMethod] = useState<number>(0);
+
+    const shippingFee = 30000;
+    const totalAmount = cartItems.reduce((total, item) => {
+        const itemPrice = item.promotion && item.promotion < item.price ? item.promotion : item.price;
+        return total + itemPrice * item.cartQuantity;
+    }, 0) + shippingFee;
+
+    // const [provinces, setProvinces] = useState<Province[]>([]);
+    // const [districts, setDistricts] = useState<District[]>([]);
+    // const [wards, setWards] = useState<Ward[]>([]);
+    // const [selectedProvince, setSelectedProvince] = useState<number | null>(null);
+    // const [selectedDistrict, setSelectedDistrict] = useState<number | null>(null);
+
+    // useEffect(() => {
+    //     getProvinces().then(setProvinces);
+    // }, []);
+
+    // const handleProvinceChange = (value: number) => {
+    //     setSelectedProvince(value);
+    //     setSelectedDistrict(null);
+    //     setWards([]);
+    //     getDistricts(value).then(setDistricts);
+    // };
+
+    // const handleDistrictChange = (value: number) => {
+    //     setSelectedDistrict(value);
+    //     getWards(value).then(setWards);
+    // };
+
+
+    const onSubmit = async (data: ICheckout) => {
+
+        if (context) {
+            const orderData: ICheckout = {
+                ...data,
+                cart: cartItems.map(item => ({
+                    product_variant_id: item.id,
+                    quantity: item.cartQuantity,
+                })) as any,
+                shipping_fee: 30000, // Mặc định phí vận chuyển 30,000₫
+                payment_method: paymentMethod, // Lấy từ state
+            };
+            console.log(orderData);
+            await context.onAdd(orderData);
+            // navigate("/order-success");
+            reset();
+        }
+    };
     return (
         <section className="checkout-section fix section-padding mx-[200px]">
-            <div className="container">
-                <div className="row g-5">
-                    <div className="col-lg-8">
-                        <form action="#" method="post">
+            <form onSubmit={handleSubmit(onSubmit)} method="post">
+                <div className="container">
+                    <div className="row g-5">
+                        <div className="col-lg-6">
                             <div className="checkout-single-wrapper">
                                 <div className="checkout-single boxshado-single">
                                     <h4>Chi tiết thanh toán</h4>
                                     <div className="checkout-single-form">
                                         <div className="row g-4">
-                                            <div className="col-lg-6">
-                                                <div className="input-single">
-                                                    <span>Tên*</span>
-                                                    <input type="text" name="user-first-name" id="userFirstName" required placeholder="Tên" />
-                                                </div>
-                                            </div>
-                                            <div className="col-lg-6">
-                                                <div className="input-single">
-                                                    <span>Họ*</span>
-                                                    <input type="text" name="user-last-name" id="userLastName" required placeholder="Họ" />
-                                                </div>
-                                            </div>
                                             <div className="col-lg-12">
                                                 <div className="input-single">
-                                                    <span>Tên Công ty (tùy chọn)</span>
-                                                    <input name="company-name" id="companyname" />
+                                                    <span>Họ và tên</span>
+                                                    <input type="text"
+                                                        {...register("user_name", { required: "Tên không được để trống" })}
+                                                        placeholder="Tên"
+                                                    />
+                                                    {errors.user_name && <p className="text-red-500">{errors.user_name.message}</p>}
                                                 </div>
                                             </div>
-                                            <div className="col-lg-12">
-                                                <div className="input-single">
-                                                    <span>Quốc gia*</span>
-                                                    <input name="country" id="country" placeholder="Select a country" />
-                                                </div>
-                                            </div>
-                                            <div className="col-lg-12">
-                                                <div className="input-single">
-                                                    <span>Địa chỉ*</span>
-                                                    <input name="user-address" id="userAddress" placeholder="Số nhà và tên đường" />
-                                                </div>
-                                            </div>
-                                            {/* <div className="col-lg-12">
-                                                <div className="input-single">
-                                                    <span>Địa chỉ*</span>
-                                                    <input name="user-address" id="userAddress2" placeholder="Apartment, suite, unit, etc. (optional)" />
-                                                </div>
+                                            {/* <div className="hidden">
+                                                <Select placeholder="Chọn tỉnh/thành" style={{ width: 200 }} onChange={handleProvinceChange}>
+                                                    {provinces.map((province) => (
+                                                        <Option key={province.code} value={province.code}>
+                                                            {province.name}
+                                                        </Option>
+                                                    ))}
+                                                </Select>
+
+                                                <Select placeholder="Chọn quận/huyện" style={{ width: 200, marginLeft: 10 }} onChange={handleDistrictChange} disabled={!selectedProvince}>
+                                                    {districts.map((district) => (
+                                                        <Option key={district.code} value={district.code}>
+                                                            {district.name}
+                                                        </Option>
+                                                    ))}
+                                                </Select>
+
+                                                <Select placeholder="Chọn phường/xã" style={{ width: 200, marginLeft: 10 }} disabled={!selectedDistrict}>
+                                                    {wards.map((ward) => (
+                                                        <Option key={ward.code} value={ward.code}>
+                                                            {ward.name}
+                                                        </Option>
+                                                    ))}
+                                                </Select>
                                             </div> */}
                                             <div className="col-lg-12">
                                                 <div className="input-single">
-                                                    <span>Thị trấn/Thành phố*</span>
-                                                    <input name="towncity" id="towncity" />
-                                                </div>
-                                            </div>
-                                            <div className="col-lg-12">
-                                                <div className="input-single">
                                                     <span>Số điện thoại*</span>
-                                                    <input name="phone" id="phone" placeholder="Số điện thoại" />
+                                                    <input type="text"
+                                                        {...register("user_phone", { required: "Số điện thoại không được để trống" })}
+                                                        placeholder="Số điện thoại"
+                                                    />
+                                                    {errors.user_phone && <p className="text-red-500">{errors.user_phone.message}</p>}
                                                 </div>
                                             </div>
                                             <div className="col-lg-12">
                                                 <div className="input-single">
                                                     <span>Địa chỉ Email*</span>
-                                                    <input name="email" id="email22" placeholder="email" />
+                                                    <input
+                                                        {...register("user_email", { required: "Email không được để trống" })}
+                                                        placeholder="email"
+                                                    />
+                                                    {errors.user_email && <p className="text-red-500">{errors.user_email.message}</p>}
                                                 </div>
                                             </div>
                                             <div className="col-lg-12">
+                                                <div className="input-single">
+                                                    <span>Địa chỉ</span>
+                                                    <input
+                                                        {...register("user_address", { required: "Địa chỉ không được để trống" })}
+                                                        placeholder="Địa chỉ nhận hàng"
+                                                    />
+                                                    {errors.user_address && <p className="text-red-500">{errors.user_address.message}</p>}
+                                                </div>
+                                            </div>
+                                            {/* <div className="col-lg-12">
                                                 <div className="input-check payment-save">
                                                     <input type="checkbox" className="form-check-input" name="save-for-next" id="saveForNext111" />
                                                     <label htmlFor="saveForNext">Tiết kiệm cho lần thanh toán tiếp theo của tôi</label>
@@ -79,106 +152,158 @@ const Checkout = (props: Props) => {
                                                     <input type="checkbox" className="form-check-input" name="save-for-next" id="saveForNext2" />
                                                     <label htmlFor="saveForNext2">Gửi đến một địa chỉ khác?</label>
                                                 </div>
-                                            </div>
-                                            <div className="col-lg-12">
+                                            </div> */}
+                                            {/* <div className="col-lg-12">
                                                 <div className="input-single">
                                                     <span>Ghi chú (tùy chọn)</span>
                                                     <textarea name="notes" id="notes" placeholder="Ghi chú về đơn hàng của bạn, ví dụ ghi chú đặc biệt về việc giao hàng." defaultValue={""} />
                                                 </div>
-                                            </div>
+                                            </div> */}
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </form>
-                    </div>
-                    <div className="col-lg-4">
-                        <div className="checkout-order-area">
-                            <h3>Đơn hàng của tôi</h3>
-                            <div className="product-checout-area">
-                                <div className="checkout-item d-flex align-items-center justify-content-between">
-                                    <p>Sản phẩm</p>
-                                    <p>Tổng cộng</p>
-                                </div>
-                                <div className="checkout-item d-flex align-items-center justify-content-between">
-                                    <p>Sản phẩm 1</p>
-                                    <p>$29.00</p>
-                                </div>
-                                <div className="checkout-item d-flex justify-content-between">
-                                    <p>Vận chuyển</p>
-                                    <div className="shopping-items">
-                                        <div className="form-check d-flex align-items-center from-customradio">
-                                            <label className="form-check-label">
-                                                Miễn phí vận chuyển
-                                            </label>
-                                            <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault12" />
+                        </div>
+                        <div className="col-lg-6">
+                            <div className="checkout-order-area">
+                                <h3>Đơn hàng của tôi</h3>
+                                <div className="product-checout-area space-x-1">
+                                    <div className="checkout-summary">
+                                        <div className="checkout-header grid grid-cols-5 text-center font-bold py-2 border-b">
+                                            <p className="col-span-3">Sản phẩm</p>
+                                            <p>Số lượng</p>
+                                            <p>Giá</p>
                                         </div>
-                                        <div className="form-check d-flex align-items-center from-customradio">
-                                            <label className="form-check-label">
-                                                Địa phương: $15.00
+
+                                        {cartItems.map((item: ICartItem) => (
+                                            <div key={item.product.code} className="checkout-item grid grid-cols-5 text-center py-2 border-b items-center">
+                                                <p className="col-span-3 text-left">{item.product.title}</p>
+                                                <p>{item.cartQuantity}</p>
+                                                <p className="font-medium text-orange-600">
+                                                    {item.promotion && item.promotion < item.price ? (
+                                                        <>
+                                                            {Math.round(item.promotion * item.cartQuantity).toLocaleString("vi-VN")}₫
+
+                                                        </>
+                                                    ) : (
+                                                        `${Math.round(item.price * item.cartQuantity).toLocaleString("vi-VN")}₫`
+                                                    )}
+                                                </p>
+                                            </div>
+                                        ))}
+                                    </div>
+
+                                    <div className="checkout-item grid grid-cols-5 text-center">
+                                        <p className="col-span-4 text-left">Vận chuyển</p>
+                                        <p>30.000₫</p>
+                                    </div>
+                                    <div className="checkout-item grid grid-cols-5 text-center ">
+                                        <p className="col-span-4 text-left !text-2xl">Tổng cộng:</p>
+                                        <p className="!text-red-400 !text-2xl">{totalAmount.toLocaleString("vi-VN")}₫</p>
+                                    </div>
+                                    <div className="checkout-item-2">
+                                        <div className="form-check-2 d-flex align-items-center from-customradio-2">
+                                            <input
+                                                className="form-check-input"
+                                                type="radio"
+                                                name="paymentMethod"
+                                                id="paymentBankTransfer"
+                                                value="1"
+                                                checked={paymentMethod === 1}
+                                                onChange={() => {
+                                                    setPaymentMethod(1);
+                                                    setShowQR(true); // Hiển thị mã QR
+                                                }}
+                                            />
+                                            <label className="form-check-label" htmlFor="paymentBankTransfer">
+                                                Chuyển khoản ngân hàng trực tiếp
                                             </label>
-                                            <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault123" />
                                         </div>
-                                        <div className="form-check d-flex align-items-center from-customradio">
-                                            <label className="form-check-label">
-                                                Giá cố định: $10.00
+                                        <p>
+                                            Thanh toán trực tiếp vào tài khoản ngân hàng của chúng tôi, vui lòng sử dụng Mã đơn hàng của bạn làm tham chiếu thanh toán. Đơn hàng của bạn sẽ không được giao cho đến khi tiền được chuyển vào tài khoản của chúng tôi.
+                                        </p>
+
+                                        <div className="form-check-3 d-flex align-items-center from-customradio-2 mt-3">
+                                            <input
+                                                className="form-check-input"
+                                                type="radio"
+                                                name="paymentMethod"
+                                                id="paymentCOD"
+                                                value="0"
+                                                checked={paymentMethod === 0}
+                                                onChange={() => setPaymentMethod(0)}
+                                            />
+                                            <label className="form-check-label" htmlFor="paymentCOD">
+                                                Thanh toán khi nhận hàng
                                             </label>
-                                            <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault124" />
                                         </div>
+
+
+                                        {/* ✅ Hiển thị mã QR khi chọn chuyển khoản */}
+                                        {showQR && (
+                                            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                                                <div className="bg-white p-8 rounded-2xl shadow-2xl text-center w-[500px] relative">
+                                                    <h2 className="text-2xl font-bold mb-6 text-gray-800">Quét mã QR để thanh toán</h2>
+                                                    <img src={Pr_pay} alt="QR Code" className="mx-auto w-64 border-4 border-gray-300 rounded-lg shadow-md" />
+                                                    <div className="flex flex-col justify-center gap-6 mt-6">
+                                                        <button
+                                                            className="theme-btn mx-auto mt-4"
+                                                            onClick={() => {
+                                                                setShowQR(false);
+                                                                setPaymentMethod(1);
+                                                            }}
+                                                        >
+                                                            ✅ Tôi đã thanh toán
+                                                        </button>
+                                                        <button
+                                                            className="bg-gray-300 text-gray-700 mx-auto px-4 py-2 rounded hover:bg-gray-400"
+                                                            onClick={() => {
+                                                                setShowQR(false);
+                                                                setPaymentMethod(0);
+                                                            }}
+                                                        >
+                                                            ❌ Hủy
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )}
+
+
+
+                                        {/* <div className="form-check-3 d-flex align-items-center from-customradio-2 mt-3">
+                                            <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault12225" />
+                                            <label className="form-check-label" htmlFor="flexRadioDefault12225">
+                                                Paypal
+                                            </label>
+                                            <ul className="brand-logo">
+                                                <li>
+                                                    <a href="checkout.html">
+                                                        <img src={PayPal} alt="img" />
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="checkout.html">
+                                                        <img src={GooglePay} alt="img" />
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="checkout.html">
+                                                        <img src={Mastercard2} alt="img" />
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div> */}
                                     </div>
-                                </div>
-                                <div className="checkout-item d-flex align-items-center justify-content-between">
-                                    <p>Tổng cộng</p>
-                                    <p>$55.00</p>
-                                </div>
-                                <div className="checkout-item-2">
-                                    <div className="form-check-2 d-flex align-items-center from-customradio-2">
-                                        <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1222" />
-                                        <label className="form-check-label" htmlFor="flexRadioDefault1222">
-                                            Chuyển khoản ngân hàng trực tiếp
-                                        </label>
+                                    <div className="text-center">
+                                        <button type="submit" className="theme-btn">Thanh toán</button>
                                     </div>
-                                    <p>
-                                        Thanh toán trực tiếp vào tài khoản ngân hàng của chúng tôi, vui lòng sử dụng Mã đơn hàng của bạn làm tham chiếu thanh toán. Đơn hàng của bạn sẽ không được giao cho đến khi tiền được chuyển vào tài khoản của chúng tôi.
-                                    </p>
-                                    <div className="form-check-3 d-flex align-items-center from-customradio-2 mt-3">
-                                        <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault12224" />
-                                        <label className="form-check-label" htmlFor="flexRadioDefault12224">
-                                            Thanh toán khi nhận hàng
-                                        </label>
-                                    </div>
-                                    <div className="form-check-3 d-flex align-items-center from-customradio-2 mt-3">
-                                        <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault12225" />
-                                        <label className="form-check-label" htmlFor="flexRadioDefault12225">
-                                            Paypal
-                                        </label>
-                                        <ul className="brand-logo">
-                                            <li>
-                                                <a href="checkout.html">
-                                                    <img src={PayPal} alt="img" />
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="checkout.html">
-                                                    <img src={GooglePay} alt="img" />
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="checkout.html">
-                                                    <img src={Mastercard2} alt="img" />
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div className="text-center">
-                                    <button className="theme-btn">Thanh toán</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </form>
         </section>
 
     )

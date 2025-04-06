@@ -40,7 +40,9 @@ import { Provider } from "react-redux";
 import CoverProvider from "./context/Cover.tsx";
 import ProductVariantProvider from "./context/ProductVariants.tsx";
 import CartProvider from "./context/Cart.tsx";
+import CheckoutProvider from "./context/Checkout.tsx";
 import AuthProvider from "./context/Auth.tsx";
+import { OrderDetailProvider } from "./context/OrderDetail.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <Provider store={store}>
@@ -53,23 +55,27 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
                 <GenreProvider>
                   <ProductVariantProvider>
                     <ProductProvider>
-                      <CoverProvider>
-                        <OrderStatusProvider>
-                          <OrderProvider>
-                            <AdminUserProvider>
-                              <CustomerUserProvider>
-                                <ReviewProvider>
+                      <CheckoutProvider>
+                        <CoverProvider>
+                          <OrderStatusProvider>
+                            <OrderProvider>
+                              <AdminUserProvider>
+                                <CustomerUserProvider>
                                   <AuthProvider>
-                                  <StrictMode>
-                                    <App />
-                                  </StrictMode>
+                                    <ReviewProvider>
+                                      <OrderDetailProvider>
+                                        <StrictMode>
+                                          <App />
+                                        </StrictMode>
+                                      </OrderDetailProvider>
+                                    </ReviewProvider>
                                   </AuthProvider>
-                                </ReviewProvider>
-                              </CustomerUserProvider>
-                            </AdminUserProvider>
-                          </OrderProvider>
-                        </OrderStatusProvider>
-                      </CoverProvider>
+                                </CustomerUserProvider>
+                              </AdminUserProvider>
+                            </OrderProvider>
+                          </OrderStatusProvider>
+                        </CoverProvider>
+                      </CheckoutProvider>
                     </ProductProvider>
                   </ProductVariantProvider>
                 </GenreProvider>

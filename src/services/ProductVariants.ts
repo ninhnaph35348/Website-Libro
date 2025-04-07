@@ -19,6 +19,15 @@ export const getAllProductVariantLatest = async () => {
   }
 };
 
+export const getAllProductsBestsellers = async () => {
+  try {
+    const { data } = await instance.get("products-bestsellers");
+    return data;
+  } catch (error) {
+    throw new Error("Lỗi");
+  }
+};
+
 export const getProductVariantById = async (id: number | string) => {
   try {
     const { data } = await instance.get(`product_variants/${id}`);

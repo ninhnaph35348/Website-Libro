@@ -44,11 +44,13 @@ const Orders = () => {
   const handleStatusChange = async (orderId: number, newStatus: string) => {
     try {
       await onEdit({ order_status_id: newStatus }, orderId);
+      await getAllOrders(); // ✅ Gọi lại sau khi cập nhật
     } catch (error) {
       alert("Cập nhật thất bại! Vui lòng thử lại.");
       console.error(error);
     }
   };
+
 
   return (
     <div className="p-6 w-full mx-auto bg-white shadow-md rounded-lg">

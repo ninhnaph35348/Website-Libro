@@ -1,12 +1,16 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/Auth";
 import whiteLogo from "../../assets/img/logo/white-logo.svg";
 import icon13 from "../../assets/img/icon/icon-13.svg";
 import { Link } from "react-router-dom";
 
 const Header = () => {
-  const { user, logout } = useContext(AuthContext);
+  const { user, getAllOrders, logout } = useContext(AuthContext);
   const [showConfirm, setShowConfirm] = useState(false);
+
+  useEffect(() => {
+    getAllOrders()
+  }, [])
 
   return (
     <>
@@ -33,15 +37,24 @@ const Header = () => {
 
               {user ? (
                 <li className="relative flex flex-col items-start gap-2">
-                  <div className="flex items-center gap-2">
-                    <Link to="admin">
+                  <div className="flex items-center gap-4">
+                    <div>
                       <i className="fa-light fa-user text-lg" />
                       <span className="font-semibold text-white text-base">
                         {user.username}
                       </span>
-                    </Link>
+                    </div>
+                    {/* Nếu là admin hoặc s.admin thì hiện nút Quản trị */}
+                    {(user.role === "admin" || user.role === "s.admin") && (
+                      <Link
+                        to="/admin"
+                        className="font-semibold text-white text-base"
+                      >
+                        Quản trị
+                      </Link>
+                    )}
                     <button
-                      className="ml-4 text-red-500 hover:text-red-700 font-medium"
+                      className="text-red-500 !hover:text-red-500 font-medium"
                       onClick={() => setShowConfirm(true)}
                     >
                       Đăng xuất

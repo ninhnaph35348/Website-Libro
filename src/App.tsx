@@ -209,6 +209,14 @@ const App = () => {
   <Route path="/contact" element={<Contact />} />
 </Route>
 
+          <Route path="/check-out" element={<Checkout />} />
+          <Route path="/shop-details/:code/cover/:id" element={<Shopdetail />} />
+          <Route path="/shop-cart" element={<Shopcart />} />
+          <Route path="/shop" element={<Shopdefaul />} />
+          <Route path="/blog" element={<Blog />} />
+
+          <Route path="/contact" element={<Contact />} />
+        </Route>
         <Route path="/login" element={<LoginClient />} />
         <Route path="/register" element={<Sinup />} />
 

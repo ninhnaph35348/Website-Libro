@@ -12,9 +12,9 @@ const ListProductVariant = () => {
     }, []);
     return (
         <div className="p-6 w-full mx-auto bg-white shadow-md rounded-lg">
-            <h2 className="text-xl font-bold mb-4">Danh Sách Thể Loại</h2>
+            <h2 className="text-xl font-bold mb-4">Danh Sách Biến Thể</h2>
             <Link to="add" className="bg-blue-500 text-white px-4 py-2 rounded mb-4">
-                Thêm Thể Loại
+                Thêm Biến Thể
             </Link>
             <table className="w-full border-collapse border border-gray-200 mt-4">
                 <thead>
@@ -44,19 +44,21 @@ const ListProductVariant = () => {
                             <td className="border p-2">{productvariant.cover}</td>
                             <td className="border p-2">{productvariant.quantity} quyển</td>
                             <td className="border p-2">{productvariant.total_sold}</td>
-                            <td className="border p-2 text-center flex gap-2 justify-center">
-                                <button
-                                    onClick={() => onDelete(productvariant.id)}
-                                    className="bg-red-500 text-white px-2 py-1 rounded"
-                                >
-                                    Xóa
-                                </button>
-                                <button
-                                    onClick={() => navigate(`edit/${productvariant.product.code}`)}
-                                    className="bg-yellow-500 text-white px-2 py-1 rounded"
-                                >
-                                    Sửa
-                                </button>
+                            <td className="border p-2 text-center ">
+                                <div className="flex justify-center gap-2">
+                                    <button
+                                        onClick={() => onDelete(productvariant.product.code)}
+                                        className="bg-red-500 text-white px-2 py-1 rounded"
+                                    >
+                                        Xóa
+                                    </button>
+                                    <button
+                                        onClick={() => navigate(`edit/${productvariant.product.code}`)}
+                                        className="bg-yellow-500 text-white px-2 py-1 rounded"
+                                    >
+                                        Sửa
+                                    </button>
+                                </div>
                             </td>
                         </tr>
                     ))}

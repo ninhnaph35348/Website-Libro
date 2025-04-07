@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { Input, Button } from "antd";
@@ -12,8 +12,13 @@ import FormSelect from "../../../components/form/FormSelect";
 
 const AddProductvariant = () => {
   const productvariants = useContext(ProductVariantContext);
-  const { products } = useContext(ProductContext);
-  const { covers } = useContext(CoverContext);
+  const { products, getAllProduct } = useContext(ProductContext);
+  const { covers, getAllCovers } = useContext(CoverContext);
+
+  useEffect(() => {
+    getAllProduct();
+    getAllCovers();
+  }, []);
 
   const {
     register,

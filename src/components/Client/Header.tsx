@@ -9,8 +9,8 @@ const Header = () => {
   const [showConfirm, setShowConfirm] = useState(false);
 
   useEffect(() => {
-    getAllOrders();
-  }, []);
+    getAllOrders()
+  }, [])
 
   return (
     <>
@@ -27,33 +27,34 @@ const Header = () => {
                 <a href="mailto:info@example.com">libro@gmail.com</a>
               </li>
             </ul>
-            <ul className="list flex items-center gap-6">
+            <ul className="list">
               <li>
-                <Link
-                  to="/contact"
-                  className="flex items-center gap-2 text-white hover:underline"
-                >
+                <Link to="/contact">
+                  Live Chat
                   <i className="fa-light fa-comments" />
-                  <span>Live Chat</span>
                 </Link>
               </li>
 
               {user ? (
-                <li className="relative">
-                  <div className="flex items-center gap-3 text-white">
-                    <i className="fa-light fa-user text-lg" />
-                    <span className="font-semibold">{user.username}</span>
-
+                <li className="relative flex flex-col items-start gap-2">
+                  <div className="flex items-center gap-4">
+                    <Link to={`profile`}>
+                      <i className="fa-light fa-user text-lg" />
+                      <span className="font-semibold text-white text-base">
+                        {user.username}
+                      </span>
+                    </Link>
+                    {/* Nếu là admin hoặc s.admin thì hiện nút Quản trị */}
                     {(user.role === "admin" || user.role === "s.admin") && (
-                      <Link to="/admin" className="hover:underline">
+                      <Link
+                        to="/admin"
+                        className="font-semibold text-white text-base"
+                      >
                         Quản trị
                       </Link>
                     )}
-                    <Link to="/profile" className="hover:underline">
-                      Hồ sơ
-                    </Link>
                     <button
-                      className="text-red-400 hover:text-red-600 font-semibold transition"
+                      className="text-red-500 !hover:text-red-500 font-medium"
                       onClick={() => setShowConfirm(true)}
                     >
                       Đăng xuất
@@ -61,7 +62,7 @@ const Header = () => {
                   </div>
 
                   {showConfirm && (
-                    <div className="bg-white shadow-md p-2 rounded-md absolute top-full right-0 mt-2 z-50 w-max border border-gray-200">
+                    <div className="bg-white shadow-md p-2 rounded-md absolute top-full right-0 mt-1 z-50 w-auto border border-gray-200">
                       <p className="text-xs text-gray-700 font-medium text-center mb-1">
                         Đăng xuất?
                       </p>
@@ -83,7 +84,7 @@ const Header = () => {
                   )}
                 </li>
               ) : (
-                <li className="flex items-center gap-2 text-white">
+                <li>
                   <i className="fa-light fa-user" />
                   <Link to="/login">Login</Link>
                 </li>
@@ -92,6 +93,7 @@ const Header = () => {
           </div>
         </div>
       </div>
+
       {/* Sticky Header Section start */}
       <header className="header-1">
         <div className="mega-menu-wrapper">

@@ -11,9 +11,9 @@ const Covers = () => {
     }, []);
     return (
         <div className="p-6 w-full mx-auto bg-white shadow-md rounded-lg">
-            <h2 className="text-xl font-bold mb-4">Danh Sách Thể Loại</h2>
+            <h2 className="text-xl font-bold mb-4">Danh Sách Loại Bìa</h2>
             <Link to="add" className="bg-blue-500 text-white px-4 py-2 rounded mb-4">
-                Thêm Thể Loại
+                Thêm Loại Bìa
             </Link>
             <table className="w-full border-collapse border border-gray-200 mt-4">
                 <thead>

@@ -1,3 +1,40 @@
+// import axiosInstance from "../config/axios";
+// // import { IOrderStatus } from "../interfaces/OrderStatus";
+
+
+
+// export const getAllOrderstatus = async () => {
+//   try {
+//     const token = localStorage.getItem("token");  // Lấy token từ localStorage
+//     if (!token) {
+//       throw new Error("Token không tồn tại");  // Nếu không có token, yêu cầu đăng nhập lại
+//     }
+
+//     const response = await axiosInstance.get("/status", {
+//       headers: {
+//         Authorization: `Bearer ${token}`,  // Sử dụng token trong header
+//       },
+//     });
+
+//     return response.data;  // Dữ liệu trả về từ API
+
+//   } catch (error: any) {
+//     // Kiểm tra lỗi chi tiết
+//     if (error.response) {
+//       // Nếu có phản hồi từ server (dữ liệu lỗi từ server)
+//       console.error("Lỗi từ server:", error.response.data);
+//       console.error("Mã lỗi:", error.response.status);
+//     } else if (error.request) {
+//       // Nếu không có phản hồi từ server
+//       console.error("Không nhận được phản hồi từ server:", error.request);
+//     } else {
+//       // Nếu có lỗi trong quá trình cấu hình yêu cầu
+//       console.error("Lỗi khi cấu hình yêu cầu:", error.message);
+//     }
+
+//     throw new Error("Lỗi khi lấy trạng thái đơn hàng");
+//   }
+// };
 import instance from "../config/axios";
 // import { IOrderStatus } from "../interfaces/OrderStatus";
 
@@ -9,6 +46,10 @@ export const getAllOrderstatus = async () => {
     throw new Error("Lỗi");
   }
 };
+
+
+
+
 
 // export const getOrderstatusById = async (id: number | string) => {
 //   try {

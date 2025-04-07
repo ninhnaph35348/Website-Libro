@@ -32,6 +32,48 @@ const Header = () => {
               </li>
 
               {user ? (
+  <li className="relative flex flex-col items-start gap-2">
+    <div className="flex items-center gap-2">
+      <i className="fa-light fa-user text-blue-500 text-lg" />
+      <Link to="/profile" className="ml-2 font-semibold text-gray-800 text-base">
+        {user.username}
+      </Link>
+      <button
+        className="ml-4 text-red-500 hover:text-red-700 font-medium"
+        onClick={() => setShowConfirm(true)}
+      >
+        Đăng xuất
+      </button>
+    </div>
+
+    {showConfirm && (
+      <div className="bg-white shadow-md p-2 rounded-md absolute top-full right-0 mt-1 z-50 w-auto border border-gray-200">
+        <p className="text-xs text-gray-700 font-medium text-center mb-1">
+          Đăng xuất?
+        </p>
+        <div className="flex justify-center gap-2">
+          <button
+            className="bg-blue-500 text-white px-3 py-1 rounded text-xs hover:bg-blue-600 transition duration-200"
+            onClick={logout}
+          >
+            Có
+          </button>
+          <button
+            className="bg-blue-500 text-white px-3 py-1 rounded text-xs hover:bg-blue-600 transition duration-200"
+            onClick={() => setShowConfirm(false)}
+          >
+            Không
+          </button>
+        </div>
+      </div>
+    )}
+  </li>
+) : (
+  <li>
+    <i className="fa-light fa-user" />
+    <Link to="/login">Login</Link>
+  </li>
+)}
                 <li className="relative flex flex-col items-start gap-2">
                   <div className="flex items-center gap-2">
                     <i className="fa-light fa-user text-blue-500 text-lg" />
@@ -45,40 +87,10 @@ const Header = () => {
                       Đăng xuất
                     </button>
                   </div>
-
-                  {showConfirm && (
-                    <div className="bg-white shadow-md p-2 rounded-md absolute top-full right-0 mt-1 z-50 w-auto border border-gray-200">
-                      <p className="text-xs text-gray-700 font-medium text-center mb-1">
-                        Đăng xuất?
-                      </p>
-                      <div className="flex justify-center gap-2">
-                        <button
-                          className="bg-blue-500 text-white px-3 py-1 rounded text-xs hover:bg-blue-600 transition duration-200"
-                          onClick={logout}
-                        >
-                          Có
-                        </button>
-                        <button
-                          className="bg-blue-500 text-white px-3 py-1 rounded text-xs hover:bg-blue-600 transition duration-200"
-                          onClick={() => setShowConfirm(false)}
-                        >
-                          Không
-                        </button>
-                      </div>
-                    </div>
-                  )}
-                </li>
-              ) : (
-                <li>
-                  <i className="fa-light fa-user" />
-                  <Link to="/login">Login</Link>
-                </li>
-              )}
             </ul>
           </div>
         </div>
       </div>
-
       {/* Sticky Header Section start */}
       <header className="header-1">
         <div className="mega-menu-wrapper">

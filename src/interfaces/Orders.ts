@@ -12,5 +12,6 @@ export interface IOrder {
     voucher_id?: number | null;
     order_status_id: number;
     status: number;
+    created_at:number
 }
 

@@ -16,12 +16,13 @@ const EditProductvariant = () => {
     const { products, getAllProduct } = useContext(ProductContext);
     const { covers, getAllCovers } = useContext(CoverContext);
     const [loading, setLoading] = useState(true);
+    const param = useParams();
 
     useEffect(() => {
         getAllProduct();
         getAllCovers();
     }, []);
-    const { id } = useParams();
+    // const { id } = useParams();
     const {
         register,
         handleSubmit,
@@ -37,16 +38,18 @@ const EditProductvariant = () => {
     useEffect(() => {
         const fetchProduct = async () => {
             try {
-                const response = await getProductVariantById(id as string);
+                const response = await getProductVariantById(param.id as string);
                 if (response?.data) {
-                    const variant = response.data;
-                    reset({
-                        price: variant.price,
-                        promotion: variant.promotion,
-                        quantity: variant.quantity,
-                        cover_id: covers.find((a: any) => a.name === variant.author)?.id || "",
-                        product_id: products.find((p: any) => p.name === variant.publisher)?.id || "",
-                    });
+                    const variant = response.data[0];
+                    // reset({
+                    //     price: variant.price,
+                    //     promotion: variant.promotion,
+                    //     quantity: variant.quantity,
+                    //     cover_id: covers.find((a: any) => a.id === variant.cover.id)?.id || "",
+                    //     product_id: products.find((p: any) => p.id === variant.product.id)?.id || "",
+                    // });
+                    // console.log(variant);
+
                     setValue("price", Number(variant.price));
                     setValue("promotion", Number(variant.promotion));
                     setValue("quantity", variant.quantity);
@@ -60,20 +63,20 @@ const EditProductvariant = () => {
             }
         };
 
-        if (id && covers.length > 0 && products.length > 0) {
+        if (param.id && covers.length > 0 && products.length > 0) {
             fetchProduct();
         }
-    }, [id, covers, products, setValue]);
+    }, [param.id, covers, products, setValue]);
 
 
 
     const onSubmit = async (data: IProductVariant) => {
-        if (!id) {
+        if (!param.id) {
             console.error("ID không hợp lệ!");
             return;
         }
         try {
-            await onEdit(data, id);
+            await onEdit(data, param.id);
             // navigate(-1);
         } catch (error) {
             console.error("❌ Lỗi khi cập nhật sản phẩm:", error);
@@ -115,7 +118,8 @@ const EditProductvariant = () => {
                     <Input
                         type="number"
                         placeholder="Nhập giá bán"
-                        value={watch("price")}
+                        defaultValue={watch("price")}
+                        // defaultValue={}
                         {...register("price", { required: "Giá bán không được để trống" })}
                         onChange={(e) => setValue("price", Number(e.target.value), { shouldValidate: true })}
                     />
@@ -128,7 +132,7 @@ const EditProductvariant = () => {
                     <Input
                         type="number"
                         placeholder="Nhập giá khuyến mãi"
-                        value={watch("promotion")}
+                        defaultValue={watch("promotion")}
                         {...register("promotion")}
                         onChange={(e) => setValue("promotion", e.target.value as any, { shouldValidate: true })}
                     />
@@ -140,7 +144,7 @@ const EditProductvariant = () => {
                     <Input
                         type="number"
                         placeholder="Nhập số lượng"
-                        value={watch("quantity")}
+                        defaultValue={watch("quantity")}
                         {...register("quantity", { required: "Số lượng không được để trống" })}
                         onChange={(e) => setValue("quantity", e.target.value as any, { shouldValidate: true })}
                     />

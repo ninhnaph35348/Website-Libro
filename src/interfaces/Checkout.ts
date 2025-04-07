@@ -6,6 +6,7 @@ export interface ICheckout{
         quantity: number;
     }
     user_name: string;
+    note: string;
     user_email: string;
     user_address: string;
     user_phone: string;

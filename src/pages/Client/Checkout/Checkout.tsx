@@ -61,9 +61,15 @@ const Checkout: React.FC = () => {
                 shipping_fee: 30000, // Mặc định phí vận chuyển 30,000₫
                 payment_method: paymentMethod, // Lấy từ state
             };
-            // console.log(orderData);
-            await context.onAdd(orderData);
-            navigate("/");
+
+            const success = await context.onAdd(orderData);
+            if (success) {
+                localStorage.removeItem("cart");
+                reset();
+                navigate("/");
+            } else {
+                alert("Thanh toán thất bại. Vui lòng thử lại!");
+            }
             reset();
         }
     };
@@ -126,7 +132,7 @@ const Checkout: React.FC = () => {
                                             <div className="col-lg-12">
                                                 <div className="input-single">
                                                     <span>Địa chỉ Email*</span>
-                                                    <input
+                                                    <input type="email"
                                                         {...register("user_email", { required: "Email không được để trống" })}
                                                         placeholder="email"
                                                     />
@@ -139,6 +145,16 @@ const Checkout: React.FC = () => {
                                                     <input
                                                         {...register("user_address", { required: "Địa chỉ không được để trống" })}
                                                         placeholder="Địa chỉ nhận hàng"
+                                                    />
+                                                    {errors.user_address && <p className="text-red-500">{errors.user_address.message}</p>}
+                                                </div>
+                                            </div>
+                                            <div className="col-lg-12">
+                                                <div className="input-single">
+                                                    <span>Ghi chú</span>
+                                                    <input
+                                                        {...register("note", { required: "Ghi chú không được để trống" })}
+                                                        placeholder="Ghi chú nhận hàng"
                                                     />
                                                     {errors.user_address && <p className="text-red-500">{errors.user_address.message}</p>}
                                                 </div>

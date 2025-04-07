@@ -19,6 +19,7 @@ import {
   Settings,
   Package,
   Boxes,
+  ShoppingCart,
 } from "lucide-react";
 
 const Sidebar = ({
@@ -36,7 +37,7 @@ const Sidebar = ({
     () => [
       { path: "/admin", label: "Trang Chủ", icon: Home },
       { path: "/admin/category", label: "Danh Mục", icon: Library },
-      { path: "/admin/order", label: "Đơn Hàng", icon: ListOrdered },
+      { path: "/admin/order", label: "Đơn Hàng", icon: ShoppingCart },
     ],
     []
   );

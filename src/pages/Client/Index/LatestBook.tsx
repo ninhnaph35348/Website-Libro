@@ -124,7 +124,7 @@ const LatestBook = () => {
                       </div>
                       <div className="shop-button">
                         <Link
-                          to={`/shop-details/${variant.product.code}`}
+                          to={`/shop-details/${variant.product.code}/cover/${variant.cover_id}`}
                           className="theme-btn"
                         >
                           <i className="fa-solid fa-basket-shopping" />

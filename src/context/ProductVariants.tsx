@@ -1,6 +1,6 @@
 import { createContext, useState } from "react";
 import { IProductVariant } from "../interfaces/ProductVariants";
-import { createProductVariant, deleteProductVariant, getAllProductVariant, getAllProductVariantLatest, updateProductVariant } from "../services/ProductVariants";
+import { createProductVariant, deleteProductVariant, getAllProductsBestsellers, getAllProductVariant, getAllProductVariantLatest, updateProductVariant } from "../services/ProductVariants";
 
 
 type Props = {
@@ -12,6 +12,7 @@ export const ProductVariantContext = createContext({} as any);
 const ProductVariantProvider = ({ children }: Props) => {
     const [productvariants, setProductVariants] = useState<IProductVariant[]>([]);
     const [productVariantLatest, setProductVariantLatest] = useState<IProductVariant[]>([]);
+    const [productBestsellers, setProductBestsellers] = useState<IProductVariant[]>([]);
 
     const getAllProductVariants = async () => {
         try {
@@ -26,6 +27,15 @@ const ProductVariantProvider = ({ children }: Props) => {
         try {
             const data = await getAllProductVariantLatest();
             setProductVariantLatest(data?.data);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const Bestsellers = async () => {
+        try {
+            const data = await getAllProductsBestsellers();
+            setProductBestsellers(data?.data);
         } catch (error) {
             console.log(error);
         }
@@ -67,7 +77,7 @@ const ProductVariantProvider = ({ children }: Props) => {
     };
 
     return (
-        <ProductVariantContext.Provider value={{ productvariants, productVariantLatest, getAllProductVariants, fetchLatestVariants, onAdd, onDelete, onEdit }}>
+        <ProductVariantContext.Provider value={{ productvariants, productVariantLatest, productBestsellers, Bestsellers, getAllProductVariants, fetchLatestVariants, onAdd, onDelete, onEdit }}>
             {children}
         </ProductVariantContext.Provider>
     );

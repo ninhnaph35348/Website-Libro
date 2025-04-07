@@ -9,5 +9,5 @@ export interface IUser {
   avatar?: string;
   birth_date?: string;
   status?: string;
-  role: "s.admin" | "admin" | "client";
+  role: "s.admin" | "admin" | "client" | string;
 }

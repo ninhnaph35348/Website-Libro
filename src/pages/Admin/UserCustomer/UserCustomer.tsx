@@ -1,12 +1,16 @@
 import { useNavigate } from "react-router-dom";
 import { CustomerUserContext } from "../../../context/UserCustomer";
 import { IUser } from "../../../interfaces/User";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { LoaderPinwheel } from "lucide-react";
 
 const CustomerAccounts = () => {
-  const { customerUsers, onDelete } = useContext(CustomerUserContext); // ✅ Đúng cú pháp
+  const { customerUsers, getAllUser, onDelete } = useContext(CustomerUserContext); // ✅ Đúng cú pháp
   const navigate = useNavigate();
+
+  useEffect(() => {
+    getAllUser();
+  }, []);
 
   if (!customerUsers) {
     return (
@@ -30,7 +34,7 @@ const CustomerAccounts = () => {
           </tr>
         </thead>
         <tbody>
-          {customerUsers.map((customer: IUser, index:number) => (
+          {customerUsers.map((customer: IUser, index: number) => (
             <tr key={customer.id ?? index} className="border">
               <td className="border p-2">{index + 1}</td>
               <td className="border p-2">{customer.username}</td>

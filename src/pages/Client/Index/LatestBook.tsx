@@ -53,7 +53,7 @@ const LatestBook = () => {
                   <SwiperSlide key={variant.id}>
                     <div className="shop-box-items style-2">
                       <div className="book-thumb center">
-                        <Link to={`/shop-details/${variant.product.code}`}>
+                        <Link to={`/shop-details/${variant.product.code}/cover/${variant.cover_id}`}>
                           <img
                             src={
                               variant.product.image

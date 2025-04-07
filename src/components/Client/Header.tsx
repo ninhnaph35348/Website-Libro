@@ -34,10 +34,12 @@ const Header = () => {
               {user ? (
                 <li className="relative flex flex-col items-start gap-2">
                   <div className="flex items-center gap-2">
-                    <i className="fa-light fa-user text-blue-500 text-lg" />
-                    <span className="ml-2 font-semibold text-white text-base">
-                      {user.username}
-                    </span>
+                    <Link to="admin">
+                      <i className="fa-light fa-user text-lg" />
+                      <span className="font-semibold text-white text-base">
+                        {user.username}
+                      </span>
+                    </Link>
                     <button
                       className="ml-4 text-red-500 hover:text-red-700 font-medium"
                       onClick={() => setShowConfirm(true)}

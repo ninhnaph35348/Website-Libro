@@ -61,9 +61,9 @@ const Checkout: React.FC = () => {
                 shipping_fee: 30000, // Mặc định phí vận chuyển 30,000₫
                 payment_method: paymentMethod, // Lấy từ state
             };
-            console.log(orderData);
+            // console.log(orderData);
             await context.onAdd(orderData);
-            // navigate("/order-success");
+            navigate("/");
             reset();
         }
     };

@@ -28,6 +28,15 @@ export const getProductVariantById = async (id: number | string) => {
   }
 };
 
+export const getProductCover = async (id: number | string, code: number | string) => {
+  try {
+    const { data } = await instance.get(`product_variants/${code}/cover/${id}`);
+    return data;
+  } catch (error) {
+    throw new Error("Lỗi");
+  }
+};
+
 export const createProductVariant = async (productvariantData: IProductVariant) => {
   try {
     const { data } = await instance.post("product_variants", productvariantData);

@@ -42,7 +42,7 @@ import ProductVariantProvider from "./context/ProductVariants.tsx";
 import CartProvider from "./context/Cart.tsx";
 import CheckoutProvider from "./context/Checkout.tsx";
 import AuthProvider from "./context/Auth.tsx";
-import { OrderDetailProvider } from "./context/OrderDetail.tsx";
+// import { OrderDetailProvider } from "./context/OrderDetail.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <Provider store={store}>
@@ -63,11 +63,11 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
                                 <CustomerUserProvider>
                                   <AuthProvider>
                                     <ReviewProvider>
-                                      <OrderDetailProvider>
+                                      {/* <OrderDetailProvider> */}
                                         <StrictMode>
                                           <App />
                                         </StrictMode>
-                                      </OrderDetailProvider>
+                                      {/* </OrderDetailProvider> */}
                                     </ReviewProvider>
                                   </AuthProvider>
                                 </CustomerUserProvider>

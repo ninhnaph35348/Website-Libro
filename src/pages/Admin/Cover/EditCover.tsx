@@ -27,12 +27,12 @@ const EditCover = () => {
 
     return (
         <div className="p-6 w-full mx-auto bg-white shadow-md rounded-lg">
-            <h2 className="text-xl font-bold mb-4">Sửa Thể Loại</h2>
+            <h2 className="text-xl font-bold mb-4">Sửa Loại Bìa</h2>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <input
                     className="w-full border p-2 mb-2"
                     type="text"
-                    placeholder="Tên thể loại"
+                    placeholder="Tên loại bìa"
                     {...register("type", { required: "Tên không được để trống" })}
                     defaultValue={watch("type")}
                 />

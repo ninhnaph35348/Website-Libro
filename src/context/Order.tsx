@@ -12,26 +12,27 @@ const OrderProvider = ({ children }: Props) => {
   const [orders, setOrders] = useState<IOrder[]>([]);
 
   const getAllOrders = async () => {
-      try {
-        const response = await getAllOrder();
-        if (response?.data && Array.isArray(response.data)) {
-          setOrders(response.data);
-        } else {
-          console.warn("Dữ liệu không đúng định dạng:", response);
-          setOrders([]);
-        }
-      } catch (error) {
-        console.error("Lỗi khi fetch sản phẩm:", error);
+    try {
+      const response = await getAllOrder();
+      if (response?.data && Array.isArray(response.data)) {
+        setOrders(response.data);
+      } else {
+        console.warn("Dữ liệu không đúng định dạng:", response);
         setOrders([]);
       }
+    } catch (error) {
+      console.error("Lỗi khi fetch sản phẩm:", error);
+      setOrders([]);
     }
+  };
 
   const onStatus = async (id: number) => {
     try {
       if (window.confirm("Bạn có muốn xóa không?")) {
         await deleteOrder(id);
         alert("Đổi trạng thái thành công!");
-        setOrders(orders.filter((order) => order.id !== id));
+        // Sử dụng updater function để đảm bảo tính đồng bộ
+        setOrders((prevOrders) => prevOrders.filter((order) => order.id !== id));
       }
     } catch (error) {
       console.log(error);
@@ -42,10 +43,12 @@ const OrderProvider = ({ children }: Props) => {
     try {
       if (window.confirm("Bạn có chắc muốn cập nhật đơn hàng này không?")) {
         const data = await updateOrder(formData, code_order);
-        const newOrders = orders.map((order) =>
-          order.code_order === code_order ? data : order
+        // Sử dụng updater function để cập nhật trạng thái mới
+        setOrders((prevOrders) =>
+          prevOrders.map((order) =>
+            order.code_order === code_order ? { ...order, ...data } : order
+          )
         );
-        setOrders(newOrders);
         alert("Cập nhật đơn hàng thành công!");
       }
     } catch (error) {

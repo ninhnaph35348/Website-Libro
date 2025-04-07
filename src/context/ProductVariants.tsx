@@ -22,7 +22,6 @@ const ProductVariantProvider = ({ children }: Props) => {
         }
     };
 
-
     const fetchLatestVariants = async () => {
         try {
             const data = await getAllProductVariantLatest();

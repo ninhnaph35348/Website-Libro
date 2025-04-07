@@ -10,8 +10,6 @@ const Orders = () => {
 
   useEffect(() => {
     getAllStatus();
-  }, []);
-  useEffect(() => {
     getAllOrders();
   }, []);
 
@@ -94,7 +92,7 @@ const Orders = () => {
                     }
                     onChange={(e) =>
                       handleStatusChange(
-                        order.code_order,
+                        order.code_order as any,
                         Number(e.target.value) as any
                       )
                     }

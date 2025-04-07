@@ -4,7 +4,12 @@ export interface IUser {
   fullname: string;
   email: string;
   phone?: string;
-  address?: string;
+  address: string | null;   // Địa chỉ
+  province: string | null;  // Tỉnh/Thành phố
+  district: string | null;  // Huyện/Quận
+  ward: string | null;  // Huyện/Quận
+
+  
   password: string;
   avatar?: string;
   birth_date?: string;

@@ -28,7 +28,6 @@ const EditProductvariant = () => {
         handleSubmit,
         control,
         watch,
-        reset,
         setValue,
         formState: { errors },
     } = useForm<IProductVariant>();
@@ -88,7 +87,7 @@ const EditProductvariant = () => {
 
     return (
         <div className="p-6 w-full mx-auto bg-white shadow-md rounded-lg">
-            <h2 className="text-xl font-bold mb-4">Thêm Biến Thể</h2>
+            <h2 className="text-xl font-bold mb-4">Sửa Biến Thể</h2>
             <form onSubmit={handleSubmit(onSubmit)}>
                 {/* Select Sản phẩm */}
                 <div>

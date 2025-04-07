@@ -18,7 +18,7 @@ const AdminRoute = () => {
   if (!token) return <Navigate to="/admin/login" />;
   if (!user) return <Loader className="animate-spin h-6 w-6 mx-auto" />;
 
-  return ["admin", "s.admin"].includes(user.role) ? <Outlet /> : <Navigate to="/admin/login" />;
+  return ["admin", "s.admin"].includes(user.role ) ? <Outlet /> : <Navigate to="/admin/login" />;
 };
 
 export default AdminRoute;

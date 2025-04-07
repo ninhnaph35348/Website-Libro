@@ -25,6 +25,7 @@ const ListProductVariant = () => {
                         <th className="border p-2">Khuyến mãi</th>
                         <th className="border p-2">Loại bìa</th>
                         <th className="border p-2">Số lượng</th>
+                        <th className="border p-2">Đã bán</th>
                         <th className="border p-2">Hành động</th>
                     </tr>
                 </thead>
@@ -42,6 +43,7 @@ const ListProductVariant = () => {
 
                             <td className="border p-2">{productvariant.cover}</td>
                             <td className="border p-2">{productvariant.quantity} quyển</td>
+                            <td className="border p-2">{productvariant.total_sold}</td>
                             <td className="border p-2 text-center flex gap-2 justify-center">
                                 <button
                                     onClick={() => onDelete(productvariant.id)}

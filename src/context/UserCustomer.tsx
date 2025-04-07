@@ -1,13 +1,13 @@
-import { createContext, useEffect, useState } from "react";
-import {
-  getAllUsers,
-  updateUser,
-  deleteUser,
-  getUserById,
-} from "../services/UserCustomer";
-import { IUser } from "../interfaces/User";
+import { createContext, useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { IUser } from "../interfaces/User";
+import {
+  deleteUser,
+  getAllUsers,
+  getUserById,
+  updateUser,
+} from "../services/UserCustomer";
 
 type Props = {
   children: React.ReactNode;
@@ -17,20 +17,17 @@ export const CustomerUserContext = createContext({} as any);
 
 const CustomerUserProvider = ({ children }: Props) => {
   const [customerUsers, setCustomerUsers] = useState<IUser[]>([]);
-  const [reload, setReload] = useState(false);
+  // const [reload, setReload] = useState(false);
 
-  useEffect(() => {
-    const fetchCustomers = async () => {
-      try {
-        const data = await getAllUsers();
-        setCustomerUsers(data);
-      } catch (error) {
-        toast.error("Lỗi khi tải danh sách khách hàng!");
-        console.error("Lỗi khi lấy danh sách khách hàng:", error);
-      }
-    };
-    fetchCustomers();
-  }, [reload]);
+  const getAllUser = async () => {
+    try {
+      const data = await getAllUsers();
+      setCustomerUsers(data);
+    } catch (error) {
+      toast.error("Lỗi khi tải danh sách khách hàng!");
+      console.error("Lỗi khi lấy danh sách khách hàng:", error);
+    }
+  };
 
   const onDetail = async (id: number | string) => {
     try {
@@ -61,7 +58,7 @@ const CustomerUserProvider = ({ children }: Props) => {
         prev.map((user) => (user.id === id ? data : user))
       );
       toast.success("Cập nhật tài khoản khách hàng thành công!");
-      setReload((prev) => !prev);
+      // setReload((prev) => !prev);
     } catch (error) {
       toast.error("Lỗi khi cập nhật khách hàng!");
       console.error("Lỗi khi cập nhật khách hàng:", error);
@@ -69,7 +66,7 @@ const CustomerUserProvider = ({ children }: Props) => {
   };
 
   return (
-    <CustomerUserContext.Provider value={{ customerUsers, onDelete, onEdit, onDetail }}>
+    <CustomerUserContext.Provider value={{ customerUsers, getAllUser, onDelete, onEdit, onDetail }}>
       {children}
     </CustomerUserContext.Provider>
   );

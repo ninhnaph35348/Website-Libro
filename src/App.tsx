@@ -188,26 +188,30 @@ const App = () => {
 
         {/* Route Client */}
         <Route path="/" element={<LayoutClient />}>
-  <Route index element={<Client />} />
-  
-  {/* Các route khác */}
-  <Route path="/check-out" element={<Checkout />} />
-  <Route path="/shop-details/:code" element={<Shopdetail />} />
-  <Route path="/shop-cart" element={<Shopcart />} />
-  <Route path="/shop" element={<Shopdefaul />} />
-  <Route path="/blog" element={<Blog />} />
+          <Route index element={<Client />} />
 
-  {/* Route Profile */}
-  <Route path="/profile" element={<Sidebar />}>
-    <Route index element={<Profile />} /> {/* không nên dùng "/" ở đây */}
-    <Route path="edit" element={<EditProfile />} />
-    <Route path="change-password" element={<ChangePassword />} />
-    <Route path="order_detail" element={<OrderList />} /> {/* ✅ thêm đúng chỗ */}
-    </Route>
-    <Route path="/order_detail/:code_order" element={<OrderDetailPage />} />
+          {/* Các route khác */}
+          <Route path="/check-out" element={<Checkout />} />
+          <Route path="/shop-details/:code" element={<Shopdetail />} />
+          <Route path="/shop-cart" element={<Shopcart />} />
+          <Route path="/shop" element={<Shopdefaul />} />
+          <Route path="/blog" element={<Blog />} />
 
-  <Route path="/contact" element={<Contact />} />
-</Route>
+          <Route path="/profile" element={<Sidebar />}>
+            <Route index element={<Profile />} /> {/* không nên dùng "/" ở đây */}
+            <Route path="edit" element={<EditProfile />} />
+            <Route path="change-password" element={<ChangePassword />} />
+            <Route path="order_detail" element={<OrderList />} /> {/* ✅ thêm đúng chỗ */}
+          </Route>
+          <Route path="/order_detail/:code_order" element={<OrderDetailPage />} />
+
+          <Route path="/contact" element={<Contact />} />
+        </Route>
+        <Route path="/check-out" element={<Checkout />} />
+        <Route path="/shop-details/:code/cover/:id" element={<Shopdetail />} />
+        <Route path="/shop-cart" element={<Shopcart />} />
+        <Route path="/shop" element={<Shopdefaul />} />
+        <Route path="/blog" element={<Blog />} />
 
         <Route path="/login" element={<LoginClient />} />
         <Route path="/register" element={<Sinup />} />

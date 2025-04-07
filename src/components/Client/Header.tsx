@@ -9,8 +9,8 @@ const Header = () => {
   const [showConfirm, setShowConfirm] = useState(false);
 
   useEffect(() => {
-    getAllOrders()
-  }, [])
+    getAllOrders();
+  }, []);
 
   return (
     <>
@@ -27,81 +27,67 @@ const Header = () => {
                 <a href="mailto:info@example.com">libro@gmail.com</a>
               </li>
             </ul>
-            <ul className="list">
+            <ul className="list flex items-center gap-6">
               <li>
-                <Link to="/contact">
-                  Live Chat
+                <Link
+                  to="/contact"
+                  className="flex items-center gap-2 text-white hover:underline"
+                >
                   <i className="fa-light fa-comments" />
+                  <span>Live Chat</span>
                 </Link>
               </li>
 
               {user ? (
-  <li className="relative flex flex-col items-start gap-2">
-    <div className="flex items-center gap-2">
-      <i className="fa-light fa-user text-blue-500 text-lg" />
-      <Link to="/profile" className="ml-2 font-semibold text-gray-800 text-base">
-        {user.username}
-      </Link>
-      <button
-        className="ml-4 text-red-500 hover:text-red-700 font-medium"
-        onClick={() => setShowConfirm(true)}
-      >
-        Đăng xuất
-      </button>
-    </div>
+                <li className="relative">
+                  <div className="flex items-center gap-3 text-white">
+                    <i className="fa-light fa-user text-lg" />
+                    <span className="font-semibold">{user.username}</span>
 
-    {showConfirm && (
-      <div className="bg-white shadow-md p-2 rounded-md absolute top-full right-0 mt-1 z-50 w-auto border border-gray-200">
-        <p className="text-xs text-gray-700 font-medium text-center mb-1">
-          Đăng xuất?
-        </p>
-        <div className="flex justify-center gap-2">
-          <button
-            className="bg-blue-500 text-white px-3 py-1 rounded text-xs hover:bg-blue-600 transition duration-200"
-            onClick={logout}
-          >
-            Có
-          </button>
-          <button
-            className="bg-blue-500 text-white px-3 py-1 rounded text-xs hover:bg-blue-600 transition duration-200"
-            onClick={() => setShowConfirm(false)}
-          >
-            Không
-          </button>
-        </div>
-      </div>
-    )}
-  </li>
-) : (
-  <li>
-    <i className="fa-light fa-user" />
-    <Link to="/login">Login</Link>
-  </li>
-)}
-                <li className="relative flex flex-col items-start gap-2">
-                  <div className="flex items-center gap-4">
-                    <div>
-                      <i className="fa-light fa-user text-lg" />
-                      <span className="font-semibold text-white text-base">
-                        {user.username}
-                      </span>
-                    </div>
-                    {/* Nếu là admin hoặc s.admin thì hiện nút Quản trị */}
                     {(user.role === "admin" || user.role === "s.admin") && (
-                      <Link
-                        to="/admin"
-                        className="font-semibold text-white text-base"
-                      >
+                      <Link to="/admin" className="hover:underline">
                         Quản trị
                       </Link>
                     )}
+                    <Link to="/profile" className="hover:underline">
+                      Hồ sơ
+                    </Link>
                     <button
-                      className="text-red-500 !hover:text-red-500 font-medium"
+                      className="text-red-400 hover:text-red-600 font-semibold transition"
                       onClick={() => setShowConfirm(true)}
                     >
                       Đăng xuất
                     </button>
                   </div>
+
+                  {showConfirm && (
+                    <div className="bg-white shadow-md p-2 rounded-md absolute top-full right-0 mt-2 z-50 w-max border border-gray-200">
+                      <p className="text-xs text-gray-700 font-medium text-center mb-1">
+                        Đăng xuất?
+                      </p>
+                      <div className="flex justify-center gap-2">
+                        <button
+                          className="bg-blue-500 text-white px-3 py-1 rounded text-xs hover:bg-blue-600 transition duration-200"
+                          onClick={logout}
+                        >
+                          Có
+                        </button>
+                        <button
+                          className="bg-blue-500 text-white px-3 py-1 rounded text-xs hover:bg-blue-600 transition duration-200"
+                          onClick={() => setShowConfirm(false)}
+                        >
+                          Không
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </li>
+              ) : (
+                <li className="flex items-center gap-2 text-white">
+                  <i className="fa-light fa-user" />
+                  <Link to="/login">Login</Link>
+                </li>
+              )}
             </ul>
           </div>
         </div>

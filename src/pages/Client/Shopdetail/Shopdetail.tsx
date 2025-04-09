@@ -35,7 +35,6 @@ const Shopdetail = () => {
     })();
   }, [code, id]);
 
-  console.log(productVariant);
   if (!productVariant || !productVariant.product) {
     return <p className="text-center mt-10 text-gray-500">Đang tải...</p>;
   }

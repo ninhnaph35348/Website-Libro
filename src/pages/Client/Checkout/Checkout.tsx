@@ -1,24 +1,42 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Pr_pay from "../../../assets/img/pr_pay.jpg";
-// import { Select } from "antd";
-// import { District, getDistricts, getProvinces, getWards, Province, Ward } from "../../../config/provincesApi";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { useCart } from "../../../context/Cart";
 import { CheckoutContext } from "../../../context/Checkout";
 import { ICartItem } from "../../../interfaces/Cart";
 import { ICheckout } from "../../../interfaces/Checkout";
-
-// const { Option } = Select;
-
+import { fetchUser } from "../../../store/auth/authSlice";
+import { IUser } from "../../../interfaces/User";
+import { RootState } from "../../../store/auth/store";
+import { useNavigate } from "react-router-dom";
 
 const Checkout: React.FC = () => {
     const { cartItems } = useCart();
+    const dispatch = useDispatch();
+    const user = useSelector((state: RootState) => state.auth.user) as IUser | null;
     const { register, handleSubmit, reset, formState: { errors } } = useForm<ICheckout>();
     const navigate = useNavigate();
     const [showQR, setShowQR] = useState(false);
     const context = useContext(CheckoutContext);
     const [paymentMethod, setPaymentMethod] = useState<number>(0);
+
+    useEffect(() => {
+        if (!user) {
+            dispatch(fetchUser() as any);
+        }
+    }, [dispatch, user]);
+    useEffect(() => {
+        if (user) {
+            reset({
+                user_name: user.fullname || "",
+                user_email: user.email || "",
+                user_phone: user.phone || "",
+                user_address: user.address || "",
+                note: "",
+            });
+        }
+    }, [user, reset]);
 
     const shippingFee = 30000;
     const totalAmount = cartItems.reduce((total, item) => {
@@ -58,17 +76,15 @@ const Checkout: React.FC = () => {
                     product_variant_id: item.id,
                     quantity: item.cartQuantity,
                 })) as any,
-                shipping_fee: 30000, // Mặc định phí vận chuyển 30,000₫
-                payment_method: paymentMethod, // Lấy từ state
+                shipping_fee: 30000,
+                payment_method: paymentMethod,
             };
 
             const success = await context.onAdd(orderData);
             if (success) {
                 localStorage.removeItem("cart");
                 reset();
-                navigate("/");
-            } else {
-                alert("Thanh toán thất bại. Vui lòng thử lại!");
+                navigate("/profile/order_detail");
             }
             reset();
         }
@@ -153,7 +169,7 @@ const Checkout: React.FC = () => {
                                                 <div className="input-single">
                                                     <span>Ghi chú</span>
                                                     <input
-                                                        {...register("note", { required: "Ghi chú không được để trống" })}
+                                                        {...register("note")}
                                                         placeholder="Ghi chú nhận hàng"
                                                     />
                                                     {errors.user_address && <p className="text-red-500">{errors.user_address.message}</p>}

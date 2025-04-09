@@ -5,7 +5,7 @@ import { IUser } from "../../interfaces/User";
 // Lấy thông tin user đăng nhập từ token (API /me)
 export const fetchUser = createAsyncThunk("auth/fetchUser", async () => {
   const response = await axiosInstance.get("/me");
- console.log("Dữ liệu user từ API /me:", response.data);
+//  console.log("Dữ liệu user từ API /me:", response.data);
   return response.data.user;  // Trả về user từ API
 });
 

@@ -6,7 +6,8 @@ import { IOrder } from "../../../interfaces/Orders";
 
 const Orders = () => {
   const { orders, getAllOrders, onEdit } = useContext(OrderContext);
-  const { orderstatus, getAllStatus } = useContext(OrderStatusContext);
+const { orderstatus, getAllStatus } = useContext(OrderStatusContext);
+
 
   useEffect(() => {
     getAllStatus();

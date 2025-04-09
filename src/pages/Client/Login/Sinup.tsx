@@ -18,6 +18,10 @@ const Signup = () => {
     email: "",
     password: "",
     role: "client",
+    address: "",
+    province: "",
+    district: "",
+    ward: ""
   });
 
   const [confirmPassword, setConfirmPassword] = useState("");

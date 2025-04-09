@@ -102,6 +102,7 @@ const DetailOrder = () => {
                 ? Number(order.total_price).toLocaleString()
                 : "0",
         },
+        { label: "Phí ship", value: "30.000" },
         { label: "Mã giản giá", value: order.voucher || "Không có" },
         {
             label: "Khách cần trả",
@@ -121,7 +122,7 @@ const DetailOrder = () => {
             console.error(error);
         }
     };
-
+    // const priceProdcut = 
 
     return (
         <div className="p-6 w-full mx-auto bg-white shadow-lg rounded-xl max-w-6xl space-y-6">
@@ -183,7 +184,7 @@ const DetailOrder = () => {
                                 <td className="p-3 border text-right">{Number(item.price).toLocaleString()}</td>
                                 <td className="p-3 border text-right">0</td>
                                 <td className="p-3 border text-right">{Number(item.price).toLocaleString()}</td>
-                                <td className="p-3 border text-right font-semibold text-blue-600">{item.total_line.toLocaleString()}</td>
+                                <td className="p-3 border text-right font-semibold text-blue-600">{(item.total_line || item.price as any * item.quantity).toLocaleString()}</td>
                             </tr>
                         ))}
                     </tbody>

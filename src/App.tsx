@@ -68,6 +68,7 @@ import ChangePassword from "./pages/Client/Profile/ChangePassword";
 import Sidebar from "./pages/Client/Profile/pageProfile";
 import OrderList from "./pages/Client/Oder/OderList";
 import OrderDetailPage from "./pages/Client/Oder/OderDetail";
+import OrderDetail from "./pages/Client/Oder/OderDetail";
 
 const App = () => {
   return (
@@ -204,7 +205,7 @@ const App = () => {
     <Route path="change-password" element={<ChangePassword />} />
     <Route path="order_detail" element={<OrderList />} /> {/* ✅ thêm đúng chỗ */}
     </Route>
-    <Route path="/order_detail/:code_order" element={<OrderDetailPage />} />
+    <Route path="/order_detail/:orderCode" element={<OrderDetail />} />
 
   <Route path="/contact" element={<Contact />} />
 </Route>

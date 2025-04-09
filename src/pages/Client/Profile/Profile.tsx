@@ -1,15 +1,14 @@
+import dayjs from "dayjs";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { IUser } from "../../../interfaces/User";
-import { RootState } from "../../../store/auth/store";
 import { fetchUser } from "../../../store/auth/authSlice";
-import dayjs from "dayjs";
-import { Link } from "react-router-dom";
+import { RootState } from "../../../store/auth/store";
 
 const Profile: React.FC = () => {
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.auth.user) as IUser | null;
-  const ordersCount = 0; // Placeholder for số đơn hàng as it's not defined in state.auth
+  const ordersCount = 0; 
   const loading = useSelector((state: RootState) => state.auth.loading);
 
   useEffect(() => {

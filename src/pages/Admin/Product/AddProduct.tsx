@@ -54,24 +54,32 @@ const AddProduct = () => {
             setImages(Array.from(e.target.files)); // Chuyển FileList thành Array<File>
         }
     };
-    console.log("Ảnh bổ sung sau khi chọn:", images);
 
     // Xóa ảnh đã chọn
     const handleRemoveImage = (index: number) => {
         setImages((prev) => prev.filter((_, i) => i !== index));
     };
+
     const onSubmit = async (formData: IProduct) => {
         const productData = {
-            ...formData,
-            genres: selectedGenres.filter((id) => typeof id === "number"), // ✅ Chỉ gửi danh sách ID của thể loại
-            image,
-            images,
+          ...formData,
+          genres: selectedGenres.filter((id) => typeof id === "number"),
+          image,
+          images,
         };
-        console.log("🚀 Dữ liệu sản phẩm gửi đi:", productData);
-        await onAdd(productData, reset);
-        navigate("/admin/product-variant/add");
-        window.location.reload();
-    };
+            
+        const isSuccess = await onAdd(productData);
+      
+        if (isSuccess) {
+          setTimeout(() => {
+            navigate("/admin/product-variant/add");
+            // window.location.reload();
+          }, 500);
+        } else {
+          alert("Thêm sản phẩm thất bại!");
+        }
+      };
+      
 
 
     return (
@@ -85,6 +93,8 @@ const AddProduct = () => {
                         { name: "title", label: "Tiêu đề" },
                         { name: "code", label: "Mã" },
                         { name: "supplier_name", label: "Tên nhà cung cấp" },
+                        { name: "published_year", label: "Năm sản xuất" },
+                        { name: "book_count", label: "Số trang" },
                         { name: "description", label: "Mô tả", type: "textarea" },
                     ].map(({ name, label, type }) => (
                         <div key={name}>

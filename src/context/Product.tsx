@@ -2,7 +2,7 @@ import { createContext, useState } from "react";
 import { IProduct } from "../interfaces/Products";
 import {
   createProduct,
-  deleteProduct,
+  statusProduct,
   getAllProducts,
   updateProduct,
 } from "../services/Product";
@@ -88,17 +88,20 @@ const ProductProvider = ({ children }: Props) => {
     return formData;
   };
 
-  const onAdd = async (dataProduct: IProduct) => {
+  const onAdd = async (dataProduct: IProduct): Promise<boolean> => {
     try {
       const formData = createFormData(dataProduct);
       const data = await createProduct(formData);
       setProducts((prevProducts) => [...prevProducts, data]);
       setFilteredProducts((prevProducts) => [...prevProducts, data]);
       alert("Thêm sản phẩm thành công!");
+      return true;
     } catch (error) {
       console.error("❌ Lỗi khi thêm sản phẩm:", error);
+      return false;
     }
   };
+  
 
   const onEdit = async (dataProduct: IProduct, id: number | string) => {
     try {
@@ -118,20 +121,21 @@ const ProductProvider = ({ children }: Props) => {
     }
   };
 
-  const onDelete = async (id: number | string) => {
+  const onStatus = async (code: string | number, newStatus: "in_stock" | "out_stock") => {
     try {
-      if (window.confirm("Bạn có muốn xóa không?")) {
-        await deleteProduct(id);
-        alert("Xóa thành công!");
-
-        // setProducts((prevProducts) => prevProducts.filter((product) => product.id !== id));
-        // setFilteredProducts((prevProducts) => prevProducts.filter((product) => product.id !== id));
-        await getAllProduct();
-      }
+      const formData = new FormData();
+      formData.append("status", newStatus);
+      formData.append("_method", "put"); // Laravel-style update
+  
+      await statusProduct(formData, code); // Gửi lên API
+  
+      await getAllProduct(); // Cập nhật lại danh sách
+      alert("Cập nhật trạng thái thành công!");
     } catch (error) {
-      console.error("❌ Lỗi khi xóa sản phẩm:", error);
+      console.error("❌ Lỗi khi cập nhật trạng thái sản phẩm:", error);
     }
   };
+  
 
   return (
     <ProductContext.Provider
@@ -140,7 +144,7 @@ const ProductProvider = ({ children }: Props) => {
         filteredProducts,
         getAllProduct,
         onAdd,
-        onDelete,
+        onStatus,
         onEdit,
         filterProductsByTitle,
       }}

@@ -82,25 +82,26 @@ const Header = () => {
                   </div>
 
                   {showConfirm && (
-                    <div className="bg-white shadow-md p-2 rounded-md absolute top-full right-0 mt-1 z-50 w-auto border border-gray-200">
-                      <p className="text-xs text-gray-700 font-medium text-center mb-1">
-                        Đăng xuất?
+                    <div className="bg-white shadow-md p-3 rounded-md absolute top-full right-0 mt-2 z-[9999] w-48 border border-gray-200">
+                      <p className="text-sm !text-gray-800 font-semibold text-center mb-3">
+                        Bạn muốn đăng xuất?
                       </p>
                       <div className="flex justify-center gap-2">
                         <button
-                          className="bg-blue-500 text-white px-3 py-1 rounded text-xs hover:bg-blue-600 transition duration-200"
+                          className="bg-red-500 text-white px-4 py-1.5 rounded-md text-sm font-medium hover:bg-red-600 transition duration-200"
                           onClick={handleLogout}
                         >
                           Có
                         </button>
                         <button
-                          className="bg-blue-500 text-white px-3 py-1 rounded text-xs hover:bg-blue-600 transition duration-200"
+                          className="bg-gray-200 text-gray-800 px-4 py-1.5 rounded-md text-sm font-medium hover:bg-gray-300 transition duration-200"
                           onClick={() => setShowConfirm(false)}
                         >
                           Không
                         </button>
                       </div>
                     </div>
+
                   )}
                 </li>
               ) : (

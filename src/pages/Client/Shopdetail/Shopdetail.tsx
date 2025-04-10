@@ -73,6 +73,7 @@ const Shopdetail = () => {
     return <p className="text-center mt-10 text-gray-500">Đang tải...</p>;
   }
 
+
   // Xử lý chọn loại bìa
   const handleCoverChange = async (coverId: number | string) => {
     if (!productVariant?.product?.code) {

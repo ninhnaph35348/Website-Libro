@@ -214,13 +214,21 @@ const App = () => {
             element={<Shopdetail />}
           />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/check-out" element={<Checkout />} />
+          <Route path="/shop-details/:code/cover/:id" element={<Shopdetail />} />
+          <Route path="/shop-cart" element={<Shopcart />} />
+          <Route path="/shop" element={<Shopdefaul />} />
+          <Route path="/blog" element={<Blog />} />
         </Route>
+<<<<<<< HEAD
 
         <Route path="/check-out" element={<Checkout />} />
 
         <Route path="/shop-cart" element={<Shopcart />} />
         <Route path="/shop" element={<Shopdefaul />} />
         <Route path="/blog" element={<Blog />} />
+=======
+>>>>>>> 0b9f20aaa8e301c60211c435d48b9e126da3224e
 
         <Route path="/login" element={<LoginClient />} />
         <Route path="/register" element={<Sinup />} />

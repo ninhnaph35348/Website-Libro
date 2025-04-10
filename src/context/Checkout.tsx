@@ -16,16 +16,19 @@ export const CheckoutContext = createContext({} as any);
 const CheckoutProvider = ({ children }: Props) => {
   const [checkouts, setCheckouts] = useState<ICheckout[]>([]);
 
-  const onAdd = async (dataCheckout: ICheckout) => {
+  const onAdd = async (dataCheckout: ICheckout): Promise<boolean> => {
     try {
       const data = await createCheckout(dataCheckout);
       setCheckouts([...checkouts, data]);
       toast.success("Đặt hàng thành công!");
+      return true;
     } catch (error) {
       toast.error("Lỗi khi Đặt hàng!");
       console.error(error);
+      return false;
     }
   };
+  
 
   return (
     <CheckoutContext.Provider value={{ checkouts, onAdd }}>

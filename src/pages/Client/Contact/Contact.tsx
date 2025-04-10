@@ -18,20 +18,20 @@ const Contact = (props: Props) => {
         </div>
         <div className="container">
           <div className="page-heading">
-            <h1>Contact Us</h1>
+            <h1>Liên hệ với chúng tôi</h1>
             <div className="page-header">
               <ul
                 className="breadcrumb-items wow fadeInUp"
                 data-wow-delay=".3s"
               >
                 <li>
-                  <Link to="/">Home</Link>
+                  <Link to="/">Trang chủ</Link>
                 </li>
                 <li>
                   <i className="fa-solid fa-chevron-right"></i>
                 </li>
                 <li>
-                  <Link to="/contact">Contacts</Link>
+                  <Link to="/contact">Liên Hệ</Link>
                 </li>
               </ul>
             </div>
@@ -50,9 +50,9 @@ const Contact = (props: Props) => {
                         <i className="icon-icon-10"></i>
                       </div>
                       <div className="content">
-                        <p>Call Us 7/24</p>
+                        <p>Gọi chúng tôi 7/24</p>
                         <h3>
-                          <a href="tel:+2085550112">+208-555-0112</a>
+                          <a href="tel:+2085550112">0974563453</a>
                         </h3>
                       </div>
                     </div>
@@ -61,11 +61,9 @@ const Contact = (props: Props) => {
                         <i className="icon-icon-11"></i>
                       </div>
                       <div className="content">
-                        <p>Make a Quote</p>
+                        <p>Email</p>
                         <h3>
-                          <a href="mailto:example@gmail.com">
-                            example@gmail.com
-                          </a>
+                          <a href="mailto:example@gmail.com">libro@gmail.com</a>
                         </h3>
                       </div>
                     </div>
@@ -74,8 +72,8 @@ const Contact = (props: Props) => {
                         <i className="icon-icon-12"></i>
                       </div>
                       <div className="content">
-                        <p>Location</p>
-                        <h3>4517 Washington ave.</h3>
+                        <p>Địa chỉ</p>
+                        <h3>Số 2 Đào Duy Anh, HN</h3>
                       </div>
                     </div>
                   </div>
@@ -94,13 +92,11 @@ const Contact = (props: Props) => {
               </div>
               <div className="col-lg-8">
                 <div className="contact-content">
-                  <h2>Ready to Get Started?</h2>
+                  <h2>Sẵn sàng để bắt đầu chưa?</h2>
                   <p>
-                    Nunc tincidunt cursus lectus ac semper. Aenean ullamcorper
-                    quis arcu molestie consequat. Interdum et malesuada fames ac
-                    ante ipsum primis in faucibus. Ut nec lobortis elit, eu
-                    ultrices justo. Fusce auctor erat est, non fringilla nibh
-                    tempus quis. Aenean dignissim
+                    Hãy để lại thông tin, chúng tôi sẽ liên hệ với bạn trong
+                    thời gian sớm nhất. Đội ngũ của chúng tôi luôn sẵn sàng hỗ
+                    trợ và đồng hành cùng bạn trên hành trình khám phá tri thức.
                   </p>
                   <form
                     action="https://gramentheme.com/html/bookle/contact.php"
@@ -114,12 +110,12 @@ const Contact = (props: Props) => {
                         data-wow-delay=".3s"
                       >
                         <div className="form-clt">
-                          <span>Your name*</span>
+                          <span>Họ và tên*</span>
                           <input
                             type="text"
                             name="name"
                             id="name"
-                            placeholder="Your Name"
+                            placeholder="Nhập họ tên của bạn"
                           />
                         </div>
                       </div>
@@ -128,12 +124,12 @@ const Contact = (props: Props) => {
                         data-wow-delay=".5s"
                       >
                         <div className="form-clt">
-                          <span>Your Email*</span>
+                          <span>Email của bạn*</span>
                           <input
                             type="text"
                             name="email"
                             id="email123"
-                            placeholder="Your Email"
+                            placeholder="Nhập địa chỉ email"
                           />
                         </div>
                       </div>
@@ -142,11 +138,11 @@ const Contact = (props: Props) => {
                         data-wow-delay=".7s"
                       >
                         <div className="form-clt">
-                          <span>Write Message*</span>
+                          <span>Nội dung tin nhắn*</span>
                           <textarea
                             name="message"
                             id="message"
-                            placeholder="Write Message"
+                            placeholder="Nhập nội dung bạn muốn gửi"
                           ></textarea>
                         </div>
                       </div>
@@ -155,7 +151,7 @@ const Contact = (props: Props) => {
                         data-wow-delay=".9s"
                       >
                         <button type="submit" className="theme-btn">
-                          Send Message{" "}
+                          Gửi tin nhắn{" "}
                           <i className="fa-solid fa-arrow-right-long"></i>
                         </button>
                       </div>

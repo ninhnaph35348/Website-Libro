@@ -198,16 +198,31 @@ const App = () => {
           <Route path="/blog" element={<Blog />} />
 
           <Route path="/profile" element={<Sidebar />}>
-            <Route index element={<Profile />} /> {/* không nên dùng "/" ở đây */}
+            <Route index element={<Profile />} />{" "}
+            {/* không nên dùng "/" ở đây */}
             <Route path="edit" element={<EditProfile />} />
             <Route path="change-password" element={<ChangePassword />} />
-            <Route path="order_detail" element={<OrderList />} /> {/* ✅ thêm đúng chỗ */}
+            <Route path="order_detail" element={<OrderList />} />{" "}
+            {/* ✅ thêm đúng chỗ */}
           </Route>
-          <Route path="/order_detail/:code_order" element={<OrderDetailPage />} />
-
+          <Route
+            path="/order_detail/:code_order"
+            element={<OrderDetailPage />}
+          />
+          <Route
+            path="/shop-details/:code/cover/:id"
+            element={<Shopdetail />}
+          />
           <Route path="/contact" element={<Contact />} />
           <Route path="/check-out" element={<Checkout />} />
-          <Route path="/shop-details/:code/cover/:id" element={<Shopdetail />} />
+          <Route
+            path="/shop-details/:code/cover/:id"
+            element={<Shopdetail />}
+          />
+          <Route path="/shop-cart" element={<Shopcart />} />
+          <Route path="/shop" element={<Shopdefaul />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/check-out" element={<Checkout />} />
           <Route path="/shop-cart" element={<Shopcart />} />
           <Route path="/shop" element={<Shopdefaul />} />
           <Route path="/blog" element={<Blog />} />

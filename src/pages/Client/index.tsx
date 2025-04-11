@@ -11,7 +11,6 @@ import BestSeller from "./Index/BestSeller";
 import Banner from "./Index/Banner";
 
 const Client = () => {
-
   return (
     <>
       <Banner />

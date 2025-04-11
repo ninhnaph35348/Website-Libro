@@ -27,8 +27,8 @@ const Client = () => {
                 <i className="icon-icon-1"></i>
               </div>
               <div className="content">
-                <h3>Return & refund</h3>
-                <p>Money back guarantee</p>
+                <h3>Hoàn trả & hoàn tiền</h3>
+                <p>Đảm bảo hoàn lại tiền</p>
               </div>
             </div>
             <div
@@ -39,8 +39,8 @@ const Client = () => {
                 <i className="icon-icon-2"></i>
               </div>
               <div className="content">
-                <h3>Secure Payment</h3>
-                <p>30% off by subscribing</p>
+                <h3>Thanh toán an toàn</h3>
+                <p>Giảm giá 30% khi đăng ký</p>
               </div>
             </div>
             <div
@@ -51,8 +51,8 @@ const Client = () => {
                 <i className="icon-icon-3"></i>
               </div>
               <div className="content">
-                <h3>Quality Support</h3>
-                <p>Always online 24/7</p>
+                <h3>Hỗ trợ sản phẩm</h3>
+                <p>Online 24/7</p>
               </div>
             </div>
             <div
@@ -63,8 +63,8 @@ const Client = () => {
                 <i className="icon-icon-4"></i>
               </div>
               <div className="content">
-                <h3>Daily Offers</h3>
-                <p>20% off by subscribing</p>
+                <h3>Ưu đãi hằng ngày</h3>
+                <p>Giảm giá 20% khi đăng ký</p>
               </div>
             </div>
           </div>
@@ -78,7 +78,7 @@ const Client = () => {
       <BestSeller />
 
       {/* Top Ratting Book Section start (Đã comment vì không có rating) */}
-      <section className="top-ratting-book-section fix section-padding section-bg">
+      {/* <section className="top-ratting-book-section fix section-padding section-bg">
         <div className="container">
           <div className="top-ratting-book-wrapper">
             <div className="section-title-area flex justify-between items-center mb-6">
@@ -99,8 +99,7 @@ const Client = () => {
               </Link>
             </div>
             <div className="row">
-              {/* Comment lại phần này vì database không có rating */}
-              {/* {sortedProducts
+               {sortedProducts
                 .filter((product: IProduct) => product.rating)
                 .slice(0, 1)
                 .map((product: IProduct) => (
@@ -149,11 +148,11 @@ const Client = () => {
                       </div>
                     </div>
                   </div>
-                ))} */}
+                ))} 
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* News Section start */}
       <section className="news-section fix section-padding section-bg">
@@ -163,7 +162,7 @@ const Client = () => {
               className="mb-3 wow fadeInUp text-3xl font-bold text-blue-900"
               data-wow-delay=".3s"
             >
-              Our Latest News
+              Tin mới nhất
             </h2>
           </div>
           <div className="row">

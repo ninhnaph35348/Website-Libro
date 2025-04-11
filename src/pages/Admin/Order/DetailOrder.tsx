@@ -45,9 +45,13 @@ const DetailOrder = () => {
     }
 
     const totalQty = order.items.reduce((sum, item) => sum + item.quantity, 0);
-    const formattedDate = format(new Date(order.created_at), 'dd/MM/yyyy HH:mm:ss');
+    // const formattedDate = format(new Date(order.created_at), 'dd/MM/yyyy HH:mm:ss');
 
-    const infoLeft = [
+    const formattedDate = new Date(order.created_at).toLocaleString("vi-VN", {
+        dateStyle: "medium",
+        timeStyle: "short",
+    });
+    const orderInfo = [
         { label: "Mã hóa đơn", value: order.code_order },
         { label: "Thời gian", value: formattedDate },
         { label: "Thanh toán", value: order.payment_method },
@@ -57,9 +61,7 @@ const DetailOrder = () => {
                 <select
                     className="border p-1 rounded"
                     value={
-                        orderstatus.find(
-                            (status: any) => status.name === order.status
-                        )?.id || ""
+                        orderstatus.find((status: any) => status.name === order.status)?.id || ""
                     }
                     onChange={(e) =>
                         handleStatusChange(
@@ -69,11 +71,9 @@ const DetailOrder = () => {
                     }
                 >
                     {orderstatus
-                        .filter(
-                            (status: any) =>
-                                status.id >=
-                                (orderstatus.find((s: any) => s.name === order.status)
-                                    ?.id || 0)
+                        .filter((status: any) =>
+                            status.id >=
+                            (orderstatus.find((s: any) => s.name === order.status)?.id || 0)
                         )
                         .map((status: any) => (
                             <option key={status.id} value={status.id}>
@@ -82,18 +82,23 @@ const DetailOrder = () => {
                         ))}
                 </select>
             )
-        }
-
-
-
+        },
     ];
 
-    const infoRight = [
-        { label: "Số điện thoại", value: order.user_phone || "Không có" },
+    const userInfo = [
+        { label: "Người đặt", value: order.user_name || "Không có" },
+        { label: "SĐT", value: order.user_phone || "Không có" },
         { label: "Email", value: order.user_email || "Không có" },
-        { label: "Địa chỉ", value: order.user_address || "Không có" },
-        { label: "Nhận hàng", value: order.shipping_address || "Không có" },
+        { label: "Địa chỉ", value: order.user_address || "Không có" }
     ];
+
+    const shippingInfo = [
+        { label: "Người nhận", value: order.shipping_name || "Không có" },
+        { label: "SĐT nhận", value: order.shipping_phone || "Không có" },
+        { label: "Địa chỉ nhận", value: order.shipping_address || "Không có" }
+    ];
+
+
     const total = [
         { label: "Tổng số lượng", value: totalQty || "Không có" },
         {
@@ -115,7 +120,7 @@ const DetailOrder = () => {
     const handleStatusChange = async (orderId: number, newStatus: number) => {
         try {
             await onEdit({ order_status_id: newStatus }, orderId);
-            const data: IData = await getOrderDetailById(code!); // Reload lại đơn hàng sau khi update
+            const data: IData = await getOrderDetailById(code!);
             setOrder(data.data);
         } catch (error) {
             alert("Cập nhật thất bại! Vui lòng thử lại.");
@@ -129,12 +134,13 @@ const DetailOrder = () => {
             <h2 className="text-2xl font-bold text-gray-800 mb-4">Chi Tiết Đơn Hàng</h2>
 
             {/* Thông tin đơn hàng */}
-            <div className="grid grid-cols-3 gap-6 text-sm">
-                {/* Cột trái */}
+            <div className="grid grid-cols-4 gap-6 text-sm">
+                {/* Cột 1: Thông tin đơn hàng */}
                 <div className="space-y-2">
-                    {infoLeft.map((item, idx) => (
+                    <div className="font-semibold mb-1 text-gray-800">🧾 Thông tin đơn hàng</div>
+                    {orderInfo.map((item, idx) => (
                         <div key={idx} className="flex">
-                            <span className="w-32 font-medium">{item.label}:</span>
+                            <span className="w-24 font-medium">{item.label}:</span>
                             <span className={item.label === "Mã hóa đơn" ? "font-semibold text-black" : ""}>
                                 {item.value}
                             </span>
@@ -142,20 +148,33 @@ const DetailOrder = () => {
                     ))}
                 </div>
 
-                {/* Cột phải */}
+                {/* Cột 2: Người đặt */}
                 <div className="space-y-2">
-                    {infoRight.map((item, idx) => (
+                    <div className="font-semibold mb-1 text-gray-800">👤 Người đặt</div>
+                    {userInfo.map((item, idx) => (
                         <div key={idx} className="flex">
-                            <span className="w-32 font-medium">{item.label}:</span>
+                            <span className="w-24 font-medium">{item.label}:</span>
                             <span>{item.value}</span>
                         </div>
                     ))}
                 </div>
 
-                {/* Ghi chú */}
+                {/* Cột 3: Người nhận */}
+                <div className="space-y-2">
+                    <div className="font-semibold mb-1 text-gray-800">🚚 Người nhận</div>
+                    {shippingInfo.map((item, idx) => (
+                        <div key={idx} className="flex">
+                            <span className="w-24 font-medium">{item.label}:</span>
+                            <span>{item.value}</span>
+                        </div>
+                    ))}
+                </div>
+
+                {/* Cột 4: Ghi chú */}
                 <div>
+                    <div className="font-semibold mb-1 text-gray-800">📝 Ghi chú</div>
                     <div className="h-full p-3 border rounded bg-gray-50 text-gray-600 italic">
-                        📝 {order.note || "Không có ghi chú"}
+                        {order.note || "Không có ghi chú"}
                     </div>
                 </div>
             </div>

@@ -53,6 +53,8 @@ const EditProduct = () => {
             title: product.title,
             code: product.code,
             description: product.description,
+            book_count: product.book_count,
+            published_year: product.published_year,
             supplier_name: product.supplier_name,
             author_id:
               authors.find((a: any) => a.name === product.author)?.id || "",
@@ -152,6 +154,8 @@ const EditProduct = () => {
             { name: "title", label: "Tiêu đề" },
             { name: "code", label: "Mã", readOnly: true },
             { name: "supplier_name", label: "Tên nhà cung cấp" },
+            { name: "published_year", label: "Năm sản xuất" },
+            { name: "book_count", label: "Số trang" },
             { name: "description", label: "Mô tả", type: "textarea" },
           ].map(({ name, label, type, readOnly }) => (
             <div key={name}>

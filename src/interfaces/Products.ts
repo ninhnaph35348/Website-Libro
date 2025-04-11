@@ -38,8 +38,9 @@ export interface IProduct {
   language_id: number;
   category: string;
   category_id: number;
-
-  status: number;
+  published_year: string;
+  book_count: string;
+  status: string;
   genres: number[];
 
  

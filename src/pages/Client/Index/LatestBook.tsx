@@ -48,6 +48,7 @@ const LatestBook = () => {
           >
             {productVariantLatest.length > 0 ? (
               productVariantLatest
+                .filter((variant: IProductVariant) => variant.product.status !== "out_stock")
                 .slice(0, 5)
                 .map((variant: IProductVariant) => (
                   <SwiperSlide key={variant.id}>

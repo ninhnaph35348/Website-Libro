@@ -399,6 +399,56 @@ const Shopdetail = () => {
                             Thêm vào giỏ hàng
                           </button>
                         </div>
+                        {/* <button type="button" className="theme-btn style-2" data-bs-toggle="modal" data-bs-target="#readMoreModal">
+                          Read A little
+                        </button>
+                        Read More Modal
+                        <div className="modal fade" id="readMoreModal" tabIndex={-1} aria-labelledby="readMoreModalLabel" aria-hidden="true">
+                          <div className="modal-dialog">
+                            <div className="modal-content">
+                              <div className="modal-body" style={{ backgroundImage: 'url(assets/img/popupBg.png)' }}>
+                                <div className="close-btn">
+                                  <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
+                                </div>
+                                <div className="readMoreBox">
+                                  <div className="content">
+                                    <h3 id="readMoreModalLabel">The Role Of Book</h3>
+                                    <p>
+                                      Educating the Public <br />
+                                      Political books play a crucial role in educating the public about political theories, historical events, policies, and the workings of governments. They provide readers with insights into complex political concepts and the historical context behind current events, helping to foster a more informed citizenry. <br /><br />
+                                      Shaping Public Opinion <br />
+                                      Authors of political books often aim to influence public opinion by presenting arguments and perspectives on various issues. These books can sway readers' views, either reinforcing their existing beliefs or challenging them to consider alternative viewpoints. This influence can extend to political debates and discussions in the public sphere. <br /><br />
+                                      Documenting History <br />
+                                      Political books serve as valuable records of historical events and political movements. They document the thoughts, actions, and decisions of political leaders and activists, providing future generations with a detailed account of significant periods and events. This historical documentation is essential for understanding the evolution of political systems and ideologies.
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div> */}
+                        {/* <button
+                          // disabled={productVariant.product.status !== 1}
+                          onClick={handleAddToCart}
+                          className="theme-btn"
+                        >
+                          <i className="fa-solid fa-basket-shopping" /> Thêm vào giỏ hàng
+                        </button> */}
+                        {productVariant.quantity === 0 ? (
+                          <button
+                            disabled={productVariant.product.status === "out_stock"}
+                            onClick={handleAddToCart}
+                            className="theme-btn">
+                            <i className="fa-solid fa-basket-shopping" /> Thêm vào giỏ hàng
+                          </button>
+                        ) : (
+                          <button
+                            // disabled={productVariant.product.status !== 1}
+                            onClick={handleAddToCart}
+                            className="theme-btn">
+                            <i className="fa-solid fa-basket-shopping" /> Thêm vào giỏ hàng
+                          </button>
+                        )}
                       </div>
                       <div className="category-box mt-4">
                         <div className="category-list grid grid-cols-3 gap-4">

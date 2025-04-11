@@ -19,6 +19,15 @@ export const getOrderById = async (id: number | string) => {
     throw new Error("Lỗi");
   }
 };
+
+export const getOrderDetailById = async (id: number | string) => {
+  try {
+    const { data } = await instance.get(`orders/order-detail/${id}`);
+    return data;
+  } catch (error) {
+    throw new Error("Lỗi");
+  }
+};
 export const updateOrder = async (
   orderData: IOrder,
   code_order: number | string

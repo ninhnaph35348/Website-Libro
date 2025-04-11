@@ -3,6 +3,7 @@ import { Outlet } from "react-router-dom";
 import Header from "../../components/Admin/Header";
 import Sidebar from "../../components/Admin/Sidebar";
 import Footer from "../../components/Admin/Footer";
+import Preloader from "../../components/Client/Preloader";
 
 const LayoutAdmin = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(
@@ -15,6 +16,8 @@ const LayoutAdmin = () => {
 
   return (
     <div className="flex min-h-screen overflow-hidden bg-gray-100 admin">
+      
+      <Preloader />
       <Sidebar collapsed={sidebarCollapsed} setCollapsed={setSidebarCollapsed} />
 
       <div

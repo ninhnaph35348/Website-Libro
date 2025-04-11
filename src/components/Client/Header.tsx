@@ -1,12 +1,36 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/Auth";
 import whiteLogo from "../../assets/img/logo/white-logo.svg";
 import icon13 from "../../assets/img/icon/icon-13.svg";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../store/auth/store";
+import { IUser } from "../../interfaces/User";
+import { fetchUser } from "../../store/auth/authSlice";
+import { toast } from "react-toastify";
+import { CartContext } from "../../context/Cart";
 
 const Header = () => {
-  const { user, logout } = useContext(AuthContext);
+  const { logout } = useContext(AuthContext);
   const [showConfirm, setShowConfirm] = useState(false);
+  const dispatch = useDispatch();
+  const user = useSelector((state: RootState) => state.auth.user) as IUser | null;
+  const cartContext = useContext(CartContext);
+  const cartItems = cartContext?.cartItems || [];
+  const totalQuantity = cartItems.reduce((sum, item) => sum + item.cartQuantity, 0);
+
+  useEffect(() => {
+    if (!user) {
+      dispatch(fetchUser() as any);
+    }
+  }, [dispatch, user]);
+
+  const handleLogout = () => {
+    logout();
+    dispatch({ type: "auth/logout" });
+    toast.success("Đăng xuất thành công!");
+    setShowConfirm(false); // Ẩn popup xác nhận
+  };
 
   return (
     <>
@@ -32,56 +56,67 @@ const Header = () => {
               </li>
 
               {user ? (
-  <li className="relative flex flex-col items-start gap-2">
-    <div className="flex items-center gap-2">
-      <i className="fa-light fa-user text-blue-500 text-lg" />
-      <Link to="/profile" className="ml-2 font-semibold text-gray-800 text-base">
-        {user.username}
-      </Link>
-      <button
-        className="ml-4 text-red-500 hover:text-red-700 font-medium"
-        onClick={() => setShowConfirm(true)}
-      >
-        Đăng xuất
-      </button>
-    </div>
+                <li className="relative flex flex-col items-start gap-2">
+                  <div className="flex items-center gap-4">
+                    <Link to={`profile`}>
+                      <i className="fa-light fa-user text-lg" />
+                      <span className="font-semibold text-white text-base">
+                        {user.username}
+                      </span>
+                    </Link>
+                    {/* Nếu là admin hoặc s.admin thì hiện nút Quản trị */}
+                    {(user.role === "admin" || user.role === "s.admin") && (
+                      <Link
+                        to="/admin"
+                        className="font-semibold text-white text-base"
+                      >
+                        Quản trị
+                      </Link>
+                    )}
+                    <button
+                      className="text-red-500 !hover:text-red-500 font-medium"
+                      onClick={() => setShowConfirm(true)}
+                    >
+                      Đăng xuất
+                    </button>
+                  </div>
 
-    {showConfirm && (
-      <div className="bg-white shadow-md p-2 rounded-md absolute top-full right-0 mt-1 z-50 w-auto border border-gray-200">
-        <p className="text-xs text-gray-700 font-medium text-center mb-1">
-          Đăng xuất?
-        </p>
-        <div className="flex justify-center gap-2">
-          <button
-            className="bg-blue-500 text-white px-3 py-1 rounded text-xs hover:bg-blue-600 transition duration-200"
-            onClick={logout}
-          >
-            Có
-          </button>
-          <button
-            className="bg-blue-500 text-white px-3 py-1 rounded text-xs hover:bg-blue-600 transition duration-200"
-            onClick={() => setShowConfirm(false)}
-          >
-            Không
-          </button>
-        </div>
-      </div>
-    )}
-  </li>
-) : (
-  <li>
-    <i className="fa-light fa-user" />
-    <Link to="/login">Login</Link>
-  </li>
-)}
-
+                  {showConfirm && (
+                    <div className="bg-white shadow-md p-2 rounded-md absolute top-full right-0 mt-1 z-50 w-auto border border-gray-200">
+                      <p className="text-xs text-gray-700 font-medium text-center mb-1">
+                        Đăng xuất?
+                      </p>
+                      <div className="flex justify-center gap-2">
+                        <button
+                          className="bg-blue-500 text-white px-3 py-1 rounded text-xs hover:bg-blue-600 transition duration-200"
+                          onClick={handleLogout}
+                        >
+                          Có
+                        </button>
+                        <button
+                          className="bg-blue-500 text-white px-3 py-1 rounded text-xs hover:bg-blue-600 transition duration-200"
+                          onClick={() => setShowConfirm(false)}
+                        >
+                          Không
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </li>
+              ) : (
+                <li>
+                  <i className="fa-light fa-user" />
+                  <Link to="/login">Login</Link>
+                </li>
+              )}
             </ul>
           </div>
         </div>
       </div>
 
       {/* Sticky Header Section start */}
-      <header className="header-1">
+      <header className="header-1 sticky top-0 z-50">
+
         <div className="mega-menu-wrapper">
           <div className="header-main">
             <div className="container">
@@ -132,11 +167,16 @@ const Header = () => {
                       </form>
                     </div>
                     <div className="menu-cart">
-                      <a href="wishlist.html" className="cart-icon">
+                      {/* <a href="wishlist.html" className="relative w-[50px] h-[50px] text-center leading-[50px] bg-transparent inline-block rounded-full border">
                         <i className="fa-regular fa-heart" />
-                      </a>
-                      <Link to="shop-cart" className="cart-icon">
+                      </a> */}
+                      <Link to="shop-cart" className="relative w-[50px] h-[50px] text-center leading-[50px] bg-transparent inline-block rounded-full border">
                         <i className="fa-regular fa-cart-shopping" />
+                        {totalQuantity > 0 && (
+                          <span className="absolute -top-2 -left-0.5 bg-[#036280] text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">
+                            {totalQuantity}
+                          </span>
+                        )}
                       </Link>
                       <div className="header-humbager ml-30">
                         <a

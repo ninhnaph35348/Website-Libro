@@ -24,12 +24,12 @@ const AddCover = () => {
 
     return (
         <div className="p-6 w-full mx-auto bg-white shadow-md rounded-lg">
-            <h2 className="text-xl font-bold mb-4">Thêm Thể Loại</h2>
+            <h2 className="text-xl font-bold mb-4">Thêm Loại Bìa</h2>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <input
                     className="w-full border p-2 mb-2"
                     type="text"
-                    placeholder="Tên thể loại"
+                    placeholder="Tên loại bìa"
                     {...register("type", { required: "Tên không được để trống" })}
                 />
                 {errors.type && <p className="text-red-500">{errors.type.message}</p>}

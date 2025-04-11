@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { IProduct } from "../../../interfaces/Products";
 import { getProductById } from "../../../services/Product";
 
@@ -10,6 +10,7 @@ interface IData {
 const ProductDetail = () => {
     const [product, setProduct] = useState<IProduct | null>(null);
     // const [quantity, setQuantity] = useState<number>(1);
+  const navigate = useNavigate();
     const { code } = useParams<{ code: string }>();
 
     useEffect(() => {
@@ -44,7 +45,12 @@ const ProductDetail = () => {
             <p className="mt-2"><strong>Nhà cung cấp:</strong> {product.supplier_name}</p>
             <p className="mt-2"><strong>Thể loại:</strong> {product.genres.join(", ")}</p>
             {/* <p className="mt-2"><strong>Trạng thái:</strong> {product.status === "in_stock" ? "Còn hàng" : "Hết hàng"}</p> */}
-            <Link to="/admin/product" className="inline-block mt-4 bg-blue-500 text-white px-4 py-2 rounded">Quay lại</Link>
+    <button
+      onClick={() => navigate(-1)}
+      className="inline-block mt-4 bg-blue-500 text-white px-4 py-2 rounded"
+    >
+      Quay lại
+    </button>
         </div>
     );
 };

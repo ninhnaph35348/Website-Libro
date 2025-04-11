@@ -2,18 +2,15 @@ import { useEffect } from "react";
 
 const Preloader = () => {
     useEffect(() => {
-        const hidePreloader = () => {
-            const preloader = document.getElementById("preloader");
-            if (preloader) {
+        const preloader = document.getElementById("preloader");
+        if (preloader) {
+            setTimeout(() => {
                 preloader.classList.add("loaded");
                 setTimeout(() => {
                     preloader.style.display = "none";
                 }, 600);
-            }
-        };
-
-        window.addEventListener("load", hidePreloader);
-        return () => window.removeEventListener("load", hidePreloader);
+            }, 300); // hoặc 1000ms tùy bạn muốn chờ bao lâu
+        }
     }, []);
 
     return (

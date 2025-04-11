@@ -1,50 +1,94 @@
 import { useContext, useEffect, useState } from "react";
+import Pr_pay from "../../../assets/img/pr_pay.jpg";
 import { useForm } from "react-hook-form";
-import { CheckoutContext } from "../../../context/Checkout";
-import { ICheckout } from "../../../interfaces/Checkout";
+import { useDispatch, useSelector } from "react-redux";
 import { useCart } from "../../../context/Cart";
+import { CheckoutContext } from "../../../context/Checkout";
 import { ICartItem } from "../../../interfaces/Cart";
+import { ICheckout } from "../../../interfaces/Checkout";
+import { fetchUser } from "../../../store/auth/authSlice";
+import { IUser } from "../../../interfaces/User";
+import { RootState } from "../../../store/auth/store";
 import { useNavigate } from "react-router-dom";
 
 const Checkout: React.FC = () => {
     const { cartItems } = useCart();
-    const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm<ICheckout>();
+    const dispatch = useDispatch();
+    const user = useSelector((state: RootState) => state.auth.user) as IUser | null;
+    const { register, handleSubmit, reset, formState: { errors } } = useForm<ICheckout>();
     const navigate = useNavigate();
-    const { userInfo } = useContext(CheckoutContext); // Lấy thông tin người dùng từ context
-
+    const [showQR, setShowQR] = useState(false);
+    const context = useContext(CheckoutContext);
     const [paymentMethod, setPaymentMethod] = useState<number>(0);
+
+    useEffect(() => {
+        if (!user) {
+            dispatch(fetchUser() as any);
+        }
+    }, [dispatch, user]);
+    useEffect(() => {
+        if (user) {
+            reset({
+                user_name: user.fullname || "",
+                user_email: user.email || "",
+                user_phone: user.phone || "",
+                user_address: user.address || "",
+                note: "",
+            });
+        }
+    }, [user, reset]);
+
     const shippingFee = 30000;
     const totalAmount = cartItems.reduce((total, item) => {
         const itemPrice = item.promotion && item.promotion < item.price ? item.promotion : item.price;
         return total + itemPrice * item.cartQuantity;
     }, 0) + shippingFee;
 
-    // Tự động điền thông tin nếu người dùng đã đăng nhập
-    useEffect(() => {
-        console.log(userInfo); // Kiểm tra xem thông tin người dùng có được truyền vào đúng không
-        if (userInfo) {
-            setValue("user_name", userInfo.name || "");
-            setValue("user_phone", userInfo.phone || "");
-            setValue("user_email", userInfo.email || "");
-            setValue("user_address", userInfo.address || "");
-        }
-    }, [userInfo, setValue]);
+    // const [provinces, setProvinces] = useState<Province[]>([]);
+    // const [districts, setDistricts] = useState<District[]>([]);
+    // const [wards, setWards] = useState<Ward[]>([]);
+    // const [selectedProvince, setSelectedProvince] = useState<number | null>(null);
+    // const [selectedDistrict, setSelectedDistrict] = useState<number | null>(null);
+
+    // useEffect(() => {
+    //     getProvinces().then(setProvinces);
+    // }, []);
+
+    // const handleProvinceChange = (value: number) => {
+    //     setSelectedProvince(value);
+    //     setSelectedDistrict(null);
+    //     setWards([]);
+    //     getDistricts(value).then(setDistricts);
+    // };
+
+    // const handleDistrictChange = (value: number) => {
+    //     setSelectedDistrict(value);
+    //     getWards(value).then(setWards);
+    // };
+
 
     const onSubmit = async (data: ICheckout) => {
-        const orderData: ICheckout = {
-            ...data,
-            cart: cartItems.map(item => ({
-                product_variant_id: item.id,
-                quantity: item.cartQuantity,
-            })) as any,
-            shipping_fee: 30000,
-            payment_method: paymentMethod,
-        };
-        console.log(orderData);
-        // Call API để tạo đơn hàng hoặc xử lý dữ liệu
-        reset();
-    };
 
+        if (context) {
+            const orderData: ICheckout = {
+                ...data,
+                cart: cartItems.map(item => ({
+                    product_variant_id: item.id,
+                    quantity: item.cartQuantity,
+                })) as any,
+                shipping_fee: 30000,
+                payment_method: paymentMethod,
+            };
+
+            const success = await context.onAdd(orderData);
+            if (success) {
+                localStorage.removeItem("cart");
+                reset();
+                navigate("/profile/order_detail");
+            }
+            reset();
+        }
+    };
     return (
         <section className="checkout-section fix section-padding mx-[200px]">
             <form onSubmit={handleSubmit(onSubmit)} method="post">
@@ -66,6 +110,31 @@ const Checkout: React.FC = () => {
                                                     {errors.user_name && <p className="text-red-500">{errors.user_name.message}</p>}
                                                 </div>
                                             </div>
+                                            {/* <div className="hidden">
+                                                <Select placeholder="Chọn tỉnh/thành" style={{ width: 200 }} onChange={handleProvinceChange}>
+                                                    {provinces.map((province) => (
+                                                        <Option key={province.code} value={province.code}>
+                                                            {province.name}
+                                                        </Option>
+                                                    ))}
+                                                </Select>
+
+                                                <Select placeholder="Chọn quận/huyện" style={{ width: 200, marginLeft: 10 }} onChange={handleDistrictChange} disabled={!selectedProvince}>
+                                                    {districts.map((district) => (
+                                                        <Option key={district.code} value={district.code}>
+                                                            {district.name}
+                                                        </Option>
+                                                    ))}
+                                                </Select>
+
+                                                <Select placeholder="Chọn phường/xã" style={{ width: 200, marginLeft: 10 }} disabled={!selectedDistrict}>
+                                                    {wards.map((ward) => (
+                                                        <Option key={ward.code} value={ward.code}>
+                                                            {ward.name}
+                                                        </Option>
+                                                    ))}
+                                                </Select>
+                                            </div> */}
                                             <div className="col-lg-12">
                                                 <div className="input-single">
                                                     <span>Số điện thoại*</span>
@@ -79,16 +148,10 @@ const Checkout: React.FC = () => {
                                             <div className="col-lg-12">
                                                 <div className="input-single">
                                                     <span>Địa chỉ Email*</span>
-                                                    <input
-                                                        {...register("user_email", { 
-                                                            required: "Email không được để trống",
-                                                            setValueAs: value => value?.toLowerCase()
-                                                        })}
+                                                    <input type="email"
+                                                        {...register("user_email", { required: "Email không được để trống" })}
                                                         placeholder="email"
-                                                        autoCapitalize="none"
-                                                        autoComplete="off"
-                                                        />
-
+                                                    />
                                                     {errors.user_email && <p className="text-red-500">{errors.user_email.message}</p>}
                                                 </div>
                                             </div>
@@ -98,12 +161,36 @@ const Checkout: React.FC = () => {
                                                     <input
                                                         {...register("user_address", { required: "Địa chỉ không được để trống" })}
                                                         placeholder="Địa chỉ nhận hàng"
-                                                         autoCapitalize="none"
-                                                         autoComplete="off"
                                                     />
                                                     {errors.user_address && <p className="text-red-500">{errors.user_address.message}</p>}
                                                 </div>
                                             </div>
+                                            <div className="col-lg-12">
+                                                <div className="input-single">
+                                                    <span>Ghi chú</span>
+                                                    <input
+                                                        {...register("note")}
+                                                        placeholder="Ghi chú nhận hàng"
+                                                    />
+                                                    {errors.user_address && <p className="text-red-500">{errors.user_address.message}</p>}
+                                                </div>
+                                            </div>
+                                            {/* <div className="col-lg-12">
+                                                <div className="input-check payment-save">
+                                                    <input type="checkbox" className="form-check-input" name="save-for-next" id="saveForNext111" />
+                                                    <label htmlFor="saveForNext">Tiết kiệm cho lần thanh toán tiếp theo của tôi</label>
+                                                </div>
+                                                <div className="input-check payment-save style-2">
+                                                    <input type="checkbox" className="form-check-input" name="save-for-next" id="saveForNext2" />
+                                                    <label htmlFor="saveForNext2">Gửi đến một địa chỉ khác?</label>
+                                                </div>
+                                            </div> */}
+                                            {/* <div className="col-lg-12">
+                                                <div className="input-single">
+                                                    <span>Ghi chú (tùy chọn)</span>
+                                                    <textarea name="notes" id="notes" placeholder="Ghi chú về đơn hàng của bạn, ví dụ ghi chú đặc biệt về việc giao hàng." defaultValue={""} />
+                                                </div>
+                                            </div> */}
                                         </div>
                                     </div>
                                 </div>
@@ -119,13 +206,17 @@ const Checkout: React.FC = () => {
                                             <p>Số lượng</p>
                                             <p>Giá</p>
                                         </div>
+
                                         {cartItems.map((item: ICartItem) => (
                                             <div key={item.product.code} className="checkout-item grid grid-cols-5 text-center py-2 border-b items-center">
                                                 <p className="col-span-3 text-left">{item.product.title}</p>
                                                 <p>{item.cartQuantity}</p>
                                                 <p className="font-medium text-orange-600">
                                                     {item.promotion && item.promotion < item.price ? (
-                                                        <>{Math.round(item.promotion * item.cartQuantity).toLocaleString("vi-VN")}₫</>
+                                                        <>
+                                                            {Math.round(item.promotion * item.cartQuantity).toLocaleString("vi-VN")}₫
+
+                                                        </>
                                                     ) : (
                                                         `${Math.round(item.price * item.cartQuantity).toLocaleString("vi-VN")}₫`
                                                     )}
@@ -138,9 +229,103 @@ const Checkout: React.FC = () => {
                                         <p className="col-span-4 text-left">Vận chuyển</p>
                                         <p>30.000₫</p>
                                     </div>
-                                    <div className="checkout-item grid grid-cols-5 text-center">
+                                    <div className="checkout-item grid grid-cols-5 text-center ">
                                         <p className="col-span-4 text-left !text-2xl">Tổng cộng:</p>
                                         <p className="!text-red-400 !text-2xl">{totalAmount.toLocaleString("vi-VN")}₫</p>
+                                    </div>
+                                    <div className="checkout-item-2">
+                                        <div className="form-check-2 d-flex align-items-center from-customradio-2">
+                                            <input
+                                                className="form-check-input"
+                                                type="radio"
+                                                name="paymentMethod"
+                                                id="paymentBankTransfer"
+                                                value="1"
+                                                checked={paymentMethod === 1}
+                                                onChange={() => {
+                                                    setPaymentMethod(1);
+                                                    setShowQR(true); // Hiển thị mã QR
+                                                }}
+                                            />
+                                            <label className="form-check-label" htmlFor="paymentBankTransfer">
+                                                Chuyển khoản ngân hàng trực tiếp
+                                            </label>
+                                        </div>
+                                        <p>
+                                            Thanh toán trực tiếp vào tài khoản ngân hàng của chúng tôi, vui lòng sử dụng Mã đơn hàng của bạn làm tham chiếu thanh toán. Đơn hàng của bạn sẽ không được giao cho đến khi tiền được chuyển vào tài khoản của chúng tôi.
+                                        </p>
+
+                                        <div className="form-check-3 d-flex align-items-center from-customradio-2 mt-3">
+                                            <input
+                                                className="form-check-input"
+                                                type="radio"
+                                                name="paymentMethod"
+                                                id="paymentCOD"
+                                                value="0"
+                                                checked={paymentMethod === 0}
+                                                onChange={() => setPaymentMethod(0)}
+                                            />
+                                            <label className="form-check-label" htmlFor="paymentCOD">
+                                                Thanh toán khi nhận hàng
+                                            </label>
+                                        </div>
+
+
+                                        {/* ✅ Hiển thị mã QR khi chọn chuyển khoản */}
+                                        {showQR && (
+                                            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                                                <div className="bg-white p-8 rounded-2xl shadow-2xl text-center w-[500px] relative">
+                                                    <h2 className="text-2xl font-bold mb-6 text-gray-800">Quét mã QR để thanh toán</h2>
+                                                    <img src={Pr_pay} alt="QR Code" className="mx-auto w-64 border-4 border-gray-300 rounded-lg shadow-md" />
+                                                    <div className="flex flex-col justify-center gap-6 mt-6">
+                                                        <button
+                                                            className="theme-btn mx-auto mt-4"
+                                                            onClick={() => {
+                                                                setShowQR(false);
+                                                                setPaymentMethod(1);
+                                                            }}
+                                                        >
+                                                            ✅ Tôi đã thanh toán
+                                                        </button>
+                                                        <button
+                                                            className="bg-gray-300 text-gray-700 mx-auto px-4 py-2 rounded hover:bg-gray-400"
+                                                            onClick={() => {
+                                                                setShowQR(false);
+                                                                setPaymentMethod(0);
+                                                            }}
+                                                        >
+                                                            ❌ Hủy
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )}
+
+
+
+                                        {/* <div className="form-check-3 d-flex align-items-center from-customradio-2 mt-3">
+                                            <input className="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault12225" />
+                                            <label className="form-check-label" htmlFor="flexRadioDefault12225">
+                                                Paypal
+                                            </label>
+                                            <ul className="brand-logo">
+                                                <li>
+                                                    <a href="checkout.html">
+                                                        <img src={PayPal} alt="img" />
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="checkout.html">
+                                                        <img src={GooglePay} alt="img" />
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="checkout.html">
+                                                        <img src={Mastercard2} alt="img" />
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div> */}
                                     </div>
                                     <div className="text-center">
                                         <button type="submit" className="theme-btn">Thanh toán</button>
@@ -152,7 +337,8 @@ const Checkout: React.FC = () => {
                 </div>
             </form>
         </section>
-    );
-};
 
-export default Checkout;
+    )
+}
+
+export default Checkout

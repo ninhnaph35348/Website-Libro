@@ -1,38 +1,42 @@
 // src/components/Shopdetail.tsx
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useCart } from "../../../context/Cart";
 import { IProductVariant } from "../../../interfaces/ProductVariants";
-import { getProductVariantById } from "../../../services/ProductVariants";
+import { getProductCover, getProductVariantById } from "../../../services/ProductVariants";
+import { CoverContext } from "../../../context/Cover";
+import { ICover } from "../../../interfaces/Cover";
 
 const Shopdetail = () => {
   const [productVariant, setProductVariant] = useState<IProductVariant | null>(null);
-  const { code } = useParams<{ code: string }>();
+  const { covers, getAllCovers } = useContext(CoverContext);
+  const { code, id } = useParams<{ code: string; id: string }>();
+
   const navigate = useNavigate();
   const [quantity, setQuantity] = useState(1);
   const { addToCart } = useCart();
 
   useEffect(() => {
+    getAllCovers();
+  }, []);
+
+  useEffect(() => {
     (async () => {
-      if (code) {
+      if (code && id) {
         try {
-          const response = await getProductVariantById(code);
+          const response = await getProductCover(Number(id), code);
           const data = response?.data;
-          if (Array.isArray(data) && data.length > 0) {
-            setProductVariant(data[0]);
-          } else {
-            setProductVariant(null);
-          }
+          setProductVariant(data);
         } catch (error) {
           console.error("Lỗi khi tải sản phẩm:", error);
           setProductVariant(null);
         }
       }
     })();
-  }, [code]);
+  }, [code, id]);
 
   if (!productVariant || !productVariant.product) {
-    return <p className="text-center mt-10 text-gray-500">Sản phẩm không tồn tại.</p>;
+    return <p className="text-center mt-10 text-gray-500">Đang tải...</p>;
   }
 
   const handleAddToCart = () => {
@@ -51,6 +55,25 @@ const Shopdetail = () => {
       alert("Đã có lỗi xảy ra khi thêm sản phẩm vào giỏ hàng!");
     }
   };
+
+  const handleCoverChange = async (coverId: number | string) => {
+    if (!productVariant?.product?.code) return;
+
+    try {
+      const response = await getProductCover(Number(coverId), productVariant.product.code);
+      const data = response?.data;
+
+      if (data) {
+        setProductVariant(data); // Cập nhật variant mới
+      }
+    } catch (error) {
+      console.error("Lỗi khi đổi bìa:", error);
+      alert("Không thể đổi sang loại bìa này!");
+    }
+  };
+
+
+
 
   return (
     <>
@@ -140,6 +163,25 @@ const Shopdetail = () => {
                       </p>
                       <div className="price-list">
                         <h3>Giá: {Math.round(productVariant.promotion || productVariant.price).toLocaleString()}₫</h3>
+                        <h5 className="font-semibold text-xl">
+                          Số lượng: {productVariant.quantity}
+                        </h5>
+                        <div className="space-x-2">
+                          {covers.map((cover: ICover, index: number) => (
+                            <button
+                              key={index}
+                              onClick={() => handleCoverChange(cover.id)}
+                              className={`px-4 py-2 rounded-full border transition-all duration-200 ease-in-out
+                           ${productVariant.cover === cover.type
+                                  ? "bg-blue-500 text-white border-blue-500 shadow-md"
+                                  : "bg-white text-gray-800 hover:bg-blue-100 hover:border-blue-400"
+                                }`}
+                            >
+                              {cover.type}
+                            </button>
+
+                          ))}
+                        </div>
                       </div>
                       <div className="cart-wrapper">
                         <div className="quantity-basket">

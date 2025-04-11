@@ -24,7 +24,7 @@ const Review = () => {
             <th className="border p-2">Nội dung</th>
             <th className="border p-2">Tên người dùng</th>
             <th className="border p-2">Tên sản phẩm</th>
-            <th className="border p-2">Trạng thái</th>
+            {/* <th className="border p-2">Trạng thái</th> */}
             <th className="border p-2">Hành động</th>
           </tr>
         </thead>
@@ -57,7 +57,7 @@ const Review = () => {
                   </button>
                 </td>
                 <td className="border p-2">{rev.title}</td>
-                <td className="border p-2 text-center">
+                {/* <td className="border p-2 text-center">
                   <span
                     className={`px-2 py-1 text-xs font-bold rounded ${
                       rev.status === 1
@@ -67,10 +67,10 @@ const Review = () => {
                   >
                     {rev.status === 1 ? "Chưa duyệt" : "Đã duyệt"}
                   </span>
-                </td>
+                </td> */}
                 <td className="border p-2 flex gap-2 justify-center">
                   {/* Nút duyệt */}
-                  <button
+                  {/* <button
                     onClick={() => handleUpdateStatus(rev.id, rev.status)}
                     className={`px-2 py-1 rounded text-white ${
                       rev.status === 0
@@ -80,15 +80,15 @@ const Review = () => {
                     disabled={rev.status === 0}
                   >
                     {rev.status === 0 ? "Đã duyệt" : "Duyệt"}
-                  </button>
+                  </button> */}
 
                   {/* Nút chi tiết */}
-                  <button
+                  {/* <button
                     onClick={() => navigate(`detail/${rev.id}`)}
                     className="bg-green-500 hover:bg-green-600 text-white px-2 py-1 rounded"
                   >
                     Chi tiết
-                  </button>
+                  </button> */}
 
                   {/* Nút ẩn */}
                   <button

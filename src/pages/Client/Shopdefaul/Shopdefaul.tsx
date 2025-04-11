@@ -1,19 +1,51 @@
-import { useContext, useEffect } from "react";
-import { Link } from "react-router-dom";
 import book1 from "../../../assets/img/hero/book1.png";
 import book2 from "../../../assets/img/hero/book2.png";
+import { Link, useLocation } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { ProductContext } from "../../../context/Product";
+import { IProduct } from "../../../interfaces/Products";
 import news9 from "../../../assets/img/news/09.jpg";
-import { ProductVariantContext } from "../../../context/ProductVariants";
-import { IProductVariant } from "../../../interfaces/ProductVariants";
+import client1 from "../../../assets/img/testimonial/client-1.png";
+import { searchAuthor } from "../../../services/Search";
 
-const Shopdefaul = () => {
-  const { productvariants, getAllProductVariants } = useContext(
-    ProductVariantContext
-  );
+type Props = {};
+const Shopdefaul = (props: Props) => {
+  const { products } = useContext(ProductContext);
+  const location = useLocation();
+  const [sortedProducts, setSortedProducts] = useState<IProduct[]>([]);
+  
+  const queryParams = new URLSearchParams(location.search);
+  const searchKeyword = queryParams.get("s");
 
+  // In dữ liệu products để kiểm tra
+  // console.log("Products:", products);
+
+  // Sắp xếp products: sản phẩm có image sẽ được ưu tiên lên đầu
+  // let sortedProducts = [...products].sort((a: IProduct, b: IProduct) => {
+  //   if (a.image && !b.image) return -1;
+  //   if (!a.image && b.image) return 1;
+  //   return 0;
+  // });
+
+  const filterProducts = async(keyword:string) => {
+    try {
+      const data = await searchAuthor(keyword || "");
+      console.log(data);
+
+      setSortedProducts([...data?.data])      
+    } catch (error) {
+      console.log(error);
+      
+    }
+  }
+  
   useEffect(() => {
-    getAllProductVariants();
-  }, []);
+    if(searchKeyword){
+      filterProducts(searchKeyword);
+    }else{
+      filterProducts("");
+    }
+  }, [searchKeyword, products])
 
   return (
     <>
@@ -26,19 +58,19 @@ const Shopdefaul = () => {
         </div>
         <div className="container">
           <div className="page-heading">
-            <h1>Trang Sản Phẩm</h1>
+            <h1>Shop Default</h1>
             <div className="page-header">
               <ul
                 className="breadcrumb-items wow fadeInUp"
                 data-wow-delay=".3s"
               >
                 <li>
-                  <Link to="/">Trang Chủ</Link>
+                  <Link to="/">Home</Link>
                 </li>
                 <li>
                   <i className="fa-solid fa-chevron-right"></i>
                 </li>
-                <li>Sản Phẩm</li>
+                <li>Shop Default</li>
               </ul>
             </div>
           </div>
@@ -49,7 +81,7 @@ const Shopdefaul = () => {
         <div className="container">
           <div className="shop-default-wrapper">
             <div className="row">
-              {/* <div className="col-12">
+              <div className="col-12">
                 <div
                   className="woocommerce-notices-wrapper wow fadeInUp"
                   data-wow-delay=".3s"
@@ -85,8 +117,8 @@ const Shopdefaul = () => {
                     </div>
                   </div>
                 </div>
-              </div> */}
-              {/* <div
+              </div>
+              <div
                 className="col-xl-3 col-lg-4 order-2 order-md-1 wow fadeInUp"
                 data-wow-delay=".3s"
               >
@@ -109,6 +141,7 @@ const Shopdefaul = () => {
                     </form>
                   </div>
 
+                  {/* Filter by category */}
                   <div className="single-sidebar-widget mb-0">
                     <div className="wid-title">
                       <h5>Danh mục</h5>
@@ -126,6 +159,7 @@ const Shopdefaul = () => {
                     </div>
                   </div>
 
+                  {/* Filter by author */}
                   <div className="single-sidebar-widget mb-0">
                     <div className="wid-title">
                       <h5>Tác giả</h5>
@@ -224,6 +258,7 @@ const Shopdefaul = () => {
                     </div>
                   </div>
 
+                  {/* Filter by price */}
                   <div className="single-sidebar-widget mb-0">
                     <div className="wid-title">
                       <h5>Thể loại</h5>
@@ -480,8 +515,8 @@ const Shopdefaul = () => {
                     </div>
                   </div>
                 </div>
-              </div> */}
-              <div className="col-12 order-1 order-md-2">
+              </div>
+              <div className="col-xl-9 col-lg-8 order-1 order-md-2">
                 <div className="tab-content" id="pills-tabContent">
                   <div
                     className="tab-pane fade show active"
@@ -491,122 +526,91 @@ const Shopdefaul = () => {
                     tabIndex={0}
                   >
                     <div className="row">
-                      <div className="container mx-auto">
+                      <div className="container mx-auto py-10">
                         <h2 className="text-2xl font-bold text-center mb-6">
-                          Danh sách sản phẩm
+                          Sản phẩm nổi bật
                         </h2>
-                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-                          {productvariants.length > 0 ? (
-                            productvariants.map((variant: IProductVariant) => (
-                              <div key={variant.id} className="shop-box-items style-2">
-                                <div className="book-thumb center">
-                                  <Link to={`/shop-details/${variant.product.code}/cover/${variant.cover_id}`}>
-                                    <img
-                                      src={
-                                        variant.product.image
-                                          ? `http://127.0.0.1:8000/storage/${variant.product.image}`
-                                          : news9
-                                      }
-                                      alt={variant.product.title}
-                                    />
-                                  </Link>
-                                  <ul className="post-box">
-                                    <li>Hot</li>
-                                    {variant.promotion && (
-                                      <li>
-                                        -
-                                        {Math.round((1 - variant.promotion / variant.price) * 100)}%
-                                      </li>
-                                    )}
-                                  </ul>
-                                </div>
-
-                                <div className="shop-content">
-                                  <h5>{variant.product.category}</h5>
-                                  <h3>
-                                    <Link to={`/shop-details/${variant.product.code}`} className="line-clamp-1">
-                                      {variant.product.title}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
+                          {sortedProducts.length > 0 ? (
+                            sortedProducts
+                              // .slice(0, 5)
+                              .map((product: IProduct) => (
+                                <div
+                                  key={product.id ?? product.code}
+                                  className="shop-box-items style-2 flex flex-col items-center gap-18 p-8 bg-white shadow-md rounded-lg min-h-[450px] max-w-[300px] mx-auto"
+                                >
+                                  <div className="book-thumb w-full aspect-[3/4] overflow-hidden rounded-lg bg-gray-100">
+                                    <Link to={`/shop-details/${product.code}`}>
+                                      <img
+                                        src={
+                                          product.image
+                                            ? `http://127.0.0.1:8000/storage/${product.image}`
+                                            : news9
+                                        }
+                                        alt={product.title}
+                                        className="w-full h-full object-cover"
+                                      />
                                     </Link>
-                                  </h3>
-                                  <ul className="author-post">
-                                    <li className="!text-base !font-bold text-[#ff6500]">
-                                      {variant.promotion ? (
-                                        <>
-                                          {Math.round(variant.promotion).toLocaleString()}₫
-                                          <del className="!font-medium ml-2 text-[#5c707e]">
-                                            {Math.round(variant.price).toLocaleString()}₫
-                                          </del>
-                                        </>
-                                      ) : (
-                                        `${Math.round(variant.price).toLocaleString()}₫`
-                                      )}
-                                    </li>
-                                    <li className="star">
-                                      <i className="fa-solid fa-star" />
-                                      <i className="fa-solid fa-star" />
-                                      <i className="fa-solid fa-star" />
-                                      <i className="fa-solid fa-star" />
-                                      <i className="fa-regular fa-star" />
-                                    </li>
-                                  </ul>
+                                  </div>
+                                  <div className="shop-content flex flex-col items-center gap-6 text-center">
+                                    <h5 className="text-sm text-orange-500 font-medium truncate w-full">
+                                      {product.category || "Sách Thiếu Nhi"}
+                                    </h5>
+                                    <h3 className="text-xl font-semibold text-blue-900 h-14 line-clamp-2 overflow-hidden">
+                                      <Link
+                                        to={`/shop-details/${product.code}`}
+                                      >
+                                        {product.title ||
+                                          "Thỏ Bảy Màu Và Những Người Nghĩ Nó Là Bạn"}
+                                      </Link>
+                                    </h3>
+                                    <ul className="author-post flex items-center gap-2 mt-2">
+                                      <li className="authot-list flex items-center gap-2">
+                                        <span className="thumb">
+                                          <img
+                                            alt="img"
+                                            src={client1}
+                                            className="w-6 h-6 rounded-full"
+                                          />
+                                        </span>
+                                        <span className="content text-gray-600 text-sm truncate w-32">
+                                          {product.supplier_name ||
+                                            "Huyền Thái Ngọc"}
+                                        </span>
+                                      </li>
+                                    </ul>
+                                    <div className="shop-button mt-4">
+                                      <Link
+                                        to={`/shop-details/${product.code}`}
+                                        className="inline-flex items-center gap-2 bg-blue-100 text-blue-600 px-6 py-2 rounded-full hover:bg-blue-200 transition-all"
+                                      >
+                                        <i className="fa-solid fa-basket-shopping"></i>{" "}
+                                        Xem Chi Tiết
+                                      </Link>
+                                    </div>
+                                  </div>
                                 </div>
-
-                                <div className="shop-button">
-                                  <Link
-                                    to={`/shop-details/${variant.product.code}/cover/${variant.cover_id}`}
-                                    className="theme-btn"
-                                  >
-                                    <i className="fa-solid fa-basket-shopping" />
-                                    Xem Chi Tiết
-                                  </Link>
-                                </div>
-                              </div>
-                            ))
+                              ))
                           ) : (
                             <p className="text-gray-500 text-center col-span-full">
                               Không có sản phẩm để hiển thị.
                             </p>
                           )}
                         </div>
-
                       </div>
                     </div>
                   </div>
                 </div>
-                {/* <div className="page-nav-wrap text-center">
-                  <ul>
-                    <li>
-                      <a className="previous" href="shop.html">
-                        Previous
-                      </a>
-                    </li>
-                    <li>
-                      <a className="page-numbers" href="shop.html">
-                        1
-                      </a>
-                    </li>
-                    <li>
-                      <a className="page-numbers" href="shop.html">
-                        2
-                      </a>
-                    </li>
-                    <li>
-                      <a className="page-numbers" href="shop.html">
-                        3
-                      </a>
-                    </li>
-                    <li>
-                      <a className="page-numbers" href="shop.html">
-                        ...
-                      </a>
-                    </li>
-                    <li>
-                      <a className="next" href="shop.html">
-                        Next
-                      </a>
-                    </li>
-                  </ul>
-                </div> */}
+                <div className="page-nav-wrap text-center">
+                            <ul>
+                                <li><a className="previous" href="shop.html">Previous</a></li>
+                                <li><a className="page-numbers" href="shop.html">1</a></li>
+                                <li><a className="page-numbers" href="shop.html">2</a></li>
+                                <li><a className="page-numbers" href="shop.html">3</a></li>
+                                <li><a className="page-numbers" href="shop.html">...</a></li>
+                                <li><a className="next" href="shop.html">Next</a></li>
+                            </ul>
+                        </div>
               </div>
             </div>
           </div>

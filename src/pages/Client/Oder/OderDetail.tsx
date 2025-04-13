@@ -48,7 +48,7 @@ const OrderDetail: React.FC = () => {
     try {
       const response = await instance.post(
         `/cancel_order/${orderCode}`,
-        { reason: cancelReason }, // gửi lý do lên API
+        { reason: cancelReason },
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -121,6 +121,19 @@ const OrderDetail: React.FC = () => {
           <p>
             <strong>Địa chỉ:</strong> {order.user_address}
           </p>
+          
+          {/* Thêm thông tin người nhận */}
+          <p>
+  <strong>Người nhận:</strong> {order.shipping_name || "Chưa có thông tin"}
+</p>
+<p>
+  <strong>SĐT người nhận:</strong> {order.shipping_phone || "Chưa có thông tin"}
+</p>
+<p>
+  <strong>Địa chỉ người nhận:</strong> {order.shipping_address || "Chưa có thông tin"}
+</p>
+
+          
           <p>
             <strong>Trạng thái:</strong>{" "}
             <span className="font-semibold">{order.status}</span>
@@ -144,8 +157,7 @@ const OrderDetail: React.FC = () => {
 
               <span className="font-semibold">Voucher giảm giá:</span>
               <span className="text-right text-red-700">
-                -
-                {voucherDiscount.toLocaleString("vi-VN", {
+                - {voucherDiscount.toLocaleString("vi-VN", {
                   style: "currency",
                   currency: "VND",
                 })}

@@ -9,6 +9,9 @@ const ShopCart = () => {
   const cartItems = cartContext?.cartItems || [];
   const removeFromCart = cartContext?.removeFromCart || (() => {});
   const updateCartQuantity = cartContext?.updateCartQuantity || (() => {});
+  const toggleItemSelection = cartContext?.toggleItemSelection || (() => {});
+  const selectAllItems = cartContext?.selectAllItems || (() => {});
+  const deselectAllItems = cartContext?.deselectAllItems || (() => {});
   const [mess, setMess] = useState(""); // State để lưu thông báo
 
   // Log dữ liệu cartItems để kiểm tra
@@ -36,17 +39,32 @@ const ShopCart = () => {
 
   // Hàm lấy giá hiển thị (dùng để tính tổng tiền)
   const getDisplayPrice = (item: any) => {
-    // Nếu có promotion thì dùng promotion, nếu không thì dùng price
     return item.promotion ? item.promotion : item.price;
   };
 
-  // Hàm tính tổng tiền cho toàn bộ giỏ hàng
+  // Hàm tính tổng tiền cho các sản phẩm được chọn
   const calculateTotalPrice = () => {
     const total = cartItems.reduce((sum, item) => {
-      const price = getDisplayPrice(item);
-      return sum + price * item.cartQuantity;
+      if (item.isSelected) {
+        const price = getDisplayPrice(item);
+        return sum + price * item.cartQuantity;
+      }
+      return sum;
     }, 0);
     return Math.max(0, Math.round(total));
+  };
+
+  // Kiểm tra trạng thái "Chọn tất cả"
+  const isAllSelected =
+    cartItems.length > 0 && cartItems.every((item) => item.isSelected);
+
+  // Xử lý khi click vào checkbox "Chọn tất cả"
+  const handleSelectAll = () => {
+    if (isAllSelected) {
+      deselectAllItems();
+    } else {
+      selectAllItems();
+    }
   };
 
   const totalPrice = calculateTotalPrice();
@@ -99,6 +117,16 @@ const ShopCart = () => {
                   <table className="table">
                     <thead>
                       <tr>
+                        <th>
+                          <input
+                            type="checkbox"
+                            checked={isAllSelected}
+                            onChange={handleSelectAll}
+                            disabled={cartItems.length === 0}
+                          />
+                          &nbsp;All
+                        </th>{" "}
+                        {/* Checkbox chọn tất cả */}
                         <th>Sản Phẩm</th>
                         <th>Giá</th>
                         <th>Loại</th>
@@ -110,13 +138,20 @@ const ShopCart = () => {
                     <tbody>
                       {cartItems.length === 0 ? (
                         <tr>
-                          <td colSpan={6} className="text-center">
+                          <td colSpan={7} className="text-center">
                             Giỏ hàng trống
                           </td>
                         </tr>
                       ) : (
                         cartItems.map((item) => (
                           <tr key={item.id}>
+                            <td className="text-center">
+                              <input
+                                type="checkbox"
+                                checked={item.isSelected}
+                                onChange={() => toggleItemSelection(item.id)}
+                              />
+                            </td>
                             <td>
                               <span className="flex items-center gap-5">
                                 <img

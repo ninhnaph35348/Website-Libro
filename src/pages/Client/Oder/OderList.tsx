@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
-import { IOrder } from "../../../interfaces/Orders"; // Interface đơn hàng
-import { OrderStatusContext } from "../../../context/OrderStatus"; // Context chứa trạng thái đơn hàng
+import { Link } from "react-router-dom"; // Import Link từ react-router-dom
 import instance from "../../../config/axios"; // Axios cấu hình
-import { useNavigate, Link } from "react-router-dom"; // Import Link từ react-router-dom
+import { OrderStatusContext } from "../../../context/OrderStatus"; // Context chứa trạng thái đơn hàng
+import { IOrder } from "../../../interfaces/Orders"; // Interface đơn hàng
 
 const OrderList: React.FC = () => {
   const { orderstatus, getAllStatus } = useContext(OrderStatusContext); // Lấy dữ liệu trạng thái từ context
@@ -35,18 +35,9 @@ const OrderList: React.FC = () => {
 
     fetchOrders();
     getAllStatus(); // Lấy trạng thái đơn hàng từ context
-  }, [getAllStatus]);
+  }, []);
 
   // Hàm lấy tên trạng thái từ order_status_id
-  const getStatusName = (statusId: number | string) => {
-    const id = Number(statusId); // Ép kiểu thành số
-    if (isNaN(id)) {
-      return "Không rõ";
-    }
-
-    const status = orderstatus.find((s) => s.id === id);
-    return status ? status.name : "Không rõ";
-  };
 
   if (loading || orderstatus.length === 0) {
     return <div>Đang tải dữ liệu...</div>;

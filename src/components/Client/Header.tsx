@@ -151,7 +151,7 @@ const Header = () => {
                     </div>
                   </div>
                 </div>
-                <div className="col-6 col-md-6 col-lg-2 col-xl-4 col-xxl-2">
+                <div className="flex items-center justify-end col-6 col-md-6 col-lg-2 col-xl-4 col-xxl-2 ">
                   <div className="header-right">
                     <div className="category-oneadjust gap-6 d-flex align-items-center">
                       <form action="#" className="search-toggle-box d-md-block">
@@ -179,7 +179,7 @@ const Header = () => {
                           </span>
                         )}
                       </Link>
-                      <div className="header-humbager ml-30">
+                      {/* <div className="header-humbager ml-30">
                         <a
                           className="sidebar__toggle"
                           href="javascript:void(0)"
@@ -188,7 +188,7 @@ const Header = () => {
                             <img src={icon13} alt="img" />
                           </div>
                         </a>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </div>

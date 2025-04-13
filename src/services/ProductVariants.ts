@@ -55,11 +55,9 @@ export const createProductVariant = async (productvariantData: IProductVariant) 
   }
 };
 
-export const updateProductVariant = async (
-  productvariantData: IProductVariant,
-  id: number | string
-) => {
+export const updateProductVariant = async ( productvariantData: FormData, id: number | string ) => {
   try {
+    productvariantData.append("_method", "PUT");
     const { data } = await instance.put(`product_variants/edit/${id}`, productvariantData);
     return data;
   } catch (error) {

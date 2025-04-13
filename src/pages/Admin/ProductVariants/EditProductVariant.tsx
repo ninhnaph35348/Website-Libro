@@ -1,22 +1,22 @@
+import { Button, Input } from "antd";
 import { useContext, useEffect, useState } from "react";
-import { useForm, Controller } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
-import { Input, Button } from "antd";
-import { ProductVariantContext } from "../../../context/ProductVariants";
-import { IProductVariant } from "../../../interfaces/ProductVariants";
-import { ProductContext } from "../../../context/Product";
-import { IProduct } from "../../../interfaces/Products";
-import { ICover } from "../../../interfaces/Cover";
-import { CoverContext } from "../../../context/Cover";
 import FormSelect from "../../../components/form/FormSelect";
-import { getProductVariantById } from "../../../services/ProductVariants";
+import { CoverContext } from "../../../context/Cover";
+import { ProductContext } from "../../../context/Product";
+import { ProductVariantContext } from "../../../context/ProductVariants";
+import { ICover } from "../../../interfaces/Cover";
+import { IProduct } from "../../../interfaces/Products";
+import { IProductVariant } from "../../../interfaces/ProductVariants";
+import { getProductCover } from "../../../services/ProductVariants";
 
 const EditProductvariant = () => {
     const { onEdit } = useContext(ProductVariantContext);
     const { products, getAllProduct } = useContext(ProductContext);
     const { covers, getAllCovers } = useContext(CoverContext);
     const [loading, setLoading] = useState(true);
-    const param = useParams();
+    const { code, id } = useParams<{ code: string; id: string }>();
 
     useEffect(() => {
         getAllProduct();
@@ -36,46 +36,52 @@ const EditProductvariant = () => {
     // 🛠 Fetch sản phẩm theo ID khi vào trang
     useEffect(() => {
         const fetchProduct = async () => {
-            try {
-                const response = await getProductVariantById(param.id as string);
-                if (response?.data) {
-                    const variant = response.data[0];
-                    // reset({
-                    //     price: variant.price,
-                    //     promotion: variant.promotion,
-                    //     quantity: variant.quantity,
-                    //     cover_id: covers.find((a: any) => a.id === variant.cover.id)?.id || "",
-                    //     product_id: products.find((p: any) => p.id === variant.product.id)?.id || "",
-                    // });
-                    // console.log(variant);
+            if (code && id) {
+                try {
+                    const response = await getProductCover(Number(id), code);
+                    if (response?.data) {
+                        const variant = response.data;
+                        console.log(variant);
+                        
+                        // reset({
+                        //     price: variant.price,
+                        //     promotion: variant.promotion,
+                        //     quantity: variant.quantity,
+                        //     cover_id: covers.find((a: any) => a.id === variant.cover.id)?.id || "",
+                        //     product_id: products.find((p: any) => p.id === variant.product.id)?.id || "",
+                        // });
+                        // console.log(variant);
 
-                    setValue("price", Number(variant.price));
-                    setValue("promotion", Number(variant.promotion));
-                    setValue("quantity", variant.quantity);
-                    setValue("cover_id", covers.find((c: any) => c.name === variant.author)?.id || "");
-                    setValue("product_id", products.find((p: any) => p.name === variant.publisher)?.id || "");
+                        setValue("price", Number(variant.price));
+                        setValue("promotion", Number(variant.promotion));
+                        setValue("quantity", variant.quantity);
+                        setValue("product_id", variant.product.code); // ✅ sửa chỗ này
+                        setValue("cover_id", variant.cover_id);  
+                        console.log(variant.product.id);
+                        
+                    }
+                } catch (error) {
+                    console.error("Lỗi khi lấy sản phẩm:", error);
+                } finally {
+                    setLoading(false);
                 }
-            } catch (error) {
-                console.error("Lỗi khi lấy sản phẩm:", error);
-            } finally {
-                setLoading(false);
             }
         };
 
-        if (param.id && covers.length > 0 && products.length > 0) {
+        if (id && covers.length > 0 && products.length > 0) {
             fetchProduct();
         }
-    }, [param.id, covers, products, setValue]);
+    }, [code, id, covers, products, setValue]);
 
 
 
     const onSubmit = async (data: IProductVariant) => {
-        if (!param.id) {
+        if (!id) {
             console.error("ID không hợp lệ!");
             return;
         }
         try {
-            await onEdit(data, param.id);
+            await onEdit(data, id);
             // navigate(-1);
         } catch (error) {
             console.error("❌ Lỗi khi cập nhật sản phẩm:", error);
@@ -101,7 +107,7 @@ const EditProductvariant = () => {
                                 {...field}
                                 placeholder="Chọn sản phẩm"
                                 options={products?.map((product: IProduct) => ({
-                                    value: product.id,
+                                    value: product.code,
                                     label: product.title,
                                 }))}
                                 error={errors.product_id?.message}

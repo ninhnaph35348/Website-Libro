@@ -68,6 +68,7 @@ import ChangePassword from "./pages/Client/Profile/ChangePassword";
 import Sidebar from "./pages/Client/Profile/pageProfile";
 import OrderList from "./pages/Client/Oder/OderList";
 import OrderDetailPage from "./pages/Client/Oder/OderDetail";
+import VnpayReturn from "./pages/Client/Checkout/VnpayReturn";
 
 const App = () => {
   return (
@@ -99,7 +100,7 @@ const App = () => {
               <Route index element={<ListProductVariant />} />
               <Route path="add" element={<AddProductvariant />} />
               <Route path=":code" element={<ProductDetail />} />
-              <Route path="edit/:id" element={<EditProductvariant />} />
+              <Route path="edit/:code/cover/:id" element={<EditProductvariant />} />
             </Route>
 
             {/* Quản lý danh mục */}
@@ -207,6 +208,7 @@ const App = () => {
 
           <Route path="/contact" element={<Contact />} />
           <Route path="/check-out" element={<Checkout />} />
+          <Route path="/vnpay-return" element={<VnpayReturn />} />
           <Route path="/shop-details/:code/cover/:id" element={<Shopdetail />} />
           <Route path="/shop-cart" element={<Shopcart />} />
           <Route path="/shop" element={<Shopdefaul />} />

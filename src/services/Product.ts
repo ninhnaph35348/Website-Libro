@@ -31,7 +31,7 @@ export const createProduct = async (productData: FormData) => {
 export const updateProduct = async (productData: FormData, id: number | string) => {
     try {
         productData.append("_method", "PUT");
-        const { data } = await instance.put(`products/edit/${id}`, productData, {
+        const { data } = await instance.post(`products/edit/${id}`, productData, {
             headers: {
                 "Content-Type": "multipart/form-data", // 🛠 Quan trọng
             },

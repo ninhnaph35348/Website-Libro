@@ -1,22 +1,23 @@
 import { useContext, useEffect, useState } from "react";
-import Pr_pay from "../../../assets/img/pr_pay.jpg";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
+import Pr_pay from "../../../assets/img/pr_pay.jpg";
 import { useCart } from "../../../context/Cart";
 import { CheckoutContext } from "../../../context/Checkout";
+import { VnPayContext } from "../../../context/VnPay";
 import { ICartItem } from "../../../interfaces/Cart";
 import { ICheckout } from "../../../interfaces/Checkout";
-import { fetchUser } from "../../../store/auth/authSlice";
 import { IUser } from "../../../interfaces/User";
+import { IVnPay } from "../../../interfaces/VnPay";
+import { fetchUser } from "../../../store/auth/authSlice";
 import { RootState } from "../../../store/auth/store";
-import { useNavigate } from "react-router-dom";
 
 const Checkout: React.FC = () => {
     const { cartItems } = useCart();
+    const { addVnPay } = useContext(VnPayContext);
     const dispatch = useDispatch();
     const user = useSelector((state: RootState) => state.auth.user) as IUser | null;
     const { register, handleSubmit, reset, formState: { errors } } = useForm<ICheckout>();
-    const navigate = useNavigate();
     const [showQR, setShowQR] = useState(false);
     const context = useContext(CheckoutContext);
     const [paymentMethod, setPaymentMethod] = useState<number>(0);
@@ -29,10 +30,10 @@ const Checkout: React.FC = () => {
     useEffect(() => {
         if (user) {
             reset({
-                user_name: user.fullname || "",
+                shipping_name: user.fullname || "",
                 user_email: user.email || "",
-                user_phone: user.phone || "",
-                user_address: user.address || "",
+                shipping_phone: user.phone || "",
+                shipping_address: user.address || "",
                 note: "",
             });
         }
@@ -83,12 +84,23 @@ const Checkout: React.FC = () => {
             const success = await context.onAdd(orderData);
             if (success) {
                 localStorage.removeItem("cart");
+
+                if (paymentMethod == 2) {
+                    const vnPay: IVnPay = {
+                        amount: totalAmount,
+                        orderInfo: success.code_order
+                    };
+
+                    const data = await addVnPay(vnPay);
+                    
+                    window.location.href = data.payment_url
+
+                }
                 reset();
-                navigate("/profile/order_detail");
             }
-            reset();
         }
     };
+
     return (
         <section className="checkout-section fix section-padding mx-[200px]">
             <form onSubmit={handleSubmit(onSubmit)} method="post">
@@ -104,10 +116,10 @@ const Checkout: React.FC = () => {
                                                 <div className="input-single">
                                                     <span>Họ và tên</span>
                                                     <input type="text"
-                                                        {...register("user_name", { required: "Tên không được để trống" })}
+                                                        {...register("shipping_name", { required: "Tên không được để trống" })}
                                                         placeholder="Tên"
                                                     />
-                                                    {errors.user_name && <p className="text-red-500">{errors.user_name.message}</p>}
+                                                    {errors.shipping_name && <p className="text-red-500">{errors.shipping_name.message}</p>}
                                                 </div>
                                             </div>
                                             {/* <div className="hidden">
@@ -139,10 +151,10 @@ const Checkout: React.FC = () => {
                                                 <div className="input-single">
                                                     <span>Số điện thoại*</span>
                                                     <input type="text"
-                                                        {...register("user_phone", { required: "Số điện thoại không được để trống" })}
+                                                        {...register("shipping_phone", { required: "Số điện thoại không được để trống" })}
                                                         placeholder="Số điện thoại"
                                                     />
-                                                    {errors.user_phone && <p className="text-red-500">{errors.user_phone.message}</p>}
+                                                    {errors.shipping_phone && <p className="text-red-500">{errors.shipping_phone.message}</p>}
                                                 </div>
                                             </div>
                                             <div className="col-lg-12">
@@ -159,10 +171,10 @@ const Checkout: React.FC = () => {
                                                 <div className="input-single">
                                                     <span>Địa chỉ</span>
                                                     <input
-                                                        {...register("user_address", { required: "Địa chỉ không được để trống" })}
+                                                        {...register("shipping_address", { required: "Địa chỉ không được để trống" })}
                                                         placeholder="Địa chỉ nhận hàng"
                                                     />
-                                                    {errors.user_address && <p className="text-red-500">{errors.user_address.message}</p>}
+                                                    {errors.shipping_address && <p className="text-red-500">{errors.shipping_address.message}</p>}
                                                 </div>
                                             </div>
                                             <div className="col-lg-12">
@@ -172,7 +184,7 @@ const Checkout: React.FC = () => {
                                                         {...register("note")}
                                                         placeholder="Ghi chú nhận hàng"
                                                     />
-                                                    {errors.user_address && <p className="text-red-500">{errors.user_address.message}</p>}
+                                                    {errors.note && <p className="text-red-500">{errors.note.message}</p>}
                                                 </div>
                                             </div>
                                             {/* <div className="col-lg-12">
@@ -267,6 +279,21 @@ const Checkout: React.FC = () => {
                                             />
                                             <label className="form-check-label" htmlFor="paymentCOD">
                                                 Thanh toán khi nhận hàng
+                                            </label>
+                                        </div>
+
+                                        <div className="form-check-3 d-flex align-items-center from-customradio-2 mt-3">
+                                            <input
+                                                className="form-check-input"
+                                                type="radio"
+                                                name="paymentMethod"
+                                                id="paymentCOD"
+                                                value="0"
+                                                checked={paymentMethod === 2}
+                                                onChange={() => setPaymentMethod(2)}
+                                            />
+                                            <label className="form-check-label" htmlFor="paymentCOD">
+                                                Chuyển khoản trực tiếp
                                             </label>
                                         </div>
 

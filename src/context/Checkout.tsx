@@ -5,6 +5,12 @@ import { ICheckout } from "../interfaces/Checkout";
 import {
   createCheckout,
 } from "../services/Checkout";
+interface ICreateCheckoutResponse {
+  message: string;
+  total_price_cart: number;
+  order: ICheckout;
+  order_details: any[];
+}
 
 
 type Props = {
@@ -16,18 +22,19 @@ export const CheckoutContext = createContext({} as any);
 const CheckoutProvider = ({ children }: Props) => {
   const [checkouts, setCheckouts] = useState<ICheckout[]>([]);
 
-  const onAdd = async (dataCheckout: ICheckout): Promise<boolean> => {
+  const onAdd = async (dataCheckout: ICheckout): Promise<ICheckout | null> => {
     try {
-      const data = await createCheckout(dataCheckout);
-      setCheckouts([...checkouts, data]);
-      toast.success("Đặt hàng thành công!");
-      return true;
+      const response: ICreateCheckoutResponse = await createCheckout(dataCheckout);
+      setCheckouts([...checkouts, response.order]);
+      toast.success(response.message || "Đặt hàng thành công!");
+      return response.order; // ✅ Trả về đơn hàng để lấy code_order
     } catch (error) {
       toast.error("Lỗi khi Đặt hàng!");
       console.error(error);
-      return false;
+      return null;
     }
   };
+  
   
 
   return (

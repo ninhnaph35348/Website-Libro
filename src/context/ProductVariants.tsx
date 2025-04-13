@@ -65,7 +65,18 @@ const ProductVariantProvider = ({ children }: Props) => {
 
     const onEdit = async (formData: IProductVariant, id: number | string) => {
         try {
-            const data = await updateProductVariant(formData, id);
+            const formDataToSend = new FormData();
+
+            // Convert IProductVariant object to FormData
+            for (const key in formData) {
+                const value = (formData as any)[key];
+                if (value !== undefined && value !== null) {
+                    formDataToSend.append(key, value);
+                }
+            }
+
+            const data = await updateProductVariant(formDataToSend, id);
+
             const newProductVariants = productvariants.map((productvariant) =>
                 productvariant.id === id ? data : productvariant
             );
@@ -75,6 +86,7 @@ const ProductVariantProvider = ({ children }: Props) => {
             console.log(error);
         }
     };
+
 
     return (
         <ProductVariantContext.Provider value={{ productvariants, productVariantLatest, productBestsellers, Bestsellers, getAllProductVariants, fetchLatestVariants, onAdd, onDelete, onEdit }}>

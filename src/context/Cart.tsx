@@ -1,4 +1,3 @@
-// src/contexts/CartContext.tsx
 import { createContext, useContext, useState, useEffect, useMemo } from "react";
 import { ICartItem, ICartContext } from "../interfaces/Cart";
 import { IProductVariant } from "../interfaces/ProductVariants";
@@ -66,7 +65,11 @@ const CartProvider = ({ children }: Props) => {
           item.id === variant.id ? { ...item, cartQuantity: newQuantity } : item
         );
       } else {
-        const newItem: ICartItem = { ...variant, cartQuantity: quantity };
+        const newItem: ICartItem = {
+          ...variant,
+          cartQuantity: quantity,
+          isSelected: false,
+        };
         updatedCart = [...prevItems, newItem];
       }
 
@@ -112,6 +115,26 @@ const CartProvider = ({ children }: Props) => {
     });
   };
 
+  const toggleItemSelection = (variantId: number) => {
+    setCartItems((prevItems) =>
+      prevItems.map((item) =>
+        item.id === variantId ? { ...item, isSelected: !item.isSelected } : item
+      )
+    );
+  };
+
+  const selectAllItems = () => {
+    setCartItems((prevItems) =>
+      prevItems.map((item) => ({ ...item, isSelected: true }))
+    );
+  };
+
+  const deselectAllItems = () => {
+    setCartItems((prevItems) =>
+      prevItems.map((item) => ({ ...item, isSelected: false }))
+    );
+  };
+
   const clearCart = () => {
     setCartItems([]);
     setMessage("Giỏ hàng đã được xóa!");
@@ -126,7 +149,8 @@ const CartProvider = ({ children }: Props) => {
   const totalPrice = useMemo(
     () =>
       cartItems.reduce(
-        (sum, item) => sum + item.cartQuantity * (item.price || 0),
+        (sum, item) =>
+          item.isSelected ? sum + item.cartQuantity * (item.price || 0) : sum,
         0
       ),
     [cartItems]
@@ -139,8 +163,11 @@ const CartProvider = ({ children }: Props) => {
     addToCart,
     removeFromCart,
     updateCartQuantity,
+    toggleItemSelection,
+    selectAllItems,
+    deselectAllItems,
     clearCart,
-    message
+    message,
   };
 
   return (

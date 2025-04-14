@@ -1,8 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useCart } from "../../../context/Cart";
-import { IProductVariant } from "../../../interfaces/ProductVariants";
-import { getProductCover } from "../../../services/ProductVariants";
 import { CoverContext } from "../../../context/Cover";
 import { ReviewContext } from "../../../context/Review";
 import { IReviews } from "../../../interfaces/Reviews";

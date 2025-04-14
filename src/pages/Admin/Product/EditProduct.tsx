@@ -88,7 +88,7 @@ const EditProduct = () => {
     if (id) {
       fetchProduct();
     }
-  }, [id, reset, genres]); // Thêm `genres` vào dependency để cập nhật danh sách
+  }, [id, reset, genres]);
 
   // 🖼 Xử lý chọn ảnh
   const handleImageChange = (
@@ -128,8 +128,10 @@ const EditProduct = () => {
         image: images.length > 0 ? images[0] : null,
         images: additionalImages.length > 0 ? additionalImages : [],
       };
+      console.log(updatedData);
+
       await onEdit(updatedData, id as string);
-      navigate("/admin/product");
+      // navigate("/admin/product");
     } catch (error) {
       console.error("❌ Lỗi khi cập nhật sản phẩm:", error);
     }

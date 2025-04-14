@@ -34,7 +34,7 @@ const AddProductvariant = () => {
   const onSubmit = async (data: IProductVariant) => {
     if (productvariants) {
       await productvariants.onAdd(data);
-      navigate(`/admin/product`);
+      // navigate(`/admin/product`);
       reset();
       console.log(data);
     }

@@ -10,10 +10,9 @@ import { fetchUser } from "../../../store/auth/authSlice";
 import { IUser } from "../../../interfaces/User";
 import { RootState } from "../../../store/auth/store";
 import { useNavigate } from "react-router-dom";
-import { CartContext } from "../../../context/Cart"; 
+import { CartContext } from "../../../context/Cart";
 
 const Checkout: React.FC = () => {
-  const { cartItems, clearCart } = useCart();
   const cartContext = useContext(CartContext); // Thêm dòng này // Lấy clearCart để xóa giỏ hàng sau khi thanh toán
   const { cartItems, clearCart } = useCart(); // Lấy clearCart để xóa giỏ hàng sau khi thanh toán
   const dispatch = useDispatch();

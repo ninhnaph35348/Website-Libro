@@ -3,6 +3,7 @@ import { IOrder } from "../../../interfaces/Orders"; // Interface đơn hàng
 import { OrderStatusContext } from "../../../context/OrderStatus"; // Context chứa trạng thái đơn hàng
 import instance from "../../../config/axios"; // Axios cấu hình
 import { useNavigate, Link } from "react-router-dom"; // Import Link từ react-router-dom
+import dayjs from "dayjs";
 
 const OrderList: React.FC = () => {
   const { orderstatus, getAllStatus } = useContext(OrderStatusContext); // Lấy dữ liệu trạng thái từ context
@@ -90,9 +91,10 @@ const OrderList: React.FC = () => {
                       currency: "VND",
                     })}
                   </td>
-                  <td className="px-6 py-4 text-sm text-gray-500">
-                    {new Date(order.created_at).toLocaleString()} {/* Hiển thị ngày đặt */}
-                  </td>
+                        <td className="px-6 py-4 text-sm text-gray-500">
+        {order.created_at || "Không rõ"}
+      </td>
+
                   <td className="px-6 py-4 text-sm text-gray-500">
                     {(order.status)} {/* Lấy tên trạng thái từ order_status_id */}
                   </td>

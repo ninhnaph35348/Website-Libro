@@ -55,7 +55,9 @@ Version: 1.0.0
   vertical-align: middle;
   display: inline-block;
   border: none;
-  text-transform: capitalize;
+  text-transform: none;
+
+
   text-align: center;
   background-color: var(--theme);
   color: var(--white);
@@ -132,7 +134,9 @@ Version: 1.0.0
   display: inline-block;
   font-weight: 700;
   color: var(--theme);
-  text-transform: capitalize;
+  text-transform: none;
+
+
 }
 .theme-btn-2 i {
   margin-left: 10px;
@@ -187,7 +191,9 @@ h6 {
   margin: 0px;
   padding: 0;
   color: var(--header);
-  text-transform: capitalize;
+  text-transform: none;
+
+
   transition: all 0.4s ease-in-out;
   -webkit-transition: all 0.4s ease-in-out;
   -moz-transition: all 0.4s ease-in-out;
@@ -333,7 +339,9 @@ span {
   display: inline-block;
   font-weight: 600;
   color: var(--theme2);
-  text-transform: capitalize;
+  text-transform: none;
+
+
   text-decoration: underline;
   margin-top: 25px;
 }
@@ -754,7 +762,9 @@ span {
 .contact-wrapper .contact-content .contact-form-items .form-clt span {
   color: var(--header);
   font-weight: 600;
-  text-transform: capitalize;
+  text-transform: none;
+
+
 }
 .contact-wrapper .contact-content .contact-form-items .form-clt input,
 .contact-wrapper .contact-content .contact-form-items .form-clt textarea {
@@ -951,7 +961,9 @@ span {
   font-style: normal;
   font-weight: 700;
   line-height: 50px;
-  text-transform: capitalize;
+  text-transform: none;
+
+
 }
 .modal-dialog .modal-content .modal-body .identityBox .form-wrapper .loginBtn {
   width: 100%;
@@ -1085,7 +1097,9 @@ span {
   font-style: normal;
   font-weight: 600;
   line-height: normal;
-  text-transform: capitalize;
+  text-transform: none;
+
+
 }
 .modal-dialog
   .modal-content
@@ -1237,7 +1251,9 @@ span {
 .faq-left .nav .nav-link {
   font-weight: 700;
   font-size: 18px;
-  text-transform: capitalize;
+  text-transform: none;
+
+
   color: var(--header);
 }
 .faq-left .nav .nav-link.active {
@@ -1258,7 +1274,9 @@ span {
   box-shadow: none;
   background-color: var(--white);
   padding: 25px 30px 0;
-  text-transform: capitalize;
+  text-transform: none;
+
+
   font-size: 20px;
   border: none;
 }
@@ -2085,7 +2103,9 @@ span {
   padding: 15px 0;
   text-align: left;
   position: relative;
-  text-transform: capitalize;
+  text-transform: none;
+
+
   transition: all 0.4s ease-in-out;
   -webkit-transition: all 0.4s ease-in-out;
   -moz-transition: all 0.4s ease-in-out;
@@ -2355,7 +2375,9 @@ span {
   align-items: center;
   padding: 0 20px;
   color: var(--white);
-  text-transform: capitalize;
+  text-transform: none;
+
+
   font-size: 18px;
   position: relative;
   gap: 15px;
@@ -2500,7 +2522,9 @@ span {
   font-style: normal;
   font-weight: 400;
   line-height: 26px;
-  text-transform: capitalize;
+  text-transform: none;
+
+
 }
 .header-1 .header-main .main-menu ul li a i {
   margin-left: 4px;
@@ -2837,7 +2861,9 @@ span {
   align-items: center;
   padding: 0 20px;
   color: var(--white);
-  text-transform: capitalize;
+  text-transform: none;
+
+
   font-size: 18px;
   position: relative;
   gap: 15px;
@@ -2906,7 +2932,9 @@ span {
   font-style: normal;
   font-weight: 400;
   line-height: 26px;
-  text-transform: capitalize;
+  text-transform: none;
+
+
 }
 .header-2 .header-main .main-menu ul li a i {
   margin-left: 4px;
@@ -3303,7 +3331,9 @@ span {
   padding: 15px 0;
   text-align: left;
   position: relative;
-  text-transform: capitalize;
+  text-transform: none;
+
+
   transition: all 0.4s ease-in-out;
   -webkit-transition: all 0.4s ease-in-out;
   -moz-transition: all 0.4s ease-in-out;
@@ -3571,7 +3601,9 @@ span {
 .offcanvas__wrapper .offcanvas__content .offcanvas__contact ul li {
   font-size: 16px;
   font-weight: 600;
-  text-transform: capitalize;
+  text-transform: none;
+
+
 }
 .offcanvas__wrapper .offcanvas__content .offcanvas__contact ul li a {
   color: var(--text);
@@ -3726,12 +3758,16 @@ span {
 }
 .breadcrumb-wrapper .page-heading .breadcrumb-items li {
   color: var(--theme);
-  text-transform: capitalize;
+  text-transform: none;
+
+
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
   line-height: 26px;
-  text-transform: capitalize;
+  text-transform: none;
+
+
 }
 .breadcrumb-wrapper .page-heading .breadcrumb-items li a {
   color: var(--header);
@@ -3807,7 +3843,9 @@ span {
   color: var(--theme);
   width: 200px;
   border: 1px solid #e5e5e5;
-  text-transform: capitalize;
+  text-transform: none;
+
+
   font-size: 18px;
   position: relative;
   gap: 15px;
@@ -4549,7 +4587,9 @@ span {
   font-size: 16px;
   line-height: 1.5;
   font-weight: 600;
-  text-transform: capitalize;
+  text-transform: none;
+
+
   border-bottom: 1px solid var(--border) !important;
   border: none;
 }
@@ -4921,7 +4961,9 @@ span {
   font-weight: 500;
   background: var(--white);
   margin-right: 5px;
-  text-transform: capitalize;
+  text-transform: none;
+
+
   margin-bottom: 10px;
   border-radius: 4px;
   border: 1px solid #e5e5e5;
@@ -5032,7 +5074,9 @@ span {
   font-style: normal;
   font-weight: 400;
   line-height: 26px;
-  text-transform: capitalize;
+  text-transform: none;
+
+
 }
 .news-details-area
   .blog-post-details
@@ -5063,7 +5107,9 @@ span {
   line-height: 1;
   background: transparent;
   margin-right: 8px;
-  text-transform: capitalize;
+  text-transform: none;
+
+
   font-weight: 500;
   -webkit-transition: all 0.4s ease-in-out;
   transition: all 0.4s ease-in-out;
@@ -5662,7 +5708,9 @@ span {
   font-style: normal;
   font-weight: 400;
   line-height: 26px;
-  text-transform: capitalize;
+  text-transform: none;
+
+
 }
 .shop-box-items.style-2 .shop-content h3 {
   color: var(--header);
@@ -5671,7 +5719,9 @@ span {
   font-style: normal;
   font-weight: 700;
   line-height: 26px;
-  text-transform: capitalize;
+  text-transform: none;
+
+
   margin-bottom: 5px;
 }
 .shop-box-items.style-2 .shop-content .author-post {
@@ -5793,7 +5843,9 @@ span {
   font-style: normal;
   font-weight: 700;
   line-height: 26px;
-  text-transform: capitalize;
+  text-transform: none;
+
+
 }
 .shop-box-items.style-3 .shop-content .price-list del {
   color: rgba(92, 112, 126, 0.8);
@@ -5802,7 +5854,9 @@ span {
   font-style: normal;
   font-weight: 400;
   line-height: 26px;
-  text-transform: capitalize;
+  text-transform: none;
+
+
 }
 .shop-box-items.style-3 .shop-content h5 {
   color: var(--text);
@@ -5811,7 +5865,9 @@ span {
   font-style: normal;
   font-weight: 400;
   line-height: 26px;
-  text-transform: capitalize;
+  text-transform: none;
+
+
 }
 .shop-box-items.style-3 .shop-content h3 {
   color: var(--header);
@@ -5820,7 +5876,9 @@ span {
   font-style: normal;
   font-weight: 700;
   line-height: 26px;
-  text-transform: capitalize;
+  text-transform: none;
+
+
   margin-bottom: 5px;
 }
 .shop-box-items.style-3 .shop-content .author-post {
@@ -5956,7 +6014,9 @@ span {
   font-style: normal;
   font-weight: 400;
   line-height: 26px;
-  text-transform: capitalize;
+  text-transform: none;
+
+
 }
 .shop-box-items.style-4 .shop-content h3 {
   color: var(--header);
@@ -5965,7 +6025,9 @@ span {
   font-style: normal;
   font-weight: 600;
   line-height: 46px;
-  text-transform: capitalize;
+  text-transform: none;
+
+
 }
 @media (max-width: 1600px) {
   .shop-box-items.style-4 .shop-content h3 {
@@ -6019,7 +6081,9 @@ span {
   font-style: normal;
   font-weight: 700;
   line-height: 26px;
-  text-transform: capitalize;
+  text-transform: none;
+
+
 }
 .shop-box-items.style-4 .shop-content .price-list del {
   color: rgba(92, 112, 126, 0.8);
@@ -6028,7 +6092,9 @@ span {
   font-style: normal;
   font-weight: 400;
   line-height: 26px;
-  text-transform: capitalize;
+  text-transform: none;
+
+
 }
 .shop-box-items.style-4 .shop-content .progress-line {
   position: relative;
@@ -6078,7 +6144,9 @@ span {
   font-style: normal;
   font-weight: 400;
   line-height: 26px;
-  text-transform: capitalize;
+  text-transform: none;
+
+
 }
 .shop-box-items.style-4 .shop-content .shop-btn {
   width: 50px;
@@ -6293,7 +6361,9 @@ span {
   font-style: normal;
   font-weight: 400;
   line-height: 26px;
-  text-transform: capitalize;
+  text-transform: none;
+
+
   margin-bottom: 5px;
 }
 .shop-box-items.style-2 .shop-content h3 {
@@ -6303,7 +6373,9 @@ span {
   font-style: normal;
   font-weight: 700;
   line-height: 26px;
-  text-transform: capitalize;
+  text-transform: none;
+
+
   margin-bottom: 5px;
 }
 .shop-box-items.style-2 .shop-content .author-post {
@@ -6410,7 +6482,9 @@ span {
   font-style: normal;
   font-weight: 600;
   line-height: 34px;
-  text-transform: capitalize;
+  text-transform: none;
+
+
   border-radius: 50%;
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
@@ -6623,7 +6697,9 @@ span {
   font-style: normal;
   font-weight: 400;
   line-height: 26px;
-  text-transform: capitalize;
+  text-transform: none;
+
+
 }
 .top-ratting-book-wrapper .top-ratting-box-items .book-content li:hover a img {
   filter: invert(100%) brightness(250%) contrast(100%);
@@ -6841,7 +6917,9 @@ span {
 .shop-default-wrapper .woocommerce-notices-wrapper .form-clt .nice-select {
   padding: 18px 20px;
   font-size: 16px;
-  text-transform: capitalize;
+  text-transform: none;
+
+
   border-radius: 0;
   background-color: transparent;
   font-weight: 500;
@@ -6929,7 +7007,9 @@ span {
   font-style: normal;
   font-weight: 700;
   line-height: 32px;
-  text-transform: capitalize;
+  text-transform: none;
+
+
 }
 .shop-default-wrapper
   .main-sidebar
@@ -7004,7 +7084,9 @@ span {
   font-style: normal;
   font-weight: 400;
   line-height: 26px;
-  text-transform: capitalize;
+  text-transform: none;
+
+
   background-color: transparent;
 }
 .shop-default-wrapper
@@ -7390,9 +7472,13 @@ span {
   label {
   margin-left: 20px;
   color: var(--header);
-  text-transform: capitalize;
+  text-transform: none;
+
+
   font-weight: 600;
-  text-transform: capitalize;
+  text-transform: none;
+
+
 }
 .shop-default-wrapper
   .main-sidebar
@@ -7741,7 +7827,9 @@ span {
   font-style: normal;
   font-weight: 600;
   line-height: 20px;
-  text-transform: capitalize;
+  text-transform: none;
+
+
 }
 .shop-details-wrapper .shop-details-content .star {
   margin-top: 12px;
@@ -8287,7 +8375,9 @@ span {
 }
 .shop-details-wrapper .single-tab .review-title .rate-now p {
   font-size: 16px;
-  text-transform: capitalize;
+  text-transform: none;
+
+
   font-weight: 500;
   color: var(--header);
 }
@@ -8314,7 +8404,9 @@ span {
   color: var(--text);
   background-color: transparent;
   font-size: 16px;
-  text-transform: capitalize;
+  text-transform: none;
+
+
   border-radius: 8px;
   font-weight: 500;
 }
@@ -8334,7 +8426,9 @@ span {
   .form-check-label {
   color: var(--header);
   font-size: 16px;
-  text-transform: capitalize;
+  text-transform: none;
+
+
   margin-bottom: 20px;
 }
 
@@ -8359,7 +8453,9 @@ span {
   font-size: 18px;
   font-weight: 600;
   color: var(--header);
-  text-transform: capitalize;
+  text-transform: none;
+
+
 }
 .main-cart-wrapper .table-responsive .table tbody tr td .quantity-basket .qty {
   display: flex;
@@ -8551,7 +8647,9 @@ span {
   font-style: normal;
   font-weight: 600;
   line-height: 26px;
-  text-transform: capitalize;
+  text-transform: none;
+
+
 }
 .main-cart-wrapper .cart-wrapper-footer {
   display: flex;
@@ -8576,7 +8674,9 @@ span {
 .main-cart-wrapper .cart-wrapper-footer form input {
   padding: 5px 5px;
   border: none;
-  text-transform: capitalize;
+  text-transform: none;
+
+
   font-size: 16px;
   outline: none;
   background: transparent;
@@ -8612,7 +8712,9 @@ span {
   line-height: 150%;
   margin-bottom: 16px;
   color: var(--header);
-  text-transform: capitalize;
+  text-transform: none;
+
+
 }
 .checkout-radio h4 {
   color: var(--header);
@@ -8634,7 +8736,9 @@ span {
 }
 .checkout-radio .checkout-radio-wrapper .checkout-radio-single label {
   color: var(--header);
-  text-transform: capitalize;
+  text-transform: none;
+
+
 }
 .checkout-radio
   .checkout-radio-wrapper
@@ -8664,7 +8768,9 @@ span {
 .checkout-radio .payment-save label {
   font-size: 16px;
   font-weight: 500;
-  text-transform: capitalize;
+  text-transform: none;
+
+
 }
 
 .checkout-single-wrapper .checkout-single h4 {
@@ -8733,7 +8839,9 @@ span {
   label {
   color: var(--header);
   font-size: 18px;
-  text-transform: capitalize;
+  text-transform: none;
+
+
   margin-bottom: 10px;
   font-weight: 500;
 }
@@ -8772,7 +8880,9 @@ span {
 .checkout-single-wrapper .checkout-single .checkout-single-form .payment {
   color: var(--header);
   margin-bottom: 12px;
-  text-transform: capitalize;
+  text-transform: none;
+
+
 }
 .checkout-single-wrapper .boxshado-single {
   margin-bottom: 24px;
@@ -8804,7 +8914,9 @@ span {
   input {
   border: 1px solid var(--border);
   background: transparent;
-  text-transform: capitalize;
+  text-transform: none;
+
+
 }
 .checkout-single-wrapper
   .checkout-single-bg
@@ -8833,7 +8945,9 @@ span {
 .checkout-single-wrapper .payment-save label {
   font-size: 16px;
   font-weight: 500;
-  text-transform: capitalize;
+  text-transform: none;
+
+
   color: var(--header);
 }
 .checkout-single-wrapper .payment-save.style-2 {
@@ -8872,7 +8986,9 @@ span {
   .form-check-label {
   color: var(--header);
   font-size: 16px;
-  text-transform: capitalize;
+  text-transform: none;
+
+
   font-weight: 600;
 }
 .checkout-order-area .product-checout-area .checkout-item-2 {
@@ -8902,7 +9018,9 @@ span {
   .form-check-label {
   color: var(--header);
   font-size: 20px;
-  text-transform: capitalize;
+  text-transform: none;
+
+
   font-weight: 600;
 }
 .checkout-order-area .product-checout-area .checkout-item-2 p {

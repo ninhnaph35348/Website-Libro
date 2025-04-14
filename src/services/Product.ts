@@ -1,16 +1,16 @@
 import instance from "../config/axios"
 
-export const getAllProducts = async () =>{
+export const getAllProducts = async () => {
     try {
-        const {data} = await instance.get('products')
+        const { data } = await instance.get('products')
         return data
     } catch (error) {
         throw new Error("Lỗi")
     }
 }
-export const getProductById = async (code:number | string) =>{
+export const getProductById = async (code: number | string) => {
     try {
-        const {data} = await instance.get(`products/${code}`)
+        const { data } = await instance.get(`products/${code}`)
         return data
     } catch (error) {
         throw new Error("Lỗi")
@@ -43,12 +43,11 @@ export const updateProduct = async (productData: FormData, id: number | string) 
     }
 };
 
-
-export const deleteProduct = async (id: number | string) =>{
+export const statusProduct = async (productData: FormData, code: number | string) => {
     try {
-        const {data} = await instance.put(`products/${id}`)
-        return data
+        const { data } = await instance.post(`products/update-status/${code}`, productData); // dùng POST
+        return data;
     } catch (error) {
-        throw new Error("Lỗi")
+        throw new Error("Lỗi khi cập nhật trạng thái sản phẩm");
     }
-}
+};

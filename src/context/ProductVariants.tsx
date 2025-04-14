@@ -1,6 +1,6 @@
 import { createContext, useState } from "react";
 import { IProductVariant } from "../interfaces/ProductVariants";
-import { createProductVariant, deleteProductVariant, getAllProductsBestsellers, getAllProductVariant, getAllProductVariantLatest, updateProductVariant } from "../services/ProductVariants";
+import { createProductVariant, statusProductVariant, getAllProductsBestsellers, getAllProductVariant, getAllProductVariantLatest, updateProductVariant } from "../services/ProductVariants";
 
 
 type Props = {
@@ -54,7 +54,7 @@ const ProductVariantProvider = ({ children }: Props) => {
     const onDelete = async (id: number) => {
         try {
             if (window.confirm("Bạn có muốn xóa không?")) {
-                await deleteProductVariant(id);
+                await statusProductVariant(id);
                 alert("Xóa thể loại thành công!");
                 setProductVariants(productvariants.filter((productvariant) => productvariant.id !== id));
             }

@@ -2,6 +2,7 @@ import { IProductVariant } from "./ProductVariants";
 
 export interface ICartItem extends IProductVariant {
   cartQuantity: number; // Số lượng trong giỏ hàng
+  isSelected: boolean; // Thêm trường để theo dõi trạng thái checkbox
 }
 
 export interface ICartContext {
@@ -12,5 +13,8 @@ export interface ICartContext {
   removeFromCart: (variantId: number) => void;
   updateCartQuantity: (variantId: number, quantity: number) => void;
   clearCart: () => void;
-  message : string; // Thông báo cho người dùng
+  toggleItemSelection: (variantId: number) => void; // Hàm mới để chọn/hủy chọn
+  selectAllItems: () => void; // Hàm chọn tất cả
+  deselectAllItems: () => void; // Hàm bỏ chọn tất cả
+  message: string;
 }

@@ -2,9 +2,10 @@ import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ProductContext } from "../../../context/Product";
 import { IProduct } from "../../../interfaces/Products";
+import { Switch, Tooltip } from "antd";
 
 const ProductList = () => {
-  const { filteredProducts, getAllProduct, onDelete, filterProductsByTitle } =
+  const { filteredProducts, getAllProduct, onStatus, filterProductsByTitle } =
     useContext(ProductContext);
   const navigate = useNavigate();
 
@@ -34,22 +35,20 @@ const ProductList = () => {
     }
   };
 
-  // Xử lý sự kiện khi nhập vào ô tìm kiếm
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchTerm(value);
     filterProductsByTitle(value);
-    setCurrentPage(1); // Reset về trang đầu tiên khi tìm kiếm
+    setCurrentPage(1);
   };
 
   return (
     <div className="p-6 w-full mx-auto bg-white shadow-md rounded-lg">
       <h2 className="text-xl font-bold mb-4">Quản lý Sản phẩm</h2>
 
-      {/* Thanh tìm kiếm và nút thêm mới */}
       <div className="mb-4 flex justify-between items-center w-full">
         <button
-          onClick={() => navigate("/admin/product/add")}
+          onClick={() => navigate("add")}
           className="bg-green-500 text-white px-4 py-2 rounded w-1/3"
         >
           Thêm mới sản phẩm
@@ -99,18 +98,23 @@ const ProductList = () => {
                 <td className="border p-2">{product.category}</td>
                 <td className="border p-2 text-center">
                   <img
-                    className="w-20 h-20"
+                    className="w-20"
                     src={`http://127.0.0.1:8000/storage/` + product.image}
                     alt="No"
                   />
                 </td>
-                <td className="h-auto p-2 space-x-2 text-center min-w-32">
-                  <button
-                    onClick={() => onDelete(product.code)}
-                    className="bg-red-500 text-white px-2 py-1 rounded"
-                  >
-                    Xóa
-                  </button>
+                <td className="h-auto p-2 space-y-2 text-center">
+
+                  <Tooltip title={product.status === "in_stock" ? "Đang mở bán" : "Đang ngưng bán"}>
+                    <Switch
+                      checked={product.status === "in_stock"}
+                      onChange={(checked) =>
+                        onStatus(product.code, checked ? "in_stock" : "out_stock")
+                      }
+                    />
+                  </Tooltip>
+
+
                   <button
                     onClick={() => navigate(`edit/${product.code}`)}
                     className="bg-yellow-500 text-white px-2 py-1 rounded"
@@ -137,11 +141,10 @@ const ProductList = () => {
           <button
             onClick={() => handlePageChange(currentPage - 1)}
             className={`px-4 py-2 rounded-full border shadow-md transition-all duration-300 
-                                    ${
-                                      currentPage === 1
-                                        ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                                        : "bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:shadow-lg hover:scale-105"
-                                    }`}
+                                    ${currentPage === 1
+                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                : "bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:shadow-lg hover:scale-105"
+              }`}
             disabled={currentPage === 1}
           >
             ◀ Trước
@@ -153,11 +156,10 @@ const ProductList = () => {
               key={index}
               onClick={() => handlePageChange(index + 1)}
               className={`px-4 py-2 rounded-full border shadow-md transition-all duration-300 font-semibold
-                                        ${
-                                          currentPage === index + 1
-                                            ? "bg-blue-500 text-white scale-110 shadow-lg"
-                                            : "bg-gray-200 text-gray-700 hover:bg-gray-300 hover:scale-105"
-                                        }`}
+                                        ${currentPage === index + 1
+                  ? "bg-blue-500 text-white scale-110 shadow-lg"
+                  : "bg-gray-200 text-gray-700 hover:bg-gray-300 hover:scale-105"
+                }`}
             >
               {index + 1}
             </button>
@@ -167,11 +169,10 @@ const ProductList = () => {
           <button
             onClick={() => handlePageChange(currentPage + 1)}
             className={`px-4 py-2 rounded-full border shadow-md transition-all duration-300 
-                                    ${
-                                      currentPage === totalPages
-                                        ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                                        : "bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:shadow-lg hover:scale-105"
-                                    }`}
+                                    ${currentPage === totalPages
+                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                : "bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:shadow-lg hover:scale-105"
+              }`}
             disabled={currentPage === totalPages}
           >
             Tiếp ▶

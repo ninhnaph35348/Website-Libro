@@ -67,7 +67,7 @@ export const updateProductVariant = async (
   }
 };
 
-export const deleteProductVariant = async (id: number | string) => {
+export const statusProductVariant = async (id: number | string) => {
   try {
     const { data } = await instance.put(`product_variants/${id}`);
     return data;

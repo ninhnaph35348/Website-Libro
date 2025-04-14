@@ -45,33 +45,36 @@ const BestSeller = () => {
             }}
           >
             {productBestsellers.length > 0 ? (
-              productBestsellers.slice(0, 5).map((variant: IProductVariant) => (
-                <SwiperSlide key={variant.id}>
-                <div className="shop-box-items style-2">
-                  <div className="book-thumb center">
-                    <Link to={`/shop-details/${variant.product.code}/cover/${variant.cover_id}`}>
-                      <img
-                        src={
-                          variant.product.image
-                            ? `http://127.0.0.1:8000/storage/${variant.product.image}`
-                            : news9
-                        }
-                        alt={variant.product.title}
-                      />
-                    </Link>
-                    <ul className="post-box">
-                      <li>Hot</li>
-                      {variant.promotion && (
-                        <li>
-                          -
-                          {Math.round(
-                            (1 - variant.promotion / variant.price) * 100
+              productBestsellers
+                .filter((variant: IProductVariant) => variant.product.status !== "out_stock")
+                .slice(0, 5)
+                .map((variant: IProductVariant) => (
+                  <SwiperSlide key={variant.id}>
+                    <div className="shop-box-items style-2">
+                      <div className="book-thumb center">
+                        <Link to={`/shop-details/${variant.product.code}/cover/${variant.cover_id}`}>
+                          <img
+                            src={
+                              variant.product.image
+                                ? `http://127.0.0.1:8000/storage/${variant.product.image}`
+                                : news9
+                            }
+                            alt={variant.product.title}
+                          />
+                        </Link>
+                        <ul className="post-box">
+                          <li>Hot</li>
+                          {variant.promotion && (
+                            <li>
+                              -
+                              {Math.round(
+                                (1 - variant.promotion / variant.price) * 100
+                              )}
+                              %
+                            </li>
                           )}
-                          %
-                        </li>
-                      )}
-                    </ul>
-                    {/* <ul className="shop-icon d-grid justify-content-center align-items-center">
+                        </ul>
+                        {/* <ul className="shop-icon d-grid justify-content-center align-items-center">
                                             <li>
                                                 <a href="shop-cart.html"><i className="far fa-heart" /></a>
                                             </li>
@@ -84,52 +87,52 @@ const BestSeller = () => {
                                                 <a href="shop-details.html"><i className="far fa-eye" /></a>
                                             </li>
                                         </ul> */}
-                  </div>
-                  <div className="shop-content">
-                    <h5>{variant.product.category}</h5>
-                    <h3>
-                      <Link
-                        to={`/shop-details/${variant.product.code}`}
-                        className="line-clamp-1"
-                      >
-                        {variant.product.title}
-                      </Link>
-                    </h3>
-                    <ul className="author-post">
-                      <li className="!text-base !font-bold text-[#ff6500]">
-                        {variant.promotion ? (
-                          <>
-                            {Math.round(variant.promotion).toLocaleString()}
-                            ₫
-                            <del className="!font-medium ml-2 text-[#5c707e]">
-                              {Math.round(variant.price).toLocaleString()}₫
-                            </del>
-                          </>
-                        ) : (
-                          `${Math.round(variant.price).toLocaleString()}₫`
-                        )}
-                      </li>
-                      <li className="star">
-                        <i className="fa-solid fa-star" />
-                        <i className="fa-solid fa-star" />
-                        <i className="fa-solid fa-star" />
-                        <i className="fa-solid fa-star" />
-                        <i className="fa-regular fa-star" />
-                      </li>
-                    </ul>
-                  </div>
-                  <div className="shop-button">
-                    <Link
-                      to={`/shop-details/${variant.product.code}/cover/${variant.cover_id}`}
-                      className="theme-btn"
-                    >
-                      <i className="fa-solid fa-basket-shopping" />
-                      Xem Chi Tiết
-                    </Link>
-                  </div>
-                </div>
-              </SwiperSlide>
-              ))
+                      </div>
+                      <div className="shop-content">
+                        <h5>{variant.product.category}</h5>
+                        <h3>
+                          <Link
+                            to={`/shop-details/${variant.product.code}`}
+                            className="line-clamp-1"
+                          >
+                            {variant.product.title}
+                          </Link>
+                        </h3>
+                        <ul className="author-post">
+                          <li className="!text-base !font-bold text-[#ff6500]">
+                            {variant.promotion ? (
+                              <>
+                                {Math.round(variant.promotion).toLocaleString()}
+                                ₫
+                                <del className="!font-medium ml-2 text-[#5c707e]">
+                                  {Math.round(variant.price).toLocaleString()}₫
+                                </del>
+                              </>
+                            ) : (
+                              `${Math.round(variant.price).toLocaleString()}₫`
+                            )}
+                          </li>
+                          <li className="star">
+                            <i className="fa-solid fa-star" />
+                            <i className="fa-solid fa-star" />
+                            <i className="fa-solid fa-star" />
+                            <i className="fa-solid fa-star" />
+                            <i className="fa-regular fa-star" />
+                          </li>
+                        </ul>
+                      </div>
+                      <div className="shop-button">
+                        <Link
+                          to={`/shop-details/${variant.product.code}/cover/${variant.cover_id}`}
+                          className="theme-btn"
+                        >
+                          <i className="fa-solid fa-basket-shopping" />
+                          Xem Chi Tiết
+                        </Link>
+                      </div>
+                    </div>
+                  </SwiperSlide>
+                ))
             ) : (
               <p className="text-gray-500 text-center col-span-full">
                 Không có sản phẩm để hiển thị.

@@ -72,7 +72,7 @@ const ProductVariantProvider = ({ children }: Props) => {
         }
     };
 
-    const onEdit = async (formData: IProductVariant, id: number | string) => {
+    const onEdit = async (formData: IProductVariant, code: number | string) => {
         try {
             const formDataToSend = new FormData();
 
@@ -84,13 +84,14 @@ const ProductVariantProvider = ({ children }: Props) => {
                 }
             }
 
-            const data = await updateProductVariant(formDataToSend, id);
+            const data = await updateProductVariant(formDataToSend, code);
 
             const newProductVariants = productvariants.map((productvariant) =>
-                productvariant.id === id ? data : productvariant
+                productvariant.product.code === code ? data : productvariant
             );
             setProductVariants(newProductVariants);
             alert("Sửa thể loại thành công!");
+            return newProductVariants
         } catch (error) {
             console.log(error);
         }

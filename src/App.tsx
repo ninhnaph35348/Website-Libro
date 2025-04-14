@@ -186,6 +186,21 @@ const App = () => {
             <Route path="change-password" element={<ChangePassword />} />
             <Route path="order_detail" element={<OrderList />} />
           </Route>
+          <Route
+            path="/shop-details/:code/cover/:id"
+            element={<Shopdetail />}
+          />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/check-out" element={<Checkout />} />
+          <Route path="/vnpay-return" element={<VnpayReturn />} />
+          <Route path="/shop-details/:code/cover/:id" element={<Shopdetail />} />
+          <Route path="/shop-cart" element={<Shopcart />} />
+          <Route path="/shop" element={<Shopdefaul />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/check-out" element={<Checkout />} />
+          <Route path="/shop-cart" element={<Shopcart />} />
+          <Route path="/shop" element={<Shopdefaul />} />
+          <Route path="/blog" element={<Blog />} />
 
           {/* Order Detail Route */}
           <Route path="order_detail/:orderCode" element={<OrderDetailPage />} />

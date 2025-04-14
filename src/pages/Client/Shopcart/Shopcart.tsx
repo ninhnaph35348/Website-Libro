@@ -7,22 +7,25 @@ import { CartContext } from "../../../context/Cart";
 const ShopCart = () => {
   const cartContext = useContext(CartContext);
   const cartItems = cartContext?.cartItems || [];
-  const removeFromCart = cartContext?.removeFromCart || (() => {});
-  const updateCartQuantity = cartContext?.updateCartQuantity || (() => {});
-  const toggleItemSelection = cartContext?.toggleItemSelection || (() => {});
-  const selectAllItems = cartContext?.selectAllItems || (() => {});
-  const deselectAllItems = cartContext?.deselectAllItems || (() => {});
+  const removeFromCart = cartContext?.removeFromCart || (() => { });
+  const updateCartQuantity = cartContext?.updateCartQuantity || (() => { });
+  const toggleItemSelection = cartContext?.toggleItemSelection || (() => { });
+  const selectAllItems = cartContext?.selectAllItems || (() => { });
+  const deselectAllItems = cartContext?.deselectAllItems || (() => { });
   const [mess, setMess] = useState(""); // State để lưu thông báo
+  const [didSelect, setDidSelect] = useState(false);
 
-  // Log dữ liệu cartItems để kiểm tra
   useEffect(() => {
-    console.log("Cart Items:", cartItems);
-  }, [cartItems]);
+    if (!didSelect && cartItems.length > 0 && cartItems.some((item) => !item.isSelected)) {
+      selectAllItems();
+      setDidSelect(true);
+    }
+  }, [cartItems, didSelect]);
 
   // Hàm hiển thị thông báo
   const showMessage = (message: string) => {
     setMess(message);
-    setTimeout(() => setMess(""), 3000); // Ẩn thông báo sau 3 giây
+    setTimeout(() => setMess(""), 2000); // Ẩn thông báo sau 3 giây
   };
 
   // Hàm xóa sản phẩm với thông báo

@@ -63,10 +63,10 @@ export const createProductVariant = async (productvariantData: IProductVariant) 
   }
 };
 
-export const updateProductVariant = async ( productvariantData: FormData, id: number | string ) => {
+export const updateProductVariant = async ( productvariantData: FormData, code: number | string ) => {
   try {
     productvariantData.append("_method", "PUT");
-    const { data } = await instance.put(`product_variants/edit/${id}`, productvariantData);
+    const { data } = await instance.post(`product_variants/edit/${code}`, productvariantData);
     return data;
   } catch (error) {
     throw new Error("Lỗi");

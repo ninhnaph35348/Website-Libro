@@ -42,6 +42,7 @@ import ProductVariantProvider from "./context/ProductVariants.tsx";
 import CartProvider from "./context/Cart.tsx";
 import CheckoutProvider from "./context/Checkout.tsx";
 import AuthProvider from "./context/Auth.tsx";
+import VnPayProvider from "./context/VnPay.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <Provider store={store}>
@@ -55,23 +56,25 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
                   <ProductVariantProvider>
                     <ProductProvider>
                       <CheckoutProvider>
-                        <CoverProvider>
-                          <OrderStatusProvider>
-                            <OrderProvider>
-                              <AdminUserProvider>
-                                <CustomerUserProvider>
-                                  <AuthProvider>
-                                    <ReviewProvider>
+                        <VnPayProvider>
+                          <CoverProvider>
+                            <OrderStatusProvider>
+                              <OrderProvider>
+                                <AdminUserProvider>
+                                  <CustomerUserProvider>
+                                    <AuthProvider>
+                                      <ReviewProvider>
                                         <StrictMode>
                                           <App />
                                         </StrictMode>
-                                    </ReviewProvider>
-                                  </AuthProvider>
-                                </CustomerUserProvider>
-                              </AdminUserProvider>
-                            </OrderProvider>
-                          </OrderStatusProvider>
-                        </CoverProvider>
+                                      </ReviewProvider>
+                                    </AuthProvider>
+                                  </CustomerUserProvider>
+                                </AdminUserProvider>
+                              </OrderProvider>
+                            </OrderStatusProvider>
+                          </CoverProvider>
+                        </VnPayProvider>
                       </CheckoutProvider>
                     </ProductProvider>
                   </ProductVariantProvider>

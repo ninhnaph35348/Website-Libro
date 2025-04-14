@@ -1,11 +1,12 @@
 export interface IReviews {
-    id: number;
-    rating: number;
-    code: string;
-    review: string;
-    username: string;
-    title: string ;
-    del_flg: number;
-    status: number;
-    created_at:number
+  id: number;
+  product_code: number | string; // Đồng nhất tên với các phần khác
+  rating: number;
+  review: string;
+  status: number;
+  title: string;
+  username: string;
+  user_id: number;
+  created_at: number | string;
+  del_flg: number;
 }

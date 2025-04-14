@@ -9,6 +9,14 @@ export const getAllProductVariant = async () => {
     throw new Error("Lỗi");
   }
 };
+export const getAllProductVariantsByStatus = async () => {
+  try {
+    const { data } = await instance.get("product_variants_status");
+    return data;
+  } catch (error) {
+    throw new Error("Lỗi");
+  }
+};
 
 export const getAllProductVariantLatest = async () => {
   try {

@@ -1,6 +1,6 @@
 import { createContext, useState } from "react";
 import { IProductVariant } from "../interfaces/ProductVariants";
-import { createProductVariant, statusProductVariant, getAllProductsBestsellers, getAllProductVariant, getAllProductVariantLatest, updateProductVariant } from "../services/ProductVariants";
+import { createProductVariant, statusProductVariant, getAllProductsBestsellers, getAllProductVariant, getAllProductVariantLatest, updateProductVariant, getAllProductVariantsByStatus } from "../services/ProductVariants";
 
 
 type Props = {
@@ -11,6 +11,7 @@ export const ProductVariantContext = createContext({} as any);
 
 const ProductVariantProvider = ({ children }: Props) => {
     const [productvariants, setProductVariants] = useState<IProductVariant[]>([]);
+    const [productVariantByStatus, setProductVariantByStatus] = useState<IProductVariant[]>([]);
     const [productVariantLatest, setProductVariantLatest] = useState<IProductVariant[]>([]);
     const [productBestsellers, setProductBestsellers] = useState<IProductVariant[]>([]);
 
@@ -18,6 +19,14 @@ const ProductVariantProvider = ({ children }: Props) => {
         try {
             const data = await getAllProductVariant();
             setProductVariants(data?.data);
+        } catch (error) {
+            console.log("Lỗi khi lấy danh sách biến thể sản phẩm:", error);
+        }
+    };
+    const getVariantsByStatus = async () => {
+        try {
+            const data = await getAllProductVariantsByStatus();
+            setProductVariantByStatus(data?.data);
         } catch (error) {
             console.log("Lỗi khi lấy danh sách biến thể sản phẩm:", error);
         }
@@ -89,7 +98,7 @@ const ProductVariantProvider = ({ children }: Props) => {
 
 
     return (
-        <ProductVariantContext.Provider value={{ productvariants, productVariantLatest, productBestsellers, Bestsellers, getAllProductVariants, fetchLatestVariants, onAdd, onDelete, onEdit }}>
+        <ProductVariantContext.Provider value={{productvariants, productVariantLatest, productBestsellers,productVariantByStatus, Bestsellers, getAllProductVariants, fetchLatestVariants,getVariantsByStatus, onAdd, onDelete, onEdit }}>
             {children}
         </ProductVariantContext.Provider>
     );

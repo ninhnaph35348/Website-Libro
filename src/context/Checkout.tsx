@@ -12,7 +12,6 @@ interface ICreateCheckoutResponse {
   order_details: any[];
 }
 
-
 type Props = {
   children: React.ReactNode;
 };
@@ -21,6 +20,7 @@ export const CheckoutContext = createContext({} as any);
 
 const CheckoutProvider = ({ children }: Props) => {
   const [checkouts, setCheckouts] = useState<ICheckout[]>([]);
+  const [userInfo, setUserInfo] = useState<ICheckout | null>(null);
 
   const onAdd = async (dataCheckout: ICheckout): Promise<ICheckout | null> => {
     try {
@@ -34,11 +34,13 @@ const CheckoutProvider = ({ children }: Props) => {
       return null;
     }
   };
-  
-  
+
+  const login = (user: ICheckout) => {
+    setUserInfo(user); // Cập nhật thông tin người dùng khi đăng nhập
+  };
 
   return (
-    <CheckoutContext.Provider value={{ checkouts, onAdd }}>
+    <CheckoutContext.Provider value={{ checkouts, onAdd, userInfo, login }}>
       {children}
     </CheckoutContext.Provider>
   );

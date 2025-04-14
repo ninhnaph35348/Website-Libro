@@ -73,7 +73,6 @@ const CartProvider = ({ children }: Props) => {
         updatedCart = [...prevItems, newItem];
       }
 
-      setMessage("Sản phẩm đã được thêm vào giỏ hàng!");
       setTimeout(() => setMessage(""), 3000);
       return updatedCart;
     });
@@ -82,7 +81,6 @@ const CartProvider = ({ children }: Props) => {
   const removeFromCart = (variantId: number) => {
     setCartItems((prevItems) => {
       const updatedCart = prevItems.filter((item) => item.id !== variantId);
-      setMessage("Sản phẩm đã được xóa khỏi giỏ hàng!");
       setTimeout(() => setMessage(""), 3000);
       return updatedCart;
     });

@@ -205,10 +205,8 @@ const App = () => {
             <Route path="order_detail" element={<OrderList />} />{" "}
             {/* ✅ thêm đúng chỗ */}
           </Route>
-          <Route
-            path="/order_detail/:code_order"
-            element={<OrderDetailPage />}
-          />
+          <Route path="/order_detail/:orderCode" element={<OrderDetailPage />} />
+
           <Route
             path="/shop-details/:code/cover/:id"
             element={<Shopdetail />}

@@ -33,32 +33,21 @@ const EditProductvariant = () => {
     } = useForm<IProductVariant>();
 
     const navigate = useNavigate();
-    // 🛠 Fetch sản phẩm theo ID khi vào trang
     useEffect(() => {
         const fetchProduct = async () => {
             if (code && id) {
                 try {
-                    const response = await getProductCover(Number(id), code);
+                    const response = await getProductCover(id, code);
                     if (response?.data) {
                         const variant = response.data;
-                        console.log(variant);
-                        
-                        // reset({
-                        //     price: variant.price,
-                        //     promotion: variant.promotion,
-                        //     quantity: variant.quantity,
-                        //     cover_id: covers.find((a: any) => a.id === variant.cover.id)?.id || "",
-                        //     product_id: products.find((p: any) => p.id === variant.product.id)?.id || "",
-                        // });
-                        // console.log(variant);
 
                         setValue("price", Number(variant.price));
                         setValue("promotion", Number(variant.promotion));
                         setValue("quantity", variant.quantity);
-                        setValue("product_id", variant.product.code); // ✅ sửa chỗ này
-                        setValue("cover_id", variant.cover_id);  
+                        setValue("product_id", variant.product.id); // ✅ sửa chỗ này
+                        setValue("cover_id", variant.cover_id);
                         console.log(variant.product.id);
-                        
+
                     }
                 } catch (error) {
                     console.error("Lỗi khi lấy sản phẩm:", error);
@@ -76,13 +65,13 @@ const EditProductvariant = () => {
 
 
     const onSubmit = async (data: IProductVariant) => {
-        if (!id) {
-            console.error("ID không hợp lệ!");
-            return;
-        }
         try {
-            await onEdit(data, id);
-            // navigate(-1);
+            const success = await onEdit(data, code);
+
+            if(success){
+            navigate(-1);
+
+            }
         } catch (error) {
             console.error("❌ Lỗi khi cập nhật sản phẩm:", error);
         }
@@ -107,7 +96,7 @@ const EditProductvariant = () => {
                                 {...field}
                                 placeholder="Chọn sản phẩm"
                                 options={products?.map((product: IProduct) => ({
-                                    value: product.code,
+                                    value: product.id,
                                     label: product.title,
                                 }))}
                                 error={errors.product_id?.message}

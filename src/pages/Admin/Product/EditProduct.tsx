@@ -131,7 +131,7 @@ const EditProduct = () => {
       console.log(updatedData);
 
       await onEdit(updatedData, id as string);
-      // navigate("/admin/product");
+      navigate("/admin/product");
     } catch (error) {
       console.error("❌ Lỗi khi cập nhật sản phẩm:", error);
     }

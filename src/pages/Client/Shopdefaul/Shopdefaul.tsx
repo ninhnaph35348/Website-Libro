@@ -7,12 +7,12 @@ import { ProductVariantContext } from "../../../context/ProductVariants";
 import { IProductVariant } from "../../../interfaces/ProductVariants";
 
 const Shopdefaul = () => {
-  const { productvariants, getAllProductVariants } = useContext(
+  const { productVariantByStatus, getVariantsByStatus } = useContext(
     ProductVariantContext
   );
 
   useEffect(() => {
-    getAllProductVariants();
+    getVariantsByStatus();
   }, []);
 
   return (
@@ -496,11 +496,16 @@ const Shopdefaul = () => {
                           Danh sách sản phẩm
                         </h2>
                         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-                          {productvariants.length > 0 ? (
-                            productvariants.map((variant: IProductVariant) => (
-                              <div key={variant.id} className="shop-box-items style-2">
+                          {productVariantByStatus.length > 0 ? (
+                            productVariantByStatus.map((variant: IProductVariant) => (
+                              <div
+                                key={variant.id}
+                                className="shop-box-items style-2"
+                              >
                                 <div className="book-thumb center">
-                                  <Link to={`/shop-details/${variant.product.code}/cover/${variant.cover_id}`}>
+                                  <Link
+                                    to={`/shop-details/${variant.product.code}/cover/${variant.cover_id}`}
+                                  >
                                     <img
                                       src={
                                         variant.product.image
@@ -515,7 +520,12 @@ const Shopdefaul = () => {
                                     {variant.promotion && (
                                       <li>
                                         -
-                                        {Math.round((1 - variant.promotion / variant.price) * 100)}%
+                                        {Math.round(
+                                          (1 -
+                                            variant.promotion / variant.price) *
+                                            100
+                                        )}
+                                        %
                                       </li>
                                     )}
                                   </ul>
@@ -524,7 +534,10 @@ const Shopdefaul = () => {
                                 <div className="shop-content">
                                   <h5>{variant.product.category}</h5>
                                   <h3>
-                                    <Link to={`/shop-details/${variant.product.code}`} className="line-clamp-1">
+                                    <Link
+                                      to={`/shop-details/${variant.product.code}`}
+                                      className="line-clamp-1"
+                                    >
                                       {variant.product.title}
                                     </Link>
                                   </h3>
@@ -532,13 +545,21 @@ const Shopdefaul = () => {
                                     <li className="!text-base !font-bold text-[#ff6500]">
                                       {variant.promotion ? (
                                         <>
-                                          {Math.round(variant.promotion).toLocaleString()}₫
+                                          {Math.round(
+                                            variant.promotion
+                                          ).toLocaleString()}
+                                          ₫
                                           <del className="!font-medium ml-2 text-[#5c707e]">
-                                            {Math.round(variant.price).toLocaleString()}₫
+                                            {Math.round(
+                                              variant.price
+                                            ).toLocaleString()}
+                                            ₫
                                           </del>
                                         </>
                                       ) : (
-                                        `${Math.round(variant.price).toLocaleString()}₫`
+                                        `${Math.round(
+                                          variant.price
+                                        ).toLocaleString()}₫`
                                       )}
                                     </li>
                                     <li className="star">
@@ -568,7 +589,6 @@ const Shopdefaul = () => {
                             </p>
                           )}
                         </div>
-
                       </div>
                     </div>
                   </div>

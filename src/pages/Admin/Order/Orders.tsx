@@ -6,7 +6,7 @@ import { IOrder } from "../../../interfaces/Orders";
 
 const Orders = () => {
   const { orders, getAllOrders, onEdit } = useContext(OrderContext);
-const { orderstatus, getAllStatus } = useContext(OrderStatusContext);
+  const { orderstatus, getAllStatus } = useContext(OrderStatusContext);
 
 
   useEffect(() => {
@@ -63,6 +63,7 @@ const { orderstatus, getAllStatus } = useContext(OrderStatusContext);
             <th className="border p-2">Mã Đơn Hàng</th>
             <th className="border p-2">Khách Hàng</th>
             <th className="border p-2">Giá Trị</th>
+            <th className="border p-2">Thời gian</th>
             <th className="border p-2">Trạng Thái</th>
           </tr>
         </thead>
@@ -84,6 +85,9 @@ const { orderstatus, getAllStatus } = useContext(OrderStatusContext);
                 <td className="border p-2">{order.user_name || "Khách lẻ"}</td>
                 <td className="border p-2">
                   {Number(order.total_price).toLocaleString()} VND
+                </td>
+                <td className="border p-2">
+                  {order.created_at}
                 </td>
                 <td className="border p-2 text-center">
                   <select

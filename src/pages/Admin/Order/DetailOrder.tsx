@@ -1,10 +1,10 @@
 import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { OrderContext } from "../../../context/Order";
+import { OrderStatusContext } from "../../../context/OrderStatus";
 import { IOrder } from "../../../interfaces/Orders";
 import { getOrderDetailById } from "../../../services/Order";
-import { OrderStatusContext } from "../../../context/OrderStatus";
-import { OrderContext } from "../../../context/Order";
-import { format } from 'date-fns';
+import { Tooltip } from "antd";
 
 interface IData {
     data: IOrder;
@@ -47,13 +47,9 @@ const DetailOrder = () => {
     const totalQty = order.items.reduce((sum, item) => sum + item.quantity, 0);
     // const formattedDate = format(new Date(order.created_at), 'dd/MM/yyyy HH:mm:ss');
 
-    const formattedDate = new Date(order.created_at).toLocaleString("vi-VN", {
-        dateStyle: "medium",
-        timeStyle: "short",
-    });
     const orderInfo = [
         { label: "Mã hóa đơn", value: order.code_order },
-        { label: "Thời gian", value: formattedDate },
+        { label: "Thời gian", value: order.created_at },
         { label: "Thanh toán", value: order.payment_method },
         {
             label: "Trạng thái",
@@ -139,13 +135,25 @@ const DetailOrder = () => {
                 <div className="space-y-2">
                     <div className="font-semibold mb-1 text-gray-800">🧾 Thông tin đơn hàng</div>
                     {orderInfo.map((item, idx) => (
-                        <div key={idx} className="flex">
+                        <div key={idx} className="flex items-start">
                             <span className="w-24 font-medium">{item.label}:</span>
-                            <span className={item.label === "Mã hóa đơn" ? "font-semibold text-black" : ""}>
-                                {item.value}
-                            </span>
+
+                            {typeof item.value === "string" && item.label === "Mã hóa đơn" ? (
+                                <Tooltip title={item.value}>
+                                    <span className="truncate max-w-[200px] whitespace-nowrap overflow-hidden text-ellipsis block cursor-pointer">
+                                        {item.value}
+                                    </span>
+                                </Tooltip>
+                            ) : typeof item.value === "string" ? (
+                                <span className="truncate max-w-[200px] whitespace-nowrap overflow-hidden">
+                                    {item.value}
+                                </span>
+                            ) : (
+                                item.value
+                            )}
                         </div>
                     ))}
+
                 </div>
 
                 {/* Cột 2: Người đặt */}
@@ -173,7 +181,7 @@ const DetailOrder = () => {
                 {/* Cột 4: Ghi chú */}
                 <div>
                     <div className="font-semibold mb-1 text-gray-800">📝 Ghi chú</div>
-                    <div className="h-full p-3 border rounded bg-gray-50 text-gray-600 italic">
+                    <div className="p-3 border rounded bg-gray-50 text-gray-600 italic">
                         {order.note || "Không có ghi chú"}
                     </div>
                 </div>
@@ -185,13 +193,14 @@ const DetailOrder = () => {
                 <table className="min-w-full table-auto border border-gray-200">
                     <thead className="bg-blue-100 text-gray-700">
                         <tr>
-                            <th className="p-3 border whitespace-nowrap">Mã hàng</th>
-                            <th className="p-3 border whitespace-nowrap text-left">Tên hàng</th>
-                            <th className="p-3 border whitespace-nowrap text-right">Số lượng</th>
-                            <th className="p-3 border whitespace-nowrap text-right">Đơn giá</th>
-                            <th className="p-3 border whitespace-nowrap text-right">Giảm giá</th>
-                            <th className="p-3 border whitespace-nowrap text-right">Giá bán</th>
-                            <th className="p-3 border whitespace-nowrap text-right">Thành tiền</th>
+                            <th className="p-3 border whitespace-nowrap">Mã Hàng</th>
+                            <th className="p-3 border whitespace-nowrap text-left">Tên Hàng</th>
+                            <th className="p-3 border whitespace-nowrap text-right">Số Lượng</th>
+                            <th className="p-3 border whitespace-nowrap text-right">Loại Bìa</th>
+                            <th className="p-3 border whitespace-nowrap text-right">Đơn Giá</th>
+                            <th className="p-3 border whitespace-nowrap text-right">Giảm Giá</th>
+                            <th className="p-3 border whitespace-nowrap text-right">Giá Bán</th>
+                            <th className="p-3 border whitespace-nowrap text-right">Thành Tiền</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -200,6 +209,7 @@ const DetailOrder = () => {
                                 <td className="p-3 border whitespace-nowrap text-blue-600"><Link to={`/admin/product/${item.code}`}>{item.code}</Link></td>
                                 <td className="p-3 border">{item.title}</td>
                                 <td className="p-3 border text-right">{item.quantity}</td>
+                                <td className="p-3 border text-right">{item.cover}</td>
                                 <td className="p-3 border text-right">{Number(item.price).toLocaleString()}</td>
                                 <td className="p-3 border text-right">0</td>
                                 <td className="p-3 border text-right">{Number(item.price).toLocaleString()}</td>

@@ -12,6 +12,9 @@ import { IUser } from "../../../interfaces/User";
 import { IVnPay } from "../../../interfaces/VnPay";
 import { fetchUser } from "../../../store/auth/authSlice";
 import { RootState } from "../../../store/auth/store";
+import { getVoucherById } from "../../../services/Voucher";
+import { IVoucher } from "../../../interfaces/Voucher";
+import { toast } from "react-toastify";
 
 const Checkout: React.FC = () => {
     const { cartItems, removeFromCart } = useCart();
@@ -28,29 +31,50 @@ const Checkout: React.FC = () => {
     const context = useContext(CheckoutContext);
     const [showQR, setShowQR] = useState(false);
     const [paymentMethod, setPaymentMethod] = useState<number>(0);
+    const [code, setCode] = useState("");
+    const [voucher, setVoucher] = useState<IVoucher | null>(null);
+    const [error, setError] = useState("");
 
     // Filter selected items
     const selectedItems = cartItems.filter((item) => item.isSelected);
 
     // Calculate total amount for selected items
     const shippingFee = selectedItems.length > 0 ? 30000 : 0;
-    const totalAmount =
+    const totalAmountBeforeDiscount =
         selectedItems.reduce((total, item) => {
             const itemPrice =
                 item.promotion && item.promotion < item.price
                     ? item.promotion
                     : item.price;
             return total + itemPrice * item.cartQuantity;
-        }, 0) + shippingFee;
+        }, 0);
 
-    // Fetch user data if not available
+    const discountAmount = voucher
+        ? voucher.discount_type === "percent"
+            ? (totalAmountBeforeDiscount * Number(voucher.discount)) / 100
+            : Number(voucher.discount)
+        : 0;
+
+    const totalAmount = totalAmountBeforeDiscount + shippingFee - discountAmount;
+
+
     useEffect(() => {
         if (!user) {
             dispatch(fetchUser() as any);
         }
     }, [dispatch, user]);
 
-    // Pre-fill form with user data
+    const handleApplyVoucher = async () => {
+        try {
+            const res = await getVoucherById(code.trim());
+            setVoucher(res);
+            setError(""); // Xóa lỗi cũ nếu có
+        } catch (err) {
+            setVoucher(null);
+            setError("Mã không hợp lệ hoặc không tồn tại");
+        }
+    };
+
     useEffect(() => {
         if (user) {
             reset({
@@ -65,7 +89,14 @@ const Checkout: React.FC = () => {
 
     const onSubmit = async (data: ICheckout) => {
         if (!context || selectedItems.length === 0) return;
-
+        if (voucher?.min_order_value && totalAmountBeforeDiscount < voucher.min_order_value) {
+            alert(
+                `Đơn hàng phải có giá trị tối thiểu ${Number(voucher.min_order_value).toLocaleString("vi-VN")}₫ để sử dụng mã giảm giá này.`
+            );
+            return;
+        }
+        const isConfirmed = window.confirm("Bạn có chắc chắn muốn thanh toán đơn hàng này?");
+        if (!isConfirmed) return;
         const orderData: ICheckout = {
             ...data,
             cart: selectedItems.map((item) => ({
@@ -74,6 +105,7 @@ const Checkout: React.FC = () => {
             })) as any,
             shipping_fee: shippingFee,
             payment_method: paymentMethod,
+            voucher_code: voucher?.code as string,
         };
 
         const success = await context.onAdd(orderData);
@@ -226,6 +258,46 @@ const Checkout: React.FC = () => {
                                             ))
                                         )}
                                     </div>
+                                    <div className="checkout-item grid grid-cols-5 space-x-2 text-center items-center">
+                                        <input
+                                            type="text"
+                                            value={code}
+                                            onChange={(e) => setCode(e.target.value)}
+                                            placeholder="Nhập mã giảm giá"
+                                            className="col-span-2 border p-2 rounded text-black"
+                                        />
+                                        <button
+                                            type="button"
+                                            onClick={handleApplyVoucher}
+                                            className="col-span-1 bg-blue-500 text-white rounded px-2 py-1 hover:bg-blue-600"
+                                        >
+                                            Áp dụng
+                                        </button>
+                                        {voucher ? (
+                                            <>
+                                                <p className="col-span-1 text-green-600 font-semibold my-auto">
+                                                    -{" "}
+                                                    {voucher?.discount_type === "percent"
+                                                        ? `${Number(voucher?.discount || 0).toLocaleString("vi-VN")} %`
+                                                        : `${Number(voucher?.discount || 0).toLocaleString("vi-VN")}₫`}
+                                                </p>
+
+                                                <button
+                                                    type="button"
+                                                    onClick={() => {
+                                                        setVoucher(null);
+                                                        setCode("");
+                                                        setError("");
+                                                    }}
+                                                    className="col-span-1 bg-red-500 text-white rounded px-2 py-1 hover:bg-red-600"
+                                                >
+                                                    Hủy
+                                                </button>
+                                            </>
+                                        ) : (
+                                            <p className="col-span-1 text-red-500 text-sm">{error}</p>
+                                        )}
+                                    </div>
                                     {selectedItems.length > 0 && (
                                         <>
                                             <div className="checkout-item grid grid-cols-5 text-center">
@@ -233,9 +305,16 @@ const Checkout: React.FC = () => {
                                                 <p>30.000₫</p>
                                             </div>
                                             <div className="checkout-item grid grid-cols-5 text-center">
-                                                <p className="col-span-4 text-left !text-2xl">
+                                                <p className="col-span-3 text-left !text-2xl">
                                                     Tổng cộng:
                                                 </p>
+                                                <p className="col-span-1 text-green-600 font-semibold my-auto">
+                                                    -{" "}
+                                                    {voucher?.discount_type === "percent"
+                                                        ? `${Math.round((totalAmountBeforeDiscount * Number(voucher.discount)) / 100).toLocaleString("vi-VN")}₫`
+                                                        : `${Number(voucher?.discount || 0).toLocaleString("vi-VN")}₫`}
+                                                </p>
+
                                                 <p className="!text-red-400 !text-2xl">
                                                     {totalAmount.toLocaleString("vi-VN")}₫
                                                 </p>

@@ -20,6 +20,7 @@ import {
   Package,
   Boxes,
   ShoppingCart,
+  Tag,
 } from "lucide-react";
 
 const Sidebar = ({
@@ -46,6 +47,8 @@ const Sidebar = ({
     () => [
       { path: "/admin/product", label: "Sản Phẩm", icon: Book },
       { path: "/admin/product-variant", label: "Biến thể sản phẩm", icon: Boxes },
+      { path: "/admin/voucher", label: "Giảm giá", icon: Tag },
+      { path: "/admin/covers", label: "Loại Bìa", icon: Layers },
     ],
     []
   );
@@ -68,7 +71,6 @@ const Sidebar = ({
       { path: "/admin/publisher", label: "Nhà Xuất Bản", icon: Users },
       { path: "/admin/languages", label: "Ngôn Ngữ", icon: Globe },
       { path: "/admin/genres", label: "Thể Loại", icon: Layers },
-      { path: "/admin/covers", label: "Loại Bìa", icon: Layers },
       { path: "/admin/reviews", label: "Bình Luận", icon: MessageCircle },
       { path: "/admin/orderstatus", label: "Trạng thái", icon: Truck },
     ],

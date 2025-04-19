@@ -64,6 +64,9 @@ import OrderDetailPage from "./pages/Client/Oder/OderDetail";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import VoucherList from "./pages/Admin/Voucher/ListVoucher";
+import AddVoucher from "./pages/Admin/Voucher/AddVoucher";
+import EditVoucher from "./pages/Admin/Voucher/EditVoucher";
 
 const App = () => {
   return (
@@ -86,6 +89,14 @@ const App = () => {
               <Route path=":code" element={<DetailOrder />} />
             </Route>
             <Route path="orderstatus" element={<OrderStatus />} />
+
+            {/* Voucher Management */}  
+            <Route path="voucher">
+              <Route index element={<VoucherList />} />
+              <Route path="add" element={<AddVoucher />} />
+              <Route path=":code" element={<ProductDetail />} />
+              <Route path="edit/:code" element={<EditVoucher />} />
+            </Route>
 
             {/* Product Management */}
             <Route path="product">

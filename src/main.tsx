@@ -43,6 +43,8 @@ import CartProvider from "./context/Cart.tsx";
 import CheckoutProvider from "./context/Checkout.tsx";
 import AuthProvider from "./context/Auth.tsx";
 import VnPayProvider from "./context/VnPay.tsx";
+import VoucherProvider from "./context/Voucher.tsx";
+import StatisticsProvider from "./context/Statistics.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <Provider store={store}>
@@ -56,25 +58,29 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
                   <ProductVariantProvider>
                     <ProductProvider>
                       <CheckoutProvider>
-                        <VnPayProvider>
-                          <CoverProvider>
-                            <OrderStatusProvider>
-                              <OrderProvider>
-                                <AdminUserProvider>
-                                  <CustomerUserProvider>
-                                    <AuthProvider>
-                                      <ReviewProvider>
-                                        <StrictMode>
-                                          <App />
-                                        </StrictMode>
-                                      </ReviewProvider>
-                                    </AuthProvider>
-                                  </CustomerUserProvider>
-                                </AdminUserProvider>
-                              </OrderProvider>
-                            </OrderStatusProvider>
-                          </CoverProvider>
-                        </VnPayProvider>
+                        <VoucherProvider>
+                          <VnPayProvider>
+                            <StatisticsProvider>
+                              <CoverProvider>
+                                <OrderStatusProvider>
+                                  <OrderProvider>
+                                    <AdminUserProvider>
+                                      <CustomerUserProvider>
+                                        <AuthProvider>
+                                          <ReviewProvider>
+                                            <StrictMode>
+                                              <App />
+                                            </StrictMode>
+                                          </ReviewProvider>
+                                        </AuthProvider>
+                                      </CustomerUserProvider>
+                                    </AdminUserProvider>
+                                  </OrderProvider>
+                                </OrderStatusProvider>
+                              </CoverProvider>
+                            </StatisticsProvider>
+                          </VnPayProvider>
+                        </VoucherProvider>
                       </CheckoutProvider>
                     </ProductProvider>
                   </ProductVariantProvider>

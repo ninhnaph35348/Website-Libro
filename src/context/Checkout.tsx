@@ -28,9 +28,9 @@ const CheckoutProvider = ({ children }: Props) => {
       setCheckouts([...checkouts, response.order]);
       toast.success(response.message || "Đặt hàng thành công!");
       return response.order; // ✅ Trả về đơn hàng để lấy code_order
-    } catch (error) {
-      toast.error("Lỗi khi Đặt hàng!");
-      console.error(error);
+    } catch (error: any) {
+      toast.error(error.message || "Đặt hàng thất bại!");
+      console.error("Checkout error:", error.message);
       return null;
     }
   };

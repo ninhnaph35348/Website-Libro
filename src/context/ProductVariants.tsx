@@ -1,6 +1,6 @@
 import { createContext, useState } from "react";
 import { IProductVariant } from "../interfaces/ProductVariants";
-import { createProductVariant, statusProductVariant, getAllProductsBestsellers, getAllProductVariant, getAllProductVariantLatest, updateProductVariant, getAllProductVariantsByStatus } from "../services/ProductVariants";
+import { createProductVariant, statusProductVariant, getAllProductsBestsellers, getAllProductVariant, getAllProductVariantLatest, updateProductVariant, getAllProductVariantsByStatus, getProductVariantsToprate } from "../services/ProductVariants";
 
 
 type Props = {
@@ -14,6 +14,7 @@ const ProductVariantProvider = ({ children }: Props) => {
     const [productVariantByStatus, setProductVariantByStatus] = useState<IProductVariant[]>([]);
     const [productVariantLatest, setProductVariantLatest] = useState<IProductVariant[]>([]);
     const [productBestsellers, setProductBestsellers] = useState<IProductVariant[]>([]);
+    const [productToprate, setToprate] = useState<IProductVariant[]>([]);
 
     const getAllProductVariants = async () => {
         try {
@@ -50,25 +51,36 @@ const ProductVariantProvider = ({ children }: Props) => {
         }
     };
 
-    const onAdd = async (dataProductVariant: IProductVariant) => {
+    const Toprate = async () => {
         try {
-            const data = await createProductVariant(dataProductVariant);
-            setProductVariants([...productvariants, data]);
-            alert("Thêm thể loại thành công!");
+            const data = await getProductVariantsToprate();
+            setToprate(data?.data);
         } catch (error) {
             console.log(error);
         }
     };
 
-    const onDelete = async (id: number) => {
+    const onAdd = async (dataProductVariant: IProductVariant) => {
         try {
-            if (window.confirm("Bạn có muốn xóa không?")) {
-                await statusProductVariant(id);
-                alert("Xóa thể loại thành công!");
-                setProductVariants(productvariants.filter((productvariant) => productvariant.id !== id));
-            }
+            const data = await createProductVariant(dataProductVariant);
+            setProductVariants([...productvariants, data]);
+            alert("Thêm biến thể thành công!");
         } catch (error) {
             console.log(error);
+        }
+    };
+
+    const onStatus = async (code: string | number, newStatus: "in_stock" | "out_stock") => {
+        try {
+            const formData = new FormData();
+            formData.append("status", newStatus);
+            formData.append("_method", "put"); // Laravel-style update
+
+            await statusProductVariant(formData, code); // Gửi lên API
+
+            alert("Cập nhật trạng thái thành công!");
+        } catch (error) {
+            console.error("❌ Lỗi khi cập nhật trạng thái sản phẩm:", error);
         }
     };
 
@@ -90,7 +102,7 @@ const ProductVariantProvider = ({ children }: Props) => {
                 productvariant.product.code === code ? data : productvariant
             );
             setProductVariants(newProductVariants);
-            alert("Sửa thể loại thành công!");
+            alert("Sửa biến thể thành công!");
             return newProductVariants
         } catch (error) {
             console.log(error);
@@ -99,7 +111,7 @@ const ProductVariantProvider = ({ children }: Props) => {
 
 
     return (
-        <ProductVariantContext.Provider value={{productvariants, productVariantLatest, productBestsellers,productVariantByStatus, Bestsellers, getAllProductVariants, fetchLatestVariants,getVariantsByStatus, onAdd, onDelete, onEdit }}>
+        <ProductVariantContext.Provider value={{ productvariants, productVariantLatest, productBestsellers, productToprate, productVariantByStatus, Toprate, Bestsellers, getAllProductVariants, fetchLatestVariants, getVariantsByStatus, onAdd, onStatus, onEdit }}>
             {children}
         </ProductVariantContext.Provider>
     );

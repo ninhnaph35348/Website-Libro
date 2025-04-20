@@ -91,7 +91,10 @@ const LatestBook = () => {
                                             </ul> */}
                       </div>
                       <div className="shop-content">
-                        <h5>{variant.product.category}</h5>
+                        <div className='flex justify-between'>
+                          <h5>{variant.product.category}</h5>
+                          <h5>Đã bán: {variant.sold_quantity}</h5>
+                        </div>
                         <h3>
                           <Link
                             to={`/shop-details/${variant.product.code}`}
@@ -114,12 +117,16 @@ const LatestBook = () => {
                               `${Math.round(variant.price).toLocaleString()}₫`
                             )}
                           </li>
+
                           <li className="star">
-                            <i className="fa-solid fa-star" />
-                            <i className="fa-solid fa-star" />
-                            <i className="fa-solid fa-star" />
-                            <i className="fa-solid fa-star" />
-                            <i className="fa-regular fa-star" />
+
+                            {Array.from({ length: 5 }, (_, i) => (
+                              <i
+                                key={i}
+                                className={`fa${i < variant.product.rating ? "-solid" : "-regular"
+                                  } fa-star`}
+                              />
+                            ))}
                           </li>
                         </ul>
                       </div>

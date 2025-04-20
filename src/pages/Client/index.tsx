@@ -9,6 +9,7 @@ import news12 from "../../assets/img/news/12.jpg";
 import LatestBook from "./Index/LatestBook";
 import BestSeller from "./Index/BestSeller";
 import Banner from "./Index/Banner";
+import TopRate from "./Index/TopRate";
 
 const Client = () => {
   return (
@@ -76,6 +77,9 @@ const Client = () => {
 
       {/* Best Sellers - Sách Bán Chạy Nhất */}
       <BestSeller />
+
+      {/* Top Rate - Sách có lượt đánh giá cao nhất */}
+      <TopRate />
 
       {/* Top Ratting Book Section start (Đã comment vì không có rating) */}
       {/* <section className="top-ratting-book-section fix section-padding section-bg">

@@ -32,7 +32,7 @@ export interface IProduct {
   author_id: number;
   publisher: string;
   publisher_id: number;
-
+  rating: number;
   description: string;
   language: string;
   language_id: number;

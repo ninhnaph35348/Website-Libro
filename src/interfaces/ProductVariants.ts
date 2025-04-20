@@ -10,4 +10,5 @@ export interface IProductVariant{
     cover: string;
     product: IProduct;
     total_sold: string;
+    sold_quantity: string;
 }

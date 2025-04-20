@@ -27,9 +27,7 @@ const UserAdminDetail = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 p-6">
       <div className="p-10 w-full mx-auto bg-white shadow-xl rounded-lg max-w-4xl">
-        <h2 className="text-4xl font-bold text-center mb-8">
-          Thông tin Quản trị
-        </h2>
+        <h2 className="text-4xl font-bold text-center mb-8">Thông tin</h2>
         <div className="flex flex-col items-center">
           <img
             src={`http://127.0.0.1:8000/storage/${user.avatar}`}

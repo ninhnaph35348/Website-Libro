@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { IUser } from "../interfaces/User";
@@ -17,7 +17,21 @@ export const CustomerUserContext = createContext({} as any);
 
 const CustomerUserProvider = ({ children }: Props) => {
   const [customerUsers, setCustomerUsers] = useState<IUser[]>([]);
-  // const [reload, setReload] = useState(false);
+  const [reload, setReload] = useState(false);
+
+  // Lấy danh sách khách hàng khi component mount hoặc reload thay đổi
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const data = await getAllUsers();
+        setCustomerUsers(data);
+      } catch (error) {
+        toast.error("Lỗi khi tải danh sách khách hàng!");
+        console.error("Lỗi khi lấy danh sách khách hàng:", error);
+      }
+    };
+    fetchUsers();
+  }, [reload]);
 
   const getAllUser = async () => {
     try {
@@ -58,15 +72,46 @@ const CustomerUserProvider = ({ children }: Props) => {
         prev.map((user) => (user.id === id ? data : user))
       );
       toast.success("Cập nhật tài khoản khách hàng thành công!");
-      // setReload((prev) => !prev);
+      setReload((prev) => !prev);
     } catch (error) {
       toast.error("Lỗi khi cập nhật khách hàng!");
       console.error("Lỗi khi cập nhật khách hàng:", error);
     }
   };
 
+  const onStatus = async (
+    id: number | string,
+    status: "active" | "inactive"
+  ) => {
+    try {
+      const updatedData = { status }; // Partial update
+      const updatedUser = await updateUser(updatedData, id);
+      setCustomerUsers((prev) =>
+        prev.map((user) =>
+          user.id === id ? { ...user, status: updatedUser.status } : user
+        )
+      );
+      toast.success(
+        `Đã ${status === "active" ? "kích hoạt" : "khóa"} tài khoản thành công!`
+      );
+      setReload((prev) => !prev);
+    } catch (error) {
+      toast.error("Lỗi khi cập nhật trạng thái!");
+      console.error("Lỗi khi cập nhật trạng thái:", error);
+    }
+  };
+
   return (
-    <CustomerUserContext.Provider value={{ customerUsers, getAllUser, onDelete, onEdit, onDetail }}>
+    <CustomerUserContext.Provider
+      value={{
+        customerUsers,
+        getAllUser,
+        onDelete,
+        onEdit,
+        onDetail,
+        onStatus,
+      }}
+    >
       {children}
     </CustomerUserContext.Provider>
   );

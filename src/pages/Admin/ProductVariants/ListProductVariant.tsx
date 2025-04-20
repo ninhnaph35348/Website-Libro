@@ -2,9 +2,10 @@ import { useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ProductVariantContext } from "../../../context/ProductVariants";
 import { IProductVariant } from "../../../interfaces/ProductVariants";
+import { Switch, Tooltip } from "antd";
 
 const ListProductVariant = () => {
-    const { productvariants, getAllProductVariants, onDelete } = useContext(ProductVariantContext);
+    const { productvariants, getAllProductVariants, onStatus } = useContext(ProductVariantContext);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -43,15 +44,18 @@ const ListProductVariant = () => {
 
                             <td className="border p-2">{productvariant.cover}</td>
                             <td className="border p-2">{productvariant.quantity} quyển</td>
-                            <td className="border p-2">{productvariant.total_sold}</td>
+                            <td className="border p-2">{productvariant.sold_quantity}</td>
                             <td className="border p-2 text-center ">
                                 <div className="flex justify-center gap-2">
-                                    <button
-                                        onClick={() => onDelete(productvariant.product.code)}
-                                        className="bg-red-500 text-white px-2 py-1 rounded"
-                                    >
-                                        Xóa
-                                    </button>
+
+                                    <Tooltip title={productvariant.product.status === "in_stock" ? "Đang mở bán" : "Đang ngưng bán"}>
+                                        <Switch
+                                            checked={productvariant.product.status === "in_stock"}
+                                            onChange={(checked) =>
+                                                onStatus(productvariant.product.code, checked ? "in_stock" : "out_stock")
+                                            }
+                                        />
+                                    </Tooltip>
                                     <button
                                         onClick={() => navigate(`edit/${productvariant.product.code}/cover/${productvariant.cover_id}`)}
                                         className="bg-yellow-500 text-white px-2 py-1 rounded"

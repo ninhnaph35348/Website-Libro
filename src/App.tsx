@@ -1,66 +1,64 @@
-import { Routes, Route } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import PrivateRoute from "./components/ProtectedRoute";
 import LayoutAdmin from "./layouts/Admin";
 import Login from "./pages/Admin/Auth/Login";
 
 // Admin Pages
-import Home from "./pages/Admin/Home";
-import Author from "./pages/Admin/Authors/Authors";
 import AddAuthor from "./pages/Admin/Authors/AddAuthor";
+import Author from "./pages/Admin/Authors/Authors";
 import EditAuthor from "./pages/Admin/Authors/EditAuthor";
-import Language from "./pages/Admin/Language/Language";
-import AddLanguage from "./pages/Admin/Language/AddLanguage";
-import EditLanguage from "./pages/Admin/Language/EditLanguage";
-import Genre from "./pages/Admin/Genres/Genre";
+import AddCategory from "./pages/Admin/Category/AddCategory";
+import CategoryList from "./pages/Admin/Category/Category";
+import EditCategory from "./pages/Admin/Category/EditCategory";
+import Covers from "./pages/Admin/Cover/Covers";
 import AddGenre from "./pages/Admin/Genres/AddGenre";
 import EditGenre from "./pages/Admin/Genres/EditGenre";
+import Genre from "./pages/Admin/Genres/Genre";
+import Home from "./pages/Admin/Home";
+import AddLanguage from "./pages/Admin/Language/AddLanguage";
+import EditLanguage from "./pages/Admin/Language/EditLanguage";
+import Language from "./pages/Admin/Language/Language";
 import NotFound from "./pages/Admin/Notfound";
+import DetailOrder from "./pages/Admin/Order/DetailOrder";
+import Orders from "./pages/Admin/Order/Orders";
+import OrderStatus from "./pages/Admin/OrderStatus/OrderStatus";
 import AddProduct from "./pages/Admin/Product/AddProduct";
-import ProductList from "./pages/Admin/Product/ProductList";
 import ProductDetail from "./pages/Admin/Product/DetailProduct";
 import EditProduct from "./pages/Admin/Product/EditProduct";
-import CategoryList from "./pages/Admin/Category/Category";
-import AddCategory from "./pages/Admin/Category/AddCategory";
-import EditCategory from "./pages/Admin/Category/EditCategory";
-import Publisher from "./pages/Admin/Publisher/Publisher";
-import AddPublisher from "./pages/Admin/Publisher/AddPublisher";
-import EditPublisher from "./pages/Admin/Publisher/EditPublisher";
-import UserAdmin from "./pages/Admin/UserAdmin/UserAdmin";
-import AddUserAdmin from "./pages/Admin/UserAdmin/AddUserAdmin";
-import EditUserAdmin from "./pages/Admin/UserAdmin/EditUserAdmin";
-import UserDetail from "./pages/Admin/UserAdmin/UserDetail";
-import CustomerAccounts from "./pages/Admin/UserCustomer/UserCustomer";
-import EditUserCustomer from "./pages/Admin/UserCustomer/EditUserCustomer";
-import Orders from "./pages/Admin/Order/Orders";
-import DetailOrder from "./pages/Admin/Order/DetailOrder";
-import OrderStatus from "./pages/Admin/OrderStatus/OrderStatus";
-import Covers from "./pages/Admin/Cover/Covers";
-import AddCover from "./pages/Admin/Cover/AddCover";
-import EditCover from "./pages/Admin/Cover/EditCover";
-import ListProductVariant from "./pages/Admin/ProductVariants/ListProductVariant";
+import ProductList from "./pages/Admin/Product/ProductList";
 import AddProductVariant from "./pages/Admin/ProductVariants/AddProductVariant";
 import EditProductVariant from "./pages/Admin/ProductVariants/EditProductVariant";
+import ListProductVariant from "./pages/Admin/ProductVariants/ListProductVariant";
+import AddPublisher from "./pages/Admin/Publisher/AddPublisher";
+import EditPublisher from "./pages/Admin/Publisher/EditPublisher";
+import Publisher from "./pages/Admin/Publisher/Publisher";
 import Review from "./pages/Admin/Review/Review";
 import ReviewDetail from "./pages/Admin/Review/ReviewDetail";
+import AddUserAdmin from "./pages/Admin/UserAdmin/AddUserAdmin";
+import EditUserAdmin from "./pages/Admin/UserAdmin/EditUserAdmin";
+import UserAdmin from "./pages/Admin/UserAdmin/UserAdmin";
+import UserDetail from "./pages/Admin/UserAdmin/UserDetail";
+import EditUserCustomer from "./pages/Admin/UserCustomer/EditUserCustomer";
+import CustomerAccounts from "./pages/Admin/UserCustomer/UserCustomer";
 
 // Client Pages
 import LayoutClient from "./layouts/Client";
 import Client from "./pages/Client";
+import Blog from "./pages/Client/Blog/Blog";
 import Checkout from "./pages/Client/Checkout/Checkout";
 import VnpayReturn from "./pages/Client/Checkout/VnpayReturn";
-import Shopdetail from "./pages/Client/Shopdetail/Shopdetail";
-import Shopcart from "./pages/Client/Shopcart/Shopcart";
-import Shopdefaul from "./pages/Client/Shopdefaul/Shopdefaul";
-import Blog from "./pages/Client/Blog/Blog";
 import Contact from "./pages/Client/Contact/Contact";
 import LoginClient from "./pages/Client/Login/Login";
 import Sinup from "./pages/Client/Login/Sinup";
-import Profile from "./pages/Client/Profile/Profile";
-import EditProfile from "./pages/Client/Profile/EditProfile";
-import ChangePassword from "./pages/Client/Profile/ChangePassword";
-import Sidebar from "./pages/Client/Profile/pageProfile";
-import OrderList from "./pages/Client/Oder/OderList";
 import OrderDetailPage from "./pages/Client/Oder/OderDetail";
+import OrderList from "./pages/Client/Oder/OderList";
+import ChangePassword from "./pages/Client/Profile/ChangePassword";
+import EditProfile from "./pages/Client/Profile/EditProfile";
+import Sidebar from "./pages/Client/Profile/pageProfile";
+import Profile from "./pages/Client/Profile/Profile";
+import Shopcart from "./pages/Client/Shopcart/Shopcart";
+import Shopdefaul from "./pages/Client/Shopdefaul/Shopdefaul";
+import Shopdetail from "./pages/Client/Shopdetail/Shopdetail";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -140,8 +138,8 @@ const App = () => {
             {/* Cover Management */}
             <Route path="covers">
               <Route index element={<Covers />} />
-              <Route path="add" element={<AddCover />} />
-              <Route path="edit/:id" element={<EditCover />} />
+              {/* <Route path="add" element={<AddCover />} /> */}
+              {/* <Route path="edit/:id" element={<EditCover />} /> */}
             </Route>
 
             {/* Review Management */}

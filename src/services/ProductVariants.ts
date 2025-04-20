@@ -27,6 +27,15 @@ export const getAllProductVariantLatest = async () => {
   }
 };
 
+export const getProductVariantsToprate = async () => {
+  try {
+    const { data } = await instance.get("product_variants_toprate");
+    return data;
+  } catch (error) {
+    throw new Error("Lỗi");
+  }
+};
+
 export const getAllProductsBestsellers = async () => {
   try {
     const { data } = await instance.get("products-bestsellers");
@@ -73,9 +82,9 @@ export const updateProductVariant = async ( productvariantData: FormData, code: 
   }
 };
 
-export const statusProductVariant = async (id: number | string) => {
+export const statusProductVariant = async ( productvariantData: FormData, code: number | string) => {
   try {
-    const { data } = await instance.put(`product_variants/${id}`);
+    const { data } = await instance.post(`product_variants/update-status/${code}`, productvariantData);
     return data;
   } catch (error) {
     throw new Error("Lỗi");

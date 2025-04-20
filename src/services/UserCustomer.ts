@@ -31,26 +31,19 @@ export const getUserById = async (id: number | string) => {
   }
 };
 
-// export const createUser = async (userData: IUser) => {
-//   try {
-//     const { data } = await instance.post("users", userData);
-//     return data;
-//   } catch (error) {
-//     throw new Error("Lỗi");
-//   }
-// };
-
-export const updateUser = async (userData: IUser, id: number | string) => {
+export const updateUser = async (
+  userData: Partial<IUser>,
+  id: number | string
+) => {
   try {
     console.log("🔍 Dữ liệu trước khi gửi lên API:", id, typeof id);
     if (!id) throw new Error("ID không hợp lệ!");
-
     const { data } = await instance.put(`users/edit/${id}`, userData);
     console.log("📤 Dữ liệu sau khi cập nhật:", data);
     return data;
   } catch (error: any) {
     console.error(
-      "❌ Lỗi khi cập nhật admin:",
+      "❌ Lỗi khi cập nhật user:",
       error.response?.data || error.message
     );
     throw new Error(error.response?.data?.message || "Lỗi khi cập nhật user");
@@ -59,8 +52,7 @@ export const updateUser = async (userData: IUser, id: number | string) => {
 
 export const deleteUser = async (id: number | string) => {
   try {
-    console.log("Xóa admin với ID:", id);
-
+    console.log("Xóa user với ID:", id);
     const { data } = await instance.put(`users/${id}`);
     return data;
   } catch (error: any) {

@@ -8,55 +8,73 @@ const Orders = () => {
   const { orders, getAllOrders, onEdit } = useContext(OrderContext);
   const { orderstatus, getAllStatus } = useContext(OrderStatusContext);
 
+  // State cho lọc và phân trang
+  const [filterStatus, setFilterStatus] = useState<string>("all");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
   useEffect(() => {
     getAllStatus();
     getAllOrders();
   }, []);
 
-  // Phân trang
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
+  // Lọc đơn hàng theo trạng thái
+  const filteredOrders =
+    filterStatus === "all"
+      ? orders
+      : orders.filter((o) => o.status === filterStatus);
 
   // Tính tổng số trang
-  const totalPages = Math.ceil(orders.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredOrders.length / itemsPerPage);
 
-  // Lấy danh sách đơn hàng theo trang hiện tại
-  const paginatedOrders = orders.slice(
+  // Lấy đơn hàng của trang hiện tại
+  const paginatedOrders = filteredOrders.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
 
-  // Xử lý chuyển trang
   const handlePageChange = (page: number) => {
     if (page > 0 && page <= totalPages) {
       setCurrentPage(page);
     }
   };
 
-  if (!orders || !Array.isArray(orders)) {
-    return (
-      <div className="p-6 w-full mx-auto bg-white shadow-md rounded-lg">
-        Đang tải đơn hàng...
-      </div>
-    );
-  }
-
   const handleStatusChange = async (orderId: number, newStatus: string) => {
     try {
       await onEdit({ order_status_id: newStatus }, orderId);
-      await getAllOrders(); // ✅ Gọi lại sau khi cập nhật
+      await getAllOrders();
     } catch (error) {
       alert("Cập nhật thất bại! Vui lòng thử lại.");
       console.error(error);
     }
   };
 
-
   return (
     <div className="p-6 w-full mx-auto bg-white shadow-md rounded-lg">
-      <h2 className="text-xl font-bold mb-4">Danh Sách Đơn Hàng</h2>
-      <table className="w-full border-collapse border border-gray-200 mt-4">
+      {/* Header và bộ lọc cùng hàng */}
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-xl font-bold">Danh Sách Đơn Hàng</h2>
+        <div className="flex items-center">
+          <label className="font-medium mr-2">Lọc trạng thái:</label>
+          <select
+            className="border p-2 rounded"
+            value={filterStatus}
+            onChange={(e) => {
+              setFilterStatus(e.target.value);
+              setCurrentPage(1);
+            }}
+          >
+            <option value="all">Tất cả</option>
+            {orderstatus.map((st: any) => (
+              <option key={st.id} value={st.name}>
+                {st.name}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
+
+      <table className="w-full border-collapse border border-gray-200">
         <thead>
           <tr className="bg-gray-100 text-center">
             <th className="border p-2">STT</th>
@@ -69,10 +87,10 @@ const Orders = () => {
         </thead>
         <tbody>
           {paginatedOrders.length > 0 ? (
-            paginatedOrders.map((order: IOrder, index: number) => (
-              <tr key={order.id ?? index}>
+            paginatedOrders.map((order: IOrder, idx: number) => (
+              <tr key={order.id ?? idx}>
                 <td className="border p-2 text-center">
-                  {(currentPage - 1) * itemsPerPage + index + 1}
+                  {(currentPage - 1) * itemsPerPage + idx + 1}
                 </td>
                 <td className="border p-2">
                   <Link
@@ -86,30 +104,28 @@ const Orders = () => {
                 <td className="border p-2">
                   {Number(order.total_price).toLocaleString()} VND
                 </td>
-                <td className="border p-2">
-                  {order.created_at}
-                </td>
+                <td className="border p-2">{order.created_at}</td>
                 <td className="border p-2 text-center">
                   <select
                     className="border p-1 rounded"
                     value={
-                      orderstatus.find(
-                        (status: any) => status.name === order.status
-                      )?.id || ""
+                      orderstatus.find((s: any) => s.name === order.status)
+                        ?.id || ""
                     }
                     onChange={(e) =>
                       handleStatusChange(
                         order.code_order as any,
-                        Number(e.target.value) as any
+                        e.target.value
                       )
                     }
                   >
                     {orderstatus
                       .filter(
-                        (status: any) =>
-                          status.id >=
-                          (orderstatus.find((s: any) => s.name === order.status)
-                            ?.id || 0)
+                        (s: any) =>
+                          s.id >=
+                          (orderstatus.find(
+                            (s2: any) => s2.name === order.status
+                          )?.id || 0)
                       )
                       .map((status: any) => (
                         <option key={status.id} value={status.id}>
@@ -122,54 +138,49 @@ const Orders = () => {
             ))
           ) : (
             <tr>
-              <td colSpan={5} className="text-center p-4 text-gray-500">
-                Không có đơn hàng nào
+              <td colSpan={6} className="text-center p-4 text-gray-500">
+                Không có đơn hàng phù hợp
               </td>
             </tr>
           )}
         </tbody>
       </table>
 
-      {/* Điều hướng phân trang */}
+      {/* Phân trang */}
       {totalPages > 1 && (
         <div className="flex justify-center mt-6 space-x-2">
-          {/* Nút Trước */}
           <button
             onClick={() => handlePageChange(currentPage - 1)}
-            className={`px-4 py-2 rounded-full border shadow-md transition-all duration-300 
-                                    ${currentPage === 1
+            disabled={currentPage === 1}
+            className={`px-4 py-2 rounded-full border shadow-md transition-all duration-300 ${
+              currentPage === 1
                 ? "bg-gray-300 text-gray-500 cursor-not-allowed"
                 : "bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:shadow-lg hover:scale-105"
-              }`}
-            disabled={currentPage === 1}
+            }`}
           >
             ◀ Trước
           </button>
-
-          {/* Các số trang */}
-          {[...Array(totalPages)].map((_, index) => (
+          {[...Array(totalPages)].map((_, i) => (
             <button
-              key={index}
-              onClick={() => handlePageChange(index + 1)}
-              className={`px-4 py-2 rounded-full border shadow-md transition-all duration-300 font-semibold
-                                        ${currentPage === index + 1
+              key={i}
+              onClick={() => handlePageChange(i + 1)}
+              className={`px-4 py-2 rounded-full border shadow-md transition-all duration-300 font-semibold ${
+                currentPage === i + 1
                   ? "bg-blue-500 text-white scale-110 shadow-lg"
                   : "bg-gray-200 text-gray-700 hover:bg-gray-300 hover:scale-105"
-                }`}
+              }`}
             >
-              {index + 1}
+              {i + 1}
             </button>
           ))}
-
-          {/* Nút Tiếp */}
           <button
             onClick={() => handlePageChange(currentPage + 1)}
-            className={`px-4 py-2 rounded-full border shadow-md transition-all duration-300 
-                                    ${currentPage === totalPages
+            disabled={currentPage === totalPages}
+            className={`px-4 py-2 rounded-full border shadow-md transition-all duration-300 ${
+              currentPage === totalPages
                 ? "bg-gray-300 text-gray-500 cursor-not-allowed"
                 : "bg-gradient-to-r from-blue-500 to-blue-600 text-white hover:shadow-lg hover:scale-105"
-              }`}
-            disabled={currentPage === totalPages}
+            }`}
           >
             Tiếp ▶
           </button>

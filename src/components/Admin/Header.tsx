@@ -15,16 +15,7 @@ const Header = ({ sidebarCollapsed }: any) => {
       className="fixed top-0 right-0 bg-white h-16 flex items-center px-4 shadow-sm z-20"
       style={{ width: `calc(100% - ${sidebarCollapsed ? "4rem" : "16rem"})` }}
     >
-      {/* Search Bar */}
-      <div className="relative">
-        <input
-          type="text"
-          placeholder="Search..."
-          className="pl-10 pr-2 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
-        />
-        <Search className="w-5 h-5 text-gray-400 absolute right-3 top-1/2 transform -translate-y-1/2" />
-      </div>
-
+    
       {/* Right Menu */}
       <div className="ml-auto flex items-center space-x-4 relative">
         <Link className="p-2 hover:bg-gray-100 rounded-lg" to={`/`}><House /></Link>

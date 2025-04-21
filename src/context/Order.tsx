@@ -1,6 +1,7 @@
 import { createContext, useState } from "react";
 import { IOrder } from "../interfaces/Orders";
 import { deleteOrder, getAllOrder, updateOrder } from "../services/Order";
+import { toast } from "react-toastify";
 
 type Props = {
   children: React.ReactNode;
@@ -30,9 +31,11 @@ const OrderProvider = ({ children }: Props) => {
     try {
       if (window.confirm("Bạn có muốn xóa không?")) {
         await deleteOrder(id);
-        alert("Đổi trạng thái thành công!");
+        toast.success("Đổi trạng thái thành công!");
         // Sử dụng updater function để đảm bảo tính đồng bộ
-        setOrders((prevOrders) => prevOrders.filter((order) => order.id !== id));
+        setOrders((prevOrders) =>
+          prevOrders.filter((order) => order.id !== id)
+        );
       }
     } catch (error) {
       console.log(error);
@@ -49,10 +52,10 @@ const OrderProvider = ({ children }: Props) => {
             order.code_order === code_order ? { ...order, ...data } : order
           )
         );
-        alert("Cập nhật đơn hàng thành công!");
+        toast.success("Cập nhật đơn hàng thành công!");
       }
     } catch (error) {
-      alert("Cập nhật thất bại! Vui lòng thử lại.");
+      toast.error("Cập nhật đơn hàng thất bại!");
       console.error(error);
     }
   };

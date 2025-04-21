@@ -1,15 +1,16 @@
 import { useNavigate, Link } from "react-router-dom";
 import { CustomerUserContext } from "../../../context/UserCustomer";
 import { IUser } from "../../../interfaces/User";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { LoaderPinwheel } from "lucide-react";
 import { Switch, Tooltip } from "antd";
 import { toast } from "react-toastify";
 
 const CustomerAccounts = () => {
-  const { customerUsers, getAllUser, onStatus } =
+  const { customerUsers, getAllUser, onStatus, filterUsersByUsername } =
     useContext(CustomerUserContext);
   const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     getAllUser();
@@ -30,6 +31,12 @@ const CustomerAccounts = () => {
     }
   };
 
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+    filterUsersByUsername(value);
+  };
+
   if (!customerUsers) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -40,7 +47,21 @@ const CustomerAccounts = () => {
 
   return (
     <div className="p-6 w-full mx-auto bg-white shadow-md rounded-lg">
-      <h2 className="text-xl font-bold mb-4">Quản lý Tài Khoản Customer</h2>
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-xl font-bold">Quản lý Tài Khoản Customer</h2>
+        <div className="flex items-center gap-4">
+          <span className="text-sm text-gray-600">
+            Tổng: {customerUsers.length} tài khoản
+          </span>
+          <input
+            type="text"
+            placeholder="Tìm theo username..."
+            value={searchTerm}
+            onChange={handleSearchChange}
+            className="border border-gray-300 rounded px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+          />
+        </div>
+      </div>
 
       <table className="w-full border-collapse border border-gray-200">
         <thead>

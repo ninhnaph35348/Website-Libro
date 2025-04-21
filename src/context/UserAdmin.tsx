@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState, useRef } from "react";
 import {
   getAllAdmins,
   createAdmin,
@@ -20,6 +20,7 @@ const AdminUserProvider = ({ children }: Props) => {
   const [adminUsers, setAdminUsers] = useState<IUser[]>([]);
   const [filteredUsers, setFilteredUsers] = useState<IUser[]>([]);
   const [reload, setReload] = useState(false);
+  const filterTimeout = useRef<number | null>(null);
 
   // Lấy danh sách admin khi component mount hoặc reload thay đổi
   useEffect(() => {
@@ -35,6 +36,32 @@ const AdminUserProvider = ({ children }: Props) => {
     };
     fetchAdmins();
   }, [reload]);
+
+  // Lọc danh sách admin theo tên đăng nhập với debounce 0.5s
+  const filterUsersByUsername = (searchTerm: string) => {
+    if (filterTimeout.current) {
+      clearTimeout(filterTimeout.current);
+    }
+    filterTimeout.current = window.setTimeout(() => {
+      if (!searchTerm.trim()) {
+        setFilteredUsers(adminUsers);
+      } else {
+        const filtered = adminUsers.filter((user) =>
+          user.username.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        setFilteredUsers(filtered);
+      }
+    }, 500);
+  };
+
+  // Cleanup khi unmount
+  useEffect(() => {
+    return () => {
+      if (filterTimeout.current) {
+        clearTimeout(filterTimeout.current);
+      }
+    };
+  }, []);
 
   // Lấy thông tin chi tiết của một admin
   const onDetail = async (id: number | string) => {
@@ -94,9 +121,12 @@ const AdminUserProvider = ({ children }: Props) => {
   };
 
   // Cập nhật trạng thái admin
-  const onStatus = async (id: number | string, status: "active" | "inactive") => {
+  const onStatus = async (
+    id: number | string,
+    status: "active" | "inactive"
+  ) => {
     try {
-      const updatedData = { status }; // Partial update
+      const updatedData = { status };
       const updatedAdmin = await updateAdmin(updatedData, id);
       setAdminUsers((prev) =>
         prev.map((user) =>
@@ -115,18 +145,6 @@ const AdminUserProvider = ({ children }: Props) => {
     } catch (error) {
       toast.error("Lỗi khi cập nhật trạng thái!");
       console.error("Lỗi khi cập nhật trạng thái:", error);
-    }
-  };
-
-  // Lọc danh sách admin theo tên đăng nhập
-  const filterUsersByUsername = (searchTerm: string) => {
-    if (!searchTerm.trim()) {
-      setFilteredUsers(adminUsers);
-    } else {
-      const filtered = adminUsers.filter((user) =>
-        user.username.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-      setFilteredUsers(filtered);
     }
   };
 

@@ -684,9 +684,7 @@ const Shopdetail = () => {
                                       {rev.username || "Ẩn danh"}
                                     </h5>
                                     <span className="text-gray-500 text-sm">
-                                      {new Date(
-                                        rev.created_at || new Date()
-                                      ).toLocaleDateString()}
+                                      {rev.created_at}
                                     </span>
                                   </div>
                                   <div className="star">

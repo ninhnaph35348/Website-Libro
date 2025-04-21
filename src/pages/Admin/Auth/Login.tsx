@@ -4,6 +4,7 @@ import { login, setUser } from "../../../store/auth/authSlice";
 import { RootState, AppDispatch } from "../../../store/auth/store";
 import { useNavigate } from "react-router-dom";
 import { Loader, Mail, Lock } from "lucide-react";
+import { toast } from "react-toastify";
 
 const AdminLogin: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -16,13 +17,22 @@ const AdminLogin: React.FC = () => {
   const navigate = useNavigate();
 
   const validateForm = (): boolean => {
-    const newErrors: { email?: string; password?: string } = {};
-    if (!email) newErrors.email = "Vui lòng nhập email";
-    else if (!/\S+@\S+\.\S+/.test(email))
-      newErrors.email = "Email không hợp lệ";
-    if (!password) newErrors.password = "Vui lòng nhập mật khẩu";
-    else if (password.length < 6)
-      newErrors.password = "Mật khẩu phải có ít nhất 6 ký tự";
+    const newErrors: { general?: string; email?: string; password?: string } =
+      {};
+
+    // Nếu cả email và password đều rỗng
+    if (!email && !password) {
+      newErrors.general = "Vui lòng nhập đầy đủ thông tin đăng nhập";
+    } else {
+      if (!email) newErrors.email = "Vui lòng nhập email";
+      else if (!/\S+@\S+\.\S+/.test(email))
+        newErrors.email = "Email không hợp lệ";
+
+      if (!password) newErrors.password = "Vui lòng nhập mật khẩu";
+      else if (password.length < 6)
+        newErrors.password = "Mật khẩu phải có ít nhất 6 ký tự";
+    }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -32,22 +42,27 @@ const AdminLogin: React.FC = () => {
     if (!validateForm()) return;
 
     try {
-      const res = await dispatch(login({ email, password })).unwrap();
+      const res = await dispatch(
+        login({ email, password, loginType: "admin" })
+      ).unwrap();
 
-      if (res.status === "inactive") {
-        setErrors({
-          email: "Tài khoản của bạn đã bị khóa do nhập sai quá nhiều lần.",
-        });
-        return;
+      if (!res || !res.token) {
+        throw new Error("API không trả về token hợp lệ");
       }
 
+      // Lưu thông tin
       localStorage.setItem("token", res.token);
+      localStorage.setItem("user", JSON.stringify(res.user));
       dispatch(setUser(res.user));
+
+      toast.success("🎉 Đăng nhập thành công!");
       navigate("/admin");
-      window.location.reload();
     } catch (err: any) {
-      console.error("Lỗi đăng nhập:", err); // Kiểm tra lỗi trong console
-      setErrors({ email: err || "Đăng nhập thất bại" }); // Hiển thị lỗi từ Redux
+      console.error("Lỗi đăng nhập:", err);
+
+      const apiMessage = err;
+
+      setErrors({ general: apiMessage });
     }
   };
   return (
@@ -58,8 +73,8 @@ const AdminLogin: React.FC = () => {
             Đăng nhập Admin
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
-            {errors.email || error ? (
-              <span className="text-red-500">{errors.email || error}</span>
+            {errors.general || error ? (
+              <span className="text-red-500">{errors.general || error}</span>
             ) : (
               "Vui lòng nhập thông tin đăng nhập"
             )}
@@ -81,6 +96,9 @@ const AdminLogin: React.FC = () => {
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
+              {errors.email && (
+                <p className="text-sm text-red-500">{errors.email}</p>
+              )}
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700">
@@ -98,6 +116,9 @@ const AdminLogin: React.FC = () => {
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
+              {errors.password && (
+                <p className="text-sm text-red-500">{errors.password}</p>
+              )}
             </div>
             <button
               type="submit"

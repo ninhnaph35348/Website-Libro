@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { ProductContext } from "../../../context/Product";
 import { IProduct } from "../../../interfaces/Products";
 import { Switch, Tooltip } from "antd";
+import { FaEdit } from "react-icons/fa";
 
 const ProductList = () => {
   const { filteredProducts, getAllProduct, onStatus, filterProductsByTitle } =
@@ -75,9 +76,8 @@ const ProductList = () => {
             <th className="border p-2">Mã</th>
             <th className="border p-2">Tiêu đề</th>
             <th className="border p-2">Tác giả</th>
-            <th className="border p-2">Ngôn ngữ</th>
             <th className="border p-2">Nhà cung cấp</th>
-            <th className="border p-2">Thể loại</th>
+            <th className="border p-2">Danh mục</th>
             <th className="border p-2">Hành động</th>
           </tr>
         </thead>
@@ -105,34 +105,36 @@ const ProductList = () => {
                 </td>
                 <td className="border p-2">{product.title}</td>
                 <td className="border p-2">{product.author}</td>
-                <td className="border p-2">{product.language}</td>
                 <td className="border p-2">{product.supplier_name}</td>
                 <td className="border p-2">{product.category}</td>
-                <td className="h-auto p-2 space-y-2 text-center">
-                  <Tooltip
-                    title={
-                      product.status === "in_stock"
-                        ? "Đang mở bán"
-                        : "Đang ngưng bán"
-                    }
-                  >
-                    <Switch
-                      checked={product.status === "in_stock"}
-                      onChange={(checked) =>
-                        onStatus(
-                          product.code,
-                          checked ? "in_stock" : "out_stock"
-                        )
+                <td className="p-2 text-center">
+                  <div className="flex items-center justify-center gap-2">
+                    <Tooltip
+                      title={
+                        product.status === "in_stock"
+                          ? "Đang mở bán"
+                          : "Đang ngưng bán"
                       }
-                    />
-                  </Tooltip>
+                    >
+                      <Switch
+                        checked={product.status === "in_stock"}
+                        onChange={(checked) =>
+                          onStatus(
+                            product.code,
+                            checked ? "in_stock" : "out_stock"
+                          )
+                        }
+                      />
+                    </Tooltip>
 
-                  <button
-                    onClick={() => navigate(`edit/${product.code}`)}
-                    className="bg-yellow-500 text-white px-2 py-1 rounded"
-                  >
-                    Sửa
-                  </button>
+                    <button
+                      title="Sửa sản phẩm"
+                      onClick={() => navigate(`edit/${product.code}`)}
+                      className="bg-yellow-500 text-white px-2 py-1 rounded flex items-center gap-2"
+                    >
+                      <FaEdit className="text-xl" />
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))

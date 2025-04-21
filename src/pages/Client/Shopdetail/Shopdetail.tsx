@@ -73,7 +73,6 @@ const Shopdetail = () => {
     return <p className="text-center mt-10 text-gray-500">Đang tải...</p>;
   }
 
-
   // Xử lý chọn loại bìa
   const handleCoverChange = async (coverId: number | string) => {
     if (!productVariant?.product?.code) {
@@ -125,16 +124,18 @@ const Shopdetail = () => {
     const user = JSON.parse(localStorage.getItem("user") || "{}");
     const userId = user?.id;
 
+    // 👉 Kiểm tra nếu chưa đăng nhập
+    if (!userId) {
+      toast.error("Vui lòng đăng nhập để đánh giá sản phẩm!");
+      return;
+    }
+
     if (!newReview.rating || newReview.rating < 1 || newReview.rating > 5) {
       toast.error("Vui lòng chọn rating từ 1 đến 5 sao!");
       return;
     }
     if (!newReview.review.trim()) {
       toast.error("Vui lòng nhập nội dung đánh giá!");
-      return;
-    }
-    if (!acceptTerms) {
-      toast.error("Vui lòng đồng ý với các điều khoản và điều kiện!");
       return;
     }
     if (!productVariant?.product?.code) {
@@ -145,13 +146,12 @@ const Shopdetail = () => {
     const reviewData: Partial<IReviews> = {
       rating: newReview.rating,
       review: newReview.review,
-      user_id: userId, // Đảm bảo không undefined
-      product_code: productVariant.product.code, // Đảm bảo product_code là số
+      user_id: userId,
+      product_code: productVariant.product.code,
       status: 0,
       del_flg: 0,
     };
 
-    // Log dữ liệu trước khi gửi
     console.log("Dữ liệu gửi lên:", reviewData);
 
     try {
@@ -159,17 +159,11 @@ const Shopdetail = () => {
       toast.success("Thêm đánh giá thành công!");
       setNewReview({ rating: 0, review: "" });
       setAcceptTerms(false);
-      // Sau khi thêm thành công, gọi lại fetchReviews để cập nhật danh sách đánh giá
       fetchReviews(productVariant.product.code);
+      window.location.reload();
     } catch (error: any) {
-      console.error(
-        "Lỗi khi thêm đánh giá:",
-        error.response?.data || error.message
-      );
-      toast.error(
-        "Thêm đánh giá thất bại: " +
-          (error.response?.data?.message || "Lỗi không xác định")
-      );
+      console.error("Lỗi khi thêm đánh giá:", error || error.message);
+      toast.error("Thêm đánh giá thất bại! Vui lòng thử lại sau.");
     }
   };
 
@@ -436,17 +430,23 @@ const Shopdetail = () => {
                         </button> */}
                         {productVariant.quantity === 0 ? (
                           <button
-                            disabled={productVariant.product.status === "out_stock"}
+                            disabled={
+                              productVariant.product.status === "out_stock"
+                            }
                             onClick={handleAddToCart}
-                            className="theme-btn">
-                            <i className="fa-solid fa-basket-shopping" /> Thêm vào giỏ hàng
+                            className="theme-btn"
+                          >
+                            <i className="fa-solid fa-basket-shopping" /> Thêm
+                            vào giỏ hàng
                           </button>
                         ) : (
                           <button
                             // disabled={productVariant.product.status !== 1}
                             onClick={handleAddToCart}
-                            className="theme-btn">
-                            <i className="fa-solid fa-basket-shopping" /> Thêm vào giỏ hàng
+                            className="theme-btn"
+                          >
+                            <i className="fa-solid fa-basket-shopping" /> Thêm
+                            vào giỏ hàng
                           </button>
                         )}
                       </div>
@@ -762,30 +762,8 @@ const Shopdetail = () => {
                                             review: e.target.value,
                                           })
                                         }
-                                        required
                                         className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500 h-32"
                                       ></textarea>
-                                    </div>
-                                  </div>
-                                  <div>
-                                    <div className="form-check flex items-center gap-2">
-                                      <input
-                                        type="checkbox"
-                                        className="form-check-input"
-                                        name="flexRadioDefault"
-                                        id="flexRadioDefault12"
-                                        checked={acceptTerms}
-                                        onChange={(e) =>
-                                          setAcceptTerms(e.target.checked)
-                                        }
-                                      />
-                                      <label
-                                        className="form-check-label text-sm"
-                                        htmlFor="flexRadioDefault12"
-                                      >
-                                        Tôi đồng ý với các điều khoản và điều
-                                        kiện
-                                      </label>
                                     </div>
                                   </div>
                                   <div>

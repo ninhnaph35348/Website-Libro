@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import face from "../../../assets/img/facebook.png";
-import goge from "../../../assets/img/google.png";
+// import face from "../../../assets/img/facebook.png";
+// import goge from "../../../assets/img/google.png";
 import { Mail, Lock, Loader } from "lucide-react"; // Sử dụng icon
 import { useNavigate } from "react-router-dom"; // Điều hướng
-import { signInWithGoogle } from "../../../../firebase"; // Đăng nhập Google
+// import { signInWithGoogle } from "../../../../firebase"; // Đăng nhập Google
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../store/auth/store";
 import { login, setUser } from "../../../store/auth/authSlice";
@@ -19,18 +19,26 @@ const LoginClient: React.FC = () => {
     general?: string;
   }>({});
   const dispatch = useDispatch<AppDispatch>();
-  const { loading } = useSelector((state: RootState) => state.auth);
+  const { loading, error } = useSelector((state: RootState) => state.auth);
   const navigate = useNavigate();
 
   // ✅ Hàm kiểm tra dữ liệu nhập vào
   const validateForm = (): boolean => {
-    const newErrors: { email?: string; password?: string } = {};
-    if (!email) newErrors.email = "Vui lòng nhập email";
-    else if (!/\S+@\S+\.\S+/.test(email))
-      newErrors.email = "Email không hợp lệ";
-    if (!password) newErrors.password = "Vui lòng nhập mật khẩu";
-    else if (password.length < 6)
-      newErrors.password = "Mật khẩu phải có ít nhất 6 ký tự";
+    const newErrors: { general?: string; email?: string; password?: string } =
+      {};
+
+    // Nếu cả email và password đều rỗng
+    if (!email && !password) {
+      newErrors.general = "Vui lòng nhập đầy đủ thông tin đăng nhập";
+    } else {
+      if (!email) newErrors.email = "Vui lòng nhập email";
+      else if (!/\S+@\S+\.\S+/.test(email))
+        newErrors.email = "Email không hợp lệ";
+
+      if (!password) newErrors.password = "Vui lòng nhập mật khẩu";
+      else if (password.length < 6)
+        newErrors.password = "Mật khẩu phải có ít nhất 6 ký tự";
+    }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -42,26 +50,28 @@ const LoginClient: React.FC = () => {
     if (!validateForm()) return;
 
     try {
-      const res = await dispatch(login({ email, password })).unwrap(); // Lấy dữ liệu từ API
-      // console.log("📌 API Response:", res); // Log dữ liệu trả về để debug
+      // Thêm loginType vào trong payload khi gọi login API
+      const res = await dispatch(
+        login({ email, password, loginType: "client" })
+      ).unwrap();
 
-      // Kiểm tra nếu API không trả về token thì báo lỗi
       if (!res || !res.token) {
         throw new Error("API không trả về token hợp lệ");
       }
 
-      await localStorage.setItem("token", res.token);
-      localStorage.setItem("user", JSON.stringify(res.user)); // Thêm dòng này
-      // console.log(localStorage.getItem("user"));
-      dispatch(setUser(res.user)); // Lưu user vào Redux
-      // console.log("🔥 Gọi toast...");
+      localStorage.setItem("token", res.token);
+      localStorage.setItem("user", JSON.stringify(res.user));
+      dispatch(setUser(res.user));
 
       toast.success("🎉 Đăng nhập thành công!");
       setTimeout(() => navigate("/"), 1000);
-    } catch (err) {
+    } catch (err: any) {
       console.error("❌ Lỗi API:", err);
-      setErrors({ general: "Sai email hoặc mật khẩu" });
-      toast.error("Sai email hoặc mật khẩu");
+
+      // Lấy message từ API nếu có
+      const apiMessage = err.message || err;
+
+      setErrors({ general: apiMessage });
     }
   };
 
@@ -75,15 +85,12 @@ const LoginClient: React.FC = () => {
             Đăng nhập
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
-            Vui lòng nhập thông tin đăng nhập
+            {errors.general || error ? (
+              <span className="text-red-500">{errors.general || error}</span>
+            ) : (
+              "Vui lòng nhập thông tin đăng nhập"
+            )}
           </p>
-
-          {/* ✅ Hiển thị lỗi chung */}
-          {errors.general && (
-            <div className="mb-4 text-center text-red-500">
-              {errors.general}
-            </div>
-          )}
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
@@ -141,32 +148,32 @@ const LoginClient: React.FC = () => {
             </button>
           </form>
 
-          <div className="orting-badge text-center my-4 text-gray-500">
+          {/* <div className="orting-badge text-center my-4 text-gray-500">
             Hoặc
-          </div>
+          </div> */}
 
           {/* ✅ Đăng nhập Google */}
-          <button className="flex items-center justify-center space-x-2 border border-gray-300 rounded-lg py-2 text-gray-700 hover:bg-gray-100 w-full">
+          {/* <button className="flex items-center justify-center space-x-2 border border-gray-300 rounded-lg py-2 text-gray-700 hover:bg-gray-100 w-full">
             <img src={goge} alt="Google" className="h-5 w-5" />
             <span>Tiếp tục với Google</span>
-          </button>
+          </button> */}
 
           {/* ✅ Đăng nhập Facebook */}
-          <a
+          {/* <a
             className="flex items-center justify-center space-x-2 border border-gray-300 rounded-lg py-2 text-gray-700 hover:bg-gray-100"
             href="https://www.facebook.com/"
           >
             <img src={face} alt="facebook" className="h-5 w-5" />
             <span>Tiếp tục với Facebook</span>
-          </a>
+          </a> */}
 
           {/* Điều khoản */}
-          <div className="form-check-3 flex items-center mt-3">
+          {/* <div className="form-check-3 flex items-center mt-3">
             <input className="form-check-input" type="radio" name="terms" />
             <label className="ml-2 text-sm text-gray-600">
               Tôi đồng ý với Điều khoản & Điều kiện
             </label>
-          </div>
+          </div> */}
 
           {/* Quên mật khẩu */}
           <div className="mt-6 text-center">

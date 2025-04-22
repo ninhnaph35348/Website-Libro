@@ -105,7 +105,7 @@ const EditProfileAdmin: React.FC = () => {
         position: "top-right",
         autoClose: 3000,
       });
-      setTimeout(() => navigate("/admin/profile-Admin"), 2000);
+      setTimeout(() => navigate("/admin/profile-admin"), 2000);
     }
   };
 

@@ -65,6 +65,8 @@ import "react-toastify/dist/ReactToastify.css";
 import VoucherList from "./pages/Admin/Voucher/ListVoucher";
 import AddVoucher from "./pages/Admin/Voucher/AddVoucher";
 import EditVoucher from "./pages/Admin/Voucher/EditVoucher";
+import EditProfileAdmin from "./pages/Admin/ProfileAdmin/EditProfileAdmin";
+import ChangePasswordAdmin from "./pages/Admin/ProfileAdmin/ChangePasswordAdmin";
 
 const App = () => {
   return (
@@ -88,7 +90,7 @@ const App = () => {
             </Route>
             <Route path="orderstatus" element={<OrderStatus />} />
 
-            {/* Voucher Management */}  
+            {/* Voucher Management */}
             <Route path="voucher">
               <Route index element={<VoucherList />} />
               <Route path="add" element={<AddVoucher />} />
@@ -108,7 +110,10 @@ const App = () => {
             <Route path="product-variant">
               <Route index element={<ListProductVariant />} />
               <Route path="add" element={<AddProductVariant />} />
-              <Route path="edit/:code/cover/:id" element={<EditProductVariant />} />
+              <Route
+                path="edit/:code/cover/:id"
+                element={<EditProductVariant />}
+              />
             </Route>
 
             {/* Category Management */}
@@ -173,6 +178,10 @@ const App = () => {
               <Route path="detail/:id" element={<UserDetail />} />
               <Route path="edit/:id" element={<EditUserCustomer />} />
             </Route>
+            <Route path="profile-admin">
+              <Route index element={<EditProfileAdmin />} />
+              <Route path="change-password" element={<ChangePasswordAdmin />} />
+            </Route>
           </Route>
         </Route>
 
@@ -202,7 +211,10 @@ const App = () => {
           <Route path="/contact" element={<Contact />} />
           <Route path="/check-out" element={<Checkout />} />
           <Route path="/vnpay-return" element={<VnpayReturn />} />
-          <Route path="/shop-details/:code/cover/:id" element={<Shopdetail />} />
+          <Route
+            path="/shop-details/:code/cover/:id"
+            element={<Shopdetail />}
+          />
           <Route path="/shop-cart" element={<Shopcart />} />
           <Route path="/shop" element={<Shopdefaul />} />
           <Route path="/blog" element={<Blog />} />

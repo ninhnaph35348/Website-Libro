@@ -52,8 +52,15 @@ const AdminAccounts = () => {
   return (
     <div className="p-6 w-full mx-auto bg-white shadow-md rounded-lg">
       {/* Tiêu đề trang */}
+      <h2 className="text-xl font-bold mb-4">Quản lý Tài Khoản Admin</h2>
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-bold">Quản lý Tài Khoản Admin</h2>
+        <button
+          onClick={() => navigate("add")}
+          className="bg-blue-500 text-white px-4 py-2 rounded"
+        >
+          Thêm mới tài khoản
+        </button>
+
         <div className="flex items-center gap-4">
           <span className="text-sm text-gray-600">
             Tổng: {adminUsers.length} tài khoản

@@ -125,11 +125,11 @@ const ProductProvider = ({ children }: Props) => {
     try {
       const formData = new FormData();
       formData.append("status", newStatus);
-      formData.append("_method", "put"); // Laravel-style update
+      formData.append("_method", "put");
   
-      await statusProduct(formData, code); // Gửi lên API
+      await statusProduct(formData, code);
   
-      await getAllProduct(); // Cập nhật lại danh sách
+      await getAllProduct();
       alert("Cập nhật trạng thái thành công!");
     } catch (error) {
       console.error("❌ Lỗi khi cập nhật trạng thái sản phẩm:", error);

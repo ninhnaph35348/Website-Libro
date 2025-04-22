@@ -32,6 +32,7 @@ export const updateUser = createAsyncThunk(
   "auth/updateUser",
   async (userData: IUser, { rejectWithValue }) => {
     try {
+      console.log(userData);
       const response = await axiosInstance.put("/me", userData);  // Đúng route
       return response.data.user; 
     } catch (error: any) {
@@ -137,6 +138,7 @@ const authSlice = createSlice({
       })
       .addCase(fetchUser.rejected, (state) => {
         state.user = null;
+        state.error = "Không thể lấy thông tin người dùng.";
       })
       // Xử lý updateUser
       .addCase(updateUser.pending, (state) => {

@@ -20,7 +20,7 @@ const VoucherList = () => {
             <div className="mb-4 flex justify-between items-center w-full">
                 <button
                     onClick={() => navigate("add")}
-                    className="bg-green-500 text-white px-4 py-2 rounded w-1/3"
+                    className="bg-blue-500 text-white px-4 py-2 rounded"
                 >
                     Thêm mới voucher
                 </button>

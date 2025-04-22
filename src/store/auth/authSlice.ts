@@ -137,7 +137,6 @@ const authSlice = createSlice({
       })
       .addCase(fetchUser.rejected, (state) => {
         state.user = null;
-        state.error = "Không thể lấy thông tin người dùng.";
       })
       // Xử lý updateUser
       .addCase(updateUser.pending, (state) => {

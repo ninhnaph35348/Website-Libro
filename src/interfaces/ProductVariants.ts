@@ -11,4 +11,5 @@ export interface IProductVariant{
     product: IProduct;
     total_sold: string;
     sold_quantity: string;
+    del_flg: string;
 }

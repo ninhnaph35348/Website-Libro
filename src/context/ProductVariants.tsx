@@ -70,14 +70,13 @@ const ProductVariantProvider = ({ children }: Props) => {
         }
     };
 
-    const onStatus = async (code: string | number, newStatus: "in_stock" | "out_stock") => {
+    const onStatus = async (code: string | number, newStatus: "0" | "1") => {
         try {
             const formData = new FormData();
-            formData.append("status", newStatus);
-            formData.append("_method", "put"); // Laravel-style update
-
-            await statusProductVariant(formData, code); // Gửi lên API
-
+            formData.append("del_flg", newStatus);
+            formData.append("_method", "put");
+            await statusProductVariant(formData, code);
+            await getAllProductVariants();
             alert("Cập nhật trạng thái thành công!");
         } catch (error) {
             console.error("❌ Lỗi khi cập nhật trạng thái sản phẩm:", error);
@@ -88,7 +87,6 @@ const ProductVariantProvider = ({ children }: Props) => {
         try {
             const formDataToSend = new FormData();
 
-            // Convert IProductVariant object to FormData
             for (const key in formData) {
                 const value = (formData as any)[key];
                 if (value !== undefined && value !== null) {

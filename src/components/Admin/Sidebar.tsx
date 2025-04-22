@@ -22,6 +22,7 @@ import {
   ShoppingCart,
   Tag,
   UserRoundPen,
+  Lock,
 } from "lucide-react";
 
 const Sidebar = ({
@@ -70,6 +71,11 @@ const Sidebar = ({
         path: "/admin/profile-admin",
         label: "Thông tin tài khoản",
         icon: UserRoundPen,
+      },
+      {
+        path: "/admin/profile-admin/change-password",
+        label: "Đổi mật khẩu",
+        icon: Lock,
       },
     ],
     []

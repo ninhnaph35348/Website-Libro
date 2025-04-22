@@ -48,11 +48,11 @@ const ListProductVariant = () => {
                             <td className="border p-2 text-center ">
                                 <div className="flex justify-center gap-2">
 
-                                    <Tooltip title={productvariant.product.status === "in_stock" ? "Đang mở bán" : "Đang ngưng bán"}>
+                                    <Tooltip title={productvariant.del_flg == "0" ? "Đang mở bán" : "Đang ngưng bán"}>
                                         <Switch
-                                            checked={productvariant.product.status === "in_stock"}
+                                            checked={productvariant.del_flg == "0"}
                                             onChange={(checked) =>
-                                                onStatus(productvariant.product.code, checked ? "in_stock" : "out_stock")
+                                                onStatus(productvariant.product.code, checked ? "0" : "1")
                                             }
                                         />
                                     </Tooltip>

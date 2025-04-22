@@ -63,7 +63,7 @@ const OrderDetail: React.FC = () => {
           prevOrder ? { ...prevOrder, status: "Đã hủy" } : null
         );
         setError(null);
-        toast.success("Đơn hàng đã được hủy.");
+        alert("Đơn hàng đã được hủy.");
         setTimeout(() => {
           // chuyển hướng hoặc reload nếu muốn
         }, 1000);     

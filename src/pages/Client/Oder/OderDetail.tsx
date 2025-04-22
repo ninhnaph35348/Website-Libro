@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import instance from "../../../config/axios";
-import { IOrder } from "../../../interfaces/Orders";
+import { toast } from "react-toastify";
+// import { IOrder } from "../../../interfaces/Orders";
 
 const OrderDetail: React.FC = () => {
   const { orderCode } = useParams<{ orderCode: string }>();
@@ -47,8 +48,40 @@ const OrderDetail: React.FC = () => {
 
     try {
       const response = await instance.post(
-        `/cancel_order/${orderCode}`,
+        `/orders/cancel/${orderCode}`,
         { reason: cancelReason },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      
+
+      if (response.status === 200 || response.data?.success) {
+        setOrder((prevOrder: any) =>
+          prevOrder ? { ...prevOrder, status: "Đã hủy" } : null
+        );
+        setError(null);
+        toast.success("Đơn hàng đã được hủy.");
+        setTimeout(() => {
+          // chuyển hướng hoặc reload nếu muốn
+        }, 1000);     
+       } else {
+        console.log("Hủy thất bại - dữ liệu phản hồi:", response.data);
+        setError("Không thể hủy đơn hàng.");
+      }
+      
+    } catch (err) {
+      setError("Có lỗi xảy ra khi hủy đơn hàng.");
+    }
+  };
+
+  const handleMarkAsCompleted = async () => {
+    try {
+      const response = await instance.post(
+        `/complete_order/${orderCode}`,
+        {},
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -57,19 +90,17 @@ const OrderDetail: React.FC = () => {
       );
 
       if (response.data.success) {
-        setOrder((prevOrder: IOrder | null) =>
-          prevOrder ? { ...prevOrder, status: "Đã hủy" } : null
+        setOrder((prevOrder: any) =>
+          prevOrder ? { ...prevOrder, status: "Hoàn thành" } : null
         );
-        setError(null);
-        alert("Đơn hàng đã được hủy.");
+        alert("Đơn hàng đã hoàn thành.");
       } else {
-        setError("Không thể hủy đơn hàng.");
+        setError("Không thể cập nhật trạng thái đơn hàng.");
       }
     } catch (err) {
-      setError("Có lỗi xảy ra khi hủy đơn hàng.");
+      setError("Có lỗi xảy ra khi cập nhật trạng thái.");
     }
   };
-
   // Ép kiểu và kiểm tra dữ liệu từ API
   const totalPrice = isNaN(Number(order?.total_price))
     ? 0
@@ -194,6 +225,18 @@ const OrderDetail: React.FC = () => {
               className="mt-3 px-6 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
             >
               Hủy Đơn Hàng
+            </button>
+          </div>
+        )}
+
+        {/* Nút đánh dấu hoàn thành nếu trạng thái là "Đang giao" */}
+        {order.status === "Đang giao" && (
+          <div className="mt-4">
+            <button
+              onClick={handleMarkAsCompleted}
+              className="px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
+            >
+              Đánh dấu Hoàn thành
             </button>
           </div>
         )}

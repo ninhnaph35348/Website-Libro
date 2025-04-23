@@ -56,7 +56,7 @@ const VoucherProvider = ({ children }: Props) => {
 
       await statusVoucher(formData, code); // Gửi lên API
 
-      await getAllVoucher(); // Cập nhật lại danh sách
+      await getAllVouchers(); // Cập nhật lại danh sách
       alert("Cập nhật trạng thái thành công!");
     } catch (error) {
       console.error("❌ Lỗi khi cập nhật trạng thái sản phẩm:", error);

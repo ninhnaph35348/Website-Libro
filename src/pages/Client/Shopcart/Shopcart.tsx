@@ -36,9 +36,22 @@ const ShopCart = () => {
 
   // Hàm cập nhật số lượng với thông báo
   const handleUpdateQuantity = (id: number, quantity: number) => {
-    updateCartQuantity(id, quantity);
-    showMessage("Cập nhật số lượng thành công!");
+    const item = cartItems.find((item) => item.id === id);
+    if (!item) return;
+
+    if (quantity > item.quantity) {
+      showMessage(`Chỉ còn ${item.quantity} sản phẩm trong kho!`);
+      updateCartQuantity(id, item.quantity);
+    } else if (quantity < 1) {
+      showMessage("Số lượng tối thiểu là 1!");
+      updateCartQuantity(id, 1);
+    } else {
+      updateCartQuantity(id, quantity);
+      showMessage("Cập nhật số lượng thành công!");
+    }
   };
+
+
 
   // Hàm lấy giá hiển thị (dùng để tính tổng tiền)
   const getDisplayPrice = (item: any) => {

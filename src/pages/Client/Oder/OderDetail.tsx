@@ -138,38 +138,39 @@ const OrderDetail: React.FC = () => {
             <strong>Mã đơn hàng:</strong> {order.code_order}
           </p>
           <p>
-            <strong>Ngày đặt:</strong> {order.created_at}
-          </p>
-          <p>
-            <strong>Người đặt:</strong> {order.user_name}
-          </p>
-          <p>
-            <strong>Email:</strong> {order.user_email}
-          </p>
-          <p>
-            <strong>SĐT:</strong> {order.user_phone}
-          </p>
-          <p>
-            <strong>Địa chỉ:</strong> {order.user_address}
-          </p>
-          <p>
             <strong>Người nhận:</strong>{" "}
-            {order.shipping_name || "Chưa có thông tin"}
+            {order.user_name || "Chưa có thông tin"}
+          </p>
+          <p>
+            <strong>Ngày đặt:</strong> {order.created_at}
           </p>
           <p>
             <strong>SĐT người nhận:</strong>{" "}
             {order.shipping_phone || "Chưa có thông tin"}
           </p>
           <p>
+            <strong>Người đặt:</strong> {order.shipping_name}
+          </p>
+          <p>
             <strong>Địa chỉ người nhận:</strong>{" "}
             {order.shipping_address || "Chưa có thông tin"}
+          </p>
+          <p>
+            <strong>SĐT người đặt:</strong> {order.user_phone}
+          </p>
+          <p>
+            <strong>Thanh toán:</strong>{" "}
+            {order.payment_method === 1 ? "Khi nhận hàng" : "Vn Pay"}
+          </p>
+          <p>
+            <strong>Email:</strong> {order.user_email}
           </p>
           <p>
             <strong>Trạng thái:</strong>{" "}
             <span className="font-semibold">{order.status}</span>
           </p>
           <p>
-            <strong>Thanh toán:</strong> {order.payment_method}
+            <strong>Địa chỉ người đặt:</strong> {order.user_address}
           </p>
 
           <div className="mt-8 col-span-2">

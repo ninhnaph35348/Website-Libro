@@ -10,11 +10,10 @@ import { ICartItem } from "../../../interfaces/Cart";
 import { ICheckout } from "../../../interfaces/Checkout";
 import { IUser } from "../../../interfaces/User";
 import { IVnPay } from "../../../interfaces/VnPay";
+import { IVoucher } from "../../../interfaces/Voucher";
+import { getVoucherById } from "../../../services/Voucher";
 import { fetchUser } from "../../../store/auth/authSlice";
 import { RootState } from "../../../store/auth/store";
-import { getVoucherById } from "../../../services/Voucher";
-import { IVoucher } from "../../../interfaces/Voucher";
-import { toast } from "react-toastify";
 
 const Checkout: React.FC = () => {
     const { cartItems, removeFromCart } = useCart();

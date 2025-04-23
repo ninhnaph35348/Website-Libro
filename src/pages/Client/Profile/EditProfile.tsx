@@ -216,7 +216,7 @@ const EditProfile: React.FC = () => {
         </div>
 
         {/* Tỉnh/Thành phố */}
-        <div>
+        {/* <div>
           <label className="block text-sm font-medium">Tỉnh/Thành phố:</label>
           <select name="province" value={userData?.province || ""} onChange={handleChange} className="w-full p-3 border rounded">
             <option value="">Chọn tỉnh/thành phố</option>
@@ -224,10 +224,10 @@ const EditProfile: React.FC = () => {
               <option key={province.code} value={province.code}>{province.name}</option>
             ))}
           </select>
-        </div>
+        </div> */}
     
         {/* Huyện/Quận */}
-        <div>
+        {/* <div>
           <label className="block text-sm font-medium">Huyện/Quận:</label>
           <select name="district" value={userData?.district || ""} onChange={handleChange} className="w-full p-3 border rounded" disabled={!userData?.province}>
             <option value="">Chọn huyện/quận</option>
@@ -235,10 +235,10 @@ const EditProfile: React.FC = () => {
               <option key={d.code} value={d.code}>{d.name}</option>
             ))}
           </select>
-        </div>
+        </div> */}
     
         {/* Xã/Phường */}
-        <div className="col-span-2">
+        {/* <div className="col-span-2">
           <label className="block text-sm font-medium">Xã/Phường:</label>
           <select name="ward" value={userData?.ward || ""} onChange={handleChange} className="w-full p-3 border rounded" disabled={!userData?.district}>
             <option value="">Chọn xã/phường</option>
@@ -246,12 +246,11 @@ const EditProfile: React.FC = () => {
               <option key={w.code} value={w.code}>{w.name}</option>
             ))}
           </select>
-        </div>
+        </div> */}
       </div>
 
       <div className="flex justify-end gap-4 mt-6">
         <button onClick={handleSave} className="px-5 py-3 bg-blue-500 text-white rounded">Lưu</button>
-        <button onClick={() => navigate("/profile/accout")} className="px-5 py-3 bg-gray-300 rounded">Hủy</button>
       </div>
     </div>
   );

@@ -159,20 +159,22 @@ const OrderDetail: React.FC = () => {
             <strong>SĐT người đặt:</strong> {order.user_phone}
           </p>
           <p>
-            <strong>Thanh toán:</strong>{" "}
-            {order.payment_method === 1 ? "Khi nhận hàng" : "Vn Pay"}
+            <strong>Email người đặt:</strong> {order.user_email}
           </p>
           <p>
-            <strong>Email:</strong> {order.user_email}
+            <strong>Email người nhận:</strong> {order.shipping_email}
+          </p>
+          <p>
+            <strong>Địa chỉ người đặt:</strong> {order.user_address}
+          </p>
+          <p>
+            <strong>Thanh toán:</strong>{" "}
+            {order.payment_method === 1 ? "Khi nhận hàng" : "Vn Pay"}
           </p>
           <p>
             <strong>Trạng thái:</strong>{" "}
             <span className="font-semibold">{order.status}</span>
           </p>
-          <p>
-            <strong>Địa chỉ người đặt:</strong> {order.user_address}
-          </p>
-
           <div className="mt-8 col-span-2">
             <h3 className="text-xl font-semibold mb-4">Tổng kết đơn hàng</h3>
             <div className="grid grid-cols-2 gap-y-2 max-w-xl text-sm text-gray-800">

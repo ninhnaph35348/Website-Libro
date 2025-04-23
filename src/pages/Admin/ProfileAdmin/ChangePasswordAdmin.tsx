@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { updatePassword } from "../../../store/auth/authSlice"; // Assuming you have an action for password update.
 import { toast } from "react-toastify";
 
-const ChangePassword: React.FC = () => {
+const ChangePasswordAdmin: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
 
   // Local state for form fields
@@ -19,13 +19,12 @@ const ChangePassword: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Kiểm tra các trường có bị bỏ trống không
+    // Basic validation
     if (!currentPassword || !newPassword || !confirmPassword) {
       setError("Vui lòng điền đầy đủ thông tin.");
       return;
     }
 
-    // Kiểm tra mật khẩu mới và xác nhận có khớp nhau không
     if (newPassword !== confirmPassword) {
       setError("Mật khẩu mới và xác nhận mật khẩu không khớp.");
       return;
@@ -35,22 +34,36 @@ const ChangePassword: React.FC = () => {
     setError(null);
 
     try {
+      console.log("Current password:", currentPassword); // Debug
+      console.log("New password:", newPassword); // Debug
+      console.log("Confirm password:", confirmPassword); // Debug
+
+      // Dispatch the action to update password
       await dispatch(
         updatePassword({
           currentPassword,
           newPassword,
           newPasswordConfirmation: confirmPassword,
         })
-      ).unwrap();
+      );
 
-      toast.success("Đổi mật khẩu thành công!");
-      setTimeout(() => navigate("/profile"), 2000);
+      // Nếu cập nhật thành công
+      toast.success("đổi mật khẩu thành công");
+      setTimeout(() => navigate("/admin/profile-admin"), 2000);
     } catch (err: any) {
-      setError(err);
+      // Kiểm tra lỗi trả về từ backend
+      if (err.response && err.response.status === 401) {
+        // Lỗi mật khẩu cũ không đúng
+        setError(err.response.data.message); // Hiển thị thông báo lỗi từ backend
+      } else {
+        // Lỗi khác
+        setError("Đổi mật khẩu thất bại. Vui lòng thử lại.");
+      }
     } finally {
       setLoading(false);
     }
   };
+
   return (
     <div className="max-w-7xl mx-auto p-4 bg-white shadow-lg rounded-lg">
       <div className="flex justify-between items-center mb-4">
@@ -107,7 +120,7 @@ const ChangePassword: React.FC = () => {
       </form>
 
       <div className="mt-4">
-        <Link to="/profile" className="text-sm text-blue-600">
+        <Link to="/admin/profile-admin" className="text-sm text-blue-600">
           Quay lại trang thông tin tài khoản
         </Link>
       </div>
@@ -115,4 +128,4 @@ const ChangePassword: React.FC = () => {
   );
 };
 
-export default ChangePassword;
+export default ChangePasswordAdmin;

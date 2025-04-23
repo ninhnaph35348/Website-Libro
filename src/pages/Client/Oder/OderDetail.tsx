@@ -2,13 +2,15 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import instance from "../../../config/axios";
 import { IOrder } from "../../../interfaces/Orders";
-
+import { toast } from "react-toastify";
+// import { IOrder } from "../../../interfaces/Orders";
 const OrderDetail: React.FC = () => {
   const { orderCode } = useParams<{ orderCode: string }>();
   const [order, setOrder] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [cancelReason, setCancelReason] = useState<string>("");
+  const [totalProductPrice, setTotalProductPrice] = useState<number>(0);
 
   useEffect(() => {
     const fetchOrderDetails = async () => {
@@ -18,9 +20,11 @@ const OrderDetail: React.FC = () => {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
+        console.log("response", response.data);
 
-        if (response.data && response.data.data) {
-          setOrder(response.data.data);
+        if (response.data && response.data.order) {
+          setOrder(response.data.order);
+          setTotalProductPrice(response.data.total_product_price || 0);
         } else {
           setError("Không tìm thấy đơn hàng.");
         }
@@ -47,7 +51,7 @@ const OrderDetail: React.FC = () => {
 
     try {
       const response = await instance.post(
-        `/cancel_order/${orderCode}`,
+        `/orders/cancel/${orderCode}`,
         { reason: cancelReason },
         {
           headers: {
@@ -56,28 +60,55 @@ const OrderDetail: React.FC = () => {
         }
       );
 
-      if (response.data.success) {
-        setOrder((prevOrder: IOrder | null) =>
+      if (response.status === 200 || response.data?.success) {
+        setOrder((prevOrder: any) =>
           prevOrder ? { ...prevOrder, status: "Đã hủy" } : null
         );
         setError(null);
-        alert("Đơn hàng đã được hủy.");
+        toast.success("Đơn hàng đã được hủy.");
+        setTimeout(() => {
+          // chuyển hướng hoặc reload nếu muốn
+        }, 1000);
       } else {
+        console.log("Hủy thất bại - dữ liệu phản hồi:", response.data);
         setError("Không thể hủy đơn hàng.");
       }
     } catch (err) {
       setError("Có lỗi xảy ra khi hủy đơn hàng.");
     }
   };
+  const handleMarkAsCompleted = async () => {
+    try {
+      const response = await instance.post(
+        `/complete_order/${orderCode}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
 
-  // Ép kiểu và kiểm tra dữ liệu từ API
-  const totalPrice = isNaN(Number(order?.total_price))
+      if (response.data.success) {
+        setOrder((prevOrder: any) =>
+          prevOrder ? { ...prevOrder, status: "Hoàn thành" } : null
+        );
+        alert("Đơn hàng đã hoàn thành.");
+      } else {
+        setError("Không thể cập nhật trạng thái đơn hàng.");
+      }
+    } catch (err) {
+      setError("Có lỗi xảy ra khi cập nhật trạng thái.");
+    }
+  };
+  const voucherDiscount = isNaN(Number(order?.voucher_discount))
     ? 0
-    : Number(order.total_price);
-  const voucherDiscount = isNaN(Number(order?.voucher))
-    ? 0
-    : Number(order.voucher);
-  const totalAfterVoucher = totalPrice - voucherDiscount;
+    : Number(order.voucher_discount);
+
+  const shippingFee = isNaN(Number(order?.shipping_fee))
+    ? 30000
+    : Number(order.shipping_fee);
+  const totalPrice = Number(order?.total_price);
 
   if (loading)
     return (
@@ -107,57 +138,71 @@ const OrderDetail: React.FC = () => {
             <strong>Mã đơn hàng:</strong> {order.code_order}
           </p>
           <p>
+            <strong>Người nhận:</strong>{" "}
+            {order.user_name || "Chưa có thông tin"}
+          </p>
+          <p>
             <strong>Ngày đặt:</strong> {order.created_at}
           </p>
           <p>
-            <strong>Người đặt:</strong> {order.user_name}
+            <strong>SĐT người nhận:</strong>{" "}
+            {order.shipping_phone || "Chưa có thông tin"}
           </p>
           <p>
-            <strong>Email:</strong> {order.user_email}
+            <strong>Người đặt:</strong> {order.shipping_name}
           </p>
           <p>
-            <strong>SĐT:</strong> {order.user_phone}
+            <strong>Địa chỉ người nhận:</strong>{" "}
+            {order.shipping_address || "Chưa có thông tin"}
           </p>
           <p>
-            <strong>Địa chỉ:</strong> {order.user_address}
+            <strong>SĐT người đặt:</strong> {order.user_phone}
           </p>
-          
-          {/* Thêm thông tin người nhận */}
           <p>
-  <strong>Người nhận:</strong> {order.shipping_name || "Chưa có thông tin"}
-</p>
-<p>
-  <strong>SĐT người nhận:</strong> {order.shipping_phone || "Chưa có thông tin"}
-</p>
-<p>
-  <strong>Địa chỉ người nhận:</strong> {order.shipping_address || "Chưa có thông tin"}
-</p>
-
-          
+            <strong>Email người đặt:</strong> {order.user_email}
+          </p>
+          <p>
+            <strong>Email người nhận:</strong> {order.shipping_email}
+          </p>
+          <p>
+            <strong>Địa chỉ người đặt:</strong> {order.user_address}
+          </p>
+          <p>
+            <strong>Thanh toán:</strong>{" "}
+            {order.payment_method === 1 ? "Khi nhận hàng" : "Vn Pay"}
+          </p>
           <p>
             <strong>Trạng thái:</strong>{" "}
             <span className="font-semibold">{order.status}</span>
           </p>
-          <p>
-            <strong>Thanh toán:</strong> {order.payment_method}
-          </p>
-          {/* Tổng tiền, voucher và thành tiền */}
-          {/* Tổng kết đơn hàng */}
-          <div className="mt-8">
+          <div className="mt-8 col-span-2">
             <h3 className="text-xl font-semibold mb-4">Tổng kết đơn hàng</h3>
-
             <div className="grid grid-cols-2 gap-y-2 max-w-xl text-sm text-gray-800">
               <span className="font-semibold">Tổng tiền sản phẩm:</span>
               <span className="text-right">
-                {totalPrice.toLocaleString("vi-VN", {
+                {totalProductPrice.toLocaleString("vi-VN", {
                   style: "currency",
                   currency: "VND",
                 })}
               </span>
 
               <span className="font-semibold">Voucher giảm giá:</span>
+              <span className="text-right">{order?.voucher || "Không có"}</span>
+
+              <span className="font-semibold">Tiền được giảm:</span>
               <span className="text-right text-red-700">
-                - {voucherDiscount.toLocaleString("vi-VN", {
+                -{" "}
+                {order.voucher_discount_type === "percent"
+                  ? `${voucherDiscount}%`
+                  : voucherDiscount.toLocaleString("vi-VN", {
+                      style: "currency",
+                      currency: "VND",
+                    })}
+              </span>
+              <span className="font-semibold">Phí vận chuyển:</span>
+              <span className="text-right">
+                +{" "}
+                {shippingFee.toLocaleString("vi-VN", {
                   style: "currency",
                   currency: "VND",
                 })}
@@ -167,7 +212,7 @@ const OrderDetail: React.FC = () => {
                 Thành tiền:
               </span>
               <span className="text-right font-semibold text-green-700 border-t pt-2">
-                {totalAfterVoucher.toLocaleString("vi-VN", {
+                {totalPrice.toLocaleString("vi-VN", {
                   style: "currency",
                   currency: "VND",
                 })}
@@ -176,7 +221,6 @@ const OrderDetail: React.FC = () => {
           </div>
         </div>
 
-        {/* Nút Hủy đơn hàng nếu trạng thái là "Chờ xác nhận" */}
         {order.status === "Chờ xác nhận" && (
           <div className="mt-4">
             <label className="block mb-2 text-gray-700 font-medium">
@@ -194,6 +238,17 @@ const OrderDetail: React.FC = () => {
               className="mt-3 px-6 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
             >
               Hủy Đơn Hàng
+            </button>
+          </div>
+        )}
+        {/* Nút đánh dấu hoàn thành nếu trạng thái là "Đang giao" */}
+        {order.status === "Đang giao" && (
+          <div className="mt-4">
+            <button
+              onClick={handleMarkAsCompleted}
+              className="px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
+            >
+              Đánh dấu Hoàn thành
             </button>
           </div>
         )}

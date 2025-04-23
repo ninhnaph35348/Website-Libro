@@ -481,6 +481,7 @@ const Shopdefaul = () => {
                   </div>
                 </div>
               </div> */}
+              
               <div className="col-12 order-1 order-md-2">
                 <div className="tab-content" id="pills-tabContent">
                   <div

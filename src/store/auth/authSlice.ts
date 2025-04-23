@@ -32,6 +32,7 @@ export const updateUser = createAsyncThunk(
   "auth/updateUser",
   async (userData: IUser, { rejectWithValue }) => {
     try {
+      console.log(userData);
       const response = await axiosInstance.put("/me", userData);  // Đúng route
       return response.data.user; 
     } catch (error: any) {
@@ -45,26 +46,32 @@ export const updateUser = createAsyncThunk(
 export const updatePassword = createAsyncThunk(
   "auth/updatePassword",
   async (
-    { currentPassword, newPassword, newPasswordConfirmation }: { 
-      currentPassword: string; 
-      newPassword: string; 
-      newPasswordConfirmation: string; // Thêm confirm_new_password
-    }, 
+    {
+      currentPassword,
+      newPassword,
+      newPasswordConfirmation,
+    }: {
+      currentPassword: string;
+      newPassword: string;
+      newPasswordConfirmation: string;
+    },
     { rejectWithValue }
   ) => {
     try {
-      // Gửi PUT request với dữ liệu đúng với API yêu cầu
       const response = await axiosInstance.put("/change-password", {
-        old_password: currentPassword, // Sửa thành old_password
-        new_password: newPassword, // Sửa thành new_password
-        confirm_new_password: newPasswordConfirmation, // Thêm confirm_new_password
+        old_password: currentPassword,
+        new_password: newPassword,
+        confirm_new_password: newPasswordConfirmation,
       });
-      return response.data; // Trả về thông điệp thành công hoặc dữ liệu người dùng
-    } catch (err) {
-      return rejectWithValue("Đổi mật khẩu thất bại. Vui lòng thử lại.");
+      return response.data;
+    } catch (err: any) {
+      // Lấy thông báo lỗi cụ thể từ backend nếu có
+      const message = err.response?.data?.message || "Đổi mật khẩu thất bại. Vui lòng thử lại.";
+      return rejectWithValue(message);
     }
   }
 );
+
 
 export const updateAvatar = createAsyncThunk(
   "auth/updateAvatar",

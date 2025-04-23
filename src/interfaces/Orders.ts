@@ -7,12 +7,15 @@ export interface IOrder {
     user_phone?: string | null;
     user_address?: string | null;
     shipping_name?: string | null;
+    shipping_email?: string | null;
     shipping_phone?: string | null;
     shipping_address?: string | null;
     user_id?: number | null;
     payment_method: number;
     voucher_id?: number | null;
-    voucher?: number | null;
+    voucher?: string | null;
+    voucher_discount?: number | null;
+    discount_type?: string;
     order_status_id: number;
     status: number;
     created_at: string;

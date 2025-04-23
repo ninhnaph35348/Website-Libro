@@ -21,6 +21,8 @@ import {
   Boxes,
   ShoppingCart,
   Tag,
+  UserRoundPen,
+  Lock,
 } from "lucide-react";
 
 const Sidebar = ({
@@ -46,7 +48,11 @@ const Sidebar = ({
   const productDropdown = useMemo(
     () => [
       { path: "/admin/product", label: "Sản Phẩm", icon: Book },
-      { path: "/admin/product-variant", label: "Biến thể sản phẩm", icon: Boxes },
+      {
+        path: "/admin/product-variant",
+        label: "Biến thể sản phẩm",
+        icon: Boxes,
+      },
       { path: "/admin/voucher", label: "Giảm giá", icon: Tag },
       { path: "/admin/covers", label: "Loại Bìa", icon: Layers },
     ],
@@ -60,6 +66,16 @@ const Sidebar = ({
         path: "/admin/user-customer",
         label: "Tài Khoản Khách Hàng",
         icon: User,
+      },
+      {
+        path: "/admin/profile-admin",
+        label: "Thông tin tài khoản",
+        icon: UserRoundPen,
+      },
+      {
+        path: "/admin/profile-admin/change-password",
+        label: "Đổi mật khẩu",
+        icon: Lock,
       },
     ],
     []
@@ -105,8 +121,9 @@ const Sidebar = ({
           </div>
           {!collapsed && (
             <ChevronDown
-              className={`w-4 h-4 transition-transform ${isOpen ? "rotate-180" : ""
-                }`}
+              className={`w-4 h-4 transition-transform ${
+                isOpen ? "rotate-180" : ""
+              }`}
             />
           )}
         </div>
@@ -119,8 +136,9 @@ const Sidebar = ({
 
   return (
     <aside
-      className={`fixed left-0 h-full bg-gray-800 text-white ${collapsed ? "w-16" : "w-64"
-        } transition-all duration-300 z-30`}
+      className={`fixed left-0 h-full bg-gray-800 text-white ${
+        collapsed ? "w-16" : "w-64"
+      } transition-all duration-300 z-30`}
     >
       <div className="h-16 flex items-center px-4 bg-gray-900">
         <span className={`font-bold text-xl ${collapsed ? "hidden" : "block"}`}>

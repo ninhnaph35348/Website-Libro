@@ -9,6 +9,7 @@ const OrderDetail: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [cancelReason, setCancelReason] = useState<string>("");
+  const [totalProductPrice, setTotalProductPrice] = useState<number>(0);
 
   useEffect(() => {
     const fetchOrderDetails = async () => {
@@ -18,9 +19,11 @@ const OrderDetail: React.FC = () => {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
+        console.log("response", response.data);
 
-        if (response.data && response.data.data) {
-          setOrder(response.data.data);
+        if (response.data && response.data.order) {
+          setOrder(response.data.order);
+          setTotalProductPrice(response.data.total_product_price || 0);
         } else {
           setError("Không tìm thấy đơn hàng.");
         }
@@ -70,14 +73,14 @@ const OrderDetail: React.FC = () => {
     }
   };
 
-  // Ép kiểu và kiểm tra dữ liệu từ API
-  const totalPrice = isNaN(Number(order?.total_price))
+  const voucherDiscount = isNaN(Number(order?.voucher_discount))
     ? 0
-    : Number(order.total_price);
-  const voucherDiscount = isNaN(Number(order?.voucher))
-    ? 0
-    : Number(order.voucher);
-  const totalAfterVoucher = totalPrice - voucherDiscount;
+    : Number(order.voucher_discount);
+
+  const shippingFee = isNaN(Number(order?.shipping_fee))
+    ? 30000
+    : Number(order.shipping_fee);
+  const totalPrice = Number(order?.total_price);
 
   if (loading)
     return (
@@ -121,19 +124,18 @@ const OrderDetail: React.FC = () => {
           <p>
             <strong>Địa chỉ:</strong> {order.user_address}
           </p>
-          
-          {/* Thêm thông tin người nhận */}
           <p>
-  <strong>Người nhận:</strong> {order.shipping_name || "Chưa có thông tin"}
-</p>
-<p>
-  <strong>SĐT người nhận:</strong> {order.shipping_phone || "Chưa có thông tin"}
-</p>
-<p>
-  <strong>Địa chỉ người nhận:</strong> {order.shipping_address || "Chưa có thông tin"}
-</p>
-
-          
+            <strong>Người nhận:</strong>{" "}
+            {order.shipping_name || "Chưa có thông tin"}
+          </p>
+          <p>
+            <strong>SĐT người nhận:</strong>{" "}
+            {order.shipping_phone || "Chưa có thông tin"}
+          </p>
+          <p>
+            <strong>Địa chỉ người nhận:</strong>{" "}
+            {order.shipping_address || "Chưa có thông tin"}
+          </p>
           <p>
             <strong>Trạng thái:</strong>{" "}
             <span className="font-semibold">{order.status}</span>
@@ -141,23 +143,35 @@ const OrderDetail: React.FC = () => {
           <p>
             <strong>Thanh toán:</strong> {order.payment_method}
           </p>
-          {/* Tổng tiền, voucher và thành tiền */}
-          {/* Tổng kết đơn hàng */}
-          <div className="mt-8">
-            <h3 className="text-xl font-semibold mb-4">Tổng kết đơn hàng</h3>
 
+          <div className="mt-8 col-span-2">
+            <h3 className="text-xl font-semibold mb-4">Tổng kết đơn hàng</h3>
             <div className="grid grid-cols-2 gap-y-2 max-w-xl text-sm text-gray-800">
               <span className="font-semibold">Tổng tiền sản phẩm:</span>
               <span className="text-right">
-                {totalPrice.toLocaleString("vi-VN", {
+                {totalProductPrice.toLocaleString("vi-VN", {
                   style: "currency",
                   currency: "VND",
                 })}
               </span>
 
               <span className="font-semibold">Voucher giảm giá:</span>
+              <span className="text-right">{order?.voucher || "Không có"}</span>
+
+              <span className="font-semibold">Tiền được giảm:</span>
               <span className="text-right text-red-700">
-                - {voucherDiscount.toLocaleString("vi-VN", {
+                -{" "}
+                {order.voucher_discount_type === "percent"
+                  ? `${voucherDiscount}%`
+                  : voucherDiscount.toLocaleString("vi-VN", {
+                      style: "currency",
+                      currency: "VND",
+                    })}
+              </span>
+              <span className="font-semibold">Phí vận chuyển:</span>
+              <span className="text-right">
+                +{" "}
+                {shippingFee.toLocaleString("vi-VN", {
                   style: "currency",
                   currency: "VND",
                 })}
@@ -167,7 +181,7 @@ const OrderDetail: React.FC = () => {
                 Thành tiền:
               </span>
               <span className="text-right font-semibold text-green-700 border-t pt-2">
-                {totalAfterVoucher.toLocaleString("vi-VN", {
+                {totalPrice.toLocaleString("vi-VN", {
                   style: "currency",
                   currency: "VND",
                 })}
@@ -176,7 +190,6 @@ const OrderDetail: React.FC = () => {
           </div>
         </div>
 
-        {/* Nút Hủy đơn hàng nếu trạng thái là "Chờ xác nhận" */}
         {order.status === "Chờ xác nhận" && (
           <div className="mt-4">
             <label className="block mb-2 text-gray-700 font-medium">

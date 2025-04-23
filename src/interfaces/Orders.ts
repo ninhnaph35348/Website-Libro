@@ -12,7 +12,9 @@ export interface IOrder {
     user_id?: number | null;
     payment_method: number;
     voucher_id?: number | null;
-    voucher?: number | null;
+    voucher?: string | null;
+    voucher_discount?: number | null;
+    discount_type?: string;
     order_status_id: number;
     status: number;
     created_at: string;

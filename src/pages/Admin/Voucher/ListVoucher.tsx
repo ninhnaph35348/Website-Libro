@@ -81,12 +81,12 @@ const VoucherList = () => {
                                 <td className="border p-2">
                                     {voucher.valid_from} → {voucher.valid_to}
                                 </td>
-                                <td className="border p-2 space-y-2 text-center">
-                                    <Tooltip title={voucher.status === 1 ? "Đang kích hoạt" : "Ngưng sử dụng"}>
+                                <td className="border p-2 space-x-2 text-center">
+                                    <Tooltip title={voucher.status === 0 ? "Đang kích hoạt" : "Ngưng sử dụng"}>
                                         <Switch
-                                            checked={voucher.status === 1}
+                                            checked={voucher.status === 0}
                                             onChange={(checked) =>
-                                                onStatus(voucher.code, checked ? 1 : 0)
+                                                onStatus(voucher.code, checked ? 0 : 1)
                                             }
                                         />
                                     </Tooltip>

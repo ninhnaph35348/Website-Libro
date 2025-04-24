@@ -67,6 +67,7 @@ import AddVoucher from "./pages/Admin/Voucher/AddVoucher";
 import EditVoucher from "./pages/Admin/Voucher/EditVoucher";
 import EditProfileAdmin from "./pages/Admin/ProfileAdmin/EditProfileAdmin";
 import ChangePasswordAdmin from "./pages/Admin/ProfileAdmin/ChangePasswordAdmin";
+import VoucherClient from "./pages/Client/VoucherClient/VoucherClient";
 
 const App = () => {
   return (
@@ -203,6 +204,8 @@ const App = () => {
             <Route path="edit" element={<EditProfile />} />
             <Route path="change-password" element={<ChangePassword />} />
             <Route path="order_detail" element={<OrderList />} />
+            <Route path="voucher-client" element={<VoucherClient />} />
+            
           </Route>
           <Route
             path="/shop-details/:code/cover/:id"

@@ -10,6 +10,12 @@ const Sidebar = () => {
     { path: "/profile", label: "Hồ sơ cá nhân", icon: User },
     { path: "/profile/edit", label: "Chỉnh sửa thông tin", icon: MapPin },
     { path: "/profile/change-password", label: "Đổi mật khẩu", icon: Lock },
+
+    {
+      path: "/profile/voucher-client",
+      label: "Khuyến mãi",
+      icon: Tag,
+    },
   ];
 
   const orderItems = [
@@ -23,13 +29,19 @@ const Sidebar = () => {
         <nav>
           <ul>
             {/* Menu Thông tin tài khoản */}
-            <li className="cursor-pointer" onClick={() => setAccountDropdownOpen(!accountDropdownOpen)}>
+            <li
+              className="cursor-pointer"
+              onClick={() => setAccountDropdownOpen(!accountDropdownOpen)}
+            >
               <p className="font-semibold py-2 px-2">Thông tin tài khoản</p>
             </li>
             {accountDropdownOpen && (
               <ul className="pl-6">
                 {accountItems.map((item) => (
-                  <li key={item.path} className="py-2 flex items-center hover:bg-gray-100 px-2 rounded-md">
+                  <li
+                    key={item.path}
+                    className="py-2 flex items-center hover:bg-gray-100 px-2 rounded-md"
+                  >
                     <Link to={item.path} className="flex items-center w-full">
                       <item.icon className="w-5 h-5" />
                       <span className="ml-3">{item.label}</span>
@@ -40,13 +52,19 @@ const Sidebar = () => {
             )}
 
             {/* Menu Đơn hàng */}
-            <li className="cursor-pointer" onClick={() => setOrderDropdownOpen(!orderDropdownOpen)}>
+            <li
+              className="cursor-pointer"
+              onClick={() => setOrderDropdownOpen(!orderDropdownOpen)}
+            >
               <p className="font-semibold py-2 px-2">Đơn hàng</p>
             </li>
             {orderDropdownOpen && (
               <ul className="pl-6">
                 {orderItems.map((item) => (
-                  <li key={item.path} className="py-2 flex items-center hover:bg-gray-100 px-2 rounded-md">
+                  <li
+                    key={item.path}
+                    className="py-2 flex items-center hover:bg-gray-100 px-2 rounded-md"
+                  >
                     <Link to={item.path} className="flex items-center w-full">
                       <item.icon className="w-5 h-5" />
                       <span className="ml-3">{item.label}</span>

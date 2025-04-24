@@ -66,7 +66,7 @@ const EditProductvariant = () => {
 
     const onSubmit = async (data: IProductVariant) => {
         try {
-            const success = await onEdit(data, code);
+            const success = await onEdit(data, id, code);
 
             if(success){
             navigate(-1);

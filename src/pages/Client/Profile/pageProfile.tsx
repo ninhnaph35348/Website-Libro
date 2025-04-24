@@ -10,7 +10,6 @@ const Sidebar = () => {
     { path: "/profile", label: "Hồ sơ cá nhân", icon: User },
     { path: "/profile/edit", label: "Chỉnh sửa thông tin", icon: MapPin },
     { path: "/profile/change-password", label: "Đổi mật khẩu", icon: Lock },
-    { path: "/invoice-info", label: "Thông tin xuất hóa đơn GTGT", icon: Tag },
   ];
 
   const orderItems = [

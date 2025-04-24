@@ -44,9 +44,8 @@ const EditProductvariant = () => {
                         setValue("price", Number(variant.price));
                         setValue("promotion", Number(variant.promotion));
                         setValue("quantity", variant.quantity);
-                        setValue("product_id", variant.product.id); // ✅ sửa chỗ này
+                        setValue("product_id", variant.product.id); 
                         setValue("cover_id", variant.cover_id);
-                        console.log(variant.product.id);
 
                     }
                 } catch (error) {

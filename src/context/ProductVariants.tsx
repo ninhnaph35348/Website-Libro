@@ -101,6 +101,7 @@ const ProductVariantProvider = ({ children }: Props) => {
             );
             setProductVariants(newProductVariants);
             alert("Sửa biến thể thành công!");
+            await getAllProductVariants();
             return newProductVariants
         } catch (error) {
             console.log(error);

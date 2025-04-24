@@ -83,7 +83,7 @@ const ProductVariantProvider = ({ children }: Props) => {
         }
     };
 
-    const onEdit = async (formData: IProductVariant, code: number | string) => {
+    const onEdit = async (formData: IProductVariant, id: number | string, code: number | string) => {
         try {
             const formDataToSend = new FormData();
 
@@ -94,7 +94,7 @@ const ProductVariantProvider = ({ children }: Props) => {
                 }
             }
 
-            const data = await updateProductVariant(formDataToSend, code);
+            const data = await updateProductVariant(formDataToSend, id, code);
 
             const newProductVariants = productvariants.map((productvariant) =>
                 productvariant.product.code === code ? data : productvariant

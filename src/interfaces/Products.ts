@@ -42,6 +42,7 @@ export interface IProduct {
   book_count: string;
   status: string;
   genres: number[];
+  slug: string;
 
  
 }

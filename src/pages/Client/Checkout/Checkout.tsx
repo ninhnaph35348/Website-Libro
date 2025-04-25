@@ -78,7 +78,7 @@ const Checkout: React.FC = () => {
         if (user) {
             reset({
                 shipping_name: user.fullname || "",
-                user_email: user.email || "",
+                shipping_email: user.email || "",
                 shipping_phone: user.phone || "",
                 shipping_address: user.address || "",
                 note: "",
@@ -178,14 +178,14 @@ const Checkout: React.FC = () => {
                                                     <span>Địa chỉ Email*</span>
                                                     <input
                                                         type="email"
-                                                        {...register("user_email", {
+                                                        {...register("shipping_email", {
                                                             required: "Email không được để trống",
                                                         })}
                                                         placeholder="Email"
                                                     />
-                                                    {errors.user_email && (
+                                                    {errors.shipping_email && (
                                                         <p className="text-red-500">
-                                                            {errors.user_email.message}
+                                                            {errors.shipping_email.message}
                                                         </p>
                                                     )}
                                                 </div>

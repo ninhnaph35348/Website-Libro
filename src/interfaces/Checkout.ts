@@ -14,6 +14,7 @@ export interface ICheckout {
     user_phone: string;
     shipping_address: string;
     shipping_phone: string;
+    shipping_email: string;
     voucher_code: string;
     shipping_fee: number;
     payment_method: number;

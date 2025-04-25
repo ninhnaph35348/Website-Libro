@@ -139,7 +139,7 @@ const OrderDetail: React.FC = () => {
           </p>
           <p>
             <strong>Người nhận:</strong>{" "}
-            {order.user_name || "Chưa có thông tin"}
+            {order.shipping_name || "Chưa có thông tin"}
           </p>
           <p>
             <strong>Ngày đặt:</strong> {order.created_at}
@@ -149,7 +149,7 @@ const OrderDetail: React.FC = () => {
             {order.shipping_phone || "Chưa có thông tin"}
           </p>
           <p>
-            <strong>Người đặt:</strong> {order.shipping_name}
+            <strong>Người đặt:</strong> {order.user_name}
           </p>
           <p>
             <strong>Địa chỉ người nhận:</strong>{" "}
@@ -159,10 +159,10 @@ const OrderDetail: React.FC = () => {
             <strong>SĐT người đặt:</strong> {order.user_phone}
           </p>
           <p>
-            <strong>Email người đặt:</strong> {order.user_email}
+            <strong>Email người nhận:</strong> {order.shipping_email}
           </p>
           <p>
-            <strong>Email người nhận:</strong> {order.shipping_email}
+            <strong>Email người đặt:</strong> {order.user_email}
           </p>
           <p>
             <strong>Địa chỉ người đặt:</strong> {order.user_address}

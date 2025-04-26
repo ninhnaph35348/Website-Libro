@@ -96,24 +96,51 @@ const DetailOrder = () => {
     { label: "Email nhận", value: order.shipping_email || "Không có" },
     { label: "Địa chỉ nhận", value: order.shipping_address || "Không có" },
   ];
+  const totalAmount = order.items.reduce((sum, item) => {
+    const itemTotal =
+      item.total_line || Number(item.price) * Number(item.quantity);
+    return sum + itemTotal;
+  }, 0);
+
+  const shippingFee = 30000;
+  const voucherDiscount = Number(order.voucher_discount) || 0;
+  let discountValue = 0;
+
+  // Nếu là giảm giá theo phần trăm
+  if (order.voucher_discount_type === "percent") {
+    discountValue = (totalAmount * voucherDiscount) / 100;
+  } else if (order.voucher_discount_type === "fixed") {
+    // Nếu là giảm giá cố định
+    discountValue = voucherDiscount;
+  }
+
+  // Tính toán số tiền cuối cùng
+  const finalAmount = Number(order.total_price);
 
   const total = [
-    { label: "Tổng số lượng", value: totalQty || "Không có" },
     {
       label: "Tổng tiền hàng",
-      value: order.total_price
-        ? Number(order.total_price).toLocaleString()
-        : "0",
+      value: `${Number(totalAmount).toLocaleString()} đ`,
     },
-    { label: "Phí ship", value: "30.000" },
-    { label: "Mã giản giá", value: order.voucher || "Không có" },
     {
-      label: "Khách cần trả",
-      value: order.total_price
-        ? Number(order.total_price).toLocaleString()
-        : "0",
+      label: "Mã giảm giá",
+      value: order.voucher || "Không có",
     },
-    { label: "Khách đã trả", value: 0 },
+    {
+      label: "Tiền được giảm",
+      value:
+        order.voucher_discount_type === "percent"
+          ? `- ${voucherDiscount}%`
+          : `- ${Number(discountValue).toLocaleString()} đ`,
+    },
+    {
+      label: "Phí ship",
+      value: `+ ${Number(shippingFee).toLocaleString()} đ`,
+    },
+    {
+      label: "Thành tiền",
+      value: `${Number(finalAmount).toLocaleString()} đ`,
+    },
   ];
   const handleStatusChange = async (orderId: number, newStatus: number) => {
     try {

@@ -11,7 +11,9 @@ export interface IStatistics {
     totalBooks: number;
     soldBooks: number;
     inStock: number;
-    ordersByStatus?: IOrderStatus[]; // optional
+    from_date: Date;
+    to_date: Date
+    ordersByStatus?: IOrderStatus[];
     revenueByPeriod?: IRevenue[]
   }
 export interface IRevenue {

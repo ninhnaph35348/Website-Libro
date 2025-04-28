@@ -209,23 +209,7 @@ const Signup = () => {
             )}
           </button>
         </form>
-        <div className="text-center my-4 text-gray-500">Hoặc</div>
-        <div className="flex flex-col space-y-3">
-          <a
-            className="flex items-center justify-center space-x-2 border rounded-lg py-2 text-gray-700 hover:bg-gray-100"
-            href="#"
-          >
-            <img src={goge} alt="google" className="h-5 w-5" />{" "}
-            <span>Tiếp tục với Google</span>
-          </a>
-          <a
-            className="flex items-center justify-center space-x-2 border rounded-lg py-2 text-gray-700 hover:bg-gray-100"
-            href="#"
-          >
-            <img src={face} alt="facebook" className="h-5 w-5" />{" "}
-            <span>Tiếp tục với Facebook</span>
-          </a>
-        </div>
+        
         <div className="mt-6 text-center">
           <p className="text-sm text-gray-600">
             Đã có tài khoản?{" "}

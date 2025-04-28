@@ -169,7 +169,7 @@ const OrderDetail: React.FC = () => {
           </p>
           <p>
             <strong>Thanh toán:</strong>{" "}
-            {order.payment_method === 1 ? "Khi nhận hàng" : "Vn Pay"}
+            {order.payment_method === 1 ? "VNPay" : "COD"}
           </p>
           <p>
             <strong>Trạng thái:</strong>{" "}

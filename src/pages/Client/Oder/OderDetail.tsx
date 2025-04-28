@@ -109,6 +109,7 @@ const OrderDetail: React.FC = () => {
     ? 30000
     : Number(order.shipping_fee);
   const totalPrice = Number(order?.total_price);
+  console.log(order, "order");
 
   if (loading)
     return (
@@ -169,7 +170,7 @@ const OrderDetail: React.FC = () => {
           </p>
           <p>
             <strong>Thanh toán:</strong>{" "}
-            {order.payment_method === 1 ? "VNPay" : "COD"}
+            {order.payment_method == "COD" ? "COD" : "VNPay"}
           </p>
           <p>
             <strong>Trạng thái:</strong>{" "}

@@ -6,6 +6,8 @@ import {
   getAllProducts,
   updateProduct,
 } from "../services/Product";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 type Props = {
   children: React.ReactNode;
@@ -71,6 +73,7 @@ const ProductProvider = ({ children }: Props) => {
         formData.append("genres[]", String(genre));
       });
     }
+    
 
     if (dataProduct.image instanceof File) {
       formData.append("image", dataProduct.image);
@@ -94,7 +97,7 @@ const ProductProvider = ({ children }: Props) => {
       const data = await createProduct(formData);
       setProducts((prevProducts) => [...prevProducts, data]);
       setFilteredProducts((prevProducts) => [...prevProducts, data]);
-      alert("Thêm sản phẩm thành công!");
+      toast.success("Thêm sản phẩm thành công!");
       return true;
     } catch (error) {
       console.error("❌ Lỗi khi thêm sản phẩm:", error);
@@ -115,7 +118,7 @@ const ProductProvider = ({ children }: Props) => {
         prevProducts.map((product) => (product.id === id ? data : product))
       );
 
-      alert("Sửa sản phẩm thành công!");
+      toast.success("Sửa sản phẩm thành công!");
     } catch (error) {
       console.error("❌ Lỗi khi sửa sản phẩm:", error);
     }
@@ -130,7 +133,7 @@ const ProductProvider = ({ children }: Props) => {
       await statusProduct(formData, code);
   
       await getAllProduct();
-      alert("Cập nhật trạng thái thành công!");
+      toast.success("Cập nhật trạng thái thành công!");
     } catch (error) {
       console.error("❌ Lỗi khi cập nhật trạng thái sản phẩm:", error);
     }

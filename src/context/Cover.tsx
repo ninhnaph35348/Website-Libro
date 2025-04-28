@@ -6,6 +6,8 @@ import {
     getAllCover,
     updateCover,
 } from "../services/Cover";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 type Props = {
     children: React.ReactNode;
@@ -29,7 +31,7 @@ const CoverProvider = ({ children }: Props) => {
         try {
             const data = await createCover(dataCover);
             setCovers([...covers, data]);
-            alert("Thêm thể loại thành công!");
+            toast.success("Thêm thể loại thành công!");
         } catch (error) {
             console.log(error);
         }
@@ -39,7 +41,7 @@ const CoverProvider = ({ children }: Props) => {
         try {
             if (window.confirm("Bạn có muốn xóa không?")) {
                 await deleteCover(id);
-                alert("Xóa thể loại thành công!");
+                toast.success("Xóa thể loại thành công!");
                 setCovers(covers.filter((cover) => cover.id !== id));
             }
         } catch (error) {
@@ -54,7 +56,7 @@ const CoverProvider = ({ children }: Props) => {
                 cover.id === id ? data : cover
             );
             setCovers(newCovers);
-            alert("Sửa thể loại thành công!");
+            toast.success("Sửa thể loại thành công!");
         } catch (error) {
             console.log(error);
         }

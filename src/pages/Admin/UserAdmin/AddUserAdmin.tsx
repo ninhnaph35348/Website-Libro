@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { createAdmin } from "../../../services/UserAdmin";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const AddAdmin = () => {
   const navigate = useNavigate();
@@ -61,11 +63,11 @@ const AddAdmin = () => {
         status: "active",
       });
       setAvatarFile(null);
-      alert("Thêm admin thành công!");
+      toast.success("Thêm admin thành công!");
       navigate("..", { state: { refresh: true } });
     } catch (error) {
       console.error(error);
-      alert("Lỗi khi thêm admin!");
+      toast.error("Lỗi khi thêm admin!");
     }
   };
 

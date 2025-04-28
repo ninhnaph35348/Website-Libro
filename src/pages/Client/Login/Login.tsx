@@ -177,7 +177,9 @@ const LoginClient: React.FC = () => {
 
           {/* Quên mật khẩu */}
           <div className="mt-6 text-center">
-            <button className="text-indigo-600 hover:underline">
+            <button
+             onClick={() => navigate("/forgot-password")}
+             className="text-indigo-600 hover:underline">
               Quên mật khẩu?
             </button>
           </div>

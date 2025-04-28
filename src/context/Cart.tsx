@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect, useMemo } from "react";
 import { ICartItem, ICartContext } from "../interfaces/Cart";
 import { IProductVariant } from "../interfaces/ProductVariants";
+import { toast } from "react-toastify";
 
 type Props = {
   children: React.ReactNode;
@@ -135,8 +136,6 @@ const CartProvider = ({ children }: Props) => {
 
   const clearCart = () => {
     setCartItems([]);
-    setMessage("Giỏ hàng đã được xóa!");
-    setTimeout(() => setMessage(""), 3000);
   };
 
   const totalItems = useMemo(

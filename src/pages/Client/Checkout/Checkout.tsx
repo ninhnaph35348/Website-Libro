@@ -119,10 +119,6 @@ const Checkout: React.FC = () => {
     const success = await context.onAdd(orderData);
 
     if (success) {
-      selectedItems.forEach((item) => {
-        removeFromCart(item.id);
-      });
-
       if (paymentMethod === 1) {
         const vnPay: IVnPay = {
           amount: totalAmount,
@@ -131,9 +127,14 @@ const Checkout: React.FC = () => {
         const vnPayData = await addVnPay(vnPay);
         window.location.href = vnPayData.payment_url;
       } else {
+        selectedItems.forEach((item) => {
+          removeFromCart(item.id);
+        });
         reset();
         navigate("/profile/order_detail");
       }
+    } else {
+      toast.error("Đặt hàng thất bại!");
     }
   };
 

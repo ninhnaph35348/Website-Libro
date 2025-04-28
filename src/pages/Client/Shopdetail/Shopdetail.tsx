@@ -111,7 +111,7 @@ const Shopdetail = () => {
     try {
       addToCart(productVariant, quantity);
       toast.success("Thêm vào giỏ hàng thành công!");
-      setTimeout(() => navigate("/shop-cart"), 1000);
+      window.location.href = "/shop-cart"; 
     } catch (error) {
       console.error("Lỗi khi thêm vào giỏ hàng:", error);
       toast.error("Đã có lỗi xảy ra khi thêm sản phẩm vào giỏ hàng!");

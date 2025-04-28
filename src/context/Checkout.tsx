@@ -2,9 +2,7 @@ import { createContext, useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ICheckout } from "../interfaces/Checkout";
-import {
-  createCheckout,
-} from "../services/Checkout";
+import { createCheckout } from "../services/Checkout";
 interface ICreateCheckoutResponse {
   message: string;
   total_price_cart: number;
@@ -24,10 +22,12 @@ const CheckoutProvider = ({ children }: Props) => {
 
   const onAdd = async (dataCheckout: ICheckout): Promise<ICheckout | null> => {
     try {
-      const response: ICreateCheckoutResponse = await createCheckout(dataCheckout);
-      setCheckouts([...checkouts, response.order]);
+      const response: ICreateCheckoutResponse = await createCheckout(
+        dataCheckout
+      );
+      setCheckouts((prevCheckouts) => [...prevCheckouts, response.order]);
       toast.success(response.message || "Đặt hàng thành công!");
-      return response.order; // ✅ Trả về đơn hàng để lấy code_order
+      return response.order;
     } catch (error: any) {
       toast.error(error.message || "Đặt hàng thất bại!");
       console.error("Checkout error:", error.message);

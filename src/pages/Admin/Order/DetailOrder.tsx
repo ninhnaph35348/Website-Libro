@@ -5,6 +5,8 @@ import { OrderStatusContext } from "../../../context/OrderStatus";
 import { IOrder } from "../../../interfaces/Orders";
 import { getOrderDetailById } from "../../../services/Order";
 import { Tooltip } from "antd";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface IData {
     data: IOrder;
@@ -119,7 +121,7 @@ const DetailOrder = () => {
             const data: IData = await getOrderDetailById(code!);
             setOrder(data.data);
         } catch (error) {
-            alert("Cập nhật thất bại! Vui lòng thử lại.");
+            toast.error("Cập nhật thất bại! Vui lòng thử lại.");
             console.error(error);
         }
     };

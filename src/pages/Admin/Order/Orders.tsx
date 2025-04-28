@@ -3,6 +3,8 @@ import { OrderContext } from "../../../context/Order";
 import { OrderStatusContext } from "../../../context/OrderStatus";
 import { Link } from "react-router-dom";
 import { IOrder } from "../../../interfaces/Orders";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Orders = () => {
   const { orders, getAllOrders, filterOrdersByCode, onEdit } =
@@ -49,6 +51,8 @@ const Orders = () => {
       await onEdit({ order_status_id: newStatus }, orderId);
       await getAllOrders();
     } catch (error) {
+      toast.error("Cập nhật thất bại! Vui lòng thử lại.");
+      console.error(error);
       alert("Cập nhật thất bại! Vui lòng thử lại.");
       console.error("Lỗi khi cập nhật trạng thái:", error);
     }

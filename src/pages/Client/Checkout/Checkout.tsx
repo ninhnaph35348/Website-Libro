@@ -2,7 +2,6 @@ import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import Pr_pay from "../../../assets/img/pr_pay.jpg";
 import { useCart } from "../../../context/Cart";
 import { CheckoutContext } from "../../../context/Checkout";
 import { VnPayContext } from "../../../context/VnPay";
@@ -15,7 +14,8 @@ import { getVoucherById } from "../../../services/Voucher";
 import { fetchUser } from "../../../store/auth/authSlice";
 import { RootState } from "../../../store/auth/store";
 import { toast } from "react-toastify";
-
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
 const Checkout: React.FC = () => {
   const { cartItems, removeFromCart } = useCart();
   const { addVnPay } = useContext(VnPayContext);
@@ -31,7 +31,6 @@ const Checkout: React.FC = () => {
     formState: { errors },
   } = useForm<ICheckout>();
   const context = useContext(CheckoutContext);
-  const [showQR, setShowQR] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState<number>(0);
   const [code, setCode] = useState("");
   const [voucher, setVoucher] = useState<IVoucher | null>(null);
@@ -100,44 +99,66 @@ const Checkout: React.FC = () => {
       );
       return;
     }
-    const isConfirmed = window.confirm(
-      "Bạn có chắc chắn muốn thanh toán đơn hàng này?"
-    );
-    if (!isConfirmed) return;
 
-    const orderData: ICheckout = {
-      ...data,
-      cart: selectedItems.map((item) => ({
-        product_variant_id: item.id,
-        quantity: item.cartQuantity,
-      })) as any,
-      shipping_fee: shippingFee,
-      payment_method: paymentMethod,
-      voucher_code: voucher?.code as string,
-    };
+    confirmAlert({
+      customUI: ({ onClose }) => (
+        <div className="custom-confirm-alert">
+          <h3>Xác nhận thanh toán</h3>
+          <p>Bạn có chắc chắn muốn thanh toán đơn hàng này?</p>
+          <div className="buttons">
+            <button
+              className="btn-confirm"
+              onClick={async () => {
+                const orderData: ICheckout = {
+                  ...data,
+                  cart: selectedItems.map((item) => ({
+                    product_variant_id: item.id,
+                    quantity: item.cartQuantity,
+                  })) as any,
+                  shipping_fee: shippingFee,
+                  payment_method: paymentMethod,
+                  voucher_code: voucher?.code as string,
+                };
 
-    const success = await context.onAdd(orderData);
+                const success = await context.onAdd(orderData);
 
-    if (success) {
-      if (paymentMethod === 1) {
-        const vnPay: IVnPay = {
-          amount: totalAmount,
-          orderInfo: success.code_order,
-        };
-        const vnPayData = await addVnPay(vnPay);
-        window.location.href = vnPayData.payment_url;
-      } else {
-        selectedItems.forEach((item) => {
-          removeFromCart(item.id);
-        });
-        reset();
-        navigate("/profile/order_detail");
-      }
-    } else {
-      toast.error("Đặt hàng thất bại!");
-    }
+                if (success) {
+                  if (paymentMethod === 1) {
+                    const vnPay: IVnPay = {
+                      amount: totalAmount,
+                      orderInfo: success.code_order,
+                    };
+                    const vnPayData = await addVnPay(vnPay);
+                    window.location.href = vnPayData.payment_url;
+                  } else {
+                    selectedItems.forEach((item) => {
+                      removeFromCart(item.id);
+                    });
+                    reset();
+                    navigate("/profile/order_detail");
+                  }
+                } else {
+                  toast.error("Đặt hàng thất bại!");
+                }
+                onClose(); // Đóng confirm
+              }}
+            >
+              Có
+            </button>
+            <button
+              className="btn-cancel"
+              onClick={() => {
+                toast.info("Đã hủy thanh toán");
+                onClose(); // Đóng confirm
+              }}
+            >
+              Không
+            </button>
+          </div>
+        </div>
+      ),
+    });
   };
-
   return (
     <section className="checkout-section fix section-padding mx-[200px]">
       <form onSubmit={handleSubmit(onSubmit)} method="post">

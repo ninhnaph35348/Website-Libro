@@ -5,6 +5,8 @@ import { OrderStatusContext } from "../../../context/OrderStatus";
 import { IOrder } from "../../../interfaces/Orders";
 import { getOrderDetailById } from "../../../services/Order";
 import { Tooltip } from "antd";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface IData {
   data: IOrder;
@@ -17,6 +19,86 @@ const DetailOrder = () => {
   const navigate = useNavigate();
   const { code } = useParams<{ code: string }>();
 
+    const totalQty = order.items.reduce((sum, item) => sum + item.quantity, 0);
+    // const formattedDate = format(new Date(order.created_at), 'dd/MM/yyyy HH:mm:ss');
+
+    const orderInfo = [
+        { label: "Mã hóa đơn", value: order.code_order },
+        { label: "Thời gian", value: order.created_at },
+        { label: "Thanh toán", value: order.payment_method },
+        {
+            label: "Trạng thái",
+            value: (
+                <select
+                    className="border p-1 rounded"
+                    value={
+                        orderstatus.find((status: any) => status.name === order.status)?.id || ""
+                    }
+                    onChange={(e) =>
+                        handleStatusChange(
+                            order.code_order as any,
+                            Number(e.target.value) as any
+                        )
+                    }
+                >
+                    {orderstatus
+                        .filter((status: any) =>
+                            status.id >=
+                            (orderstatus.find((s: any) => s.name === order.status)?.id || 0)
+                        )
+                        .map((status: any) => (
+                            <option key={status.id} value={status.id}>
+                                {status.name}
+                            </option>
+                        ))}
+                </select>
+            )
+        },
+    ];
+
+    const userInfo = [
+        { label: "Người đặt", value: order.user_name || "Không có" },
+        { label: "SĐT", value: order.user_phone || "Không có" },
+        { label: "Email", value: order.user_email || "Không có" },
+        { label: "Địa chỉ", value: order.user_address || "Không có" }
+    ];
+
+    const shippingInfo = [
+        { label: "Người nhận", value: order.shipping_name || "Không có" },
+        { label: "SĐT nhận", value: order.shipping_phone || "Không có" },
+        { label: "Địa chỉ nhận", value: order.shipping_address || "Không có" }
+    ];
+
+
+    const total = [
+        { label: "Tổng số lượng", value: totalQty || "Không có" },
+        {
+            label: "Tổng tiền hàng",
+            value: order.total_price
+                ? Number(order.total_price).toLocaleString()
+                : "0",
+        },
+        { label: "Phí ship", value: "30.000" },
+        { label: "Mã giản giá", value: order.voucher || "Không có" },
+        {
+            label: "Khách cần trả",
+            value: order.total_price
+                ? Number(order.total_price).toLocaleString()
+                : "0",
+        },
+        { label: "Khách đã trả", value: 0 },
+    ];
+    const handleStatusChange = async (orderId: number, newStatus: number) => {
+        try {
+            await onEdit({ order_status_id: newStatus }, orderId);
+            const data: IData = await getOrderDetailById(code!);
+            setOrder(data.data);
+        } catch (error) {
+            toast.error("Cập nhật thất bại! Vui lòng thử lại.");
+            console.error(error);
+        }
+    };
+    // const priceProdcut = 
   useEffect(() => {
     getAllStatus();
   }, []);

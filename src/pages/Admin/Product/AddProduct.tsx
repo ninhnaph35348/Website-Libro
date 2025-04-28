@@ -8,6 +8,8 @@ import { PublisherContext } from "../../../context/Publisher";
 import { LanguageContext } from "../../../context/Language";
 import { GenreContext } from "../../../context/Genre";
 import { IProduct } from "../../../interfaces/Products";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const AddProduct = () => {
     const { onAdd } = useContext(ProductContext);
@@ -76,7 +78,7 @@ const AddProduct = () => {
             // window.location.reload();
           }, 500);
         } else {
-          alert("Thêm sản phẩm thất bại!");
+          toast.error("Thêm sản phẩm thất bại!");
         }
       };
       

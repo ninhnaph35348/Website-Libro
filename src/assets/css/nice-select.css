@@ -1,3 +1,31 @@
+/* Thêm hiệu ứng lấp lánh */
+@keyframes sparkle {
+  0% {
+    color: #fff;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.8), 0 0 10px rgba(255, 255, 255, 0.7), 0 0 15px rgba(255, 255, 255, 0.6);
+  }
+  25% {
+    color: #ffeb3b; /* Màu vàng sáng */
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.8), 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.7);
+  }
+  50% {
+    color: #ff6500; /* Màu cam sáng */
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.8), 0 0 10px rgba(255, 255, 255, 0.9), 0 0 15px rgba(255, 255, 255, 0.9);
+  }
+  75% {
+    color: #ffffff;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.9), 0 0 15px rgba(255, 255, 255, 0.7), 0 0 20px rgba(255, 255, 255, 0.6);
+  }
+  100% {
+    color: #ffeb3b;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.8), 0 0 10px rgba(255, 255, 255, 0.8), 0 0 15px rgba(255, 255, 255, 0.8);
+  }
+}
+
+.sparkle {
+  animation: sparkle 1.5s infinite;
+}
+
 .nice-select {
   -webkit-tap-highlight-color: transparent;
   background-color: transparent;

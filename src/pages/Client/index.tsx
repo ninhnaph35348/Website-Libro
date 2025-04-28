@@ -10,11 +10,17 @@ import LatestBook from "./Index/LatestBook";
 import BestSeller from "./Index/BestSeller";
 import Banner from "./Index/Banner";
 import TopRate from "./Index/TopRate";
+import Popup from "./Index/Popup";
 
 const Client = () => {
   return (
     <>
       <Banner />
+        
+        {/* Popup Component */}
+      <Popup />
+  
+        {/* Hero Section start */}
 
       {/* Feature Section start */}
       <section className="feature-section fix section-padding">

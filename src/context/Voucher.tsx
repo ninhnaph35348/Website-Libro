@@ -6,6 +6,8 @@ import {
   statusVoucher,
   updateVoucher,
 } from "../services/Voucher";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 type Props = {
   children: React.ReactNode;
@@ -29,7 +31,7 @@ const VoucherProvider = ({ children }: Props) => {
     try {
       const data = await createVoucher(dataVoucher);
       setVouchers([...vouchers, data]);
-      alert("Thêm thể loại thành công!");
+      toast.success("Thêm thể loại thành công!");
     } catch (error) {
       console.log(error);
     }
@@ -42,7 +44,7 @@ const VoucherProvider = ({ children }: Props) => {
         voucher.id === id ? data : voucher
       );
       setVouchers(newVouchers);
-      alert("Sửa thể loại thành công!");
+      toast.success("Sửa thể loại thành công!");
     } catch (error) {
       console.log(error);
     }
@@ -57,7 +59,7 @@ const VoucherProvider = ({ children }: Props) => {
       await statusVoucher(formData, code); // Gửi lên API
 
       await getAllVouchers(); // Cập nhật lại danh sách
-      alert("Cập nhật trạng thái thành công!");
+      toast.success("Cập nhật trạng thái thành công!");
     } catch (error) {
       console.error("❌ Lỗi khi cập nhật trạng thái sản phẩm:", error);
     }

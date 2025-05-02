@@ -19,90 +19,7 @@ const DetailOrder = () => {
   const navigate = useNavigate();
   const { code } = useParams<{ code: string }>();
 
-<<<<<<< HEAD
-    const totalQty = order.items.reduce((sum, item) => sum + item.quantity, 0);
-    // const formattedDate = format(new Date(order.created_at), 'dd/MM/yyyy HH:mm:ss');
-
-    const orderInfo = [
-        { label: "Mã hóa đơn", value: order.code_order },
-        { label: "Thời gian", value: order.created_at },
-        { label: "Thanh toán", value: order.payment_method },
-        {
-            label: "Trạng thái",
-            value: (
-                <select
-                    className="border p-1 rounded"
-                    value={
-                        orderstatus.find((status: any) => status.name === order.status)?.id || ""
-                    }
-                    onChange={(e) =>
-                        handleStatusChange(
-                            order.code_order as any,
-                            Number(e.target.value) as any
-                        )
-                    }
-                >
-                    {orderstatus
-                        .filter((status: any) =>
-                            status.id >=
-                            (orderstatus.find((s: any) => s.name === order.status)?.id || 0)
-                        )
-                        .map((status: any) => (
-                            <option key={status.id} value={status.id}>
-                                {status.name}
-                            </option>
-                        ))}
-                </select>
-            )
-        },
-    ];
-
-    const userInfo = [
-        { label: "Người đặt", value: order.user_name || "Không có" },
-        { label: "SĐT", value: order.user_phone || "Không có" },
-        { label: "Email", value: order.user_email || "Không có" },
-        { label: "Địa chỉ", value: order.user_address || "Không có" }
-    ];
-
-    const shippingInfo = [
-        { label: "Người nhận", value: order.shipping_name || "Không có" },
-        { label: "SĐT nhận", value: order.shipping_phone || "Không có" },
-        { label: "Địa chỉ nhận", value: order.shipping_address || "Không có" }
-    ];
-
-
-    const total = [
-        { label: "Tổng số lượng", value: totalQty || "Không có" },
-        {
-            label: "Tổng tiền hàng",
-            value: order.total_price
-                ? Number(order.total_price).toLocaleString()
-                : "0",
-        },
-        { label: "Phí ship", value: "30.000" },
-        { label: "Mã giản giá", value: order.voucher || "Không có" },
-        {
-            label: "Khách cần trả",
-            value: order.total_price
-                ? Number(order.total_price).toLocaleString()
-                : "0",
-        },
-        { label: "Khách đã trả", value: 0 },
-    ];
-    const handleStatusChange = async (orderId: number, newStatus: number) => {
-        try {
-            await onEdit({ order_status_id: newStatus }, orderId);
-            const data: IData = await getOrderDetailById(code!);
-            setOrder(data.data);
-        } catch (error) {
-            toast.error("Cập nhật thất bại! Vui lòng thử lại.");
-            console.error(error);
-        }
-    };
-    // const priceProdcut = 
-=======
   // const priceProdcut = 
->>>>>>> c68adce3fd71ec82127495c84b52e0e80e9a4bbb
   useEffect(() => {
     getAllStatus();
   }, []);
@@ -116,8 +33,6 @@ const DetailOrder = () => {
     })();
   }, [code]);
 
-<<<<<<< HEAD
-=======
   const handleStatusChange = async (orderId: number, newStatus: number) => {
     try {
       await onEdit({ order_status_id: newStatus }, orderId);
@@ -129,7 +44,6 @@ const DetailOrder = () => {
     }
   };
 
->>>>>>> c68adce3fd71ec82127495c84b52e0e80e9a4bbb
   if (!order) {
     return (
       <div className="p-6 w-full mx-auto bg-white shadow-md rounded-lg text-center">
@@ -144,61 +58,6 @@ const DetailOrder = () => {
     );
   }
 
-<<<<<<< HEAD
-  const totalQty = order.items.reduce((sum, item) => sum + item.quantity, 0);
-  // const formattedDate = format(new Date(order.created_at), 'dd/MM/yyyy HH:mm:ss');
-
-  const orderInfo = [
-    { label: "Mã hóa đơn", value: order.code_order },
-    { label: "Thời gian", value: order.created_at },
-    { label: "Thanh toán", value: order.payment_method },
-    {
-      label: "Trạng thái",
-      value: (
-        <select
-          className="border p-1 rounded"
-          value={
-            orderstatus.find((status: any) => status.name === order.status)
-              ?.id || ""
-          }
-          onChange={(e) =>
-            handleStatusChange(
-              order.code_order as any,
-              Number(e.target.value) as any
-            )
-          }
-        >
-          {orderstatus
-            .filter(
-              (status: any) =>
-                status.id >=
-                (orderstatus.find((s: any) => s.name === order.status)?.id || 0)
-            )
-            .map((status: any) => (
-              <option key={status.id} value={status.id}>
-                {status.name}
-              </option>
-            ))}
-        </select>
-      ),
-    },
-  ];
-
-  const userInfo = [
-    { label: "Người đặt", value: order.user_name || "Không có" },
-    { label: "SĐT", value: order.user_phone || "Không có" },
-    { label: "Email", value: order.user_email || "Không có" },
-    { label: "Địa chỉ", value: order.user_address || "Không có" },
-  ];
-
-  const shippingInfo = [
-    { label: "Người nhận", value: order.shipping_name || "Không có" },
-    { label: "SĐT nhận", value: order.shipping_phone || "Không có" },
-    { label: "Email nhận", value: order.shipping_email || "Không có" },
-    { label: "Địa chỉ nhận", value: order.shipping_address || "Không có" },
-  ];
-=======
->>>>>>> c68adce3fd71ec82127495c84b52e0e80e9a4bbb
   const totalAmount = order.items.reduce((sum, item) => {
     const itemTotal =
       item.total_line || Number(item.price) * Number(item.quantity);
@@ -217,11 +76,6 @@ const DetailOrder = () => {
     discountValue = voucherDiscount;
   }
 
-<<<<<<< HEAD
-  // Tính toán số tiền cuối cùng
-  const finalAmount = Number(order.total_price);
-
-=======
   const finalAmount = Number(order.total_price);
 
   const orderInfo = [
@@ -271,7 +125,6 @@ const DetailOrder = () => {
     { label: "Địa chỉ nhận", value: order.shipping_address || "Không có" }
   ];
 
->>>>>>> c68adce3fd71ec82127495c84b52e0e80e9a4bbb
   const total = [
     {
       label: "Tổng tiền hàng",
@@ -297,20 +150,6 @@ const DetailOrder = () => {
       value: `${Number(finalAmount).toLocaleString()} đ`,
     },
   ];
-<<<<<<< HEAD
-  const handleStatusChange = async (orderId: number, newStatus: number) => {
-    try {
-      await onEdit({ order_status_id: newStatus }, orderId);
-      const data: IData = await getOrderDetailById(code!);
-      setOrder(data.data);
-    } catch (error) {
-      alert("Cập nhật thất bại! Vui lòng thử lại.");
-      console.error(error);
-    }
-  };
-  // const priceProdcut =
-=======
->>>>>>> c68adce3fd71ec82127495c84b52e0e80e9a4bbb
 
   return (
     <div className="p-6 w-full mx-auto bg-white shadow-lg rounded-xl max-w-6xl space-y-6">
@@ -410,14 +249,9 @@ const DetailOrder = () => {
             {order.items.map((item, index) => (
               <tr
                 key={index}
-<<<<<<< HEAD
                 className={`hover:bg-green-50 ${
                   index % 2 === 0 ? "bg-gray-50" : ""
                 }`}
-=======
-                className={`hover:bg-green-50 ${index % 2 === 0 ? "bg-gray-50" : ""
-                  }`}
->>>>>>> c68adce3fd71ec82127495c84b52e0e80e9a4bbb
               >
                 <td className="p-3 border whitespace-nowrap text-blue-600">
                   <Link to={`/admin/product/${item.code}`}>{item.code}</Link>

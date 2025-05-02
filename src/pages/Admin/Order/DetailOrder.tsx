@@ -249,8 +249,9 @@ const DetailOrder = () => {
             {order.items.map((item, index) => (
               <tr
                 key={index}
-                className={`hover:bg-green-50 ${index % 2 === 0 ? "bg-gray-50" : ""
-                  }`}
+                className={`hover:bg-green-50 ${
+                  index % 2 === 0 ? "bg-gray-50" : ""
+                }`}
               >
                 <td className="p-3 border whitespace-nowrap text-blue-600">
                   <Link to={`/admin/product/${item.code}`}>{item.code}</Link>

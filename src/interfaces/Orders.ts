@@ -20,6 +20,7 @@ export interface IOrder {
     status: number;
     created_at: string;
     note: string;
+    voucher_discount_type: string
     items: {
         code: string;
         cover: string;

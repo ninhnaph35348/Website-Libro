@@ -19,7 +19,6 @@ const DetailOrder = () => {
   const navigate = useNavigate();
   const { code } = useParams<{ code: string }>();
 
-  // const priceProdcut = 
   useEffect(() => {
     getAllStatus();
   }, []);
@@ -58,21 +57,19 @@ const DetailOrder = () => {
     );
   }
 
+  const totalQty = order.items.reduce((sum, item) => sum + item.quantity, 0);
   const totalAmount = order.items.reduce((sum, item) => {
     const itemTotal =
       item.total_line || Number(item.price) * Number(item.quantity);
     return sum + itemTotal;
   }, 0);
-
   const shippingFee = 30000;
   const voucherDiscount = Number(order.voucher_discount) || 0;
   let discountValue = 0;
 
-  // Nếu là giảm giá theo phần trăm
   if (order.voucher_discount_type === "percent") {
     discountValue = (totalAmount * voucherDiscount) / 100;
   } else if (order.voucher_discount_type === "fixed") {
-    // Nếu là giảm giá cố định
     discountValue = voucherDiscount;
   }
 
@@ -88,19 +85,21 @@ const DetailOrder = () => {
         <select
           className="border p-1 rounded"
           value={
-            orderstatus.find((status: any) => status.name === order.status)?.id || ""
+            orderstatus.find((status: any) => status.name === order.status)
+              ?.id || ""
           }
           onChange={(e) =>
             handleStatusChange(
-              order.code_order as any,
-              Number(e.target.value) as any
+              Number(order.code_order),
+              Number(e.target.value)
             )
           }
         >
           {orderstatus
-            .filter((status: any) =>
-              status.id >=
-              (orderstatus.find((s: any) => s.name === order.status)?.id || 0)
+            .filter(
+              (status: any) =>
+                status.id >=
+                (orderstatus.find((s: any) => s.name === order.status)?.id || 0)
             )
             .map((status: any) => (
               <option key={status.id} value={status.id}>
@@ -108,7 +107,7 @@ const DetailOrder = () => {
               </option>
             ))}
         </select>
-      )
+      ),
     },
   ];
 
@@ -116,19 +115,20 @@ const DetailOrder = () => {
     { label: "Người đặt", value: order.user_name || "Không có" },
     { label: "SĐT", value: order.user_phone || "Không có" },
     { label: "Email", value: order.user_email || "Không có" },
-    { label: "Địa chỉ", value: order.user_address || "Không có" }
+    { label: "Địa chỉ", value: order.user_address || "Không có" },
   ];
 
   const shippingInfo = [
     { label: "Người nhận", value: order.shipping_name || "Không có" },
     { label: "SĐT nhận", value: order.shipping_phone || "Không có" },
-    { label: "Địa chỉ nhận", value: order.shipping_address || "Không có" }
+    { label: "Email nhận", value: order.shipping_email || "Không có" },
+    { label: "Địa chỉ nhận", value: order.shipping_address || "Không có" },
   ];
 
   const total = [
     {
       label: "Tổng tiền hàng",
-      value: `${Number(totalAmount).toLocaleString()} đ`,
+      value: `${totalAmount.toLocaleString()} đ`,
     },
     {
       label: "Mã giảm giá",
@@ -139,15 +139,15 @@ const DetailOrder = () => {
       value:
         order.voucher_discount_type === "percent"
           ? `- ${voucherDiscount}%`
-          : `- ${Number(discountValue).toLocaleString()} đ`,
+          : `- ${discountValue.toLocaleString()} đ`,
     },
     {
       label: "Phí ship",
-      value: `+ ${Number(shippingFee).toLocaleString()} đ`,
+      value: `+ ${shippingFee.toLocaleString()} đ`,
     },
     {
       label: "Thành tiền",
-      value: `${Number(finalAmount).toLocaleString()} đ`,
+      value: `${finalAmount.toLocaleString()} đ`,
     },
   ];
 
@@ -157,57 +157,11 @@ const DetailOrder = () => {
         Chi Tiết Đơn Hàng
       </h2>
 
-      {/* Thông tin đơn hàng */}
+      {/* Thông tin */}
       <div className="grid grid-cols-4 gap-6 text-sm">
-        {/* Cột 1: Thông tin đơn hàng */}
-        <div className="space-y-2">
-          <div className="font-semibold mb-1 text-gray-800">
-            🧾 Thông tin đơn hàng
-          </div>
-          {orderInfo.map((item, idx) => (
-            <div key={idx} className="flex items-start">
-              <span className="w-24 font-medium">{item.label}:</span>
-
-              {typeof item.value === "string" && item.label === "Mã hóa đơn" ? (
-                <Tooltip title={item.value}>
-                  <span className="truncate max-w-[200px] whitespace-nowrap overflow-hidden text-ellipsis block cursor-pointer">
-                    {item.value}
-                  </span>
-                </Tooltip>
-              ) : typeof item.value === "string" ? (
-                <span className="truncate max-w-[200px] whitespace-nowrap overflow-hidden">
-                  {item.value}
-                </span>
-              ) : (
-                item.value
-              )}
-            </div>
-          ))}
-        </div>
-
-        {/* Cột 2: Người đặt */}
-        <div className="space-y-2">
-          <div className="font-semibold mb-1 text-gray-800">👤 Người đặt</div>
-          {userInfo.map((item, idx) => (
-            <div key={idx} className="flex">
-              <span className="w-24 font-medium">{item.label}:</span>
-              <span>{item.value}</span>
-            </div>
-          ))}
-        </div>
-
-        {/* Cột 3: Người nhận */}
-        <div className="space-y-2">
-          <div className="font-semibold mb-1 text-gray-800">🚚 Người nhận</div>
-          {shippingInfo.map((item, idx) => (
-            <div key={idx} className="flex">
-              <span className="w-24 font-medium">{item.label}:</span>
-              <span>{item.value}</span>
-            </div>
-          ))}
-        </div>
-
-        {/* Cột 4: Ghi chú */}
+        <InfoSection title="🧾 Thông tin đơn hàng" items={orderInfo} isOrder />
+        <InfoSection title="👤 Người đặt" items={userInfo} />
+        <InfoSection title="🚚 Người nhận" items={shippingInfo} />
         <div>
           <div className="font-semibold mb-1 text-gray-800">📝 Ghi chú</div>
           <div className="p-3 border rounded bg-gray-50 text-gray-600 italic">
@@ -216,59 +170,35 @@ const DetailOrder = () => {
         </div>
       </div>
 
-      {/* Danh sách sản phẩm */}
+      {/* Sản phẩm */}
       <div className="overflow-auto rounded-lg shadow-sm text-sm">
         <table className="min-w-full table-auto border border-gray-200">
           <thead className="bg-blue-100 text-gray-700">
             <tr>
-              <th className="p-3 border whitespace-nowrap">Mã Hàng</th>
-              <th className="p-3 border whitespace-nowrap text-left">
-                Tên Hàng
-              </th>
-              <th className="p-3 border whitespace-nowrap text-right">
-                Số Lượng
-              </th>
-              <th className="p-3 border whitespace-nowrap text-right">
-                Loại Bìa
-              </th>
-              <th className="p-3 border whitespace-nowrap text-right">
-                Đơn Giá
-              </th>
-              <th className="p-3 border whitespace-nowrap text-right">
-                Giảm Giá
-              </th>
-              <th className="p-3 border whitespace-nowrap text-right">
-                Giá Bán
-              </th>
-              <th className="p-3 border whitespace-nowrap text-right">
-                Thành Tiền
-              </th>
+              {["Mã Hàng", "Tên Hàng", "Số Lượng", "Loại Bìa", "Đơn Giá", "Giảm Giá", "Giá Bán", "Thành Tiền"].map((label) => (
+                <th key={label} className="p-3 border whitespace-nowrap">
+                  {label}
+                </th>
+              ))}
             </tr>
           </thead>
           <tbody>
             {order.items.map((item, index) => (
               <tr
                 key={index}
-                className={`hover:bg-green-50 ${index % 2 === 0 ? "bg-gray-50" : ""
-                  }`}
+                className={`hover:bg-green-50 ${index % 2 === 0 ? "bg-gray-50" : ""}`}
               >
-                <td className="p-3 border whitespace-nowrap text-blue-600">
+                <td className="p-3 border text-blue-600">
                   <Link to={`/admin/product/${item.code}`}>{item.code}</Link>
                 </td>
                 <td className="p-3 border">{item.title}</td>
                 <td className="p-3 border text-right">{item.quantity}</td>
                 <td className="p-3 border text-right">{item.cover}</td>
-                <td className="p-3 border text-right">
-                  {Number(item.price).toLocaleString()}
-                </td>
+                <td className="p-3 border text-right">{Number(item.price).toLocaleString()}</td>
                 <td className="p-3 border text-right">0</td>
-                <td className="p-3 border text-right">
-                  {Number(item.price).toLocaleString()}
-                </td>
+                <td className="p-3 border text-right">{Number(item.price).toLocaleString()}</td>
                 <td className="p-3 border text-right font-semibold text-blue-600">
-                  {(
-                    item.total_line || (item.price as any) * item.quantity
-                  ).toLocaleString()}
+                  {(item.total_line || item.price * item.quantity).toLocaleString()}
                 </td>
               </tr>
             ))}
@@ -276,7 +206,7 @@ const DetailOrder = () => {
         </table>
       </div>
 
-      {/* Tổng hợp đơn */}
+      {/* Tổng */}
       <div className="bg-gray-50 rounded-lg p-6 text-sm text-right space-y-2 shadow-sm flex flex-col items-end">
         {total.map((item, idx) => (
           <div key={idx} className="flex">
@@ -286,7 +216,7 @@ const DetailOrder = () => {
         ))}
       </div>
 
-      {/* Nút quay lại */}
+      {/* Quay lại */}
       <div className="text-center">
         <button
           onClick={() => navigate(-1)}
@@ -298,5 +228,38 @@ const DetailOrder = () => {
     </div>
   );
 };
+
+// Reusable info section
+const InfoSection = ({
+  title,
+  items,
+  isOrder = false,
+}: {
+  title: string;
+  items: { label: string; value: React.ReactNode }[];
+  isOrder?: boolean;
+}) => (
+  <div className="space-y-2">
+    <div className="font-semibold mb-1 text-gray-800">{title}</div>
+    {items.map((item, idx) => (
+      <div key={idx} className="flex items-start">
+        <span className="w-24 font-medium">{item.label}:</span>
+        {typeof item.value === "string" && item.label === "Mã hóa đơn" ? (
+          <Tooltip title={item.value}>
+            <span className="truncate max-w-[200px] whitespace-nowrap overflow-hidden text-ellipsis block cursor-pointer">
+              {item.value}
+            </span>
+          </Tooltip>
+        ) : typeof item.value === "string" ? (
+          <span className="truncate max-w-[200px] whitespace-nowrap overflow-hidden">
+            {item.value}
+          </span>
+        ) : (
+          item.value
+        )}
+      </div>
+    ))}
+  </div>
+);
 
 export default DetailOrder;

@@ -163,7 +163,6 @@ const Shopdetail = () => {
       window.location.reload();
     } catch (error: any) {
       console.error("Lỗi khi thêm đánh giá:", error || error.message);
-      toast.error("Thêm đánh giá thất bại! Vui lòng thử lại sau.");
     }
   };
 

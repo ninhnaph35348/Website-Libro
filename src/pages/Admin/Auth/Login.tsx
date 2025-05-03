@@ -65,6 +65,8 @@ const AdminLogin: React.FC = () => {
         toast.success("🎉 Bạn đã nhận được voucher CHAOMUNG!");
         localStorage.setItem("hasReceivedVoucher", "true");  // Lưu trạng thái voucher đã nhận
       }
+      localStorage.setItem("token", res.token); // hoặc token bạn lấy từ API
+
   
       toast.success("🎉 Đăng nhập thành công!");
       navigate("/admin");

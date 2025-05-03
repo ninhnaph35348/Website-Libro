@@ -1,7 +1,6 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { AuthContext } from "../../context/Auth";
 import whiteLogo from "../../assets/img/logo/white-logo.svg";
-import icon13 from "../../assets/img/icon/icon-13.svg";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/auth/store";
@@ -120,9 +119,20 @@ const Header = () => {
   const handleLogout = () => {
     logout();
     dispatch({ type: "auth/logout" });
+  
+    // Xoá trạng thái đăng nhập và nhận voucher
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("hasReceivedVoucher");
+  
     toast.success("Đăng xuất thành công!");
-    setShowConfirm(false); // Ẩn popup xác nhận
+  
+    // Reload lại trang để HomePopup cập nhật lại UI
+    setTimeout(() => {
+      window.location.reload(); // 👈 Quan trọng!
+    }, 1000);
   };
+  
+  
 
   return (
     <>
@@ -246,11 +256,11 @@ const Header = () => {
                     <div className="category-oneadjust gap-6 d-flex align-items-center relative">
                       <form
                         onSubmit={(e) => {
-                          e.preventDefault();
+                          e.preventDefault(); // Ngừng hành động mặc định (reload trang)
                           if (searchTerm.trim()) {
                             window.location.href = `/shop?search=${encodeURIComponent(
                               searchTerm
-                            )}`;
+                            )}`; // Chuyển hướng đến trang shop với query search
                           }
                         }}
                         className="search-toggle-box d-md-block w-full"
@@ -282,14 +292,13 @@ const Header = () => {
                       {/* Dropdown kết quả tìm kiếm */}
                       {showDropdown && searchResults.length > 0 && (
                         <ul
-                        className="absolute z-50 top-full mt-1 left-0 w-full bg-white shadow-lg rounded-lg overflow-hidden max-h-72 overflow-y-auto"
-                        ref={dropdownRef}
-                        onMouseDown={(e) => {
-                          // Ngăn dropdown mất focus khi click
-                          e.preventDefault();
-                        }}
-                      >
-                      
+                          className="absolute z-50 top-full mt-1 left-0 w-full bg-white shadow-lg rounded-lg overflow-hidden max-h-72 overflow-y-auto"
+                          ref={dropdownRef}
+                          onMouseDown={(e) => {
+                            // Ngăn dropdown mất focus khi click
+                            e.preventDefault();
+                          }}
+                        >
                           {searchResults.map((variant) =>
                             variant.product ? (
                               <li

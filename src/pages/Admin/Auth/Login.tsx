@@ -40,31 +40,44 @@ const AdminLogin: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validateForm()) return;
-
+  
     try {
+      // Thực hiện đăng nhập
       const res = await dispatch(
         login({ email, password, loginType: "admin" })
       ).unwrap();
-
+  
       if (!res || !res.token) {
         throw new Error("API không trả về token hợp lệ");
       }
-
-      // Lưu thông tin
+  
+      // Lưu thông tin đăng nhập vào localStorage
       localStorage.setItem("token", res.token);
       localStorage.setItem("user", JSON.stringify(res.user));
+      localStorage.setItem("isLoggedIn", "true");  // Lưu trạng thái đăng nhập
       dispatch(setUser(res.user));
-
+  
+      // Kiểm tra trạng thái voucher
+      const hasReceivedVoucher = localStorage.getItem("hasReceivedVoucher") === "true";
+  
+      if (!hasReceivedVoucher) {
+        // Nếu chưa nhận voucher, hiển thị thông báo và lưu trạng thái voucher đã nhận
+        toast.success("🎉 Bạn đã nhận được voucher CHAOMUNG!");
+        localStorage.setItem("hasReceivedVoucher", "true");  // Lưu trạng thái voucher đã nhận
+      }
+  
       toast.success("🎉 Đăng nhập thành công!");
       navigate("/admin");
     } catch (err: any) {
       console.error("Lỗi đăng nhập:", err);
-
-      const apiMessage = err;
-
+      const apiMessage = err.message || "Lỗi đăng nhập không xác định";
       setErrors({ general: apiMessage });
+      toast.error(apiMessage); // Hiển thị thông báo lỗi nếu có
     }
   };
+  
+  
+  
   return (
     <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-indigo-50 to-blue-50">
       <div className="w-full max-w-md transform transition-all duration-300">

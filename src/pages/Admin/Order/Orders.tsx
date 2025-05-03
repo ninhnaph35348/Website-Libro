@@ -3,13 +3,17 @@ import { OrderContext } from "../../../context/Order";
 import { OrderStatusContext } from "../../../context/OrderStatus";
 import { Link } from "react-router-dom";
 import { IOrder } from "../../../interfaces/Orders";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Orders = () => {
-  const { orders, getAllOrders, onEdit } = useContext(OrderContext);
+  const { orders, getAllOrders, filterOrdersByCode, onEdit } =
+    useContext(OrderContext);
   const { orderstatus, getAllStatus } = useContext(OrderStatusContext);
 
-  // State cho lọc và phân trang
+  // State cho lọc trạng thái, tìm kiếm và phân trang
   const [filterStatus, setFilterStatus] = useState<string>("all");
+  const [searchTerm, setSearchTerm] = useState<string>("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
@@ -19,16 +23,16 @@ const Orders = () => {
   }, []);
 
   // Lọc đơn hàng theo trạng thái
-  const filteredOrders =
+  const filteredOrdersByStatus =
     filterStatus === "all"
       ? orders
       : orders.filter((o) => o.status === filterStatus);
 
   // Tính tổng số trang
-  const totalPages = Math.ceil(filteredOrders.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredOrdersByStatus.length / itemsPerPage);
 
   // Lấy đơn hàng của trang hiện tại
-  const paginatedOrders = filteredOrders.slice(
+  const paginatedOrders = filteredOrdersByStatus.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
@@ -39,38 +43,74 @@ const Orders = () => {
     }
   };
 
-  const handleStatusChange = async (orderId: number, newStatus: string) => {
+  const handleStatusChange = async (
+    orderId: number | string,
+    newStatus: string
+  ) => {
     try {
       await onEdit({ order_status_id: newStatus }, orderId);
       await getAllOrders();
     } catch (error) {
-      alert("Cập nhật thất bại! Vui lòng thử lại.");
+      toast.error("Cập nhật thất bại! Vui lòng thử lại.");
       console.error(error);
+      alert("Cập nhật thất bại! Vui lòng thử lại.");
+      console.error("Lỗi khi cập nhật trạng thái:", error);
     }
+  };
+
+  // Xử lý reset tìm kiếm
+  const handleResetSearch = () => {
+    setSearchTerm("");
+    filterOrdersByCode("");
+    setCurrentPage(1);
   };
 
   return (
     <div className="p-6 w-full mx-auto bg-white shadow-md rounded-lg">
-      {/* Header và bộ lọc cùng hàng */}
-      <div className="flex items-center justify-between mb-4">
+      {/* Header, bộ lọc và tìm kiếm */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 gap-4">
         <h2 className="text-xl font-bold">Danh Sách Đơn Hàng</h2>
-        <div className="flex items-center">
-          <label className="font-medium mr-2">Lọc trạng thái:</label>
-          <select
-            className="border p-2 rounded"
-            value={filterStatus}
-            onChange={(e) => {
-              setFilterStatus(e.target.value);
-              setCurrentPage(1);
-            }}
-          >
-            <option value="all">Tất cả</option>
-            {orderstatus.map((st: any) => (
-              <option key={st.id} value={st.name}>
-                {st.name}
-              </option>
-            ))}
-          </select>
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+          <div className="flex items-center relative">
+            <label className="font-medium mr-2">Tìm kiếm mã đơn:</label>
+            <input
+              type="text"
+              className="border p-2 rounded w-full sm:w-64 focus:ring-2 focus:ring-blue-500"
+              placeholder="Nhập mã đơn hàng..."
+              value={searchTerm}
+              onChange={(e) => {
+                setSearchTerm(e.target.value);
+                filterOrdersByCode(e.target.value);
+                setCurrentPage(1);
+              }}
+            />
+            {searchTerm && (
+              <button
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                onClick={handleResetSearch}
+              >
+                ✕
+              </button>
+            )}
+          </div>
+          <div className="flex items-center">
+            <label className="font-medium mr-2">Lọc trạng thái:</label>
+            <select
+              className="border p-2 rounded focus:ring-2 focus:ring-blue-500"
+              value={filterStatus}
+              onChange={(e) => {
+                setFilterStatus(e.target.value);
+                setCurrentPage(1);
+              }}
+            >
+              <option value="all">Tất cả</option>
+              {orderstatus.map((st: any) => (
+                <option key={st.id} value={st.name}>
+                  {st.name}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
       </div>
 
@@ -107,7 +147,7 @@ const Orders = () => {
                 <td className="border p-2">{order.created_at}</td>
                 <td className="border p-2 text-center">
                   <select
-                    className="border p-1 rounded"
+                    className="border p-1 rounded focus:ring-2 focus:ring-blue-500"
                     value={
                       orderstatus.find((s: any) => s.name === order.status)
                         ?.id || ""

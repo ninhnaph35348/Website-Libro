@@ -1,3 +1,50 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.custom-confirm-alert {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    width: 300px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .custom-confirm-alert h3 {
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
+  
+  .custom-confirm-alert p {
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+  
+  .custom-confirm-alert .buttons {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .custom-confirm-alert .btn-confirm,
+  .custom-confirm-alert .btn-cancel {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .custom-confirm-alert .btn-cancel {
+    background-color: #f44336;
+  }
+  
+  .custom-confirm-alert .btn-confirm:hover,
+  .custom-confirm-alert .btn-cancel:hover {
+    opacity: 0.8;
+  }
+
+  

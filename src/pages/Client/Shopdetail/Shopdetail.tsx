@@ -316,7 +316,10 @@ const Shopdetail = () => {
                         <h3 className="text-2xl font-bold text-gray-800">
                           Giá:{" "}
                           {Math.round(
-                            productVariant.promotion || productVariant.price
+                            productVariant.promotion &&
+                              productVariant.promotion > 0
+                              ? productVariant.promotion
+                              : productVariant.price
                           ).toLocaleString()}{" "}
                           ₫
                         </h3>

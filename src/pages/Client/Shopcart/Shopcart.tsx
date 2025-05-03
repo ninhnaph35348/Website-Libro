@@ -3,20 +3,24 @@ import { Link } from "react-router-dom";
 import book1 from "../../../assets/img/hero/book1.png";
 import book2 from "../../../assets/img/hero/book2.png";
 import { CartContext } from "../../../context/Cart";
-
+import { useNavigate } from "react-router-dom";
 const ShopCart = () => {
   const cartContext = useContext(CartContext);
   const cartItems = cartContext?.cartItems || [];
-  const removeFromCart = cartContext?.removeFromCart || (() => { });
-  const updateCartQuantity = cartContext?.updateCartQuantity || (() => { });
-  const toggleItemSelection = cartContext?.toggleItemSelection || (() => { });
-  const selectAllItems = cartContext?.selectAllItems || (() => { });
-  const deselectAllItems = cartContext?.deselectAllItems || (() => { });
+  const removeFromCart = cartContext?.removeFromCart || (() => {});
+  const updateCartQuantity = cartContext?.updateCartQuantity || (() => {});
+  const toggleItemSelection = cartContext?.toggleItemSelection || (() => {});
+  const selectAllItems = cartContext?.selectAllItems || (() => {});
+  const deselectAllItems = cartContext?.deselectAllItems || (() => {});
   const [mess, setMess] = useState(""); // State để lưu thông báo
   const [didSelect, setDidSelect] = useState(false);
-
+  const navigate = useNavigate();
   useEffect(() => {
-    if (!didSelect && cartItems.length > 0 && cartItems.some((item) => !item.isSelected)) {
+    if (
+      !didSelect &&
+      cartItems.length > 0 &&
+      cartItems.some((item) => !item.isSelected)
+    ) {
       selectAllItems();
       setDidSelect(true);
     }
@@ -33,7 +37,9 @@ const ShopCart = () => {
     removeFromCart(id);
     showMessage("Sản phẩm đã được xóa khỏi giỏ hàng!");
   };
-
+  const handleCheckout = () => {
+    window.location.href = "check-out";
+  };
   // Hàm cập nhật số lượng với thông báo
   const handleUpdateQuantity = (id: number, quantity: number) => {
     const item = cartItems.find((item) => item.id === id);
@@ -51,11 +57,9 @@ const ShopCart = () => {
     }
   };
 
-
-
   // Hàm lấy giá hiển thị (dùng để tính tổng tiền)
   const getDisplayPrice = (item: any) => {
-    return item.promotion ? item.promotion : item.price;
+    return item.promotion && item.promotion > 0 ? item.promotion : item.price;
   };
 
   // Hàm tính tổng tiền cho các sản phẩm được chọn
@@ -141,14 +145,13 @@ const ShopCart = () => {
                             disabled={cartItems.length === 0}
                           />
                           &nbsp;All
-                        </th>{" "}
-                        {/* Checkbox chọn tất cả */}
+                        </th>
                         <th>Sản Phẩm</th>
                         <th>Giá</th>
                         <th>Loại</th>
                         <th>Số lượng</th>
                         <th>Tổng Tiền</th>
-                        <th></th> {/* Cột cho nút xóa */}
+                        <th></th>
                       </tr>
                     </thead>
                     <tbody>
@@ -184,7 +187,7 @@ const ShopCart = () => {
                               </span>
                             </td>
                             <td className="text-center">
-                              {item.promotion ? (
+                              {item.promotion && item.promotion > 0 ? (
                                 <>
                                   {Math.round(item.promotion).toLocaleString()}₫
                                   <del className="!font-medium ml-2 text-[#5c707e]">
@@ -302,12 +305,12 @@ const ShopCart = () => {
               >
                 Tiếp tục mua hàng
               </Link>
-              <Link
-                to="/check-out"
+              <button
+                onClick={handleCheckout}
                 className="inline-block px-5 py-2.5 bg-blue-500 text-white no-underline rounded-md transition-colors duration-300 hover:bg-blue-700"
               >
                 Thanh Toán
-              </Link>
+              </button>
             </div>
           </div>
         </div>

@@ -67,6 +67,8 @@ import AddVoucher from "./pages/Admin/Voucher/AddVoucher";
 import EditVoucher from "./pages/Admin/Voucher/EditVoucher";
 import EditProfileAdmin from "./pages/Admin/ProfileAdmin/EditProfileAdmin";
 import ChangePasswordAdmin from "./pages/Admin/ProfileAdmin/ChangePasswordAdmin";
+import VoucherClient from "./pages/Client/VoucherClient/VoucherClient";
+import ForgotPassword from "./pages/Client/Login/ForgotPassword";
 
 const App = () => {
   return (
@@ -77,7 +79,7 @@ const App = () => {
         <Route path="/admin/login" element={<Login />} />
         <Route path="/login" element={<LoginClient />} />
         <Route path="/register" element={<Sinup />} />
-
+        <Route path="/forgot-password" element={<ForgotPassword />} />
         {/* Admin Routes (Protected) */}
         <Route path="/admin" element={<PrivateRoute />}>
           <Route element={<LayoutAdmin />}>
@@ -203,6 +205,7 @@ const App = () => {
             <Route path="edit" element={<EditProfile />} />
             <Route path="change-password" element={<ChangePassword />} />
             <Route path="order_detail" element={<OrderList />} />
+            <Route path="voucher-client" element={<VoucherClient />} />
           </Route>
           <Route
             path="/shop-details/:code/cover/:id"

@@ -17,6 +17,10 @@ const Client = () => {
     <>
     <HomePopup />
       <Banner />
+        
+        {/* Popup Component */}
+  
+        {/* Hero Section start */}
 
       {/* Feature Section start */}
       <section className="feature-section fix section-padding">

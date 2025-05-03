@@ -24,7 +24,8 @@ const OrderDetail: React.FC = () => {
 
         if (response.data && response.data.order) {
           setOrder(response.data.order);
-          setTotalProductPrice(response.data.total_product_price || 0);
+          setTotalProductPrice(response.data.total_product_price);
+          console.log("order", response.data.total_product_price);
         } else {
           setError("Không tìm thấy đơn hàng.");
         }
@@ -109,6 +110,7 @@ const OrderDetail: React.FC = () => {
     ? 30000
     : Number(order.shipping_fee);
   const totalPrice = Number(order?.total_price);
+  console.log(order, "order");
 
   if (loading)
     return (
@@ -139,7 +141,7 @@ const OrderDetail: React.FC = () => {
           </p>
           <p>
             <strong>Người nhận:</strong>{" "}
-            {order.user_name || "Chưa có thông tin"}
+            {order.shipping_name || "Chưa có thông tin"}
           </p>
           <p>
             <strong>Ngày đặt:</strong> {order.created_at}
@@ -149,7 +151,7 @@ const OrderDetail: React.FC = () => {
             {order.shipping_phone || "Chưa có thông tin"}
           </p>
           <p>
-            <strong>Người đặt:</strong> {order.shipping_name}
+            <strong>Người đặt:</strong> {order.user_name}
           </p>
           <p>
             <strong>Địa chỉ người nhận:</strong>{" "}
@@ -159,17 +161,17 @@ const OrderDetail: React.FC = () => {
             <strong>SĐT người đặt:</strong> {order.user_phone}
           </p>
           <p>
-            <strong>Email người đặt:</strong> {order.user_email}
+            <strong>Email người nhận:</strong> {order.shipping_email}
           </p>
           <p>
-            <strong>Email người nhận:</strong> {order.shipping_email}
+            <strong>Email người đặt:</strong> {order.user_email}
           </p>
           <p>
             <strong>Địa chỉ người đặt:</strong> {order.user_address}
           </p>
           <p>
             <strong>Thanh toán:</strong>{" "}
-            {order.payment_method === 1 ? "Khi nhận hàng" : "Vn Pay"}
+            {order.payment_method == "COD" ? "COD" : "VNPay"}
           </p>
           <p>
             <strong>Trạng thái:</strong>{" "}

@@ -43,7 +43,6 @@ const Profile: React.FC = () => {
           </div>
         </div>
       </div>
-
       {/* User Info Section */}
       <div className="grid grid-cols-2 gap-4 mb-6">
         <div>

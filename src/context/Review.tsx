@@ -45,12 +45,17 @@ const ReviewProvider = ({ children }: Props) => {
   const addReview = useCallback(
     async (reviewData: Partial<IReviews>, productCode: string) => {
       try {
-        const newReview = await createReview(reviewData);
+        const newReview = await createReview(reviewData, productCode);
         setReviews((prevReviews) => [...prevReviews, newReview]);
+        toast.success("Đánh giá đã được thêm thành công!");
         return newReview;
-      } catch (error) {
-        console.error("Lỗi khi thêm review:", error);
-        toast.error("Thêm đánh giá thất bại!");
+      } catch (error: any) {
+        if (error.response && error.response.status === 409) {
+          toast.warning("Chỉ được bình luận một lần cho mỗi sản phẩm!");
+        } else {
+          toast.error("Thêm đánh giá thất bại!");
+          console.error("Lỗi khi thêm review:", error);
+        }
         throw error;
       }
     },

@@ -119,9 +119,20 @@ const Header = () => {
   const handleLogout = () => {
     logout();
     dispatch({ type: "auth/logout" });
+  
+    // Xoá trạng thái đăng nhập và nhận voucher
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("hasReceivedVoucher");
+  
     toast.success("Đăng xuất thành công!");
-    setShowConfirm(false); // Ẩn popup xác nhận
+  
+    // Reload lại trang để HomePopup cập nhật lại UI
+    setTimeout(() => {
+      window.location.reload(); // 👈 Quan trọng!
+    }, 1000);
   };
+  
+  
 
   return (
     <>

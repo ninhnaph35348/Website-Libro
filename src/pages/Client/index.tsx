@@ -10,15 +10,15 @@ import LatestBook from "./Index/LatestBook";
 import BestSeller from "./Index/BestSeller";
 import Banner from "./Index/Banner";
 import TopRate from "./Index/TopRate";
-import Popup from "./Index/Popup";
+import HomePopup from "./Index/Poppup";
 
 const Client = () => {
   return (
     <>
+    <HomePopup />
       <Banner />
         
         {/* Popup Component */}
-      <Popup />
   
         {/* Hero Section start */}
 

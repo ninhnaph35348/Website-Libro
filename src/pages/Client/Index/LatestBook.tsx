@@ -48,13 +48,18 @@ const LatestBook = () => {
           >
             {productVariantLatest.length > 0 ? (
               productVariantLatest
-                .filter((variant: IProductVariant) => variant.product.status !== "out_stock")
+                .filter(
+                  (variant: IProductVariant) =>
+                    variant.product.status !== "out_stock"
+                )
                 .slice(0, 5)
                 .map((variant: IProductVariant) => (
                   <SwiperSlide key={variant.id}>
                     <div className="shop-box-items style-2">
                       <div className="book-thumb center">
-                        <Link to={`/shop-details/${variant.product.code}/cover/${variant.cover_id}`}>
+                        <Link
+                          to={`/shop-details/${variant.product.code}/cover/${variant.cover_id}`}
+                        >
                           <img
                             src={
                               variant.product.image
@@ -91,7 +96,7 @@ const LatestBook = () => {
                                             </ul> */}
                       </div>
                       <div className="shop-content">
-                        <div className='flex justify-between'>
+                        <div className="flex justify-between">
                           <h5>{variant.product.category}</h5>
                           <h5>Đã bán: {variant.sold_quantity}</h5>
                         </div>
@@ -105,7 +110,7 @@ const LatestBook = () => {
                         </h3>
                         <ul className="author-post">
                           <li className="!text-base !font-bold text-[#ff6500]">
-                            {variant.promotion ? (
+                            {variant.promotion && variant.promotion > 0 ? (
                               <>
                                 {Math.round(variant.promotion).toLocaleString()}
                                 ₫
@@ -119,12 +124,14 @@ const LatestBook = () => {
                           </li>
 
                           <li className="star">
-
                             {Array.from({ length: 5 }, (_, i) => (
                               <i
                                 key={i}
-                                className={`fa${i < variant.product.rating ? "-solid" : "-regular"
-                                  } fa-star`}
+                                className={`fa${
+                                  i < variant.product.rating
+                                    ? "-solid"
+                                    : "-regular"
+                                } fa-star`}
                               />
                             ))}
                           </li>

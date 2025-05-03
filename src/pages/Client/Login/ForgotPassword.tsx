@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { Mail, Loader } from "lucide-react"; // Sử dụng icon
+import { Mail, Loader } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../../store/auth/store";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { AuthContext } from "../../../context/Auth";
 
 const ForgotPassword: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -12,11 +11,9 @@ const ForgotPassword: React.FC = () => {
     email?: string;
     general?: string;
   }>({});
-  const dispatch = useDispatch<AppDispatch>();
-  const { loading, error } = useSelector((state: RootState) => state.auth);
+  const { forgotPassword, loading, error } = React.useContext(AuthContext);
   const navigate = useNavigate();
 
-  // Hàm kiểm tra email
   const validateForm = (): boolean => {
     const newErrors: { email?: string; general?: string } = {};
 
@@ -30,25 +27,19 @@ const ForgotPassword: React.FC = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  // Xử lý gửi yêu cầu đặt lại mật khẩu
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validateForm()) return;
 
     try {
-      // Giả lập API gửi yêu cầu đặt lại mật khẩu
-      // Thay thế bằng API thực tế của bạn
-      // const res = await dispatch(forgotPassword({ email })).unwrap();
-
-      // Giả lập phản hồi thành công
+      await forgotPassword({ email });
       toast.success(
         "🎉 Liên kết đặt lại mật khẩu đã được gửi đến email của bạn!"
       );
       setTimeout(() => navigate("/login"), 2000);
     } catch (err: any) {
       console.error("❌ Lỗi API:", err);
-      const apiMessage = err.message || "Có lỗi xảy ra, vui lòng thử lại";
-      setErrors({ general: apiMessage });
+      setErrors({ general: error || "Có lỗi xảy ra, vui lòng thử lại" });
     }
   };
 

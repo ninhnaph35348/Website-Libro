@@ -59,7 +59,7 @@ const ShopCart = () => {
 
   // Hàm lấy giá hiển thị (dùng để tính tổng tiền)
   const getDisplayPrice = (item: any) => {
-    return item.promotion ? item.promotion : item.price;
+    return item.promotion && item.promotion > 0 ? item.promotion : item.price;
   };
 
   // Hàm tính tổng tiền cho các sản phẩm được chọn
@@ -187,7 +187,7 @@ const ShopCart = () => {
                               </span>
                             </td>
                             <td className="text-center">
-                              {item.promotion ? (
+                              {item.promotion && item.promotion > 0 ? (
                                 <>
                                   {Math.round(item.promotion).toLocaleString()}₫
                                   <del className="!font-medium ml-2 text-[#5c707e]">

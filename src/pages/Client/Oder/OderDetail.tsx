@@ -24,7 +24,8 @@ const OrderDetail: React.FC = () => {
 
         if (response.data && response.data.order) {
           setOrder(response.data.order);
-          setTotalProductPrice(response.data.total_product_price || 0);
+          setTotalProductPrice(response.data.total_product_price);
+          console.log("order", response.data.total_product_price);
         } else {
           setError("Không tìm thấy đơn hàng.");
         }

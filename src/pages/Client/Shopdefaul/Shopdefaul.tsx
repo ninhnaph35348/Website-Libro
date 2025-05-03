@@ -11,8 +11,8 @@ const Shopdefaul = () => {
     ProductVariantContext
   );
 
-  const [searchQuery, setSearchQuery] = useState("");  // State lưu từ khóa tìm kiếm
-  const { search } = useLocation();  // Lấy query từ URL (nếu có)
+  const [searchQuery, setSearchQuery] = useState(""); // State lưu từ khóa tìm kiếm
+  const { search } = useLocation(); // Lấy query từ URL (nếu có)
 
   useEffect(() => {
     // Lấy từ khóa tìm kiếm từ URL query params, nếu có
@@ -21,15 +21,15 @@ const Shopdefaul = () => {
     if (query) {
       setSearchQuery(query);
     }
-    getVariantsByStatus();  // Lấy tất cả sản phẩm
-  }, [search, getVariantsByStatus]);  // Cập nhật khi từ khóa tìm kiếm thay đổi
+    getVariantsByStatus(); // Lấy tất cả sản phẩm
+  }, [search, getVariantsByStatus]); // Cập nhật khi từ khóa tìm kiếm thay đổi
 
   // Lọc sản phẩm theo từ khóa tìm kiếm
   const filteredVariants = searchQuery
     ? productVariantByStatus.filter((variant: IProductVariant) =>
         variant.product.title.toLowerCase().includes(searchQuery.toLowerCase())
       )
-    : productVariantByStatus;  // Nếu không có tìm kiếm, hiển thị tất cả sản phẩm
+    : productVariantByStatus; // Nếu không có tìm kiếm, hiển thị tất cả sản phẩm
 
   return (
     <>
@@ -44,7 +44,10 @@ const Shopdefaul = () => {
           <div className="page-heading">
             <h1>Trang Sản Phẩm</h1>
             <div className="page-header">
-              <ul className="breadcrumb-items wow fadeInUp" data-wow-delay=".3s">
+              <ul
+                className="breadcrumb-items wow fadeInUp"
+                data-wow-delay=".3s"
+              >
                 <li>
                   <Link to="/">Trang Chủ</Link>
                 </li>
@@ -79,13 +82,20 @@ const Shopdefaul = () => {
                         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
                           {filteredVariants.length > 0 ? (
                             filteredVariants.map((variant: IProductVariant) => (
-                              <div key={variant.id} className="shop-box-items style-2">
+                              <div
+                                key={variant.id}
+                                className="shop-box-items style-2"
+                              >
                                 <div className="book-thumb center">
                                   <Link
                                     to={`/shop-details/${variant.product.code}/cover/${variant.cover_id}`}
                                   >
                                     <img
-                                      src={variant.product.image ? `http://127.0.0.1:8000/storage/${variant.product.image}` : news9}
+                                      src={
+                                        variant.product.image
+                                          ? `http://127.0.0.1:8000/storage/${variant.product.image}`
+                                          : news9
+                                      }
                                       alt={variant.product.title}
                                     />
                                   </Link>
@@ -93,7 +103,13 @@ const Shopdefaul = () => {
                                     <li>Hot</li>
                                     {variant.promotion && (
                                       <li>
-                                        -{Math.round((1 - variant.promotion / variant.price) * 100)}%
+                                        -
+                                        {Math.round(
+                                          (1 -
+                                            variant.promotion / variant.price) *
+                                            100
+                                        )}
+                                        %
                                       </li>
                                     )}
                                   </ul>
@@ -114,22 +130,35 @@ const Shopdefaul = () => {
                                   </h3>
                                   <ul className="author-post">
                                     <li className="!text-base !font-bold text-[#ff6500]">
-                                      {variant.promotion ? (
+                                      {variant.promotion &&
+                                      variant.promotion > 0 ? (
                                         <>
-                                          {Math.round(variant.promotion).toLocaleString()}₫
+                                          {Math.round(
+                                            variant.promotion
+                                          ).toLocaleString()}
+                                          ₫
                                           <del className="!font-medium ml-2 text-[#5c707e]">
-                                            {Math.round(variant.price).toLocaleString()}₫
+                                            {Math.round(
+                                              variant.price
+                                            ).toLocaleString()}
+                                            ₫
                                           </del>
                                         </>
                                       ) : (
-                                        `${Math.round(variant.price).toLocaleString()}₫`
+                                        `${Math.round(
+                                          variant.price
+                                        ).toLocaleString()}₫`
                                       )}
                                     </li>
                                     <li className="star">
                                       {Array.from({ length: 5 }, (_, i) => (
                                         <i
                                           key={i}
-                                          className={`fa${i < variant.product.rating ? "-solid" : "-regular"} fa-star`}
+                                          className={`fa${
+                                            i < variant.product.rating
+                                              ? "-solid"
+                                              : "-regular"
+                                          } fa-star`}
                                         />
                                       ))}
                                     </li>

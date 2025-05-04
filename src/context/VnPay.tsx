@@ -3,6 +3,7 @@ import { IVnPay } from "../interfaces/VnPay";
 import {
     createVnPay,
 } from "../services/VnPay";
+import { toast } from "react-toastify";
 
 type Props = {
     children: React.ReactNode;
@@ -17,7 +18,7 @@ const VnPayProvider = ({ children }: Props) => {
         try {
             const data = await createVnPay(dataVnPay);
             setVnPays([...vnpays, data]);
-            // alert("Thêm thể loại thành công!");
+            toast.success(data.message);
             return data
         } catch (error) {
             console.log(error);

@@ -31,7 +31,7 @@ const VoucherProvider = ({ children }: Props) => {
     try {
       const data = await createVoucher(dataVoucher);
       setVouchers([...vouchers, data]);
-      toast.success("Thêm thể loại thành công!");
+      toast.success(data.message);
     } catch (error) {
       console.log(error);
     }
@@ -44,7 +44,7 @@ const VoucherProvider = ({ children }: Props) => {
         voucher.id === id ? data : voucher
       );
       setVouchers(newVouchers);
-      toast.success("Sửa thể loại thành công!");
+      toast.success(data.message);
     } catch (error) {
       console.log(error);
     }
@@ -56,10 +56,10 @@ const VoucherProvider = ({ children }: Props) => {
       formData.append("status", newStatus);
       formData.append("_method", "put"); // Laravel-style update
 
-      await statusVoucher(formData, code); // Gửi lên API
+      const data = await statusVoucher(formData, code); // Gửi lên API
 
-      await getAllVouchers(); // Cập nhật lại danh sách
-      toast.success("Cập nhật trạng thái thành công!");
+      await getAllVouchers(); 
+      toast.success(data.message);
     } catch (error) {
       console.error("❌ Lỗi khi cập nhật trạng thái sản phẩm:", error);
     }

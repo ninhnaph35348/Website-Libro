@@ -23,10 +23,12 @@ const OrderProvider = ({ children }: Props) => {
         if (response?.data && Array.isArray(response.data)) {
           setOrders(response.data);
           setFilteredOrders(response.data);
+          toast.success(response.message);
         } else {
           console.warn("Dữ liệu không đúng định dạng:", response);
           setOrders([]);
           setFilteredOrders([]);
+          toast.success(response.message);
         }
       } catch (error) {
         toast.error("Lỗi khi tải danh sách đơn hàng!");
@@ -69,11 +71,11 @@ const OrderProvider = ({ children }: Props) => {
   const onStatus = async (id: number) => {
     try {
       if (window.confirm("Bạn có muốn xóa không?")) {
-        await deleteOrder(id);
+        const data = await deleteOrder(id);
         setOrders((prev) => prev.filter((order) => order.id !== id));
         setFilteredOrders((prev) => prev.filter((order) => order.id !== id));
-        toast.success("Xóa đơn hàng thành công!");
         setReload((prev) => !prev);
+        toast.success(data.message);
       }
     } catch (error) {
       toast.error("Lỗi khi xóa đơn hàng!");
@@ -96,8 +98,8 @@ const OrderProvider = ({ children }: Props) => {
             order.code_order === code_order ? { ...order, ...data } : order
           )
         );
-        toast.success("Cập nhật đơn hàng thành công!");
         setReload((prev) => !prev);
+        toast.success(data.message);
       }
     } catch (error) {
       toast.error("Cập nhật đơn hàng thất bại!");

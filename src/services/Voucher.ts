@@ -14,8 +14,11 @@ export const getVoucherById = async (id: number | string) => {
   try {
     const { data } = await instance.get(`vouchers/${id}`);
     return data;
-  } catch (error) {
-    throw new Error("Lỗi");
+  } catch (error: any) {
+    if (error.response && error.response.data && error.response.data.message) {
+      throw new Error(error.response.data.message);
+    }
+    throw new Error(error.message || "Lỗi không xác định");
   }
 };
 
@@ -23,8 +26,11 @@ export const createVoucher = async (voucherData: IVoucher) => {
   try {
     const { data } = await instance.post("vouchers", voucherData);
     return data;
-  } catch (error) {
-    throw new Error("Lỗi");
+  } catch (error: any) {
+    if (error.response && error.response.data && error.response.data.message) {
+      throw new Error(error.response.data.message);
+    }
+    throw new Error(error.message || "Lỗi không xác định");
   }
 };
 
@@ -35,8 +41,11 @@ export const updateVoucher = async (
   try {
     const { data } = await instance.put(`vouchers/edit/${id}`, voucherData);
     return data;
-  } catch (error) {
-    throw new Error("Lỗi");
+  } catch (error: any) {
+    if (error.response && error.response.data && error.response.data.message) {
+      throw new Error(error.response.data.message);
+    }
+    throw new Error(error.message || "Lỗi không xác định");
   }
 };
 
@@ -45,7 +54,10 @@ export const statusVoucher = async (voucherData: FormData, id: number | string) 
   try {
     const { data } = await instance.put(`vouchers/${id}`, voucherData);
     return data;
-  } catch (error) {
-    throw new Error("Lỗi khi cập nhật trạng thái sản phẩm");
+  } catch (error: any) {
+    if (error.response && error.response.data && error.response.data.message) {
+      throw new Error(error.response.data.message);
+    }
+    throw new Error(error.message || "Lỗi không xác định");
   }
 };

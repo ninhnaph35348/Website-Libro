@@ -6,8 +6,11 @@ export const getAllOrder = async () => {
   try {
     const { data } = await instance.get("orders");
     return data;
-  } catch (error) {
-    throw new Error("Lỗi khi lấy danh sách đơn hàng");
+  } catch (error: any) {
+    if (error.response && error.response.data && error.response.data.message) {
+      throw new Error(error.response.data.message);
+    }
+    throw new Error(error.message || "Lỗi không xác định");
   }
 };
 
@@ -15,8 +18,11 @@ export const getOrderById = async (id: number | string) => {
   try {
     const { data } = await instance.get(`orders/${id}`);
     return data;
-  } catch (error) {
-    throw new Error("Lỗi khi lấy chi tiết đơn hàng");
+  } catch (error: any) {
+    if (error.response && error.response.data && error.response.data.message) {
+      throw new Error(error.response.data.message);
+    }
+    throw new Error(error.message || "Lỗi không xác định");
   }
 };
 
@@ -24,8 +30,11 @@ export const getOrderDetailById = async (id: number | string) => {
   try {
     const { data } = await instance.get(`orders/order-detail/${id}`);
     return data;
-  } catch (error) {
-    throw new Error("Lỗi khi lấy chi tiết đơn hàng");
+  } catch (error: any) {
+    if (error.response && error.response.data && error.response.data.message) {
+      throw new Error(error.response.data.message);
+    }
+    throw new Error(error.message || "Lỗi không xác định");
   }
 };
 
@@ -45,8 +54,11 @@ export const updateOrder = async (
 
     const { data } = await instance.post(`orders/edit/${code_order}`, formData);
     return data;
-  } catch (error) {
-    throw new Error("Lỗi khi cập nhật đơn hàng!");
+  } catch (error: any) {
+    if (error.response && error.response.data && error.response.data.message) {
+      throw new Error(error.response.data.message);
+    }
+    throw new Error(error.message || "Lỗi không xác định");
   }
 };
 
@@ -54,7 +66,10 @@ export const deleteOrder = async (id: number | string) => {
   try {
     const { data } = await instance.put(`orders/${id}`);
     return data;
-  } catch (error) {
-    throw new Error("Lỗi khi xóa đơn hàng");
+  } catch (error: any) {
+    if (error.response && error.response.data && error.response.data.message) {
+      throw new Error(error.response.data.message);
+    }
+    throw new Error(error.message || "Lỗi không xác định");
   }
 };

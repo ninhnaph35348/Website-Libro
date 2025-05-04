@@ -44,7 +44,7 @@ const EditProductvariant = () => {
                         setValue("price", Number(variant.price));
                         setValue("promotion", Number(variant.promotion));
                         setValue("quantity", variant.quantity);
-                        setValue("product_id", variant.product.id); 
+                        setValue("product_id", variant.product.id);
                         setValue("cover_id", variant.cover_id);
 
                     }
@@ -67,8 +67,8 @@ const EditProductvariant = () => {
         try {
             const success = await onEdit(data, id, code);
 
-            if(success){
-            navigate(-1);
+            if (success) {
+                navigate(-1);
 
             }
         } catch (error) {
@@ -82,7 +82,7 @@ const EditProductvariant = () => {
     return (
         <div className="p-6 w-full mx-auto bg-white shadow-md rounded-lg">
             <h2 className="text-xl font-bold mb-4">Sửa Biến Thể</h2>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                 {/* Select Sản phẩm */}
                 <div>
                     <label className="block mb-1">Sản phẩm</label>
@@ -100,6 +100,7 @@ const EditProductvariant = () => {
                                 }))}
                                 error={errors.product_id?.message}
                                 onChange={(value) => field.onChange(value)}
+                                isDisabled={true}
                             />
                         )}
                     />
@@ -161,6 +162,7 @@ const EditProductvariant = () => {
                                 }))}
                                 error={errors.cover_id?.message}
                                 onChange={(value) => field.onChange(value)}
+                                // isDisabled={true}
                             />
                         )}
                     />

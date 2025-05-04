@@ -43,9 +43,9 @@ const ReviewProvider = ({ children }: Props) => {
   }, []);
 
   const addReview = useCallback(
-    async (reviewData: Partial<IReviews>, productCode: string) => {
+    async (reviewData: Partial<IReviews>) => {
       try {
-        const newReview = await createReview(reviewData, productCode);
+        const newReview = await createReview(reviewData);
         setReviews((prevReviews) => [...prevReviews, newReview]);
         toast.success("Đánh giá đã được thêm thành công!");
         return newReview;

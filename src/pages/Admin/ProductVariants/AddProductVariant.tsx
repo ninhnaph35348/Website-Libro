@@ -9,6 +9,7 @@ import { IProduct } from "../../../interfaces/Products";
 import { ICover } from "../../../interfaces/Cover";
 import { CoverContext } from "../../../context/Cover";
 import FormSelect from "../../../components/form/FormSelect";
+import { toast } from "react-toastify";
 
 const AddProductvariant = () => {
   const productvariants = useContext(ProductVariantContext);
@@ -33,17 +34,18 @@ const AddProductvariant = () => {
 
   const onSubmit = async (data: IProductVariant) => {
     if (productvariants) {
-      await productvariants.onAdd(data);
-      // navigate(`/admin/product`);
-      reset();
-      console.log(data);
+      const isSuccess = await productvariants.onAdd(data);
+      if (isSuccess) {
+        navigate(-1);
+        reset();
+      }
     }
   };
 
   return (
     <div className="p-6 w-full mx-auto bg-white shadow-md rounded-lg">
       <h2 className="text-xl font-bold mb-4">Thêm Biến Thể</h2>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         {/* Select Sản phẩm */}
         <div>
           <label className="block mb-1">Sản phẩm</label>

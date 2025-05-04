@@ -8,7 +8,6 @@ import { RootState } from "../../../store/auth/store";
 const Profile: React.FC = () => {
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.auth.user) as IUser | null;
-  const ordersCount = 0; 
   const loading = useSelector((state: RootState) => state.auth.loading);
 
   useEffect(() => {
@@ -43,17 +42,17 @@ const Profile: React.FC = () => {
           </div>
         </div>
       </div>
-      {/* User Info Section */}
-      <div className="grid grid-cols-2 gap-4 mb-6">
-        <div>
-          <p className="text-sm text-gray-500">Số đơn hàng</p>
-          <p className="text-lg font-semibold">{ordersCount} đơn hàng</p>
-        </div>
-        <div>
-          <p className="text-sm text-gray-500">Đã thanh toán</p>
-          <p className="text-lg font-semibold">0 đ</p>
-        </div>
-      </div>
+      {/* User Info Section
+      // <div className="grid grid-cols-2 gap-4 mb-6">
+      //   <div>
+      //     <p className="text-sm text-gray-500">Số đơn hàng</p>
+      //     <p className="text-lg font-semibold">{ordersCount} đơn hàng</p>
+      //   </div>
+      //   <div>
+      //     <p className="text-sm text-gray-500">Đã thanh toán</p>
+      //     <p className="text-lg font-semibold">0 đ</p>
+      //   </div>
+      // </div> */}
 
       <div className="space-y-4">
         <div>

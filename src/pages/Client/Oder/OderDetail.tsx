@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import instance from "../../../config/axios";
-import { IOrder } from "../../../interfaces/Orders";
 import { toast } from "react-toastify";
+import instance from "../../../config/axios";
 // import { IOrder } from "../../../interfaces/Orders";
 const OrderDetail: React.FC = () => {
   const { orderCode } = useParams<{ orderCode: string }>();
   const [order, setOrder] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [cancelReason, setCancelReason] = useState<string>("");
+  const [cancelReason] = useState<string>("");
   const [totalProductPrice, setTotalProductPrice] = useState<number>(0);
 
   useEffect(() => {
@@ -225,7 +224,7 @@ const OrderDetail: React.FC = () => {
 
         {order.status === "Chờ xác nhận" && (
           <div className="mt-4">
-            <label className="block mb-2 text-gray-700 font-medium">
+            {/* <label className="block mb-2 text-gray-700 font-medium">
               Lý do hủy đơn hàng:
             </label>
             <textarea
@@ -234,7 +233,7 @@ const OrderDetail: React.FC = () => {
               className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
               rows={3}
               placeholder="Nhập lý do bạn muốn hủy đơn hàng..."
-            ></textarea>
+            ></textarea> */}
             <button
               onClick={handleCancelOrder}
               className="mt-3 px-6 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"

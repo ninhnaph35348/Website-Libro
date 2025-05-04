@@ -1,6 +1,6 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { AuthContext } from "../../context/Auth";
-import whiteLogo from "../../assets/img/logo/white-logo.svg";
+import Libro from "../../assets/img/libro.png";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store/auth/store";
@@ -8,7 +8,6 @@ import { IUser } from "../../interfaces/User";
 import { fetchUser } from "../../store/auth/authSlice";
 import { toast } from "react-toastify";
 import { CartContext } from "../../context/Cart";
-import { IProduct } from "../../interfaces/Products";
 import instance from "../../config/axios";
 import { ProductVariantContext } from "../../context/ProductVariants";
 import { IProductVariant } from "../../interfaces/ProductVariants";
@@ -119,20 +118,20 @@ const Header = () => {
   const handleLogout = () => {
     logout();
     dispatch({ type: "auth/logout" });
-  
+
     // Xoá trạng thái đăng nhập và nhận voucher
     localStorage.removeItem("isLoggedIn");
     localStorage.removeItem("hasReceivedVoucher");
-  
+
     toast.success("Đăng xuất thành công!");
-  
+
     // Reload lại trang để HomePopup cập nhật lại UI
     setTimeout(() => {
       window.location.reload(); // 👈 Quan trọng!
     }, 1000);
   };
-  
-  
+
+
 
   return (
     <>
@@ -225,8 +224,8 @@ const Header = () => {
                 <div className="col-6 col-md-6 col-lg-10 col-xl-8 col-xxl-10">
                   <div className="header-left">
                     <div className="logo">
-                      <Link to="/">
-                        <img src={whiteLogo} alt="logo" />
+                      <Link to="/" className="">
+                        <img src={Libro} alt="logo" className="w-32" />
                       </Link>
                     </div>
                     <div className="mean__menu-wrapper">

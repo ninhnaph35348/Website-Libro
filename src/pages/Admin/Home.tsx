@@ -218,7 +218,7 @@ const Home = () => {
               </select>
             </div>
 
-            <div className="flex flex-wrap gap-2">
+            {/* <div className="flex flex-wrap gap-2">
               {[
                 { label: "Tuần này", type: "this_week" },
                 { label: "Tuần trước", type: "last_week" },
@@ -233,7 +233,7 @@ const Home = () => {
                   {item.label}
                 </button>
               ))}
-            </div>
+            </div> */}
 
             <div className="grid grid-cols-2 gap-4">
               <div className="flex flex-col">
@@ -293,7 +293,7 @@ const Home = () => {
           {productBestsellers.map((product: IProductVariant,) => (
             <div key={product.id} className="flex justify-between items-center border-b pb-2">
               <span className="text-gray-700">{product.product.title}</span>
-              <span className="text-sm text-gray-500">{product.total_sold} đơn</span>
+              <span className="text-sm text-gray-500">{product.sold_quantity} đơn</span>
             </div>
           ))}
         </div>

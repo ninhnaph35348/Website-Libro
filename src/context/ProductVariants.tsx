@@ -79,22 +79,26 @@ const ProductVariantProvider = ({ children }: Props) => {
     try {
       const data = await createProductVariant(dataProductVariant);
       setProductVariants([...productvariants, data]);
-      toast.success("Thêm biến thể sản phẩm thành công!");
-    } catch (error) {
-      console.log(error);
+      await getAllProductVariants();
+      toast.success(data.message);
+      return true;
+    } catch (error: any) {
+      toast.error(error.message || "Lỗi thêm biến thể");
+      return null;
     }
   };
 
-  const onStatus = async (code: string | number, newStatus: "0" | "1") => {
+  const onStatus = async (code: string | number, id: string | number, newStatus: "0" | "1") => {
     try {
       const formData = new FormData();
       formData.append("del_flg", newStatus);
       formData.append("_method", "put");
-      await statusProductVariant(formData, code);
+      const data = await statusProductVariant(formData, code, id);
       await getAllProductVariants();
-      toast.success("Cập nhật trạng thái sản phẩm thành công!");
-    } catch (error) {
-      console.error("❌ Lỗi khi cập nhật trạng thái sản phẩm:", error);
+      toast.success(data.message);
+    } catch (error: any) {
+      toast.error(error.message || "Lỗi ẩn biến thể");
+      return null;
     }
   };
 
@@ -119,11 +123,12 @@ const ProductVariantProvider = ({ children }: Props) => {
         productvariant.product.code === code ? data : productvariant
       );
       setProductVariants(newProductVariants);
-      toast.success("Cập nhật biến thể sản phẩm thành công!");
+      toast.success(data.message);
       await getAllProductVariants();
       return newProductVariants;
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      toast.error(error.message || "Lỗi cập nhập biến thể");
+      return null;
     }
   };
 

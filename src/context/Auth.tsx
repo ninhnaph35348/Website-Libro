@@ -8,6 +8,7 @@ import {
   ResetPasswordRequest,
 } from "../interfaces/Auth";
 import * as authService from "../services/AuthService";
+import { toast } from "react-toastify";
 
 export const AuthContext = createContext<AuthState & {
   register: (data: RegisterRequest) => Promise<void>;
@@ -65,6 +66,8 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
         localStorage.setItem("token", response.token);
         localStorage.setItem("user", JSON.stringify(response.user));
       }
+
+      toast.success(response.message);
       navigate("/dashboard");
     } catch (err: any) {
       setState((prev) => ({

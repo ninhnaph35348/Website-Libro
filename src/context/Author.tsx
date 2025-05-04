@@ -32,7 +32,7 @@ const AuthorProvider = ({ children }: Props) => {
     try {
       const data = await createAuthor(dataAuthor);
       setAuthors([...authors, data]);
-      toast.success("Thêm tác giả thành công!");
+      toast.success(data.message);
     } catch (error) {
       toast.error("Lỗi khi thêm tác giả!");
       console.error(error);
@@ -42,9 +42,9 @@ const AuthorProvider = ({ children }: Props) => {
   const onDelete = async (id: number) => {
     try {
       if (window.confirm("Bạn có muốn xóa tác giả này không?")) {
-        await deleteAuthor(id);
+        const data = await deleteAuthor(id);
         setAuthors(authors.filter((author) => author.id !== id));
-        toast.success("Xóa tác giả thành công!");
+        toast.success(data.message);
       }
     } catch (error) {
       toast.error("Lỗi khi xóa tác giả!");
@@ -56,7 +56,7 @@ const AuthorProvider = ({ children }: Props) => {
     try {
       const data = await updateAuthor(formData, id);
       setAuthors(authors.map((author) => (author.id === id ? data : author)));
-      toast.success("Sửa tác giả thành công!");
+      toast.success(data.message);
     } catch (error) {
       toast.error("Lỗi khi sửa tác giả!");
       console.error(error);

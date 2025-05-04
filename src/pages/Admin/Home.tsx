@@ -16,7 +16,7 @@ import { format } from "date-fns";
 import { Button, Modal } from "antd";
 
 const Home = () => {
-  const { statistics } = useContext(StatisticsContext);
+  const { statistics, fetchStatistics } = useContext(StatisticsContext);
   const [revenueData, setRevenueData] = useState([]);
 
   const [groupBy, setGroupBy] = useState("month");
@@ -74,7 +74,9 @@ const Home = () => {
   };
   useEffect(() => {
     fetchRevenue();
+    fetchStatistics();
   }, []);
+  
 
 
 

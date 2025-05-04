@@ -152,8 +152,6 @@ const Shopdetail = () => {
       del_flg: 0,
     };
 
-    console.log("Dữ liệu gửi lên:", reviewData);
-
     try {
       await addReview(reviewData);
       toast.success("Thêm đánh giá thành công!");

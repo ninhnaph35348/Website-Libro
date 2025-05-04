@@ -1,15 +1,15 @@
-import { createContext, useState, useEffect } from "react";
-import {
-    getTotalBooks,
-    getSoldBook,
-    getInStock,
-    getRevenueByPeriod,
-    getCustomers,
-    getTotalReviews,
-    getOrdersByStatus,
-} from "../services/Statistical";
-import { IRevenue, IStatistics } from "../interfaces/Statistics";
+import { createContext, useState } from "react";
 import { IOrderStatus } from "../interfaces/OrderStatus";
+import { IRevenue, IStatistics } from "../interfaces/Statistics";
+import {
+    getCustomers,
+    getInStock,
+    getOrdersByStatus,
+    getRevenueByPeriod,
+    getSoldBook,
+    getTotalBooks,
+    getTotalReviews,
+} from "../services/Statistical";
 
 type Props = {
     children: React.ReactNode;
@@ -58,10 +58,6 @@ const StatisticsProvider = ({ children }: Props) => {
             console.error("❌ Lỗi khi fetch statistics:", error);
         }
     };
-
-    useEffect(() => {
-        fetchStatistics();
-    }, []);
 
     return (
         <StatisticsContext.Provider value={{ statistics, fetchStatistics }}>

@@ -97,7 +97,7 @@ const ProductProvider = ({ children }: Props) => {
       const data = await createProduct(formData);
       setProducts((prevProducts) => [...prevProducts, data]);
       setFilteredProducts((prevProducts) => [...prevProducts, data]);
-      toast.success("Thêm sản phẩm thành công!");
+      toast.success(data.message);
       return true;
     } catch (error) {
       console.error("❌ Lỗi khi thêm sản phẩm:", error);
@@ -118,7 +118,7 @@ const ProductProvider = ({ children }: Props) => {
         prevProducts.map((product) => (product.id === id ? data : product))
       );
 
-      toast.success("Sửa sản phẩm thành công!");
+      toast.success(data.message);
     } catch (error) {
       console.error("❌ Lỗi khi sửa sản phẩm:", error);
     }
@@ -130,10 +130,10 @@ const ProductProvider = ({ children }: Props) => {
       formData.append("status", newStatus);
       formData.append("_method", "put");
   
-      await statusProduct(formData, code);
+      const data = await statusProduct(formData, code);
   
       await getAllProduct();
-      toast.success("Cập nhật trạng thái thành công!");
+      toast.success(data.message);
     } catch (error) {
       console.error("❌ Lỗi khi cập nhật trạng thái sản phẩm:", error);
     }

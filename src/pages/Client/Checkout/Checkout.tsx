@@ -43,23 +43,19 @@ const Checkout: React.FC = () => {
   const shippingFee = selectedItems.length > 0 ? 30000 : 0;
   const totalAmountBeforeDiscount = selectedItems.reduce((total, item) => {
     const itemPrice =
-      item.promotion && item.promotion > 0 && item.promotion < item.price
+      item.promotion && item.promotion < item.price
         ? item.promotion
         : item.price;
     return total + itemPrice * item.cartQuantity;
   }, 0);
 
-  const rawDiscount = voucher
+  const discountAmount = voucher
     ? voucher.discount_type === "percent"
       ? (totalAmountBeforeDiscount * Number(voucher.discount)) / 100
       : Number(voucher.discount)
     : 0;
 
-  const discountAmount = voucher?.max_discount
-    ? Math.min(rawDiscount, Number(voucher.max_discount))
-    : rawDiscount;
-
-  const totalAmount = totalAmountBeforeDiscount - discountAmount + shippingFee;
+  const totalAmount = totalAmountBeforeDiscount + shippingFee - discountAmount;
 
   useEffect(() => {
     if (!user) {
@@ -280,9 +276,7 @@ const Checkout: React.FC = () => {
                           </p>
                           <p>{item.cartQuantity}</p>
                           <p className="font-medium text-orange-600">
-                            {item.promotion &&
-                            item.promotion > 0 &&
-                            item.promotion < item.price
+                            {item.promotion && item.promotion < item.price
                               ? `${Math.round(
                                   item.promotion * item.cartQuantity
                                 ).toLocaleString("vi-VN")}₫`
@@ -348,29 +342,17 @@ const Checkout: React.FC = () => {
                         <p className="col-span-3 text-left !text-2xl">
                           Tổng cộng:
                         </p>
-
                         <p className="col-span-1 text-green-600 font-semibold my-auto">
                           -{" "}
-                          {(() => {
-                            const rawDiscount = voucher
-                              ? voucher.discount_type === "percent"
-                                ? (totalAmountBeforeDiscount *
-                                    Number(voucher.discount)) /
+                          {voucher?.discount_type === "percent"
+                            ? `${Math.round(
+                                (totalAmountBeforeDiscount *
+                                  Number(voucher.discount)) /
                                   100
-                                : Number(voucher.discount)
-                              : 0;
-
-                            const discountAmount = voucher?.max_discount
-                              ? Math.min(
-                                  rawDiscount,
-                                  Number(voucher.max_discount)
-                                )
-                              : rawDiscount;
-
-                            return `${Math.round(discountAmount).toLocaleString(
-                              "vi-VN"
-                            )}₫`;
-                          })()}
+                              ).toLocaleString("vi-VN")}₫`
+                            : `${Number(voucher?.discount || 0).toLocaleString(
+                                "vi-VN"
+                              )}₫`}
                         </p>
 
                         <p className="!text-red-400 !text-2xl">

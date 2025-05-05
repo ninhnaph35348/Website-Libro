@@ -44,10 +44,10 @@ const OrderDetail: React.FC = () => {
   }, [orderCode]);
 
   const handleCancelOrder = async () => {
-    // if (!cancelReason.trim()) {
-    //   alert("Vui lòng nhập lý do hủy đơn hàng.");
-    //   return;
-    // }
+    const confirmCancel = window.confirm(
+      "Bạn có chắc chắn muốn hủy đơn hàng này?"
+    );
+    if (!confirmCancel) return;
 
     try {
       const response = await instance.post(

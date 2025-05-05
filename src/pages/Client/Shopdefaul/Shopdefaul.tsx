@@ -120,6 +120,9 @@ const Shopdefaul = () => {
                                     <h5>{variant.product.category}</h5>
                                     <h5>Đã bán: {variant.sold_quantity}</h5>
                                   </div>
+                                  <div>
+                                    <h5>{variant.cover}</h5>
+                                  </div>
                                   <h3>
                                     <Link
                                       to={`/shop-details/${variant.product.code}`}

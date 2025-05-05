@@ -76,8 +76,8 @@ const ListProductVariant = () => {
                         onChange={(checked) =>
                           onStatus(
                             productvariant.product.code,
+                            productvariant.id,
                             checked ? "0" : "1",
-                            productvariant.id
                           )
                         }
                       />

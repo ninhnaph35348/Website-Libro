@@ -23,6 +23,8 @@ const Header = () => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
+
 
   const [showConfirm, setShowConfirm] = useState(false);
   const dispatch = useDispatch();
@@ -221,48 +223,61 @@ const Header = () => {
           <div className="header-main">
             <div className="container">
               <div className="row">
-                <div className="col-6 col-md-6 col-lg-10 col-xl-8 col-xxl-10">
-                  <div className="header-left">
-                    <div className="logo">
-                      <Link to="/" className="">
-                        <img src={Libro} alt="logo" className="w-32" />
-                      </Link>
-                    </div>
-                    <div className="mean__menu-wrapper">
-                      <div className="main-menu">
-                        <nav id="mobile-menu">
-                          <ul>
-                            <li>
-                              <Link to="/">Trang chủ</Link>
-                            </li>
-                            <li>
-                              <Link to="/shop">Sản phẩm</Link>
-                            </li>
-                            <li>
-                              <Link to="/blog">Blog</Link>
-                            </li>
-                            <li>
-                              <Link to="/contact">Liên hệ</Link>
-                            </li>
-                          </ul>
-                        </nav>
+                <div className="col-12 lg:col-10 xl:col-8 2xl:col-10 px-4">
+                  <div className="header-left flex flex-col lg:flex-row justify-between items-center gap-4 relative">
+                    {/* Logo + Mobile Menu Toggle */}
+                    <div className="w-full flex items-center justify-between lg:justify-start">
+                      <div className="logo">
+                        <Link to="/">
+                          <img src={Libro} alt="logo" className="w-24 md:w-32" />
+                        </Link>
+                      </div>
+
+                      {/* Mobile Menu Toggle */}
+                      <div className="lg:hidden">
+                        <button
+                          onClick={() => setShowMobileMenu(prev => !prev)}
+                          className="text-2xl text-gray-800"
+                        >
+                          <i className="fa fa-bars"></i>
+                        </button>
                       </div>
                     </div>
-                  </div>
-                </div>
-                <div className="flex items-center justify-end col-6 col-md-6 col-lg-2 col-xl-4 col-xxl-2 ">
-                  <div className="header-right">
-                    <div className="category-oneadjust gap-6 d-flex align-items-center relative">
+
+                    {/* Navigation Menu */}
+                    <div className="w-full hidden lg:block">
+                      <nav id="mobile-menu">
+                        <ul className="flex space-x-6 text-gray-700 text-sm">
+                          <li><Link to="/">Trang chủ</Link></li>
+                          <li><Link to="/shop">Sản phẩm</Link></li>
+                          <li><Link to="/blog">Blog</Link></li>
+                          <li><Link to="/contact">Liên hệ</Link></li>
+                        </ul>
+                      </nav>
+                    </div>
+
+                    {/* Mobile Menu Dropdown */}
+                    {showMobileMenu && (
+                      <div className="w-full lg:hidden mt-2 bg-white shadow-md rounded-md z-50">
+                        <ul className="flex flex-col gap-2 px-4 py-3 text-gray-700 text-sm">
+                          <li><Link to="/" onClick={() => setShowMobileMenu(false)}>Trang chủ</Link></li>
+                          <li><Link to="/shop" onClick={() => setShowMobileMenu(false)}>Sản phẩm</Link></li>
+                          <li><Link to="/blog" onClick={() => setShowMobileMenu(false)}>Blog</Link></li>
+                          <li><Link to="/contact" onClick={() => setShowMobileMenu(false)}>Liên hệ</Link></li>
+                        </ul>
+                      </div>
+                    )}
+
+                    {/* Search + Cart */}
+                    <div className="header-right w-full flex flex-col md:flex-row md:items-center gap-4 relative">
                       <form
                         onSubmit={(e) => {
-                          e.preventDefault(); // Ngừng hành động mặc định (reload trang)
+                          e.preventDefault();
                           if (searchTerm.trim()) {
-                            window.location.href = `/shop?search=${encodeURIComponent(
-                              searchTerm
-                            )}`; // Chuyển hướng đến trang shop với query search
+                            window.location.href = `/shop?search=${encodeURIComponent(searchTerm)}`;
                           }
                         }}
-                        className="search-toggle-box d-md-block w-full"
+                        className="w-full max-w-md"
                       >
                         <div className="flex items-center bg-white rounded-full overflow-hidden shadow-md transition duration-300 focus-within:shadow-lg relative">
                           <input
@@ -273,12 +288,8 @@ const Header = () => {
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                             onFocus={() => setShowDropdown(true)}
-                            onBlur={() => {
-                              // Delay để user kịp click vào dropdown
-                              setTimeout(() => setShowDropdown(false), 200);
-                            }}
+                            onBlur={() => setTimeout(() => setShowDropdown(false), 200)}
                           />
-
                           <button
                             type="submit"
                             className="p-3 rounded-full hover:bg-gray-200 transition duration-300"
@@ -288,23 +299,20 @@ const Header = () => {
                         </div>
                       </form>
 
-                      {/* Dropdown kết quả tìm kiếm */}
+                      {/* Dropdown tìm kiếm */}
                       {showDropdown && searchResults.length > 0 && (
                         <ul
                           className="absolute z-50 top-full mt-1 left-0 w-full bg-white shadow-lg rounded-lg overflow-hidden max-h-72 overflow-y-auto"
                           ref={dropdownRef}
-                          onMouseDown={(e) => {
-                            // Ngăn dropdown mất focus khi click
-                            e.preventDefault();
-                          }}
+                          onMouseDown={(e) => e.preventDefault()}
                         >
                           {searchResults.map((variant) =>
                             variant.product ? (
                               <li
                                 key={variant.id}
                                 onClick={() => {
-                                  setSearchTerm(""); // Đặt lại giá trị tìm kiếm khi nhấp vào kết quả
-                                  setShowDropdown(false); // Ẩn dropdown sau khi nhấp vào kết quả
+                                  setSearchTerm("");
+                                  setShowDropdown(false);
                                 }}
                               >
                                 <Link
@@ -318,36 +326,25 @@ const Header = () => {
                           )}
                         </ul>
                       )}
-                    </div>
 
-                    <div className="menu-cart">
-                      {/* <a href="wishlist.html" className="relative w-[50px] h-[50px] text-center leading-[50px] bg-transparent inline-block rounded-full border">
-                        <i className="fa-regular fa-heart" />
-                      </a> */}
-                      <Link
-                        to="shop-cart"
-                        className="relative w-[50px] h-[50px] text-center leading-[50px] bg-transparent inline-block rounded-full border"
-                      >
-                        <i className="fa-regular fa-cart-shopping" />
-                        {totalQuantity > 0 && (
-                          <span className="absolute -top-2 -left-0.5 bg-[#036280] text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">
-                            {totalQuantity}
-                          </span>
-                        )}
-                      </Link>
-                      {/* <div className="header-humbager ml-30">
-                        <a
-                          className="sidebar__toggle"
-                          href="javascript:void(0)"
+                      {/* Cart */}
+                      <div className="menu-cart">
+                        <Link
+                          to="/shop-cart"
+                          className="relative w-[50px] h-[50px] text-center leading-[50px] bg-transparent inline-block rounded-full border"
                         >
-                          <div className="bar-icon-2">
-                            <img src={icon13} alt="img" />
-                          </div>
-                        </a>
-                      </div> */}
+                          <i className="fa-regular fa-cart-shopping" />
+                          {totalQuantity > 0 && (
+                            <span className="absolute -top-2 -left-0.5 bg-[#036280] text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">
+                              {totalQuantity}
+                            </span>
+                          )}
+                        </Link>
+                      </div>
                     </div>
                   </div>
                 </div>
+
               </div>
             </div>
           </div>

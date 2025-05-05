@@ -6,8 +6,11 @@ const VoucherClient = () => {
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-2xl font-bold">Mã Voucher Lần Đầu Đăng Nhập</h2>
       </div>
-      <div className="text-center text-xl font-semibold text-green-600">
-        CHAOMUNG
+      <div className="text-xl font-semibold text-green-600 flex justify-between">
+        <h3>CHAOMUNG</h3>
+        <p className="text-sm text-gray-600">
+          Giảm 50% tối đa 30k cho đơn hàng đầu tiên
+        </p>
       </div>
     </div>
   );

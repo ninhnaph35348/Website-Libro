@@ -224,16 +224,6 @@ const OrderDetail: React.FC = () => {
 
         {order.status === "Chờ xác nhận" && (
           <div className="mt-4">
-            {/* <label className="block mb-2 text-gray-700 font-medium">
-              Lý do hủy đơn hàng:
-            </label>
-            <textarea
-              value={cancelReason}
-              onChange={(e) => setCancelReason(e.target.value)}
-              className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
-              rows={3}
-              placeholder="Nhập lý do bạn muốn hủy đơn hàng..."
-            ></textarea> */}
             <button
               onClick={handleCancelOrder}
               className="mt-3 px-6 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
